@@ -1,0 +1,58 @@
+\noindent\textbf{Упражнения и задачи}
+\begin{enumerate}[topsep=0pt]
+    \item Пусть $k$ --- поле, $f=a_nx^n+\dots+a_1x+a_0 \in k[x]$, $f'=n a_n x^{n-1}+\dots+a_1 \in k[x]$ --- формальная производная $f$. Докажите следующие свойства: 1) $(f+g)'=f'+g'$; 2) $(fg)'=f'g+fg'$.
+
+    \item Пусть $k$ --- поле, $f \in k[x]$. докажите, что $\alpha \in k$ --- кратный корень $\Leftrightarrow f'(\alpha) = 0$.
+
+    \item Пусть $f \in \mathbb{F}_{p^m}[x]$. Докажите, что $f\in \mathbb{F}_{p} \Leftrightarrow (f(x))^p=f(x^p)$.
+
+    \item Докажите, что если $d|n$ и $\Phi_n$ определен, то $\Phi_n\ |\ \dfrac{x^n-1}{x^d-1}$.
+
+    \item Пусть $f \in \mathbb{F}_q[x]$ --- неприводимый, $\deg f = m$. Докажите, что $f\ |\ x^{q^n}-x \Leftrightarrow m|n$.
+
+    \item Докажите, что $\prod' f = x^{q^n}-x$, где произведение берется по всем неприводимым унитарным многочленам $f\in \mathbb{F}_q[x]$ таким, что $\deg f\ |\ n$. Сделайте вывод о числе неприводимых унитарных многочленов степени $d$ в $\mathbb{F}_q[x]$ (на этот раз для произвольного конечного поля, $q=p^n$).
+
+    \item Докажите, что если $\chr k = p \not{|}\ n$, то $\Phi_n = \prod\limits_{d|n}(x^d-1)^{\mu(n/d)}$.
+    
+    \item Докажите, что $\mathbb{F}_q$ есть $(q-1)$-е круговое поле над любым своим подполем. %[LN, p63 Lemma 2.49]
+
+    %3\item Докажите, что если $f \in \mathbb{F}_q[x]$ --- неприводимый, $\deg f = 2$, то $f$ раскладывается на линейные множители в $\mathbb{F}_{q^2}[x]$. %[LN p71 ex 2.17]
+
+    \item Пусть $\alpha \in \mathbb{F}_q$, $n \in \mathbb{Z}$. Докажите, что $x^q-x+\alpha\ |\ x^{q^n}-x+n\alpha$. %[LN p71 ex 2.19]
+
+    \item Пусть $f \in \mathbb{F}_q[x]$, $q=p^n$. Докажите, что $f'(x)=0$ $\Leftrightarrow$ $f=g^p$ для некоторого $g \in \mathbb{F}_q[x]$. %[LN p71 ex 2.23]
+    
+    \item Пусть $f\in \mathbb{F}_q[x]$, $q=p^n$, $\deg f = m \geqslant 1$, $f(0) \neq 0$. Докажите, что $\exists e \in \mathbb{Z_+}$ $e\leqslant q^m-1$ такое что $f(x)\ |\ x^e-1$. Наименьшее такое $e$ называется порядком многочлена $f(x)$ в $\mathbb{F}_q[x]$. Докажите также следующие свойства:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item Пусть $f\in \mathbb{F}_q[x]$ --- неприводимый, тогда порядок $f$ равен порядку $\alpha \in \mathbb{F}_{q^m}^*$, $\alpha$ --- корень $f$;
+        \item Пусть $f\in \mathbb{F}_q[x]$ --- неприводимый, тогда порядок $f$ делит $x^e-1$;
+        \item Пусть $c\in \mathbb{Z}_+$, $e$ --- порядок $f$, тогда $f(x)\ |\ x^c-1$ $\Leftrightarrow$ $e|c$;
+        \item Пусть $e_1, e_2\in \mathbb{Z}_+$, тогда наибольший общий делитель многочленов $x^{e_1}-1$, $x^{e_2}-1$ в $\mathbb{F}_q[x]$ равен $x^d-1$, где $d=(e_1,e_2)$.
+
+        %\item Пусть $\mathbb{F}_{q^m}/\mathbb{F}_q$ --- расширение конечных полей, $\alpha \in \mathbb{F_{q^m}}$. Докажите, что сопряженные элементы $\alpha, \alpha^q, \alpha^{q^2}, \dots \alpha^{q^{m-1}}$ имеют один и тот же порядок в мультипликативной группе $\mathbb{F}_{q^m}^*$.   %[LN, p50 th2.18]
+        
+    \end{itemize} %[LN, p77-78 3.1-3.7]
+\end{enumerate}
+
+
+\noindent\textbf{SageMath}
+\begin{itemize}[topsep=0pt]
+    \item Исследуйте основные функции SageMath связанные с работой в кольцах многочленов над конечными полями:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item Кольцо многочленов: \texttt{PolynomialRing()};
+        \item Неприводимость многочлена: \texttt{is\_irreducible()};
+        \item Разложение многочлена на множители: \texttt{factor()};
+        \item Корни многочлена: \texttt{roots()};
+        \item Круговой многочлен: \texttt{cyclotomic\_polynomial()};
+        \item Поле разложения: \texttt{splitting\_field()};
+        \item Расширение полей: \texttt{extension()}.
+     \end{itemize}
+        
+\end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Изучите "элементарные" доказательство неприводимости кругового многочлена $\Phi_n(x)$ в $\mathbb{Z}[x]$.
+    (см. например \texttt{https://www.lehigh.edu/~shw2/c-poly/several\_proofs.pdf})
+
+\end{itemize}

@@ -1,0 +1,58 @@
+\noindent\textbf{Упражнения и задачи}
+
+\begin{enumerate}[topsep=0pt]
+    
+    \item Пусть $F_1(x_1,\dots, x_n), \dots, F_m(x_1,\dots, x_n)$ --- многочлены с целыми коэффициентами степеней $r_1, \dots, r_m$. Докажите, что если $r_1+\dots+r_m < n$, то число решений системы сравнений $F_i(x_1,\dots, x_n) \equiv 0\ (p), 1\leqslant i \leqslant m$, делится на $p$. %[БШ стр 14 теорема 4]
+    
+    \item Пусть $p$ --- простое, $F(x_1, \dots, x_n)\in \mathbb{Z}[x_1,\dots,x_n]$ --- многочлен с целыми коэффициентами, $\deg F = r < n(p-1)$. Докажите, что $p^a\ |\ \sum' F(x_1, \dots, x_n)$, где в сумме $x_i$ пробегают независимо друг от друга полную систему вычетов $\Mod p$, и $a=n-[r/(p-1)]$. %[БШ стр16 задача 1]
+
+    \item Пусть $m$ --- натуральное, $f(x) \in \mathbb{Z}[x]$, $S_a = \sum\limits_{x \Mod m} e^{2\pi i \frac{af(x)}{m}}$. Докажите, что
+    $$
+        \sum\limits_{a \Mod m} |S_a|^2 = m \sum\limits_{c \Mod m} N(c)^2,
+    $$
+    где $N(c) = N_m\left(f(x) \equiv c\ (m)\right)$ --- число решений сравнения $f(x) \equiv c\ (m)$.
+    %[БШ стр26 задача 9]
+
+    \item Пусть $p$ --- простое, $S_a = \sum\limits_{x \in \mathbb{F}_p} e^{2\pi i \frac{a x^r}{p}}$, $d=(r,p-1)$. Докажите, что 
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $\sum\limits_{a \in \mathbb{F}_p^*} |S_a|^2 = p(p-1)(d-1)$;
+        \item $|S_a| < d \sqrt{p}$, при $a \neq 0$;
+        \item и более точная оценка: $|S_a| \leqslant (d-1) \sqrt{p}$, при $a \neq 0$.
+    \end{itemize} %[БШ стр26 задачи 10-12]
+
+    \item Пусть $\chi_1, \chi_2, \dots, \chi_l$ --- мультипликативные характеры, $\varepsilon$ --- главный характер $\Mod p$,\\ $J = J(\chi_1, \chi_2, \dots, \chi_l) = \sum\limits_{t_1+\dots+t_l=1} \chi_1(t_1) \cdots \chi_l(t_l)$ --- обобщенная сумма Якоби,\\ $J_0 = J_0(\chi_1, \chi_2, \dots, \chi_l) = \sum\limits_{t_1+\dots+t_l=0} \chi_1(t_1) \cdots \chi_l(t_l)$. Докажите следующие свойства $J$ и $J_0$:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $J_0(\varepsilon, \dots, \varepsilon) = J(\varepsilon, \dots, \varepsilon) = p^{l-1}$;
+        \item если некоторые, но не все, среди характеров $\chi_i$ являются главными, то $J_0 = 0$, $J = 0$;
+        \item пусть $\chi_l \neq \varepsilon$, тогда если $\chi_1 \chi_2 \cdots \chi_l \neq \varepsilon$, то $J_0 = 0$, а если $\chi_1 \chi_2 \cdots \chi_l = \varepsilon$, то $J_0 (\chi_1, \chi_2, \dots, \chi_l)= \chi_l(-1(p-1))J(\chi_1, \chi_2, \dots, \chi_{l-1})$.
+    \end{itemize} %[IR p99 prop 8.5.1]
+
+    \item Пусть $\chi_1, \chi_2, \dots, \chi_l$ --- неглавные характеры $\Mod p$ такие что $\chi_1 \chi_2 \cdots \chi_l$ тоже неглавный, $\tau$ --- сумма Гаусса, $J$ --- обобщенная сумма Якоби. Докажите, что
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $\tau(\chi_1) \cdots \tau(\chi_l) = J(\chi_1, \dots, \chi_l) \tau(\chi_1 \cdots \chi_l)$;
+        \item $|J(\chi_1, \dots, \chi_l)| = p^{(l-1)/2}$.
+    \end{itemize} %[IR p100 Th 3, 4]
+
+    \item Путь $m>1$ --- целое, $K(a,b;m) = \sum'_{xy\equiv 1 (m)} e^{2\pi i \frac{ax+by}{m}}$, где $x$ пробегает приведеную систему вычетов $\Mod m$. $K(a,b;m)$ называется суммой Клоостермана, удобно также использовать запись $K(a,b;m) = \sum'_{x \Mod m} e^{2\pi i \frac{ax+bx^*}{m}}$, где $x^*$ обозначает вычет обратный к $x$. Докажите следующие свойства сумм Клоостермана:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $K(a,b;m)=K(b,a;m)$;
+        \item если $(m,c)=1$, то $K(ac,b;m)=K(a,bc;m)$;
+        \item если $m=m_1 m_2$, $(m_1,m_2)=1$, то $K(a,b;m)=K(n_2 a,n_2 b;m_1)K(n_1 a,n_1 b;m_2)$, где $n_1,n_2$ определены из $m_1 n_1 \equiv 1\ (m_2)$, $m_2 n_2 \equiv 1\ (m_1)$;
+        \item если $m=p^{2\alpha}$, $(m,2a)=1$, то $K(a,a;m)=\sqrt{m}(e^{2\pi i \frac{2a}{m}}+e^{-2\pi i \frac{2a}{m}})$.
+    \end{itemize} %[IW p59]
+
+    \item Пусть $p$ --- простое, $(k,p)=1$, $S=\sum'_x \sum'_y \left(\frac{xy+k}{p}\right)$, где $x,y$ пробегают возрастающие последовательности из $X$ и $Y$ вычетов полной системы вычетов $\Mod p$. Докажите, что $|S|<\sqrt{XYp}$. %[В стр82 Задача 8c]
+
+    \item Пусть $m>1$ --- целое, $(a,m)=1$, $S=\sum\limits_{x \Mod m}\sum\limits_{y \Mod m} \xi(x) \eta(y) e^{2\pi i \frac{axy}{m}}$, где $\xi,\eta$ --- такие, что $\sum\limits_{x \Mod m} |\xi(x)|^2=X$, $\sum\limits_{y \Mod m} |\eta(x)|^2=Y$. Докажите, что $|S|<\sqrt{XYm}$. %[В стр103 8]
+
+    \item Пусть $p$ --- простое, $(a,p)=(b,p)=1$, n --- целое $0<n<p$, $S=\sum\limits_{x \in \mathbb{F}_p^*} e^{2\pi i \frac{ax^n+bx}{p}}$. Докажите, что $|S| < \frac{3}{2} n^{1/4} p^{3/4}$. %[В стр103 9]
+
+    \item Пусть $p>60$ --- простое, $M,Q$ --- целые, $0<M<M+Q\leqslant p$, $\chi$ --- неглавный характер $\Mod p$, $S = \sum\limits_{x=M}^{M+Q-1} \chi(x)$. Докажите, что $|S|<\sqrt{p}\ (\log p - 1)$. %[В стр112 4]
+  
+\end{enumerate}
+
+%\noindent\textbf{SageMath}
+
+%\noindent\textbf{Темы для самостоятельного изучения}
+
+

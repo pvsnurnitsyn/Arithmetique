@@ -1,0 +1,61 @@
+\noindent\textbf{Упражнения и задачи}
+\begin{enumerate}[topsep=0pt]
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле. Докажите следующие свойства:
+    \begin{itemize}[topsep=0pt]
+        \item $\varphi(\pm 1)=1$; $\varphi (-x) = \varphi (x)$;
+        \item $\varphi (x - y) \leqslant \varphi(x) + \varphi(y)$;
+        \item $\varphi(x \pm y) \geqslant |\varphi(x) - \varphi(y)|$;
+        \item $\varphi(x/y) = \varphi(x)/\varphi(y)$, $y \neq 0$.
+    \end{itemize}
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле, $d$ --- индуцированное расстояние: $d(x,y) = \varphi(x-y)$. Докажите, что операции поля ($+,-,\cdot,/$) являются непрерывными по отношению к $d$ (то есть $k$ --- топологическое поле).
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле. Докажите, что $\lim\limits_{n\rightarrow\infty} x_n = x$ $\Leftrightarrow$ каждое открытое множество содержащее $x$ содержит все кроме конечного числа элементы последовательности $x_n$.
+    
+    \item Пусть $k$ --- поле, на котором заданы две метрики (абсолютные величины) $\varphi_1$, $\varphi_2$. Докажите следующие импликации теоремы о критериях эквивалентности:
+    \begin{itemize}[topsep=0pt]
+        \item $\varphi_1$, $\varphi_2$ --- эквивалентны $\implies$ для любой сходящейся последовательности\\ ${\lim\limits_{n\rightarrow\infty}}^{(\varphi_1)}\ x_n = x$ если и только если ${\lim\limits_{n\rightarrow\infty}}^{(\varphi_2)}\ x_n = x$ (${\lim\limits}^{(\varphi)}$ означает предел по метрике $\varphi$);
+        \item ${\lim\limits_{n\rightarrow\infty}}^{(\varphi_1)}\ x_n = {\lim\limits_{n\rightarrow\infty}}^{(\varphi_2)}\ x_n = x$  $\implies$ $\forall x \in k$ $\varphi_1(x)<1$ если и только если $\varphi_2(x)<1$;
+        \item $\exists \alpha \in \mathbb{R}$: $\forall x \in k\ \varphi_1(x)=\varphi_2(x)^\alpha$ $\implies$ $\varphi_1$, $\varphi_2$ эквивалентны.
+    \end{itemize}
+
+    \item Пусть $k$ --- поле, $\varphi$ --- функция $k \rightarrow \mathbb{R}_{>0}$ такая что:
+    \begin{itemize}[topsep=0pt]
+        \item $\varphi(x) = 0 \Leftrightarrow x=0$,
+        \item $\varphi(xy) = \varphi(x)\varphi(y)$,
+        \item $\varphi(x) \leqslant 1 \Rightarrow \varphi(x-1) \leqslant 1$.
+    \end{itemize}
+    Докажите, что $\varphi$ является неархимедовой метрикой на $k$.
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле , $\varphi$ --- неархимедова метрика. Докажите, что $\varphi(x) \neq \varphi(y)$ $\Rightarrow$ $\varphi(x+y) = \max(\varphi(x),\varphi(y))$.
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле, $A$ --- образ $\mathbb{Z}$ в $k$. Докажите, что $\varphi$ --- неархимедова метрика $\Leftrightarrow$ $\forall a \in A$ $\varphi(a) \leqslant 1$. (Подсказка: сведите к утверждению $\varphi$ --- неархимедова метрика $\Leftrightarrow$ $\varphi(x+1) \leqslant \max(\varphi(x),1)$; рассмотрите $\varphi(x+1)$).
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле, $\varphi$ --- неархимедова метрика, $B(x,r)$ --- открытый шар радиуса $r$ с центром в $x$. Докажите следующие свойства:
+    \begin{itemize}[topsep=0pt]
+        \item $\forall y \in B(x,r)$ $B(x,r)=B(y,r)$;
+        \item $\partial B(x,r) = \varnothing$ ($\partial B(x,r)$ обозначает множество граничных точек);
+        \item $B(x,r) \cap B(y,s) \neq \varnothing$ $\Leftrightarrow$ $B(x,r) \subset B(y,s)$ или $B(y,s) \subset B(x,r)$.
+    \end{itemize}
+    Рассмотрите аналогичные утверждения для замкнутых шаров $\bar B(x,r)$.
+
+    \item Пусть $\chr k = p$. Докажите, что всякая метрика $\varphi$ поля $k$ неархимедова.
+
+    \item Пусть $k$ --- поле, $k(t)=\{f(t)/g(t): f,g \in k[t], g \neq 0\}$ --- поле рациональных функций над $k$. $\forall r \in k(t)^*$ определим $\varphi(r)=\rho^m$, где $m$ такое, что $r=f/g=t^m(f_0/g_0)$, где $f_0, g_0$ не делятся на $t$ как многочлены, $0 < \rho < 1$; для $r=0$ положим $\varphi(0)=0$. Докажите, что $\phi$ --- метрика поля $k(t)$.
+
+    \item Пуст $C$ --- Канторово множество. (напомним итеративное определение: $C_0=[0,1]$ --- единичный интервал, удалим среднюю часть длины $1/3$, получим $C_1=[0,\frac{1}{3}]\cup [\frac{2}{3},1]$, далее удалим средние части из каждого подынтервала, получим\\ $C_2=[0,\frac{1}{9}]\cup [\frac{2}{9},\frac{1}{3}]\cup [\frac{2}{3},\frac{7}{9}]\cup [\frac{8}{9},1]$; продолжая аналогичным образом, построим $C_n$, заметим, что $C_n = \frac{C_{n-1}}{3} \cup \left(\frac{2}{3} + \frac{C_{n-1}}{3} \right)$. Определим $C = \bigcap\limits_{n=0}^\infty C_n$).\\
+    Докажите, что множество $2$-адических чисел $\mathbb{Z}_2$ с $2$-адической метрикой $|\cdot|_2$ гомеоморфно Канторову множеству $C$ с обычным модулем $|\cdot|=|\cdot|_\infty$.
+
+\end{enumerate}
+
+\noindent\textbf{SageMath}
+\begin{itemize}[topsep=0pt]
+    \item В контексте задач 11 и 12 ознакомьтесь с функцией \texttt{Zp(n).plot()}.
+\end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Разберите доказательство теоремы о единственности пополнения поля по метрике ([БШ \S I.4).
+    %\item Докажите, что $\forall$ простого $p$ множество целых $p$-адических чисел $\mathbb{Z}_p$ гомеоморфно множеству $2$-адических чисел $\mathbb{Z}_2$. (Подсказка: можно подсмотреть в [Gouv], но лучше сначала попробовать подумать самостоятельно)
+\end{itemize}

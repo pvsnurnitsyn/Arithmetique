@@ -1,0 +1,57 @@
+\noindent\textbf{Упражнения и задачи}
+
+\begin{enumerate}[topsep=0pt]
+    \item Докажите, что $\ \equiv \pmod{m}$ задаёт отношение эквивалентности в кольце $\mathbb{Z}$, то есть, 1) $a \equiv a\ (m)$; 2) $a \equiv b\ (m) \Rightarrow b \equiv a\ (m)$; 3) $a \equiv b\ (m),\ b \equiv c\ (m) \Rightarrow a \equiv c\ (m)$.
+
+    \item Докажите утверждения про классы вычетов: 
+    \begin{itemize}
+        \item $\bar{a} = \bar{b} \Leftrightarrow a \equiv b\ (m)$;
+        \item $\bar{a} \neq \bar{b} \Leftrightarrow \bar{a} \cap \bar{b}=\varnothing$;
+        \item $|\{\bar{a}: a\in \mathbb{Z}\}|=m$.
+    \end{itemize}
+
+    \item Докажите, что операции $\bar{a}+\bar{b}$, $\bar{a} \cdot \bar{b}$ на множестве классов вычетов корректно определены, то есть не зависят от выбора представителей классов $\bar{a}$ и $\bar{b}$.
+
+    \item Докажите, что множество $F[x]$ многочленов с коэффициентами из поля $F$ является кольцом.
+
+    \item Докажите, что $\forall f\in F[x]$, $\deg f \geqslant 1$, $f$ раскладывается в произведение неприводимых многочленов.
+
+    \item Докажите, что в кольце $F[x]$ возможно деление с остатком, т.е. $\forall f,g \in F[x]$, $g \neq 0$, $\exists h,r\in F[x]:$ $f=hg+r$, где либо $\deg r < \deg g$, либо $r=0$.
+
+    \item Докажите следующие утверждения про делимость в кольце многочленов:
+    \begin{itemize}
+        \item $f,g\in F[x]$ --- взаимно простые (т.е. $(f,g)=(1)$), $f|gh$ $\Rightarrow$ $f|h$;
+        \item $p \in F[x]$ --- неприводимый, $p|fg$ $\Rightarrow$ $p|f$ или $p|g$.
+    \end{itemize}
+
+    \item Докажите, что в кольце многочленов $F[x]$ имеет место однозначнось разложения на неприводимые множители.
+    
+    \item Используя сравнимость $\mod n$  докажите, что уравнения $3x^2+2=y^2$ и $7x^3+2=y^3$ не разрешимы в целых числах.
+    \item Пусть $p,q$ --- различные нечетные простые такие что $p-1|q-1$, докажите, что если $(n,pq)=1$ то $n^{q-1} \equiv 1 (pq)$.
+    \item Пусть $a,b,c$ --- решение диофантова уравнения $a^2+b^2=c^2$, $a,b,c \in \mathbb{Z}$, $(a,b)=(b,c)=(c,a)=1$. Докажите, что существуют целые числа $u,v$ такие, что $c-b=2u^2$, $c+b=2v^2$, $(u,v)=1$, и, как следствие, $a=2uv$, $b=v^2-u^2$, $c=v^2+u^2$.
+    \item Пусть $m,a,b$ --- целые, $m>1$, $(a,m)=1$. Докажите, что
+    \begin{itemize}
+        \item $\sum\limits_{x \pmod m} \left\{ \dfrac{ax+b}{m} \right\} = \dfrac{1}{2}(m-1)$;
+        \item $\sum\limits_{\substack{x \pmod m\\(x,m)=1}} \left\{ \dfrac{ax}{m} \right\} = \dfrac{1}{2}\varphi(m)$.
+    \end{itemize}
+    
+\end{enumerate}
+
+\noindent\textbf{SageMath}
+\begin{itemize}[topsep=0pt]
+
+    \item Исследуйте основные классы и функции SageMath релевантные материалу лекции:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item Кольцо вычетов и модулярная арифметика: \texttt{IntegerModRing()};
+        \item Китайская теорема об остатках \texttt{crt()};
+        \item Кольцо многочленов: \texttt{PolynomialRing()};
+        \item Неприводимость многочлена: \texttt{is\_irreducible()};
+        \item Разложение многочлена на множители: \texttt{factor()};
+        \item Корни многочлена: \texttt{roots()};
+        \item Рассмотрите примеры поведения разложения многочлена на множители над $\mathbb{Z}, \mathbb{Q}$ и различными кольцами вычетов $\mathbb{Z}/N\mathbb{Z}$.
+    \end{itemize}
+    
+\end{itemize}
+
+%\noindent\textbf{Темы для самостоятельного изучения}
+

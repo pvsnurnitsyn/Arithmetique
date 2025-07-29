@@ -1,0 +1,63 @@
+\noindent\textbf{Упражнения и задачи}
+
+\begin{enumerate}[topsep=0pt]
+    \item Докажите, что существует бесконечно много простых $p\equiv 1\ (4)$ и $p\equiv 3\ (4)$.
+    \item Докажите, что $\left \lceil \frac{p-1}{4} \right \rceil $  четно $\Leftrightarrow$ $p=8k \pm 1$.
+    \item Докажите свойства символа Якоби:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $a\equiv b\ (P)$ $\Rightarrow$ $\left(\dfrac{a}{P}\right)=\left(\dfrac{b}{P}\right)$;
+        \item $\left(\dfrac{ab}{P}\right)=\left(\dfrac{a}{P}\right)\left(\dfrac{b}{P}\right)$;
+        \item $\left(\dfrac{a}{PQ}\right)=\left(\dfrac{a}{P}\right)\left(\dfrac{a}{Q}\right)$.
+    \end{itemize}
+    \item Пусть $\alpha$ --- иррациональное число. Докажите, что последовательность $(\{n\alpha\})_{n=1}^\infty$ равномерно распределена $\Mod 1$.
+    \item Пусть $p$ --- простое, $(a,p)=1$. Докажите, что число решений сравнения\\ $ax^2+bx+c \equiv 0 \pmod{p}$ равно $1+\left(\frac{b^2-4ac}{p}\right)$. %[IR, p63, Ex2-3]
+    \item Докажите, что если $(a,p)=1$ то $\sum_{x \Mod p} \left(\frac{ax+b}{p}\right)=0$. %[IR, p63, Ex4-5]
+    \item Используя замену переменных, докажите, что число решений сравнения $x^2-y^2 \equiv a \pmod{p}$ равно $p-1$, если $(a,p)=1$, и $2p-1$, если $p|a$. Выразите число решений этого сравнения через сумму с символом Лежандра. Используя эти выражения, найдите значение для суммы $\sum_{y \Mod p} \left(\frac{y^2+a}{p}\right)$. %[IR, p63, Ex6-8]
+    \item Докажите, что если $(a,p)=1$ то $\sum_{x \Mod p} \left(\frac{x(x+a)}{p}\right)=-1$. %[В, стр82, Упр 8.a]
+    \item Пусть $r_1, \dots, r_{(p-1)/2}$ --- квадратичные вычеты в промежутке $[1;p]$. Докажите, что их произведение $\equiv 1\ (p)$, если $p \equiv 3\ (4)$, и  $\equiv -1\ (p)$, если $p \equiv 1\ (4)$. %[IR, p63, Ex10]
+    
+    \item Пусть $p \equiv 1\ (4)$ --- простое, $(a,p)=1$, $S(a) = \sum_{x \Mod p} \left(\frac{x(x^2+a)}{p}\right)$. Докажите, что 
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $S(a)\equiv 0\ (2)$;
+        \item $S(at^2)= \left(\frac{t}{p}\right) S(a)$;
+        \item если $r, n$ --- такие, что $\left(\frac{r}{p}\right)=1$, $\left(\frac{n}{p}\right)=-1$, то $p=\left(\frac{1}{2}S(r)\right)^2+\left(\frac{1}{2}S(n)\right)^2$.
+    \end{itemize}
+    %[В, стр83, Упр 9.c]
+
+    \item Пусть $f(x) \in \mathbb{Z}[x]$. Будем говорить, что простое $p$ делит $f(x)$, если $\exists n \in \mathbb{Z}$ такое, что $p|f(n)$. Опишите простые делители многочленов $x^2+1$ и $x^2-2$. Докажите, что если $p$ делит $x^4-x^2+1$, то $p \equiv 1\ (12)$. %[IR, p63, Ex12-13]
+    \item Пусть $D>0$ --- нечетное и свободное от квадратов. Докажите, что $\exists b\in \mathbb{Z}$, $(b,D)=1$ такое, что $\left(\frac{b}{D}\right)=-1$. Докажите также, что $\sum' \left(\frac{a}{D}\right) = 0$, где суммирование берется по приведенной системе вычетов $\Mod D$. %[IR, p64, Ex18-19]
+    \item Пусть $p$ --- нечетное простое. Докажите, что 
+    $$
+    \left(\frac{2}{p}\right) = \prod_{j=1}^{(p-1)/2} 2\cos\left(\frac{2\pi j}{p}\right),
+    $$
+    а также, что если $p>3$ то
+    $$
+    \left(\frac{3}{p}\right) = \prod_{j=1}^{(p-1)/2} \left(3- 4\sin^2\left(\frac{2\pi j}{p}\right) \right).
+    $$
+    %[IR, p64, Ex32,34]
+\end{enumerate}
+
+\noindent\textbf{SageMath}
+\begin{itemize}[topsep=0pt]
+    \item Исследуйте основные функции SageMath связанные с вычислением квадратичных вычетов и символов Лежандра и Якоби:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item Квадратичные вычеты: \texttt{quadratic\_residues()};
+        \item Символы: \texttt{kronecker(), jacobi()}.
+     \end{itemize}
+
+    \item Пусть $r(p)$ --- наименьший квадратичный вычет $\Mod p$, $n(p)$ --- наименьший квадратичный невычет $\Mod p$, $d(p)$ --- максимальное расстояние между соседними квадратичными невычетами $\Mod p$. Постройте частотные таблицы для $r(p), n(p), d(p)$. Что можно заметить?\\
+    (Cогласно гипотезам Виноградова, $\forall \varepsilon > 0$ $\frac{d(p)}{p^\varepsilon} \rightarrow 0$, $\frac{n(p)}{p^\varepsilon} \rightarrow 0$, $\frac{r(p)}{p^\varepsilon} \rightarrow 0$ при $p \rightarrow \infty$.)
+    
+    \item  Проведите численные эксперименты относительно равномерного распределения последовательностей, которые упоминались в лекции: \begin{itemize}[noitemsep,topsep=0pt]
+        \item $(\{n\alpha\})_{n=1}^\infty$, $\alpha$ --- иррациональное;
+        \item $(\{p\alpha\})_{p=1}^\infty$, $\alpha$ --- иррациональное, $p$ пробегает все простые;
+        \item $(\{\frac{x_p}{p}\})_{p=1}^\infty$, $x_p$ --- решение сравнения $x^2 \equiv a\ (p)$, $p$ пробегает все простые.
+     \end{itemize}
+\end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Когда простое $q$ является квадратичным вычетом по модулю простого $p$? (Приложение квадратичного закона взаимности, [IR, \S 5.2, теорема 2]).
+    \item Существует бесконечно много простых таких, что $\left(\frac{a}{p}\right)=-1$, где $a$ --- целое, отличное от квадрата. ([IR, \S 5.2, теорема 3]).
+    \item Критерий разрешимости сравнения $x^2\equiv a\ (m)$ для произвольного $m$. ([IR, \S 5.1, предложение 5.1.1], [Вин, \S V.4]).
+\end{itemize}
