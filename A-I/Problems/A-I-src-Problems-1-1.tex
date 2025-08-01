@@ -9,18 +9,18 @@
         \item $a|b, a|c \implies a| b\pm c$.
     \end{itemize}
     \item Алгоритм Евклида: Пусть $a,b \in\mathbb{Z} \setminus \{0\}, a>b$, определим последовательность $b>r_1>r_2>\dots > r_n$ следующим образом: $a=bq_0+r_1$, $b=r_1q_1+r_2$, $r_1=r_2q_2+r_3$, \dots $r_n=r_{n-1} q_{n-1}+r_n$. Докажите, что $\exists n: r_{n-1}=r_nq_n$ и $r_n=(a,b)$. (Сначала докажите , что $(a,b)=(b,r_1)$).
-    \item Докажите, что $\ord_p(n!)= \left[\frac{n}{p}\right] + \left[\frac{n}{p^2}\right] + \left[\frac{n}{p^3}\right] + \dots $
     \item Докажите, что $\sqrt{2}$ --- иррациональное число, т.е. что не $\exists$ рационального $r=a/b$ ($a,b \in \mathbb{Z}$) такого, что $r^2=2$.
     \item Пусть $\alpha \in \mathbb{R}$, $b\in\mathbb{Z}_+$, докажите, что $\left[\dfrac{[\alpha]}{b}\right]=\dfrac{\alpha}{b}$.
     \item Пусть $(a,b)=1$, докажите, что $(a+b,a-b)=1$ или $2$.
     \item Пусть $a,b,c \in \mathbb{Z}$, докажите что уравнение $ax+by=c$ разрешимо в целых числах $\iff$ $d=(a,b)|c$. Докажите также, что если $x_0,y_0$ --- решение этого уравнения, то все решения имеют вид $x=x_0+t\dfrac{b}{d}$, $y=y_0-t\dfrac{b}{d}$, где  $t \in \mathbb{Z}$.
     \item Докажите следующие свойства:
     \begin{itemize}[noitemsep,topsep=0pt]
-        \item $\ord_p([a,b])=\max(\ord_p(a),\ord_p(b))$;
-        \item $\ord_p(a+b)\geqslant \min(\ord_p(a),\ord_p(b))$, причем $\ord_p(a+b)= \min(\ord_p(a),\ord_p(b))$, если $\ord_p(a) \neq \ord_p(b)$;
+        \item $\nu_p([a,b])=\max(\nu_p(a),\nu_p(b))$;
+        \item $\nu_p(a+b)\geqslant \min(\nu_p(a),\nu_p(b))$, причем $\nu_p(a+b)= \min(\nu_p(a),\nu_p(b))$, если $\nu_p(a) \neq \nu_p(b)$;
         \item $(a,b)[a,b]=ab$;
         \item $(a+b,[a,b])=(a,b)$.
     \end{itemize}
+    \item Докажите, что $\nu_p(n!)= \left[\frac{n}{p}\right] + \left[\frac{n}{p^2}\right] + \left[\frac{n}{p^3}\right] + \dots $
     \item Пусть $a,b,c,d \in \mathbb{Z}$, $(a,b)=1$, $(c,d)=1$. Докажите, что если $\dfrac{a}{b}+\dfrac{c}{d} \in \mathbb{Z}$, то $b=\pm d$.
     \item Пусть $n \in \mathbb{Z}$, $n>2$ Докажите, что числа
     $$
