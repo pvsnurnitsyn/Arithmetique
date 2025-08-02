@@ -21,6 +21,7 @@
         \item $(a+b,[a,b])=(a,b)$.
     \end{itemize}
     \item Докажите, что $\nu_p(n!)= \left[\frac{n}{p}\right] + \left[\frac{n}{p^2}\right] + \left[\frac{n}{p^3}\right] + \dots $
+    \item Докажите, что существует бесконечно много простых вида $4k-1$, $k\in\mathbb{Z}$. %например, [IR], [Stein ent]
     \item Пусть $a,b,c,d \in \mathbb{Z}$, $(a,b)=1$, $(c,d)=1$. Докажите, что если $\dfrac{a}{b}+\dfrac{c}{d} \in \mathbb{Z}$, то $b=\pm d$.
     \item Пусть $n \in \mathbb{Z}$, $n>2$ Докажите, что числа
     $$
@@ -58,12 +59,12 @@
 
     \item Исследуйте основные теоретико-числовые функции в SageMath:
     \begin{itemize}[noitemsep,topsep=0pt]
-        \item НОД, НОК: \texttt{gcd(), lcm()};
+        \item НОД, НОК: \texttt{gcd(), xgcd(), lcm()};
         \item разложение на множители: \texttt{factor(), valuation()};
         \item простые числа: \texttt{is\_prime(), next\_prime(), previous\_prime()};
         \item делители: \texttt{divisors(), prime\_divisors() };
         \item функции Эйлера и Мёбиуса, число и сумма делителей: \texttt{euler\_phi(), moebius(), sigma()};
-        \item число простых чисел: \texttt{prime\_pi()}.
+        \item число простых чисел: \texttt{prime\_pi()} (постройте график этой функции).
     \end{itemize}
     
 \end{itemize}

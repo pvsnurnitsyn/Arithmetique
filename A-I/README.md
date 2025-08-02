@@ -107,3 +107,6 @@
 
 <a name="DSV"></a>
 * [DSV] G. Davidoff, P. Sarnak, A. Valette, Elementary Number Theory, Group Theory, and Ramanujan Graphs, Cambridge University Press, 2003.
+
+<a name="Stein-ent"></a>
+* [Stein-ent] [W. Stein, Elementary Number Theory: Primes, Congruences, and Secrets](https://wstein.org/books/ent/), 2017.
