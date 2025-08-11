@@ -1,58 +1,52 @@
 \noindent\textbf{Упражнения и задачи}
 
 \begin{enumerate}[topsep=0pt]
-    
-    \item Пусть $F_1(x_1,\dots, x_n), \dots, F_m(x_1,\dots, x_n)$ --- многочлены с целыми коэффициентами степеней $r_1, \dots, r_m$. Докажите, что если $r_1+\dots+r_m < n$, то число решений системы сравнений $F_i(x_1,\dots, x_n) \equiv 0\ (p), 1\leqslant i \leqslant m$, делится на $p$. %[БШ стр 14 теорема 4]
-    
-    \item Пусть $p$ --- простое, $F(x_1, \dots, x_n)\in \mathbb{Z}[x_1,\dots,x_n]$ --- многочлен с целыми коэффициентами, $\deg F = r < n(p-1)$. Докажите, что $p^a\ |\ \sum' F(x_1, \dots, x_n)$, где в сумме $x_i$ пробегают независимо друг от друга полную систему вычетов $\Mod p$, и $a=n-[r/(p-1)]$. %[БШ стр16 задача 1]
-
-    \item Пусть $m$ --- натуральное, $f(x) \in \mathbb{Z}[x]$, $S_a = \sum\limits_{x \Mod m} e^{2\pi i \frac{af(x)}{m}}$. Докажите, что
-    $$
-        \sum\limits_{a \Mod m} |S_a|^2 = m \sum\limits_{c \Mod m} N(c)^2,
-    $$
-    где $N(c) = N_m\left(f(x) \equiv c\ (m)\right)$ --- число решений сравнения $f(x) \equiv c\ (m)$.
-    %[БШ стр26 задача 9]
-
-    \item Пусть $p$ --- простое, $S_a = \sum\limits_{x \in \mathbb{F}_p} e^{2\pi i \frac{a x^r}{p}}$, $d=(r,p-1)$. Докажите, что 
-    \begin{itemize}[noitemsep,topsep=0pt]
-        \item $\sum\limits_{a \in \mathbb{F}_p^*} |S_a|^2 = p(p-1)(d-1)$;
-        \item $|S_a| < d \sqrt{p}$, при $a \neq 0$;
-        \item и более точная оценка: $|S_a| \leqslant (d-1) \sqrt{p}$, при $a \neq 0$.
-    \end{itemize} %[БШ стр26 задачи 10-12]
-
-    \item Пусть $\chi_1, \chi_2, \dots, \chi_l$ --- мультипликативные характеры, $\varepsilon$ --- главный характер $\Mod p$,\\ $J = J(\chi_1, \chi_2, \dots, \chi_l) = \sum\limits_{t_1+\dots+t_l=1} \chi_1(t_1) \cdots \chi_l(t_l)$ --- обобщенная сумма Якоби,\\ $J_0 = J_0(\chi_1, \chi_2, \dots, \chi_l) = \sum\limits_{t_1+\dots+t_l=0} \chi_1(t_1) \cdots \chi_l(t_l)$. Докажите следующие свойства $J$ и $J_0$:
-    \begin{itemize}[noitemsep,topsep=0pt]
-        \item $J_0(\varepsilon, \dots, \varepsilon) = J(\varepsilon, \dots, \varepsilon) = p^{l-1}$;
-        \item если некоторые, но не все, среди характеров $\chi_i$ являются главными, то $J_0 = 0$, $J = 0$;
-        \item пусть $\chi_l \neq \varepsilon$, тогда если $\chi_1 \chi_2 \cdots \chi_l \neq \varepsilon$, то $J_0 = 0$, а если $\chi_1 \chi_2 \cdots \chi_l = \varepsilon$, то $J_0 (\chi_1, \chi_2, \dots, \chi_l)= \chi_l(-1(p-1))J(\chi_1, \chi_2, \dots, \chi_{l-1})$.
-    \end{itemize} %[IR p99 prop 8.5.1]
-
-    \item Пусть $\chi_1, \chi_2, \dots, \chi_l$ --- неглавные характеры $\Mod p$ такие что $\chi_1 \chi_2 \cdots \chi_l$ тоже неглавный, $\tau$ --- сумма Гаусса, $J$ --- обобщенная сумма Якоби. Докажите, что
-    \begin{itemize}[noitemsep,topsep=0pt]
-        \item $\tau(\chi_1) \cdots \tau(\chi_l) = J(\chi_1, \dots, \chi_l) \tau(\chi_1 \cdots \chi_l)$;
-        \item $|J(\chi_1, \dots, \chi_l)| = p^{(l-1)/2}$.
-    \end{itemize} %[IR p100 Th 3, 4]
-
-    \item Путь $m>1$ --- целое, $K(a,b;m) = \sum'_{xy\equiv 1 (m)} e^{2\pi i \frac{ax+by}{m}}$, где $x$ пробегает приведеную систему вычетов $\Mod m$. $K(a,b;m)$ называется суммой Клоостермана, удобно также использовать запись $K(a,b;m) = \sum'_{x \Mod m} e^{2\pi i \frac{ax+bx^*}{m}}$, где $x^*$ обозначает вычет обратный к $x$. Докажите следующие свойства сумм Клоостермана:
-    \begin{itemize}[noitemsep,topsep=0pt]
-        \item $K(a,b;m)=K(b,a;m)$;
-        \item если $(m,c)=1$, то $K(ac,b;m)=K(a,bc;m)$;
-        \item если $m=m_1 m_2$, $(m_1,m_2)=1$, то $K(a,b;m)=K(n_2 a,n_2 b;m_1)K(n_1 a,n_1 b;m_2)$, где $n_1,n_2$ определены из $m_1 n_1 \equiv 1\ (m_2)$, $m_2 n_2 \equiv 1\ (m_1)$;
-        \item если $m=p^{2\alpha}$, $(m,2a)=1$, то $K(a,a;m)=\sqrt{m}(e^{2\pi i \frac{2a}{m}}+e^{-2\pi i \frac{2a}{m}})$.
-    \end{itemize} %[IW p59]
-
-    \item Пусть $p$ --- простое, $(k,p)=1$, $S=\sum'_x \sum'_y \left(\frac{xy+k}{p}\right)$, где $x,y$ пробегают возрастающие последовательности из $X$ и $Y$ вычетов полной системы вычетов $\Mod p$. Докажите, что $|S|<\sqrt{XYp}$. %[В стр82 Задача 8c]
-
-    \item Пусть $m>1$ --- целое, $(a,m)=1$, $S=\sum\limits_{x \Mod m}\sum\limits_{y \Mod m} \xi(x) \eta(y) e^{2\pi i \frac{axy}{m}}$, где $\xi,\eta$ --- такие, что $\sum\limits_{x \Mod m} |\xi(x)|^2=X$, $\sum\limits_{y \Mod m} |\eta(x)|^2=Y$. Докажите, что $|S|<\sqrt{XYm}$. %[В стр103 8]
-
-    \item Пусть $p$ --- простое, $(a,p)=(b,p)=1$, n --- целое $0<n<p$, $S=\sum\limits_{x \in \mathbb{F}_p^*} e^{2\pi i \frac{ax^n+bx}{p}}$. Докажите, что $|S| < \frac{3}{2} n^{1/4} p^{3/4}$. %[В стр103 9]
-
-    \item Пусть $p>60$ --- простое, $M,Q$ --- целые, $0<M<M+Q\leqslant p$, $\chi$ --- неглавный характер $\Mod p$, $S = \sum\limits_{x=M}^{M+Q-1} \chi(x)$. Докажите, что $|S|<\sqrt{p}\ (\log p - 1)$. %[В стр112 4]
-  
+    \item Пусть $G$ --- конечная абелева группа, $H$ --- собственная подгруппа, $g\in G$, $g \not\in H$. Докажите, что существует характер $\chi$ группы $G$ такой что $\chi(g)\neq 1$ и $\forall h\in H$ $\chi(h)=1$. %[LN Ex 5.1]
+    \item Пусть $G$ --- конечная абелева группа, $\widehat{G}$ --- группа характеров, $H < G$ ---  подгруппа, $A < \widehat{G}$ --- аннигилятор $H$: $A=\{\chi\in\widehat{G}: \forall h\in H\ \chi(h)=1 \}$. Докажите, что $A\cong G/H$ и что $H\cong \widehat{G}/A$. %[LN Ex 5.2]
+    \item Пусть $G = G_1\times \cdots \times G_k$ --- прямое произведение конечных абелевых групп (множество $k$-кортежей с операцией $(g_1,\dots,g_k) (h_1,\dots,h_k) = (g_1 h_1, \dots, g_k h_k)$). Докажите, что $\widehat{G}\cong \widehat{G_1}\times \cdots \times \widehat{G_k}$. %[LN Ex 5.4]
+    \item Основная теорема о стуктуре конечных абелевых групп утверждает, что каждая такая группа изоморфна прямому произведению конечного числа циклических групп. Выведете из этой теоремы, что если $G$ --- конечная абелева группа, то $\widehat{G}\cong G$. %[LN Ex 5.5]
+    \item Пусть $G$ -- конечная абелева группа, $m>0$ --- целое. Докажите, что $g\in G$ является $m$-ой степенью в $G$ $\iff$ $\forall$ характера порядка $m$ выполняется $\chi(g)=1$. %???
+    \item Покажите, что для аддитивных характеров $\psi_a$, $\psi_b$ поля $\mathbb{F}_q$ выполняется $\psi_a \psi_b = \psi_{a+b}$, и что из этого следует изоморфизм аддитивной группы $\mathbb{F}_q$ группе аддитивных характеров поля. %[LN Ex 5.6]
+    \item Докажите, что для аддитивного характера $\psi=\psi_1$ поля $\mathbb{F}_q/\mathbb{F}_p$ для всех $\alpha\in\mathbb{F}_q$, $j\in\mathbb{Z}_+$ справедливо $\psi_1(\alpha^{p^j})=\psi_1(\alpha)$. %[LN Ex 5.7]
+    \item Пусть $\chi'$ --- мультипликативный характер $\mathbb{F}_{q^s}$ порядка $m$, $\chi$ --- ограничение $\chi'$ на $\mathbb{F}_q$. Докажите, что $\chi$ --- мультипликативный характер $\mathbb{F}_q$ порядка $m/(m,(q^s-1)/(q-1))$. %[LN Ex 5.8]
+    \item Пусть $\chi$ --- мультипликативный характер $\mathbb{F}_q$ порядка, $\chi'$ --- продолжение $\chi$ на $\mathbb{F}_{q^s}$. Докажите, что $\chi'(a)=\chi(q)^s$ $\forall a \in\mathbb{F}_q^{*}$. %[LN Ex 5.10]
+    \item Пусть $p\neq 2$, $ab\not\equiv 0\,(p)$, $\chi$ --- квадратичный характер $\mathbb{F}_p^*$. Докажите, что
+    \begin{itemize}[topsep=0pt]
+        \item $G(\chi,\psi_a)G(\chi,\psi_b) = \left(\dfrac{-ab}{p}\right) p$; %[БШ стр 26 упр 5]
+        \item $\sum_a G(\chi,\psi_a)=0$. %[БШ стр 26 упр 6]
+    \end{itemize}
+    \item Пусть $p>2$, $G = \sum_{x=0}^{p-1} e^{2\pi i x^2/p}$ --- сумма Гаусса для квадратичного характера, $A = (a_{st})_{0\leqslant s,t \leqslant p-1}$ --- $p\times p$ матрица с элементами $a_{st}=e^{2\pi i st/p}$. Докажите, что:
+    \begin{itemize}[topsep=0pt]
+        \item если $\lambda_0,\dots,\lambda_{p-1}$ – характеристические числа матрицы $A$, то $\sum_{k=0}^{p-1} \lambda_k = G$;
+        \item характеристический многочлен матрицы $A^2$ имеет вид: $(t-p)^{(p+1)/2} (t+p)^{(p-1)/2}$;
+        \item для определителя матрицы $A$ справедливо $\det A = i^{p(p-1)/2}p^{p/2}$.
+    \end{itemize} %???
+    \item Пусть $q=p^n, p>2$. Определим аналог символа Лежандра для $\mathbb{F}_q$: $\left(\frac{\alpha}{q}\right)=1$, если $\alpha$ --- квадрат в $\mathbb{F}_q$; $\left(\frac{\alpha}{q}\right)=1$, если $\alpha$ не является квадратом в $\mathbb{F}_q$; $\left(\frac{0}{q}\right)=0$. Докажите следующие свойства этого символа: 
+    \begin{itemize} [topsep=0pt]
+        \item $\left(\frac{\alpha\beta}{q}\right) = \left(\frac{\alpha}{q}\right)\left(\frac{\beta}{q}\right)$, $\alpha, \beta \in \mathbb{F}_q$; 
+        \item $\sum_{\alpha\in\mathbb{F}_q} \left(\frac{\alpha}{q}\right) = 0$; 
+        \item $\left(\frac{\alpha}{q}\right)=\left(\frac{\N_{\mathbb{F}_q/\mathbb{F}_p}(\alpha)}{p}\right)$ --- обычный символ Лежандра $\pmod p$.
+    \end{itemize} %[Степ Задача I.2.9]
+    \item Докажите свойства обобщенных сумм Гаусса для конечного подя $\mathbb{F}_q/\mathbb{F}_p$:
+    \begin{itemize}[topsep=0pt]
+        \item $G(\chi,\psi_{ab})=\chi(a) G(\chi, \psi_b)$, $a\in\mathbb{F}_q^*$, $b\in \mathbb{F}_q$;
+        \item $G(\chi,\bar{\psi}) = \chi(-1) G(\chi,\psi)$;
+        \item $G(\bar{\chi},\psi) = \chi(-1) \overline{G(\chi,\psi)}$;
+        \item $G(\chi,\psi)G(\bar{\chi},\psi)=\chi(-1) q$, $\chi\neq\chi_0$, $\psi\neq\psi_0$;
+        \item $G(\chi^p,\psi_b)=G(\chi,\psi_{\sigma(b)})$, $b\in\mathbb{F}_q$, $\sigma$ --- автоморфизм Фробениуса.
+    \end{itemize} %[LN Th 5.12]
+    \item Пусть $f:\mathbb{F}_q \rightarrow \mathbb{C}$, $\hat{f} = \frac{1}{q}\sum_{t\in\mathbb{F}_q} f(t)\overline{\psi(st)}$ --- конечное преобрахование Фурье. Докажите, что $f(t)=\sum_{s\in\mathbb{F}_q} \hat{f}(s) \psi(st)$. %[IR Ex 10.23]
 \end{enumerate}
 
-%\noindent\textbf{SageMath}
+\noindent\textbf{SageMath}
+\begin{itemize}[topsep=0pt]
+    \item Исследуйте основные функции SageMath связанные с группой характеров конечных абелевых групп:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item \texttt{character\_table()}.
+     \end{itemize}
+\end{itemize}
 
-%\noindent\textbf{Темы для самостоятельного изучения}
-
-
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Докажательство квадратичного закон взаимности через суммы Гаусса. [IR], \S 7.3; [LN], \S 5.2.
+\end{itemize}

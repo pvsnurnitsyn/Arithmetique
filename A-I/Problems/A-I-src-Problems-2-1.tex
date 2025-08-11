@@ -1,38 +1,30 @@
 \noindent\textbf{Упражнения и задачи}
 
 \begin{enumerate}[topsep=0pt]
-    \item Завершите доказательство предложения: пусть $k$ --- поле характеристики $p$, тогда $\forall \alpha, \beta \in k$ $\forall d \in \mathbb{Z}_+$ $(\alpha+\beta)^{p^d}=\alpha^{p^d}+\beta^{p^d}$.
-    \item Докажите, что если расширение $L/K$ конечной степени $[L:K]$, то $L/K$ --- алгебраическое.
-    %\item Докажите, что $\Gal(L/K)$ --- группа и что $|\Gal(L/K)| \leqslant [L:K]$.
-    \item Докажите, что
-    \begin{itemize}[noitemsep,topsep=0pt]
-        \item для $a\in\mathbb{Z}$ $a^l-1|a^m-1$ $\Leftrightarrow$ $l|m$
-        \item в $\mathbb{F}_q[x]$ $x^l-1|x^m-1$ $\Leftrightarrow$ $l|m$
-    \end{itemize}
-
+    \item Завершите доказательство леммы: пусть $k$ --- поле характеристики $p$, тогда $\forall \alpha, \beta \in k$ $\forall d \in \mathbb{Z}_+$ $(\alpha+\beta)^{p^d}=\alpha^{p^d}+\beta^{p^d}$.
+    \item Докажите, что многочлен $x^2+x+1$ неприводим над $\mathbb{F}_2$ (т.е. $\mathbb{F}_2[x]/(x^2+x+1)$ является полем). Выпишите таблицы операций сложения и умножения элементов в этом поле, а также обратные элементы.
+    \item Найдите все неприводимые многочлены степени $4$ над полем $\mathbb{F}_2$.
+    \item Пусть $L/K$, $M/L$ --- конечные расширения (произвольных) полей. Докажите, что расширение $M/K$ также конечно и $[M:K]=[K:L][L:K]$.
+    \item Докажите, что если $L/K$ --- конечное расширение, то оно является алгебраическим.
+    \item Пусть $q=p^n$, $\mathbb{F}_{q^m}/\mathbb{F}_q$ --- расширение. Докажите, что если $f\in\mathbb{F}_q$ --- неприводимый, то $\mathbb{F}_{q^m}$ --- поле разложения $f$.
     \item Пусть $p,q$ --- различные простые. Чему равно число неприводимых многочленов степени $q$ в $\mathbb{F}_p[x]$? %[IR, p87 ex7.17]
-    
+    \item Докажите следующие оценки для числа неприводимых многочленов степени $n$ над $\mathbb{F}_p$:
+    $$
+    \tfrac{1}{n} p^n - \tfrac{p}{n(p-1)}(p^{\frac{n}{2}}-1) \leqslant \nu(n) \leqslant \tfrac{1}{n}(p^n-p).
+    $$
     \item Пусть $\sigma_j(f) = \sum_{g|f}' (Ng)^j$, где суммирование берется по неприводимым унитарным делителям $g$ (для $f\in\mathbb{F}_q[x]$ степени $\deg f = n$ $Nf=q^n$). Докажите, что
     \begin{itemize}[noitemsep,topsep=0pt]
         \item $\sum\limits_f \dfrac{\sigma_0(f)}{(Nf)^s} = \dfrac{1}{(1-q^{1-s})^2}$;
         \item $\sum\limits_f \dfrac{\sigma_1(f)}{(Nf)^s} = \dfrac{1}{(1-q^{1-s})(1-q^{2-s})}$.
     \end{itemize} %[IR, p87 ex7.20]
-
     \item Пусть $\alpha \in \mathbb{F}_q^*$. Докажите, что $x^n=\alpha$ разрешимо $\Leftrightarrow$ $\alpha^{(q-1)/d=1}$, где $d=(n,q-1)$, причем если разрешимо, то $d$ решений. %[IR, p80 prop 7.1.2]
-
     \item Как выглядит подгруппа всех квадратов в $\mathbb{F}_{2^n}$? %[IR, p86 ex7.8]
-
     \item Пусть $n|q-1$, докажите, что $G=\{\alpha\in\mathbb{F}_q^*: x^n=\alpha\ \text{--- разрешимо}\}$ --- подгруппа в $\mathbb{F}_q^*$, $|G|=\frac{q-1}{n}$. %[IR, p86 ex7.4]
-
     \item Пусть $n|q-1$, $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $[K:F] = n$. Докажите, что $\forall \alpha \in F^*$ уравнение $x^n=\alpha$ имеет $n$ решений в $K$. %[IR, p86 ex7.5]
-
     \item Пусть $K/F$ --- расширение конечных полей, $\chr F \neq 2$, $[K:F] = 3$. Докажите, что если $\alpha$ не является квадратом в $F$, то $\alpha$ не является квадратом и в $K$. %[IR, p86 ex7.6]
-
     \item Пусть $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $\alpha \in \mathbb{F}_q$, $n|q-1$ и $x^n=\alpha$ не разрешимо в $\mathbb{F}_q$. Тогда $x^n=\alpha$ не разрешимо в $K$, если $(n,[K:F])=1$. %[IR, p86 ex7.9]
-
     \item Пусть $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $[K:F] = 2$. Докажите, что $\forall \beta \in K$ $\beta^{1+q} \in F$. Более того, $\forall \alpha \in F$ $\exists \beta \in K$: $\alpha=\beta^{1+q}$. %[IR, p86 ex7.10]
 
-    %\item Пусть $\mathbb{F}_{q^m}/\mathbb{F}_q$ --- расширение конечных полей, $\alpha \in \mathbb{F_{q^m}}$. Докажите, что сопряженные элементы $\alpha, \alpha^q, \alpha^{q^2}, \dots \alpha^{q^{m-1}}$ имеют один и тот же порядок в мультипликативной группе $\mathbb{F}_{q^m}^*$.   %[LN, p50 th2.18]
 \end{enumerate}
 
 \noindent\textbf{SageMath}
@@ -41,12 +33,13 @@
     \begin{itemize}[noitemsep,topsep=0pt]
         \item Определение конечного поля: \texttt{FiniteField(), GF()};
         \item Неприводимый многочлен задающий конечное поле: \texttt{polynomial()}, опция \texttt{modulus} в \texttt{FiniteField()} для явного задания неприводимого многочлена модели конечного поля;
-        \item Решение уравнения $x^n=\alpha$: \texttt{nth\_root()}.
+        \item Решение уравнения $x^n=\alpha$: \texttt{nth\_root()};
+        \item Поле разложения: \texttt{splitting\_field()};
+        \item Расширение полей: \texttt{extension()}.
      \end{itemize}
 \end{itemize}
 
-%\noindent\textbf{Темы для самостоятельного изучения}
-%\begin{itemize}[topsep=0pt]
-%    \item Поле $\mathbb{F}_q$, $q=p^n$, однозначно определено в $\bar{\mathbb{F}}_p$ как поле разложения многочлена $z^q-z$. Всякое конечное поле изоморфно одному и только одному $\mathbb{F}_q$. ([Степ], [LN])
-%    \item Всякое конечное кольцо с единицей, в котором каждый ненулевой элемент обратим, является полем. ([LN], [The Book]).
-%\end{itemize}
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Поле $\mathbb{F}_q$, $q=p^n$, однозначно определено в $\bar{\mathbb{F}}_p$ как поле разложения многочлена $z^q-z$. Всякое конечное поле изоморфно одному и только одному $\mathbb{F}_q$. ([Степ], [LN])
+\end{itemize}
