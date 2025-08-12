@@ -1,0 +1,46 @@
+\noindent\textbf{Упражнения и задачи}
+\begin{enumerate}[topsep=0pt]
+    \item Докажите, что $r\in\mathbb{Q}$ --- целое алгебраическое число $\iff$ $r\in\mathbb{Z}$. %[IR]
+    \item Пусть $\omega_1, \dots, \omega_l$ --- целые алгебраические числа, $W = \{\sum_{i=1}^l r_i \omega_i: r_i\in\mathbb{Z}\}$. Докажите, что
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $W$ --- конечно порождённый модуль над $\mathbb{Z}$;
+        \item если для $\omega\in\mathbb{C}$ верно $\forall\gamma\in W$ $\gamma\omega\in W$, то $\omega$ --- целое алгебраическое число;
+        \item множество целых алгебраических чисел является кольцом.
+    \end{itemize} %[IR]
+    \item Докажите, что если $\alpha$ --- целое алгебраическое, то $\mathbb{Q}(\alpha)=\mathbb{Q}[\alpha]$. %[IR]
+    \item Пусть $K/\mathbb{Q}$ --- числовое поле, $\mathcal{D}_K$ --- кольцо целых. Докажите, что 
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $\N_{K/\mathbb{Q}}(\alpha),\Tr_{K/\mathbb{Q}}(\alpha)\in\mathbb{Z}$ $\forall\alpha\in\mathcal{D}_K$;
+        \item если $\alpha_1,\dots,\alpha_n \in \mathcal{D}_K$ --- базис расширения, то $\Delta(\alpha_1,\dots,\alpha_n)\in\mathbb{Z}$.
+    \end{itemize} %[IR]
+    \item Пусть $I\subset\mathcal{D}_K$ --- идеал. Докажите, что если $\alpha_1,\dots,\alpha_n \in I$ --- базис расширения $K/\mathbb{Q}$ такой, что $\Delta(\alpha_1,\dots,\alpha_n)$ минимален, то $I = \mathbb{Z}\alpha_1 + \dots + \mathbb{Z}\alpha_n$. %[IR Prop 12.2.2]
+    \item Покажите, что $3$, $7$, $1+2\sqrt{-5}$, $1-2\sqrt{-5}$ являются простыми в $\mathbb{Z}[\sqrt{-5}]$ (т.о. $21 = 3\cdot 7 = (1+2\sqrt{-5})(1-2\sqrt{-5})$ --- пример неоднозначного разложения на простые множители).
+    \item Докажите, что кольцо целых $\mathcal{D}_K$ является нётеровым, и что всякий простой идеал $P \subset\mathcal{D}_K$ является максимальным. %[IR]
+    \item Докажите, что $h_K = 1$ $\iff$ $\mathcal{D}_K$ --- кольцо главных идеалов. %[IR]
+    \item Докажите следующие свойства идеалов $\mathcal{D}_K$:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $AB=AC$ $\implies$ $B=C$;
+        \item $A\subset B$ $\implies$ $\exists C$: $A=BC$.
+    \end{itemize} %[IR]
+    \item Докажите следующие свойства функции показателя:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $\nu_P(P)=1$;
+        \item $P_1\neq P_2$ $\implies$ $\nu_{P_1}(P_2)=0$;
+        \item $\nu_P(AB) = \nu_P(A)\nu_P(B)$.
+    \end{itemize} %[IR]
+    \item Завершите доказательство теоремы об однозначности разложения идеалов кольца $\mathcal{D}_K$. %[IR]
+    \item Пусть $P$ --- простой идеал $\mathcal{D}_K$. Докажите, что $\mathcal{D}_K/P$ является конечным полем. %[IR]
+    \item Пусть $R$ --- коммутативное кольцо с единицей, $A_1,\dots,A_g \subset R$ --- идеалы такие, что $A=A_1\cdot\dots\cdot A_g$ и $\forall i\neq j$ $A_i+A_j=R$. Докажите, что $R/A\cong R/A_1 \oplus \dots \oplus R/A_g$.
+    \item Пусть $P,Q \subset \mathcal{D}_K$ --- простые идеалы. Докажите, что $\forall m,n \in\mathbb{Z}_+$ $P^m+Q^n=\mathcal{D}_K$.
+\end{enumerate}
+
+%\noindent\textbf{SageMath}
+%\begin{itemize}[topsep=0pt]
+%    \item NumberField()
+%    \item идеалы и арифметика колец
+%\end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Теория Галуа для случая числовых полей, [Marc], Appendix B.
+\end{itemize}
