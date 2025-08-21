@@ -111,10 +111,28 @@
 * [BvdGZ] J.H. Bruinier, G. van der Geer, D. Zagier, The 1-2-3 of Modular Forms. Springer, 2008.
 
 <a name="DSV"></a>
-* [DSV] G. Davidoff, P. Sarnak, A. Valette, Elementary Number Theory, Group Theory, and Ramanujan Graphs, Cambridge University Press, 2003.
+* [DSV] G. Davidoff, P. Sarnak, A. Valette, Elementary Number Theory, Group Theory, and Ramanujan Graphs. Cambridge University Press, 2003.
 
 <a name="Cox"></a>
 * [Cox] D.A. Cox, Primes of the Form $x^2+ny^2$. Wiley, 2013.
+
+* [Micc-LN] Lecture Notes: [D. Micciancio, Lattices Algorithms and Applications](https://cseweb.ucsd.edu/classes/wi24/cse206A-a/). 2014-2024.
+
+* [Peik-LN] Lecture Notes: [C. Peikert, Lattices in Cryptography](https://github.com/cpeikert/LatticesInCryptography). 2022.
+
+* [Reg-LN] Lecture Notes: [O. Regev, Lattices in Computer Science](https://cims.nyu.edu/~regev/teaching/lattices_fall_2009/). 2004, 2009.
+
+* [Roth-LN] Lecture Notes: [T. Rothvoss, Integer Optimization and Lattices](https://sites.math.washington.edu/~rothvoss/lecturenotes/IntOpt-and-Lattices.pdf). 2016.
+
+* [Schulze-LN] Lecture Notes: [R. Schulze-Pillot, Lecture Notes on Quadratic Forms and their Arithmetic](https://arxiv.org/pdf/2008.12847). 2020.
+
+* [Clark-LN] [P.L. Clark, Quadratic Forms Chapter I: Witt’s Theory](http://alpha.math.uga.edu/~pete/quadraticforms.pdf).
+
+* [Mart] J. Martinet, Perfect Lattices in Euclidean Spaces. Springer, 2003.
+
+* [Gr] R.L. Griess Jr., An Introduction to Groups and Lattices Finite Groups and Positive Definite Rational Lattices. International Press of Boston, 2011.
+
+* [Hat] A. Hatcher, Topology of Numbers. AMS, 2022.
 
 
 
