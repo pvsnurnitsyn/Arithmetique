@@ -1,0 +1,130 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+
+\title{Лекция №4 «Сравнения». Курс A-I}
+\author{Турашев Артём Сергеевич 619/2}
+\date{30 сентября 2025}
+
+\begin{document}
+
+\maketitle
+
+\newtheorem{definition}{Определение}
+
+\begin{definition}
+  m, n \in \mathbb{Z}_{>0}, \quad a \in \mathbb{Z}, \quad (a,\thinspace m) = 1. \quad \textcyrillic{Если сравнение} \quad x^n \equiv a \thinspace (m) \quad \textcyrillic{разрешимо}, \newline \textcyrillic{то} \quad a \quad \textcyrillic{называется вычетом степени} \quad n \thinspace mod \thinspace \thinspace m.
+  \newline (\textcyrillic{То есть в} \quad \mathbb{Z}/m\mathbb{Z} \quad a = b^n)
+\end{definition}
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    \textcyrillic{Если} \quad \exists \quad \textcyrillic{первообразный корень} \quad mod \thinspace \thinspace m, \quad (a, \thinspace m) = 1. \quad \textcyrillic{Тогда} \quad a - \textcyrillic{вычет степени n} \newline \Leftrightarrow a^{\frac{\phi(m)}{d}} \equiv 1 \thinspace (m), \quad d = (n, \phi(m)).
+    \newline \nerwline \square \quad \textcyrillic{Пусть} \quad g - \textcyrillic{первообразный корень. Введем обозначение} \quad a = g^b, \thinspace \thinspace x = g^y \thinspace \thinspace \textcyrillic{в} \quad \mathbb{Z}/m\mathbb{Z} \newline \textcyrillic{Тогда} \quad x^n \equiv a \thinspace (m) \Leftrightarrow g^{ny} \equiv g^b \thinspace (m) \Leftrightarrow ny \equiv b \thinspace (\phi(m)) - \textcyrillic{разрешимо} \thinspace \thinspace \Leftrightarrow d \vert b \newline \Rightarrow g^{b\frac{\phi(m)}{d}} \equiv 1 \thinspace (m) \qquad g^{b\frac{\phi(m)}{d}} = a^{\frac{\phi(m)}{d}} \newline \Leftarrow a^{\frac{\phi(m)}{d}} \equiv 1 \thinspace (m) \quad g^{b\frac{\phi(m)}{d}} \equiv 1 \thinspace (m) \quad \rightarrow \quad \phi(m) \vert b\frac{\phi(m)}{d}. \quad \textcyrillic{Тогда получается, что} \newline \rightarrow d \vert b \qquad \blacksquare
+\end{lemma}
+
+\begin{definition}
+     \textcyrillic{Квадратичный вычет называется вычет с} n = 2
+\end{definition}
+
+\textcyrillic{По КТО:} \mathbb{Z}/m\mathbb{Z} - \textcyrillic{прямая сумма колец:} \newline \newline \mathbb{Z}/m\mathbb{Z} = \bigoplus_{i=1}^{l} \mathbb{Z}/p^{a_i}\mathbb{Z} \newline \newline \textcyrillic{Рассмотрим самый простой случай:}  \quad \mathbb{Z}/p\mathbb{Z} \newline \textcyrillic{Далее} \quad p>2 - \textcyrillic{простое}, \quad \mathbb{Z}/p\mathbb{Z}
+
+\begin{definition}
+    \textcyrillic{Символ Лежандра} \newline \newline \left(\frac{a}{p}\right) = \left\{ \begin{aligned} 
+        1, \quad a - \textcyrillic{квадратичный вычет}\\
+        -1, \quad a - \textcyrillic{квадратичный невычет}\\
+        0, \quad p \vert a. 
+    \end{aligned} \right
+\end{definition}
+
+\begin{lemma}
+    1) \left(\frac{a}{p}\right) \equiv a^{\frac{p-1}{2}} \thinspace (p) \newline 2) \left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right) \left(\frac{b}{p}\right) \newline 3) \thinspace \thinspace a \equiv b \thinspace (p) \Rightarrow \left(\frac{a}{p}\right) = \left(\frac{b}{p}\right) \newline \square \quad \textcyrillic{Пусть} \quad p \not\vert a, \quad p \not\vert b, \quad \textcyrillic{тогда} \newline a^{p-1} \equiv 1 \thinspace (p) \qquad a^{p-1} - 1 \equiv 0 \thinspace (p) \newline (a^{\frac{p-1}{2}}-1)(a^{\frac{p-1}{2}}+1) \equiv 0 \thinspace (p) \newline \Rightarrow \textcyrillic{либо} \quad a^{\frac{p-1}{2}}-1 \equiv 0 \thinspace (p) \newline \quad \textcyrillic{либо} \quad a^{\frac{p-1}{2}}+1 \equiv 0 \thinspace (p) \newline \textcyrillic{Свойство:} \quad a - \textcyrillic{вычет} \quad \Leftrightarrow \quad a^{\frac{\phi(m)}{d}} \equiv 1, \quad d = (n,\phi(m)) \quad \phi(m)=p-1, \quad n = 2 \newline \Rightarrow d = 2 \newline \textcyrillic{то есть квадратичный вычет} \quad \Leftrightarrow \quad a^{\frac{p-1}{2}} \equiv 1 \thinspace (p) \quad \textcyrillic{Из этого свойства следует верность 1)} \newline 2) \left(\frac{ab}{p}\right) \equiv (ab)^{\frac{p-1}{2}}  \equiv \dots \newline 3) \quad (\textcyrillic{очевидно, по опредлению})  \qquad \blacksquare
+\end{lemma}
+
+\newtheorem*{comm}{Замечание}
+
+\begin{comm}
+    \textcyrillic{Число вычетов и невычетов одинаково}
+\end{comm}
+
+\begin{comm}
+    a = -1 \quad \left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}} = \left\{ \begin{aligned} 
+        1 \quad p=4k+1 \\
+        -1 \quad p=4k+3 
+    \end{aligned} \right
+\end{comm}
+
+\begin{lemma}
+    (\textcyrillic{Гаусс})  p \not \vert a \quad \textcyrillic{Рассмотрим множество:} \quad \{ka: 1 \le k \le \frac{p-1}{2} \} = \{a, \thinspace 2a, \thinspace \dots, \thinspace \frac{p-1}{2}a \} \newline \textcyrillic{Обозначим} \quad r_k \equiv ka \thinspace (p) \quad -\frac{p-1}{2} \le r_k \le \frac{p-1}{2} \newline \textcyrillic{Пусть} \quad s = |\{k: r_k <0\}| \newline \textcyrillic{Тогда} \quad \left(\frac{a}{p}\right) = (-1)^s \newline \square \quad \textcyrillic{Пусть} \quad u_1, \dots, u_s - \textcyrillic{те} \quad r_k < 0 \newline \textcyrillic{Остальные} \quad v_1,\dots,v_{\frac{p-1}{2}-s} \newline -u_1,\dots,-u_s \in [1, \frac{p-1}{2}] \newline \textcyrillic{и к тому же} \quad -u_i\not=v_j \quad (\textcyrillic{если} \quad -u_i=v_j, \quad -u_i=ka, \quad v_j=la: \quad u_i+v_j \equiv 0 \thinspace (p) \Rightarrow \textcyrillic{будет выполнено} \quad p(k+l)) \Rightarrow \textcyrillic{получаем противоречие} \newline \{-u_1,\dots,-u_s,v_1,\dots,v_{\frac{p-1}{2}-s}\} = \{1,2,\dots,\frac{p-1}{2}}\} \newline \prod(-u_i)\prod(v_j)=(\frac{p-1}{2})! \newline (-1)^s\prod u_i\prod v_j \newline (-1)^s\prod r_k \thinspace (p) \newline (\frac{p-1}{2})! \equiv (-1)^s \prod r_k \equiv (-1)^s a^{\frac{p-1}{2}}(\frac{p-1}{2})! \thinspace \thinspace (p) \newline \Rightarrow (-1)^s \equiv a^{\frac{p-1}{2}} \equiv \left(\frac{a}{p}\right) \thinspace (p) \qquad \blacksquare
+\end{lemma}
+
+\newtheorem*{consequence}{Следствие}
+
+\begin{consequence}
+    \left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}} \newline \square \quad 1*2, \thinspace 2*2, \dots, \frac{p-1}{2}*2 \newline s = |\{k: \frac{p-1}{2} \le 2k \le p-1\}|=\frac{p-1}{2} - |\{k: 2k \le \frac{p-1}{2}\}| \qquad |\{k: 2k \le \frac{p-1}{2}\}| = [\frac{p-1}{4}] \newline = \DeclarePairedDelimiter{\ceil}{\lceil}\frac{p-1}{4}{\rceil} \qquad \DeclarePairedDelimiter{\ceil}{\lceil}\frac{p-1}{4}{\rceil} \equiv 0 \thinspace (2) \Leftrightarrow p = 8k \pm 1
+\end{consequence}
+
+\begin{lemma}
+    \left(\frac{a}{p}\right) = (-1)^{\sum_{k=1}^{\frac{p-1}{2}}[\frac{ak}{p}]} \quad \textcyrillic{для} \quad a \equiv 1 \thinspace (2) \newline \square \quad \left(\frac{a}{p}\right) = (-1)^s \newline s=|\{k: r_k<0 \quad (r_k \equiv ka \thinspace (p))\}| \newline [\frac{2ak}{p}]=[2([\frac{ak}{p}] + \{\frac{ak}{p}\})] = 2[\frac{ak}{p}] + [2\{\frac{ak}{p}\}] \quad [2\{\frac{ak}{p}\}] \equiv \left\{ \begin{aligned} 
+        0 \quad r_k>0 \\
+        1 \quad r_k<0 
+    \end{aligned} \right \newline \Rightarrow s \equiv \sum_{k=1}^{\frac{p-1}{2}}[\frac{2ak}{p}] \thinspace (2) \newline a \equiv 1 \thinspace (2) \newline \left(\frac{2a}{p}\right) = \left(\frac{4\frac{a+p}{2}}{p}\right) = \left(\frac{\frac{a+p}{2}}{p}\right) = (-1)^{s'} \newline s' = \sum_{k=1}^{\frac{p-1}{2}}[\frac{2k\frac{a+p}{2}}{p}] = \sum_{k}[\frac{ka}{p}+k] = \sum_{k}[\frac{ka}{p}] + \sum_{k}k \quad \sum_{k}k = (\frac{p-1}{2}+1)\frac{p-1}{2}\frac{1}{2} = \frac{p^2-1}{8} \newline \left(\frac{2a}{p}\right) = \left(\frac{2}{p}\right)\left(\frac{a}{p}\right) = (-1)^{\sum_{k}[\frac{ka}{p}]}(-1)^{\frac{p^2-1}{8}}, \quad \textcyrillic{где} \quad (-1)^{\frac{p^2-1}{8}} = \left(\frac{2}{p}\right) \qquad \blacksquare
+\end{lemma}
+
+\newtheorem{theorem}{Теорема}
+
+\begin{theorem}
+    \textcyrillic{(квавдратичный закон взаимности)} \quad p,q > 2 - \textcyrillic{простые}, \quad p+q \newline \left(\frac{p}{q}\right)\left(\frac{q}{p}\right) = (-1)^{\frac{p-1}{2}\frac{q-1}{2}} \newline \square \quad P = \frac{p-1}{2} \quad Q = \frac{q-1}{2} \newline \textcyrillic{Рассмотрим} \quad PQ \quad \textcyrillic{как пару} \quad (qx,py) \newline 1 \le x \le P \quad 1 \le y \le Q \newline \forall x,y: \quad qx\not=py \newline PQ=S+T, \quad \textcyrillic{где} \quad S=|\{(qx,py): \quad qx<py \quad 1 \le x \le P \quad 1 \le y \le Q \}| \newline T=|\{(qx,py): \quad py<qx \quad 1 \le x \le P \quad 1 \le y \le Q \}| \newline S=|\{(x,y): \quad x<\frac{p}{q}y \quad 1 \le x \le P \quad 1 \le y \le Q \}|=\sum_{y=1}^{Q}[\frac{p}{q}y] \newline \textcyrillic{Аналогично для} \quad T=\sum_{x=1}^{P}[\frac{q}{p}x] \newline \textcyrillic{По лемме:} \newline \left(\frac{p}{q}\right) = (-1)^S, \quad \left(\frac{q}{p}\right) = (-1)^T \newline \textcyrillic{По построению получаем справедливость утверждений теоремы} \qquad \blacksquare \newline
+\end{theorem}
+
+\textcyrillic{Обобщенный символ Якоби}
+
+\begin{definition}
+    \textcyrillic{Пусть} \quad p \in \mathbb{Z}_{>1}, \quad p \equiv 1 \thinspace (2), \quad p = p_1 \dots p_r, \quad a \in \mathbb{Z} \quad \left(\frac{a}{p}\right) = \left(\frac{a}{p_1 \dots p_r}\right) = \left(\frac{a}{p_1}\right) \dots \left(\frac{a}{p_r}\right)
+\end{definition}
+
+\begin{comm}
+    \left(\frac{a}{p}\right) = -1 \Rightarrow a - \textcyrillic{квадратичный невычет} \thinspace \thinspace (p)
+\end{comm}
+
+\begin{lemma}
+    1) \left(\frac{a_1a_2}{p}\right)=\left(\frac{a_1}{p}\right)\left(\frac{a_2}{p}\right) \newline 2) \left(\frac{a}{PQ}\right)=\left(\frac{a}{P}\right)\left(\frac{a}{Q}\right) \newline 3) \quad \textcyrillic{если} \quad a_1 \equiv a_2 \thinspace (P), \quad \textcyrillic{то} \quad \left(\frac{a_1}{P}\right)=\left(\frac{a_2}{P}\right) \newline \square \quad \textcyrillic{Упражнение} \quad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    1) \left(\frac{1}{p}\right)=1 \newline 2) \left(\frac{-1}{p}\right)=(-1)^{\frac{p-1}{2}} \newline 3) \left(\frac{2}{p}\right)=(-1)^{\frac{p^2-1}{8}} \newline \square \quad \textcyrillic{Упражнение} \quad \blacksquare
+\end{lemma}
+
+\begin{theorem}
+    P, Q \quad (P,Q)=1 \newline \left(\frac{P}{Q}\right)\left(\frac{Q}{P}\right)=(-1)^{\frac{P-1}{2}\frac{Q-1}{2}} \newline \square \quad \textcyrillic{Упражнение} \quad \blacksquare
+\end{theorem}
+
+\begin{definition}
+    \textcyrillic{равномерное распределение последовательностей по} \thinspace mod 1 \thinspace (\textcyrillic{р.р. по} \thinspace mod 1): (x_n)_{n=1}^{\infty} \quad x_n \in (0,1) \quad \textcyrillic{называется равномерно распределенной, если} \thinspace \thinspace \forall \newline \textcyrillic{непрерывной измеримой по Лебегу функции, определенной на интервале} \thinspace (0,1) \newline \lim_{N\rightarrow\infty} \frac{1}{N}\sum_{n \le N}f(x_n)=\int_{0}^{1}f(t)dt \nerwline \newline \newline \textcyrillic{Эквивалентное определение:} \quad (x_n) - \textcyrillic{равномерно распределена по} \thinspace mod \thinspace 1 \Leftrightarrow \newline \lim \frac{1}{N}|\{n<N: a \le x_n \le b \}|=b-a \quad 0<a<b<1
+\end{definition}
+
+\begin{theorem}
+    \textcyrillic{Если} \thinspace \alpha - \textcyrillic{иррациональная}, \thinspace \textcyrillic{то} \thinspace \{n\alpha\} - \textcyrillic{равномерно распределена по} \thinspace \thinspace mod \thinspace 1
+\end{theorem}
+
+\begin{theorem}
+    (Виноградов) \quad \alpha - \textcyrillic{иррациональная} \thinspace \thinspace \{p\alpha\} - \textcyrillic{равномерно распределена по} \thinspace \thinspace mod \thinspace 1
+\end{theorem}
+
+\begin{theorem}
+    (80-е годы) \quad \textcyrillic{Если в качетсве} (x_p) - \textcyrillic{последовательность решений сравнения:} \newline  x_p^2 \equiv a \thinspace (p),\quad p - \textcyrillic{простое} \newline \textcyrillic{Тогда последовательность} \quad \{\frac{x_p}{p}\} - \textcyrillic{равномерно распределена по} \thinspace \thinspace mod \thinspace 1
+\end{theorem}
+
+\end{document}

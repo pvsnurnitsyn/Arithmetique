@@ -1,0 +1,417 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Welcome to Overleaf --- just edit your LaTeX on the left,
+% and we'll compile it for you on the right. If you open the
+% 'Share' menu, you can invite other users to edit at the same
+% time. See www.overleaf.com/learn for more info. Enjoy!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{report}
+\usepackage[T2A]{fontenc}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{csquotes}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref}
+\usepackage{bussproofs}
+\usepackage{cancel}
+\usepackage{lplfitch}
+
+
+%Hyphenation rules
+%--------------------------------------
+\usepackage{hyphenat}
+\hyphenation{ма-те-ма-ти-ка вос-ста-нав-ли-вать}
+%--------------------------------------
+\usepackage[english, russian]{babel}
+\newcommand*{\abstraction}[2]{\lambda#1.#2}
+\newcommand*{\bred}{\rightarrow_\beta}
+\newcommand*{\lbred}{\leftarrow_\beta}
+\newcommand*{\mbred}{\twoheadrightarrow_\beta}
+\newcommand*{\combK}{\abstraction{xy}{x}}
+\newcommand*{\combS}{\abstraction{fgx}{fx(gx)}}
+\newcommand*{\aeq}{=_\alpha}
+\newcommand*{\beq}{=_\beta}
+\newcommand*{\equals}{\,\mathbf{equals}\,}
+\newcommand*{\iszero}{\,\mathbf{is\_zero}\,}
+\newcommand*{\zero}{\,\mathbf{zero}\,}
+\newcommand*{\two}{\,\mathbf{two}\,}
+\newcommand*{\isprime}{\,\mathbf{is\_prime}\,}
+\newcommand*{\nil}{\,\mathbf{nil}\,}
+\newcommand*{\minus}{\,\mathbf{minus}\,}
+\newcommand*{\mult}{\,\mathbf{mult}\,}
+\newcommand*{\plus}{\,\mathbf{plus}\,}
+\newcommand*{\ifs}{\,\mathbf{if}\,}
+\newcommand*{\pred}{\,\mathbf{pred}\,}
+\newcommand*{\first}{\,\mathbf{first}\,}
+\newcommand*{\second}{\,\mathbf{second}\,}
+\newcommand*{\pair}{\,\mathbf{pair}\,}
+\newcommand*{\lt}{\,\mathbf{lt}\,}
+\newcommand*{\gt}{\,\mathbf{gt}\,}
+\newcommand*{\nots}{\,\mathbf{not}\,}
+\newcommand*{\isnil}{\,\mathbf{is\_nil}\,}
+\newcommand*{\fold}{\,\mathbf{fold}\,}
+\newcommand*{\ors}{\,\mathbf{or}\,}
+\newcommand*{\unbound}[1]{\underline{#1}}
+\newcommand*{\bound}[1]{\underline{\underline{#1}}}
+
+\newcommand*{\ERule}{\RightLabel{$\rightarrow \mathbf{E}$}}
+\newcommand*{\IRule}{\RightLabel{$\rightarrow \mathbf{I}$}}
+\newcommand*{\VRule}{\RightLabel{\textbf{Var}}}
+
+
+
+\renewcommand*{\min}{\,\mathbf{min}\,}
+\renewcommand*{\max}{\,\mathbf{max}\,}
+\renewcommand*{\and}{\,\mathbf{and}\,}
+
+\renewcommand*{\t}{\,\mathbf{true}\,}
+\renewcommand*{\f}{\,\mathbf{false}\,}
+\begin{document}
+
+\counterwithout{section}{chapter}
+\usetikzlibrary {graphs, fit, decorations}
+\newtheorem{definition}{Определение}[section]
+\newtheorem{statement}{Утверждение}[section]
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{example}{Пример}[section]
+\newtheorem{lemma}{Лемма}[section]
+\newtheorem{note}{Замечание}[section]
+\newtheorem{corollary}{Следствие}[section]
+
+\setlength{\parindent}{0pt}
+
+\newcommand*{\Deg}{\mathbf{Deg \,}}
+\newcommand*{\Div}{\mathbf{Div \,}}
+\newcommand*{\Dim}{\mathbf{Dim \,}}
+\newcommand*{\PDiv}{\mathbf{PDiv \,}}
+
+
+\newpage
+\section{Пространство Римана-Роха и Линейные системы}
+
+\begin{itemize}
+    \item Пусть $X$ - компактная риманова поверхность.
+    \item $\Div X = \{D = \sum n_p \cdot p\}$ \\
+          $n_p = D(p), D: X \rightarrow \mathbb{Z}$ \\
+          $\Deg D = \sum {n_p}$
+    \item $D = p$ -- простые дивизоры \\
+          $D = (f) = \sum {\nu_p (f) \cdot p}$ -- главные \\
+          $D = (w) = \sum {\nu_p (w) \cdot p}$ -- канонические \\
+    \item $\mathbb{C} / X = \Div X / \PDiv X$
+    \item $D_1 \sim D_2 \Leftrightarrow D_1 - D_2 = (f) \in \PDiv X$
+\end{itemize}
+
+\begin{definition}
+    $f, g \in \mathcal{M}_X, D \in \Div X$. $f \equiv g \; (D) \leftrightharpoons (f - g) \geq D$ или, что тоже самое, $ \forall p \in X \hspace{10pt} \nu_p (f - g) \geq n_p = D(p)$
+\end{definition}
+
+\begin{note}
+    $D = \prod_p {p^{n_p}}, D_1 \leq D_2 \sim D_1 | D_2$
+\end{note}
+
+\begin{definition}
+    $L(D) = \{f \in \mathcal{M}_X: f \equiv 0 \; (-D)\}$, т.е. $f: (f) \geq -D$ или $\nu_p (f) \geq -n_p$. \\
+    $L(D)$ -- линейное пространство функций с полюсами ограниченными дивизором $D$ [пространство Римана-Роха]. \\
+    $(D(p) = n_p = n > 0 \hspace{10pt} f \in L(D) \Leftrightarrow \nu_p (f) \geq n$ т.е. полюс в $p$ порядка $\leq n )$
+\end{definition}
+
+По определению $L(0) = O_x$ -- пространство голоморфных функций.
+
+\begin{lemma}
+    $D_1 \leq D_2 \Rightarrow L(D_1) \subseteq L(D_2)$
+\end{lemma}
+
+\begin{lemma}
+    $X$ -- компактная РП: 
+    \begin{enumerate}
+        \item $L(0) = \mathbb{C}$ \\
+        \item $\Deg D < 0 \Rightarrow L(D) = \{0\}$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \hspace{}
+    \begin{enumerate}
+        \item Доказано ранее
+        \item $f \in L(D), \hspace{10pt} D_1 = (f) + D \geq 0 \hspace{5pt} (\nu_p (f) + n_p \geq 0) \Rightarrow \Deg D_1 \geq 0$, \\
+        но $\Deg D_1 = \Deg (f) + \Deg D \leq 0$. Если $f \not \equiv 0$ получаем противоречие.
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    $X$ -- компактная РП, $\Deg D = 0$ 
+    \begin{enumerate}
+        \item $D \sim 0 \Rightarrow \Dim L(D) = 1$
+        \item $D \not \sim 0 \Rightarrow L(D) = \{0\}$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    \hspace{} \\
+    \begin{enumerate}
+        \item $D \sim 0 \Leftrightarrow D(f). \hspace{10pt} L(D)  = \{g: \underbrace{(g) + (f)}_{=(gf)} \geq 0\} \\
+        (gf) \geq 0 \Rightarrow gf \in O_x \Rightarrow gf = c \in \mathbb{C}.$ \\
+        Таким образом $L(D) = \{c \cdot \frac1f, c \in \mathbb{C}\} = <\frac1f> \Rightarrow \Dim L(D) = 1$
+        \item $D \not \sim 0, \Deg D = 0$ \\
+        $g \in L(D) \Leftrightarrow \underbrace{(g) + D}_E \geq 0$ \\ 
+        $\Deg E = \Deg (g) + \Dev D = 0 = \sum n_p, \hspace{10pt} n_p \geq 0 \Rightarrow n_p = 0 \Rightarrow E = 0$ 
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}
+    $D_1 \sim D_2 \Rightarrow L(D_1) \cong L(D_2)$
+\end{lemma}
+
+\begin{proof}
+    $D_1 = D_2 + (h) \hspace{10pt} f \in L(D_1) \Leftrightarrow (f) \geq -D_1 $ \\
+    $(hf) = (h) + (f) \geq (h) - D_1 = -D_2 \Leftrightarrow hf \in L(D_2)$ \\
+    Обратно: $f \in L(D_2) \rightarrow \frac{f}{h} \in L(D_1)$, т.е. умножение на $h$ задает изоморфизм.
+\end{proof}
+
+\begin{definition}
+    $L^{(1)}(D) = \{w \in \mathcal{M}^{(1)}_X: (w) \geq -D\}$ \\ 
+    $L^{(1)}(0)$ -- пространство голоморфных форм.
+\end{definition}
+
+\begin{lemma}
+    $D_1 \sim D_2 \Rightarrow L^{(1)}(D_1) \cong L^{(1)}(D_2)$
+\end{lemma}
+
+\begin{proof}
+    Аналогично
+\end{proof}
+
+\begin{lemma}
+    $L^{(1)}(D) \cong L(D + K)$, где $K = (w)$ -- канонический дивизор.
+\end{lemma}
+
+\begin{proof}
+    $f \in L(D + K) \Leftrightarrow (f) + D + K \geq 0$ \\
+    $fw \in \mathcal{M}^{(1)}_X \hspace{10pt} (fw) = (f) + K \geq -D \Rightarrow fw \in L^{(1)}(D)$ \\ 
+    Обратно $w' \in L^{(1)}(D) \Rightarrow \exists f \in \mathcal{M}_X $ (лемма лекция 7) \\
+    $(f) + D + \underset{=(w)}{K} = (fw) + D = (w') + D \geq 0$ \\
+    $f \in L(D + K)$
+\end{proof}
+
+\begin{theorem}
+    $X = \mathbb{C}_\infty, \hspace{10pt} D \in \Div \mathbb{C}_\infty, \Deg D \geq 0$ \\
+    $D = \sum_{i=1}^n {e_i \cdot \lambda_i} + e_\infty \cdot \infty$. $\hspace{10pt} \lambda_i \in \mathbb{C} = \mathbb{C}_\infty \setminus \{\infty\}$ \\
+    $f_D(z) = \prod_{i=1}^n (z - \lambda_i)^{-e_i}$, тогда $L(D) = \{g(z)f_D(z)\}$, где $g \in \mathbb{C}[z], \Deg g \leq \Deg D$
+\end{theorem}
+
+\begin{proof}
+    $L' = \{g(z)f_D(z)\}$, где $g \in \mathbb{C}[z], \Deg g \leq \Deg D$ \\
+    Возьмём $g \in \mathbb{C}[z], \Deg g = d$ \\
+    $(gf_D) + D = \underset{\geq -d \cdot \infty}{(g)} + \underset{=\sum(-e_i)\lambda_i + (\sum e_i) \cdot \infty}{(f_D)} + \underset{\sum e_i \lambda_i + e_\infty \cdot \infty}{D} = \\ = (-d + \sum e_i + e_\infty) \cdot \infty \geq 0 \Leftrightarrow d \leq \Deg D$ \\
+    Таким образом $d \leq \Deg d \Rightarrow gf_D \in L(D), L' \subset L(D).$ \\
+    Пусть $h = L(D) \setminus \{0\}, g = \frac{h}{f_D}$ \\
+    $(g) = (h) - (f_D) \geq -D - (f_D) = -(D + (f_D)) = -\underbrace{(\sum e_i + e_\infty)}_{\Deg D \geq 0} \cdot \infty \Leftrightarrow$ у $g$ нет полюсов кроме полюса порядка $\leq \Deg d$ в точке $\infty \Rightarrow g \in \mathbb{C}[z]$
+\end{proof}
+
+\begin{corollary}
+    $D = \Div \mathbb{C}_\infty$, тогда $\Dim L(D) =  \begin{cases}
+        0, \Deg D < 0 \\
+        1 + \Deg D, \Deg D > 0
+    \end{cases}$
+\end{corollary}
+
+\begin{theorem}
+    $D = \mathbb{C} / L$ \\
+    \begin{enumerate}
+        \item $\Deg D < 0 \Rightarrow L(D) = \{0\}$ 
+        \item $\Deg D > 0 \Rightarrow \Dim L(D) = \Deg D$
+        \item $\Deg D = 0$
+        \begin{enumerate}
+            \item $D \sim 0 \Rightarrow \Dim L(D) = 1$
+            \item $D \not \sim 0 \Rightarrow L(D) = \{0\}$
+        \end{enumerate}
+    \end{enumerate}
+\end{theorem}
+
+\begin{lemma}
+    $D \in \Div X. p \in X$
+    \begin{itemize}
+        \item Либо $L(D - p) = L(D)$
+        \item либо $\underbrace{\Dim L(D) / L(D - p)}_{\mathbf{codim}_{L(D)}L(D-p)} = 1$
+    \end{itemize}
+    $(D - p \leq D \Rightarrow L(D - p) \subseteq L(D))$ \\
+    $(\text{или } \Dim L(D) / L(D - p) \leq 1)$
+\end{lemma}
+
+\begin{proof}
+    $n = - D(p). f \in L(D) \Leftrightarrow$ в окрестности $p, \hspace{5pt} f$ имеет вид $cz^m + \ldots$ \\
+    Рассмотрим $\alpha: L(D) \rightarrow \mathbb{C}: f \mapsto c$ -- линейное отображение. \\
+    $\mathbf{Ker \,} \alpha = \{f: c = 0, \text{т. е. } \nu_p(f) > n\} = L(D - p)$. \\
+    Если $\alpha \equiv 0 \Rightarrow L(D) = \mathbf{Ker \,} \alpha = L(D - p)$ \\
+    Либо $L(D) / L(D - p) \cong \mathbb{C}$
+\end{proof}
+
+\begin{theorem}
+    $X$ -- компактная РП. $D \in \Div x$. Тогда $\Dim L(D) < \infty$. Именно, если $D = P - N \hspace{10pt} P, N > 0$ тогда $\Dim L(D) \leq 1 + \Deg P$
+\end{theorem}
+
+\begin{proof}
+    Индукция по $\Deg P$. \\
+    $\Deg P = 0 \Leftrightarrow P = 0, \hspace{5pt} L(P) = L(0) = O_x \cong \mathbb{C}$, т.е. $\Dim L(P) = 1$ \\ 
+    $D \leq P \Rightarrow L(D) \subseteq L(P) \Rightarrow \Dim L(D) \leq \Dim L(P) = 1 = 1 + 0 = 1 + \Deg P $ \\
+    Пусть верно для $\Deg P \leq k - 1$ \\
+    Рассмотрим для $\Deg P = k \geq 1$ \\
+    $\exists p \in supp \, P: P(p) \geq 1. \hspace{5pt} D - p = \underbrace{P - p}_{\geq 0} - N \hspace{30pt} \Deg(P - p) = k - 1$ \\
+    $\Rightarrow (\text{индукция}) \, \Dim(D - p) \leq 1 + \Deg (P - p) = k = \Deg P$ \\
+    $\Dim L(D) / L(D - p) = \Dim L(D) - \Dim L(D - p) \leq 1 \\$
+    $\Dim L(D) \leq 1 + \Dim L(D - p) \leq 1 + \Deg P$
+\end{proof}
+
+\begin{corollary}
+    $X$ -- компактная РП, $D \in \Div X$, тогда $\Dim L^{(1)} < \infty$
+\end{corollary}
+
+\begin{proof}
+    Следует из изоморфизма $\Dim L^{(1)}(D) \sim L(D + K)$
+\end{proof}
+
+\subsection{Линейные системы}
+
+\begin{definition}
+    $D \in \Div X$. Полной линейной системой $|D| = \{E \in \Div X: E \sim D, E \geq 0\}$
+\end{definition}
+
+\begin{lemma}
+    \hspace{} \\
+    \begin{enumerate}
+        \item $E \in |D|, |E| = |D|$
+        \item $X$ -- компактно, $\Deg D < 0 \Rightarrow |D| = \emptyset$
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+    $V$ -- конечномерное векторное пространство, проективизация V: $\mathbb{P}(V) = \{$множество линейных подпространств $ W \subset V, \Dim W = 1\}$ \\
+    $L(D)$, $\mathbb{P}(L(D))$ имеет смысл. 
+\end{definition}
+
+\begin{lemma}
+    $X$ - компактно, $S: \mathbb{P}(L(D)) \rightarrow |D|: <f> \mapsto (f) + D$ -- 1 к 1
+\end{lemma}
+
+\begin{proof}
+    $E \in |D|, E \sim D \Leftrightarrow E = (f) + D \geq 0 \Rightarrow (f) \in L(D)$ \\
+    $S(f) = E$, т.е. $S$ -- сюръективное. \\
+    Пусть $S(f) = S(g) \Leftrightarrow (f) + D = (g) + D \Rightarrow (f) = (g) \Rightarrow (\frac{f}{g}) = 0 \Rightarrow \\ \Rightarrow \frac{f}{g} \equiv \mathbf{const} \Rightarrow f = \lambda g \Rightarrow <f> = <g>$ 
+\end{proof}
+
+\begin{definition}
+    Линейной системой $\Lambda$ называется $\Lambda \subset |D|:$ \\ 
+    $S(\Lambda)$ -- линейное пространство $\mathbb{P}(L(D)).$
+\end{definition}
+
+\begin{definition}
+    $X$ -- РП, отображение \\ $\phi: X \rightarrow \mathbb{P}^n = \mathbb{P}^n(\mathbb{C})$ называется голоморфным в точке $p \in X$, если \\ $\exists g_0,\ldots, g_n \in O_{n, p}: \phi(x) = [g_0(x), \ldots g_n(x) ]$ в окрестности $p \in X.$ \\
+    $\phi$ голоморфное $\Leftrightarrow$ если оно голоморфно $\forall p \in X$.
+\end{definition}
+
+\begin{lemma}
+    Пусть $f = (f_0, \ldots f_n): f_i \in \mathcal{M}_X$. Такие, что не все \\ $f_i \equiv 0.$ $\phi_f: X \rightarrow \mathbb{P}^n:p \mapsto [f_0(p), \ldots, f_n(p)].$ \\
+    $\phi_f$ продолжается до голоморфного на всей РП $X$.
+\end{lemma}
+
+\begin{proof}
+$\phi_f$ не определена в $p$ если
+\begin{enumerate}
+    \item $ \exists i$ такое, что $p$ это полюс $f_i$.
+    \item $ \forall i$ такое, что $p$ ноль $f_i$.
+\end{enumerate}
+\end{proof}
+
+Т. е. $n = \min_{1 \leq i \leq n} \nu_p (f_i)$
+\begin{itemize}
+    \item $n < 0 \Rightarrow 1)$
+    \item $n > 0 \Rightarrow 2)$
+    \item $n = 0$ -- определено
+\end{itemize}
+
+Пусть $p: n = \min_{1 \leq i \leq n} \nu_p (f_i) = 0$. \\ 
+$z$ -- карта с центром в точке $p$ в окрестности $p$ без других нулей и полюсов. \\
+$g_i(z) = z^{-n}f_i{z}, \hspace{10pt} z \not = 0$. (т. е. при $x \not = p$) \\
+$\phi_f(z)=[f_0(z), \ldots, f_n(z)] = [z^n g_0(z), \ldots, z^n g_n(z)] = [g_0(z), \ldots g_n(z)]$, при $z \not = 0$.\\
+Но при $z = 0$ определено значение $[g_0(z), \ldots, g_n(z)]$, более того $m = \min \nu_p (g_i) \not = 0$
+
+\begin{lemma}
+$\phi: X \rightarrow \mathbb{P}^n$ -- голоморфное отображение, $\exists f = (f_0, \ldots, f_n), f_i \in \mathcal{M}_X: \phi = \phi_f$. Причем в однозначном смысле $\mathbb{P}^n$, т.е. если $g = (g_0, \ldots, g_n): \phi = \phi_g$, то $\exists h \in \mathcal{M}_X: \forall{i} g_i = hf_i.$
+\begin{proof}
+    Идея. $z_0 \not = 0, \hspace{5pt} e_i = \frac{z_i}{z_0}.$ \\
+    $(z_0, \ldots, z_n)$ -- однородные проективные координаты. \\
+    $f_i = \phi \circ e_i$ -- мероморфная.
+\end{proof} 
+\end{lemma}
+
+\begin{definition}
+    Пусть $\phi: X \rightarrow \mathbb{P}^n$ -- голоморфное отображение. $\phi = (f_0, \ldots, f_n), D = - \min_i (f_i)$, т.е. $D: \forall i \: f_i \in L(D) \Leftrightarrow -D \leq (f_i)$. \\
+    Пусть $V = <f_0, \ldots, f_n>$ -- линейная оболочка. \\
+    Линейной системой отображения $\phi$ называется $|\phi| = \{(g) + D: g \in V \}$ \\ $(|\phi| \subset |D| )$
+\end{definition}
+
+\begin{lemma}
+    $|\phi|$ корректно определена.
+\end{lemma}
+
+\begin{lemma}
+    $\phi: X \rightarrow \mathbb{P}^n$ -- голоморфное отображение, то $\forall p \in X \: \exists E \in |\phi|: p \not \in supp E$
+\end{lemma}
+
+\begin{proof}
+    $\phi = [f_0, \ldots, f_n]$. $D = - \min (f_i)$ \\
+    $D(p) = - k$, $k = \min_i \nu_p (f_i) $. Пусть $j$ -- на котором достигается минимум: $\nu_p(f_j) = k$. \\
+    Рассмотрим $E = (f_j) + D, E \in |\phi|$. \\
+    $E(p) = \nu_p(f_j) + D(p) = k - k = 0 \Rightarrow p \not \in supp D$
+\end{proof}
+
+\begin{definition}
+    $\Lambda$ - линейная система, $p \in X$ называется базисзной (особой) для $\Lambda$, если $\forall E \in \Lambda$. $p \in supp E$ \\
+
+    $\Lambda$ называется линейной системой без базисных точек если не существует базисных точек.
+\end{definition}
+
+\begin{corollary}
+    $|\phi|$ -- линейная система без базисных точек.
+\end{corollary}
+
+\begin{lemma}
+    $X$ - компактно. $D \in \Div X$ \\
+    $p \in X$ -- базисная точка линейной системы $|D| \Leftrightarrow \Dim L(D - p) = L(D)$ \\
+    $|D|$ без базисных точек $\Leftrightarrow \forall p: \Dim L(D - p) = L(D) - 1$
+\end{lemma}
+
+\newpage
+
+\begin{example}
+    \hspace{} \\
+    \begin{itemize}
+        \item $C_\infty, \forall D, \Deg D \geq 0, \Rightarrow |D|$ без базисных точек.
+        \item $\forall D \in \Div \mathbb{C} / L, \Deg D \geq 2 \Rightarrow |D|$ без базисных точек.
+    \end{itemize} 
+\end{example}
+
+\begin{theorem}
+    $X$ -- компактное, $\Lambda \subset |D|$ -- без базисных точек, $\Dim \Lambda = n$. Тогда существует голоморфное отображение $\phi: X \rightarrow \mathbb{P}^n: |\phi| = \Lambda$
+\end{theorem}
+
+Линейные системы без базисных точек соотвествуют голоморфным отображениям $\phi: X \rightarrow \mathbb{P}^n$
+
+\begin{theorem}
+    $X$ -- компактное, $|D|$ -- без базисных точек. $\phi_D: X \rightarrow \mathbb{P}^n$ голоморфным вложением, т. е. $\phi_D (X) = Y$ -- голоморфно вложенная поверхность.
+\end{theorem}
+
+\begin{example}
+    \hspace{}
+    \\
+    \begin{enumerate}
+        \item $\mathbb{C}_\infty \Deg D \geq 0, \phi_D$ определяет голоморфное вложение сферы.
+        \item $\mathbb{C} / L \Deg D \geq 3, \phi_D$ определяет голоморфное вложение тора.
+    \end{enumerate}
+\end{example}
+\end{document}

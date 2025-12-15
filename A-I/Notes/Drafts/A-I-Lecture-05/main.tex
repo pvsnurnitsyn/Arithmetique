@@ -1,0 +1,241 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{fullpage}
+\usepackage{cancel}
+
+% Окружения теорем (названия на русском)
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{fact}{Факт}
+\newtheorem{definition}{Определение}
+\newtheorem{remark}{Замечание}
+
+% Обозначения
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\wt}{\mathrm{wt}}
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Inv}{\mathrm{Inv}}
+\newcommand{\codim}{\mathrm{codim}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\begin{document}
+
+\section{Конечные поля}
+\begin{equation}
+    \Z /p \Z = \F_p = GF(p)
+\end{equation}
+\begin{equation}
+f,g \in \F_p[x]
+\end{equation}
+\begin{equation}
+    f \in \F_p[x] \text{ - неприводим}
+\end{equation}
+\begin{equation}
+    g |f \Rightarrow g\in \F_p or f= \alpha g
+\end{equation}
+\begin{equation}11
+gcd(f,g) = d = d(x)
+\end{equation}
+
+
+\begin{equation}
+    I: \forall f \in \F_p[x] \; f=c \prod f_i^{m_i} 
+\end{equation}
+
+$f_i$ - неприводимый унитарный
+
+% всё ок
+\begin{equation}
+    \F_p[x] - \text{кольцо главных идеалов} \; \forall \text{идеала } I \exists \text{неприводимый } f : I=(f)
+\end{equation}
+
+\begin{theorem}
+$f \in \F_p[x]$ - неприводимый. $F_p[x] / f$ - поле из $p^n$ элементов, $n=deg(f)$. Тогда $\F_p[x] /f, \; \Z/(p) = \F_p$
+\end{theorem}
+\begin{proof}
+$a(x) \in \F_p[x]$
+$\exists ! r(x) \in \F_p[x] : a \equiv r(f) \leftrightarrow f | a-r$
+$\exists ! $ доказательство
+Пусть $\exists r_1, r_2$
+$r_1 \equiv a(f), r_e \equiv a(f) \Rightarrow $ вы стёрли.........
+
+
+$r(x) = a_1x^{n-1} + ... + a_0$
+$a_1 \in \F_p$
+есть $p^n$ штук вот таких многочленов
+$| \F_p(x) / (f)| = p^n$
+Обозначим $O=(f)$
+\begin{equation}
+    E = \{ f \in \F_p[x] : g \equiv 1(f)
+\end{equation}
+$A \neq O$
+$a(x) \in A \Leftrightarrow f \; x \; a \Leftrightarrow (f,a) =(1) = \F_p[x] \Leftrightarrow \exists u,v \in \F_p[x]$
+$fu+av=1 \Rightarrow av=1(f)$
+то есть $V= [v(x)]$ класс в $\F_p[x]$
+
+Докажем единсвтенность
+
+$AW=E, W \neq V$
+$\exists w(x), w \cancel{\equiv} v(а)$
+$aw=1(f); av=1(f)$
+$a(w-v) = 0(f)$
+$fxa \Rightarrow f | w-v$
+\end{proof}
+
+Отсюда $q=p^n, \F_q=\F_p[x]/(f)$. $def(f) = r, f - $ неприводим
+
+\begin{theorem}
+    \begin{equation}
+        \forall n \ge 1 \exists f \in \F_p[x]
+    \end{equation}
+    неприводимый. $deg(f) = 1$
+\end{theorem}
+
+    Введём $N(g) = Ng=p(deg(g))$ для $g \in \F_p[x]$
+    Эта функция мультипликативна. $N(fg)=Nf \; Ng$
+    Аналог дзета функции. 
+    $\zeta (s) = \prod_p^*(1 - \frac{1}{(Nf)^s})^{-1}$
+    $\prod^*$ - произвдение по всем неприводимым унитарным многочленам из кольца
+    Область сходимости  $\zeta (s) = \sum_{n=1}^{\inf}\frac{1}{n^3} = \prod_{p - \text{простые}} (1 - \frac{1}{p^3})^{-1}$ при $Re(s) > 1$
+
+    \begin{equation}
+        \zeta = \prod_p^*(1 + \sum_{m=1}^{\inf} \frac{1}{(Nf)^{ms}})^{-1} = 
+        1 + \sum_{g}^{*} \frac{1}{(Nf)^{s}}
+    \end{equation}
+    \begin{equation}
+        \sum^* - \text{сумма по унитарным } g \in \F_p[x]
+    \end{equation}
+    \begin{equation}
+        = 1 \sum_{n=1}^{\inf} \sum_{g, deg(g) = n} = \frac{1}{(Ng)^s}
+    \end{equation}
+    \begin{equation}
+        = 1 + \sum_{n=1}^{\inf} p^n \frac{1}{p^{ns}}
+    \end{equation}
+    \begin{equation}
+        = (1-\frac{p}{p^s})^{-1}
+    \end{equation}
+Количество неприводимых унитарных мночленов где $deg(g) = n$ - $\nu (n) $
+
+\begin{equation}
+    \prod_{n=1}^{\inf} (1 - \frac{1}{p^{ns}})^{- \nu(n)} = 
+    \prod_f^* = (1 - \frac{1}{(Nf)^s})^{-1}
+\end{equation}
+прологорифмируем:
+\begin{equation}
+    \sum_{n=1}^{\inf} (-\nu(n) log(1-\frac{1}{p^{ns}} = -log(1 - \frac{p}{p^s})
+    \end{equation}
+    \begin{equation}
+    log(1-\tau) = \sum_{m=1}^{\inf} \frac{1}{m} \tau^m
+\end{equation}
+
+У доказательства есть бонус.
+\begin{equation}
+    \sum_{n=1}^{\inf} \nu(n) \sum_{l=1}^{\inf} \frac{1}{l} \frac{1}{p^{lns}} 
+    = \sum_{m=1}^{\inf} \frac{1}{m}\frac{p^m}{p^{ms}} 
+\end{equation}
+
+\begin{equation}
+    \sum_{n=1}^{\inf} \nu(n) \sum_{l=1}^{\inf} \frac{1}{l} \frac{1}{p^{lns}} 
+    = \sum_{n} \sum_l \frac{\nu(n)}{l}\frac{1}{p^{ms}} = 
+    \sum_{m=1}^{\inf} \sum _{n |m} \frac{\nu(n)}{m / n}\frac{1}{p^{ms}} = 
+\end{equation}
+
+\begin{equation}
+     = (\sum _{n |m} \nu(n) n)\frac{1}{m} \frac{1}{p^{ms}} = 
+\end{equation}
+\begin{equation}
+    \sum _{n |m} \nu(n) n = p^m
+\end{equation}
+\begin{equation}
+    \Rightarrow \nu(n) = \frac{1}{n} \sum _{d |m} \mu (d) p^{n/d} \cancel{=} 0 
+\end{equation}
+
+\begin{theorem}
+    \begin{equation}
+        \forall z \in \F_q^*, q - p^n, \F_q = \F_p[x]/(f)
+    \end{equation}
+    Тогда
+    \begin{equation}
+        z^{q-1} -1 = 0
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Пусть
+    \begin{equation}
+        g \in \F_p[x], Fxf
+    \end{equation}
+    \begin{equation}
+        \prod_r gr = \prod_r r(f)
+    \end{equation}
+    \begin{equation}
+        (g^{q-1} - 1) \prod r \equiv 0(f)
+    \end{equation}
+    Следовательно
+    \begin{equation}
+        \prod_{z \in \F_q} (x -z) = x^q - x
+    \end{equation}
+\end{proof}
+
+\begin{lemma}
+    \begin{equation}
+        f | x^q - x, deg(f) = d \Rightarrow
+    \end{equation}
+    $f$ имеет $d$ различных корней
+\end{lemma}
+\begin{proof}
+    \begin{equation}
+        x^q-x = f(x) g(x)
+    \end{equation}
+    f(x) - d корней, g(x) -  q-d корней
+
+    если $<d $ корней у f $\Rightarrow d+(q^1d) = 1$ у $x^q - x$ 
+\end{proof}
+\begin{theorem}
+    мультипликативная группа $\F_q^*$ циличская то содержит $\phi(q-1)$
+\end{theorem}
+\begin{proof}
+    \begin{equation}
+        m | q-1; \psi(m) - \text{число элементов поля}
+    \end{equation}
+    Если $\psi(m) > 0$, $\alpha \in \F^*_q -$ порядок $m$.
+    $1, \alpha, ..., \alpha^{m-1}$ - различны корни $x^m - 1$
+    это все корни $x^m - 1$
+    \begin{equation}
+        \forall \beta \in \F_q^* - \text{порядок }  | m
+    \end{equation}
+    \begin{equation}
+        \beta = \alpha^s, r\le s \le m-1
+    \end{equation}
+    если $(s,m) =d, \alpha^s$ - порядок $m/d$ \\
+    Было упражнение что 
+    \begin{equation}
+        \alpha^s \text{ порядок } m \Leftrightarrow (s,m)=1
+    \end{equation}
+    Таким образом если $\psi(m) > 0$ то $\psi(m) = \phi(m)$
+    \begin{equation}
+        \sum_{m | q-1} \psi(m) = q-1
+    \end{equation}
+    Мы знаем что
+    \begin{equation}
+        \sum_{m | q-1} \phi(m) = q-1
+    \end{equation}
+    Тогда
+    \begin{equation}
+        \sum_{m | q-1} (\phi(m) - \psi(m)) = 0 \Rightarrow 
+        \psi(q-1)=\phi(q-1) 
+    \end{equation}
+\end{proof}
+
+\end{document}

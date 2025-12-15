@@ -1,0 +1,62 @@
+%!TEX root = ../Quantum.tex
+
+% -----------------------Title Header-------------------------------------
+% \makepagestyle{titlepagestyle}
+% \makeevenhead{titlepagestyle}{}{}{}  % place page number in the center of footer
+% \makeoddhead{titlepagestyle}{}{}{}
+
+% % -----------------------Title Footer-------------------------------------
+% \makeevenfoot{titlepagestyle}{}{}{}
+% \makeoddfoot{titlepagestyle}{}{\Place, \Year}{}
+% \thispagestyle{titlepagestyle}
+% \aliaspagestyle{titlingpage}{titlepagestyle}
+% \definecolor{krypto_red}{RGB}{135, 43, 59}
+\AtBeginEnvironment{verse}{\singlespacing}
+\AtBeginEnvironment{tabular}{\singlespacing}
+
+\begin{singlespace}
+\begin{center}
+\includegraphics{logo}\\
+{\small
+\MakeUppercase{\Univer}\\
+\MakeUppercase{\Faculty}\\
+\MakeUppercase{\Department}\\[4\baselineskip]
+}
+\Author\\
+\textbf{
+  \Title\\[2\baselineskip]
+}
+\MakeUppercase{\WorkType}\\[3\baselineskip]
+\end{center}
+
+\vspace*{2\baselineskip}
+
+\noindent
+\ifx\SciAdvisor\empty
+%
+\else
+    \raggedleft
+    \begin{minipage}{0.58\textwidth}
+            \singlespace
+            \textbf{Лекторы:}\\
+            \Position
+            \ifx\AcademicDegree\empty
+                \\%
+            \else
+                , \AcademicDegree\\%
+            \fi
+            \SciAdvisor
+    \end{minipage}
+
+    \def\True{true}
+    \ifx\EnableSign\True
+    \vspace*{4\baselineskip}
+    \raggedleft
+    \begin{minipage}{0.58\textwidth}
+    {\small\textit{C текстом работы ознакомлен}}\\[2\baselineskip]
+    \underline{\hskip 11.5em} \SciAdvisorShort
+    \end{minipage}
+    \fi
+\fi
+
+\end{singlespace}

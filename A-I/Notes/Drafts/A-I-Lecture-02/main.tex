@@ -1,0 +1,245 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{Лекция №2 «Сравнения». Курс A-I}
+\author{Турашев Артём Сергеевич 619/2}
+\date{16 сентября 2025}
+
+\begin{document}
+
+\maketitle
+
+\newtheorem{definition}{Определение}
+
+\begin{definition}
+  a, b, m \in \mathbb{Z}, \quad m \neq 0 \newline \newline a \equiv b \thinspace (m) \quad (\textcyrillic{или по-другому} \quad a\equiv b \thinspace (\bmod \thinspace m)), \quad \textcyrillic{если} \quad m \vert b-a
+\end{definition}
+
+\newtheorem{example}{Пример}
+
+\begin{example}
+    b \bmod \thinspace 2 \quad (\textcyrillic{означает, что каждый а} \equiv 0; \thinspace 1)
+\end{example}
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    `` \thinspace \equiv \thinspace (m) " \thinspace - \textcyrillic{отношение эквивалентности} \newline (\textcyrillic{Упражнение})
+\end{lemma}
+
+\\~\\
+
+\mathbb{Z} разбивается на классы эквивалентности
+\newline
+$\overline{a}$ \thinspace = \thinspace \{ n \in \mathbb{Z}: n \equiv a \thinspace (m) \} = \{n = a + km\}
+
+\begin{definition}
+    $\overline{a}$ \textcyrillic{называется классами вычетов по} \bmod \thinspace m, \thinspace \textcyrillic{множество} \thinspace \{$\overline{a}\}$ - \textcyrillic{система вычетов}
+\end{definition}
+
+\begin{lemma}
+    1) $\overline{a}$ = $\overline{b}$ \Leftrightarrow a \equiv b \thinspace (m) \newline 2) \thinspace $\overline{a}$ \neq \thinspace $\overline{b}$ \Leftrightarrow \thinspace \thinspace $\overline{a}$ \cap $\overline{b}$ = \emptyset \newline 3) \vert \{ $\overline{a}$ : a \in \mathbb{Z} \} \vert = m \newline \textcyrillic{(Упражнение)}
+\end{lemma}
+
+\begin{definition}
+    \{ 0, 1, \dots, m-1 \} - \thinspace \textcyrillic{полная система вычетов}
+\end{definition}
+
+\begin{lemma}
+    \textcyrillic{Пусть} a \equiv c \thinspace (m), \thinspace b \equiv d \thinspace (m), \thinspace \textcyrillic{тогда} \newline 1) \thinspace a + b \equiv c + d \thinspace (m) \newline 2) \thinspace ab \equiv cd \thinspace (m) \newline \textcyrillic{(Упражнение)}
+\end{lemma}
+
+\\~\\
+
+Таким образом можем ввести операции на множестве \{$\overline{a}\}$: \newline \newline  $\overline{a}$ + $\overline{b}$ = $\overline{a + b}$ \newline \newline $\overline{a}$ $\overline{b}$ = $\overline{ab}$
+
+\begin{lemma}
+    \textcyrillic{Операции корректно определены} \newline (\textcyrillic{Упражнение})
+\end{lemma}
+\newline \newline
+(m) = \{\thinspace km: k \in \mathbb{Z} \} - \thinspace \textcyrillic{множество кратных m чисел \thinspace (идеал)}
+\newline \newline
+(2) = \{ 2k: k \in \textcyrillic{\mathbb{Z}}\} - \thinspace \textcyrillic{идеал}
+\newline \newline
+(2, 3) = \{ 2k_1 + 3k_2, \thinspace k_1, k_2 \in \mathbb{Z} \}
+\newline \newline
+\mathbb{Z} - \thinspace \textcyrillic{КГИ} \thinspace (\textcyrillic{кольцо главных идеалов})
+\newline \newline
+(2, 3) = (1) = \mathbb{Z}
+
+\begin{definition}
+    \textcyrillic{Пусть} \mathbb{R} - \thinspace \textcyrillic{коммутативное кольцо с единицей. Идеалом I кольца \mathbb{R} называется I \in \mathbb{R}}: \newline 1) \thinspace \forall x, y \in I \quad x + y \in I \newline 2) \thinspace \forall x \in I, \thinspace \forall r \in \mathbb{R} \quad rx \in I
+\end{definition}
+
+\textcyrillic{КГИ \Leftrightarrow \forall I \thinspace \exists v \in \mathbb{R} \quad I = (v)}
+
+\begin{definition}
+    a, b \in \mathbb{R}, \thinspace a \equiv b \thinspace (I) \Leftrightarrow a - b \in I
+\end{definition}
+
+Множество классов эквивалентности \mathbb{R} / I (это множество в общем случае является кольцом)
+\newline\newline
+Случай \mathbb{Z}:
+\newline\newline
+\{$\overline{a}\}$ = \mathbb{Z} / m \mathbb{Z} = \mathbb{Z} / (m)
+\newline\newline
+$\overline{a}$ = a + (m)
+
+\begin{example}
+    n = x^2 + y^2 \quad \textcyrillic{Какие целые числа представимы в виде суммы двух квадратов?}
+    \newline
+    p - \thinspace \textcyrillic{простое} \quad p = x^2 + y^2 \quad \textcyrillic{Если} \quad p \equiv 3 \thinspace (4), \thinspace \textcyrillic{то не преставимо}
+    \newline \newline
+    \square \quad \textcyrillic{Пусть} \quad p = x^2 + y^2, \thinspace x, y \in \mathbb{Z} \quad (\textcyrillic{х и у не могут быть одновременно чётными и нечётными}) 
+    \newline 
+    \textcyrillic{Если такое представление} \thinspace \thinspace \exists, \textcyrillic{то оно имеет такой вид:} 
+    \\~\\
+    p = (2n)^2 + (2m+1)^2 = 4n^2 + 4m^2 + 4m + 1 \equiv 1 \thinspace (4) 
+    \newline
+    \newline
+    \textcyrillic{Перешли:} \thinspace \thinspace \mathbb{Z} \rightarrow \mathbb{Z}/4\mathbb{Z}
+    \newline
+    p \equiv x^2 + y^2 \thinspace (4) \thinspace \thinspace (\textcyrillic{не имеет решений}) \Rightarrow \thinspace \textcyrillic{исходное тоже не имеет решений} \qquad \blacksquare
+\end{example}
+
+Либо возможна в алгебре такая идея (отличная от идеи в предыдущем случае): 
+\newline \newline 
+\mathbb{Q}, \mathbb{R} \rightarrow \mathbb{C}
+
+\newtheorem{theorem}{Теорема}
+
+\begin{theorem}
+    ax \equiv b \thinspace (m) \thinspace \thinspace \textcyrillic{разрешимо} \thinspace \Leftrightarrow d = (a, m) \vert b
+    \newline \newline
+    \square
+    \newline
+    \Rightarrow: \thinspace \exists x_0: \thinspace ax_0 \equiv b \thinspace (m) \quad ax_0 - b = my_0 \quad d \vert a, \thinspace \thinspace d \vert m \thinspace \rightarrow d \vert ax_0 - my_0 = b
+    \newline
+    \Leftarrow: \thinspace d = (a, m), \thinspace d \vert b \quad (\textcyrillic{это то же самое что} \quad b = cd)
+    \newline 
+    \exists x_0, y_0: \thinspace \thinspace d = ax_0 - my_0 \quad (\textcyrillic{это то же самое что} \quad d = (a, m))
+    \newline
+    b = cd = a(x_0c) - m(y_0c) \quad \textcyrillic{Перейдём по модулю} \thinspace \thinspace m \thinspace \thinspace \textcyrillic{и получим решение нашего сравнения.} \qquad 
+\end{theorem}
+
+Дополнение к утверждению: \textcyrillic{если} d \vert b, \thinspace \textcyrillic{а} \thinspace \thinspace x_0 - \textcyrillic{решение, то есть в точности} \thinspace \thinspace d \thinspace \thinspace \textcyrillic{решений:} 
+
+\newline
+x_0, \thinspace \thinspace x_0 + m' \thinspace \thinspace (\textcyrillic{где} \thinspace \thinspace m' = m/d), \thinspace \thinspace x_0 + 2m', \thinspace \thinspace \dots, \thinspace \thinspace x_0 + (d-1)m'
+
+    \textcyrillic{Пусть} x_0, x_1 - \textcyrillic{решения} \thinspace \thinspace ax_0 \equiv b \thinspace (m), \thinspace \thinspace ax_1 \equiv b \thinspace (m) \newline \newline a(x_0 - x_1) \equiv 0 \thinspace (m) \Leftrightarrow a(x_0 - x_1) = mk \newline \newline \quad d \vert b, \thinspace \thinspace d - \textcyrillic{наибольший общий делитель}, \thinspace \thinspace d = (a, m); \newline \newline a = a'd \quad  m = m'd \quad (a', m') = 1 \newline \newline a'(x_0 - x_1) = m'k \quad m' \vert a'(x_0 - x_1) \rightarrow m' \vert x_0 - x_1 \newline \newline x_1 = x_0 + k'm' \quad (x_0, \thinspace \thinspace x_0 + m', \thinspace \thinspace \dots, \thinspace \thinspace x_0 + (d-1)m' - \textcyrillic{попарно несравнимы по модулю} \thinspace \thinspace m ) \newline \newline x_0 + km' \equiv x_0 + lm' \thinspace (m) \newline \newline m'(k-l) \equiv 0 \thinspace (m) \newline \newline m \vert m'(k-l), \thinspace \thinspace m' < m \quad (\textcyrillic{причём} \thinspace \thinspace m \thinspace \thinspace \textcyrillic{и} \thinspace \thinspace m' - \textcyrillic{взаимно простые}) \rightarrow m \vert k-l \quad (0 \le k, \thinspace \thinspace l \le d-1 < m) \rightarrow k = l \qquad \blacksquare    
+
+\newtheorem*{consequence}{Следствие}
+
+\begin{consequence}
+    1) (a, m) = 1, \thinspace \thinspace \textcyrillic{то} \thinspace \thinspace ax \equiv b \thinspace (m) \thinspace \thinspace \textcyrillic{имеет единственное решение} \newline
+    2) \thinspace \thinspace m = p - \thinspace \textcyrillic{простое число, то} \thinspace \thinspace \forall a \not\equiv 0 \thinspace (p) \quad (a, p) = 1 \rightarrow \forall a \not\equiv 0 \thinspace (p) \quad \exists x: ax \equiv 1 (p) \qquad (\textcyrillic{то есть иными словами} \thinspace \thinspace \thinspace \mathbb{Z}/p\mathbb{Z} - \textcyrillic{поле})
+\end{consequence}
+
+\begin{definition}
+    \mathbb{R} - \textcyrillic{кольцо с единицей} \newline e \in \mathbb{R} \thinspace \thinspace \textcyrillic{называется единицей, если он обратим, то есть если:} \thinspace \thinspace \exists f \in \mathbb{R}: ef = 1
+\end{definition}
+
+\begin{consequence}
+    1) a \in \mathbb{Z}/m\mathbb{Z} - \textcyrillic{единица} \qquad \textcyrillic{(обратим)} \Leftrightarrow (a, m) = 1
+\end{consequence}
+
+\begin{example}
+    0, 1 \in \mathbb{Z}/2\mathbb{Z}
+\end{example}
+
+\begin{consequence}
+    2) \textcyrillic{число единиц в} \thinspace \mathbb{Z}/m\mathbb{Z} = \varphi(m) \qquad (\textcyrillic{где} \thinspace \thinspace \varphi - \textcyrillic{обозначение функции Эйлера})
+\end{consequence}
+
+\begin{definition}
+    \{ $\overline{a}$: (a, m) = 1\} \textcyrillic{называется приведенной системой вычетов}
+\end{definition}
+
+\begin{theorem}
+    (\textcyrillic{Эйлер}) (a, m) = 1 \rightarrow a^{\varphi(m)} \equiv 1 \thinspace (m) \newline \newline \square \quad \textcyrillic{Пусть} \thinspace \thinspace \thinspace r_1, \dots, r_{\varphi(m)} - \textcyrillic{приведенная система вычетов} \quad ar_1, \dots, ar_{\varphi(m)} - \newline \textcyrillic{тоже приведенная система вычетов} \newline \newline \prod_{i = 1}^{\varphi(m)}(ar_i) \equiv \prod_{i = 1}^{\varphi(m)}r_i \thinspace (m) \newline \newline a^{\varphi(m)} \prod r_i \equiv \prod r_i \thinspace (m) \newline \newline \textcyrillic{Получается, что} \thinspace \thinspace a^{\varphi(m)} \equiv 1 \thinspace (m) \qquad \blacksquare \newline \newline \square \thinspace \thinspace \textcyrillic{Второй вариант доказательства:} \qquad \mathbb{R}^* - \textcyrillic{единица кольца, группа. Таким образом} \thinspace \thinspace (\mathbb{Z}/m\mathbb{Z})^* - \textcyrillic{группа}, \thinspace \varphi(m) - \textcyrillic{порядок} \rightarrow \forall a \in (\mathbb{Z}/m\mathbb{Z})^* \quad a^{\varphi(m)} \equiv 1 \thinspace (m) \qquad \blacksquare
+\end{theorem}
+
+\\~\\
+
+Раздел Китайская теорема об остатках (КТО)
+
+\begin{lemma}
+     a_1, \dots, a_t  \quad a_i \vert n, \textcyrillic{они попарно взаимно просты, то есть} \thinspace \thinspace (a_i, a_j) = 1 \rightarrow a_1...a_t \vert n \newline \textcyrillic{(Упражнение)} 
+\end{lemma}
+
+\begin{theorem}
+    (\textcyrillic{Китайская теорема об остатках (КТО)}) \textcyrillic{Пусть} \thinspace \thinspace m = m_1...m_t, \thinspace \thinspace (m_i, m_j) = 1, \thinspace \thinspace i \neq j. \quad b_1, \dots, b_t \in \mathbb{Z}. \thinspace \thinspace \textcyrillic{Тогда система уравнений:} \newline \newline \left\{ \begin{aligned} 
+        x \equiv b_1 \thinspace (m_1),\\
+        \dots,\\
+        x \equiv b_t \thinspace (m_t). 
+    \end{aligned} \right \newline \newline
+    \textcyrillic{разрешима (то есть имеет решение). Если} \thinspace \thinspace x, y - \textcyrillic{решение, то} \thinspace \thinspace x \equiv y \thinspace (m) \newline \newline \square \quad n_i = m / m_i \thinspace \thinspace \textcyrillic{По лемме} \thinspace \thinspace (n_i, m_i) = 1 \quad \exists r_i, s_i: r_im_i + s_in_i = 1, \thinspace \textcyrillic{где} \thinspace \thinspace e_i = s_in_i \newline \newline e_i \equiv 1 \thinspace (m_i) \quad e_i \equiv 0 \thinspace (m_j), \quad j \neq i \newline \newline \textcyrillic{Возьмём} \thinspace \thinspace x = \sum_{i=1}^{t} b_ie_i \quad x \equiv b_ie_i \thinspace (m_i) \newline \newline y - \textcyrillic{другое решение} \newline \newline x - y \equiv 0 \thinspace (m_i) \Leftrightarrow m_i \vert x - y \thinspace \rightarrow m = \prod m_i \vert x - y \qquad \blacksquare
+\end{theorem}
+
+\\~\\
+
+\textcyrillic{Кольцо многочленов}
+\newline \newline
+F - поле
+
+\begin{definition}
+    F[x] = \{f = a_0 + a_1x + \dots + a_nx^n \quad a_i \in F, \thinspace \thinspace a_n \neq 0\}
+\end{definition}
+
+deg f = n (\textcyrillic{степень} \thinspace \thinspace f = n)
+
+\begin{lemma}
+    F[x] - \textcyrillic{кольцо (коммутативное с единицей)} \newline (\textcyrillic{Упражнение})    
+\end{lemma}
+
+\begin{definition}
+    f \in F[x] \qquad f - \textcyrillic{унитарный, если} \thinspace \thinspace a_n = 1 \newline \newline f - \textcyrillic{неприводимый, если} \thinspace \thinspace g \vert f \rightarrow g \in F \lor \thinspace g = f
+\end{definition}
+
+\\~\\
+
+f = gh \newline (f, g) = d - \textcyrillic{НОД} \qquad d \vert f \qquad d \vert h \qquad d' \vert f \qquad d' \vert h \quad \rightarrow \quad  d' \vert d
+
+\begin{lemma}
+    f \in F[x], \thinspace \thinspace deg \thinspace f > 1 \rightarrow f(x) = \prod p(x) \thinspace \thinspace (p - \textcyrillic{неприводимый}) \newline \newline \square \quad \textcyrillic{как в} \thinspace \thinspace \mathbb{Z}, \thinspace \thinspace \textcyrillic{только вместо} \thinspace \thinspace \vert . \vert \thinspace \thinspace deg \thinspace (.) \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    \forall f, g \in F[x], \thinspace g \neq 0 \quad \exists h, r \in F[x] \quad f = gh + r, \thinspace \textcyrillic{где либо} \thinspace \thinspace r = 0 \thinspace \thinspace \textcyrillic{либо} \thinspace \thinspace deg \thinspace r < deg \thinspace f \newline \textcyrillic{(Упражнение)}
+\end{lemma}
+
+\begin{lemma}
+    1) F[x] - \textcyrillic{КГИ}, \quad 2)f, g \in F[x] \quad \exists d \in F[x] \quad (f, g) = (d) \quad d - \textcyrillic{НОД} \thinspace \thinspace (f, g) \newline (\textcyrillic{Упражнение})
+\end{lemma}
+
+\begin{lemma}
+    1) (f, g) = 1 \Leftrightarrow \exists r, s \in F[x] \quad rf + sg = 1 \newline 2) (f, g) = 1, \thinspace \thinspace f \vert gh \rightarrow f \vert h \newline 3) p - \textcyrillic{неприводимый}, \thinspace \thinspace p \vert fg \thinspace \thinspace \rightarrow \thinspace \thinspace p \vert f \lor p \vert h
+\end{lemma}
+
+\begin{definition}
+    p(x) \in F[x] - \textcyrillic{неприводимый}, \thinspace \thinspace f(x) \in F[x] \quad f(x) = p(x)^a f_1(x) \quad (\textcyrillic{где} \thinspace \thinspace f_1(x) - \textcyrillic{какой-то другой многочлен})
+\end{definition}
+
+pf_1: \quad a = \nu_{p(x)}(f(x)) \quad (\textcyrillic{или по-другому} \thinspace \thinspace \thinspace ord_{p(x)}(f(x)))
+
+\begin{lemma}
+    \nu_{p}(fg) = \nu_{p}(f) + \nu_{p}(g)
+\end{lemma}
+
+\begin{theorem}
+    \forall f \in F[x] \thinspace \thinspace \exists! \thinspace \thinspace f(x) = c \prod_{p - \textcyrillic{неприводим}}p(x)^{a(p)}, \quad a(p) = \nu_{p}(f) \thinspace \thinspace (\textcyrillic{где} \thinspace \thinspace c - \textcyrillic{константа})
+\end{theorem}
+
+\end{document}

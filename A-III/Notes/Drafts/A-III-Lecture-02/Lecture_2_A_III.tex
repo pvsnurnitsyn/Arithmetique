@@ -1,0 +1,288 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{fullpage}
+\usepackage{cancel}
+
+%\usepackage{indentfirst}
+%\usepackage{amsfonts}
+%\usepackage{multirow}
+%\usepackage{graphicx}
+%\usepackage{algpseudocode}
+%\usepackage{indentfirst}
+%\usepackage{titlesec}
+
+% Окружения теорем (названия на русском)
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{fact}{Факт}
+\newtheorem{definition}{Определение}
+\newtheorem{remark}{Замечание}
+
+% Обозначения
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\wt}{\mathrm{wt}}
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Inv}{\mathrm{Inv}}
+\newcommand{\codim}{\mathrm{codim}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\begin{document}
+
+\section{Функции на римановых поверхностях}
+    \begin{definition}
+        $X$ --- РП, $p\in X$, $W\subset X$ --- окрестность $p$. $f:W\to \mathbb{C}$ --- функция называется голоморфной (аналитической) в $p$, если $\exists$ карта $\varphi:U\to V$, $p\in U:$ $f\circ \varphi^{-1}$ голоморфно в $\varphi(p)$.
+        
+        $f$ --- голоморфно на $W$, если голоморфно $\forall g\in W$.
+    \end{definition}
+
+    \begin{lemma}
+        $X$, $p\in X$, $W\subset X$, $f:W\to \mathbb{C}$ как выше. Тогда:
+
+        1) $f$ голоморфна в $p$ $<=>$ $\forall$ карты $\psi:U\to V$, $p\in U:$ $f\circ \varphi^{-1}$ голоморфно в $\psi(p)$;
+
+        2) $f$ голоморфно на $W$ $<=>$ $\exists$ $(\varphi_\alpha:U_\alpha\to V_\alpha)$, $W\subset \bigcup U_\alpha$, $\forall \alpha$, $f\circ \varphi_\alpha^{-1}$ голоморфно на $\varphi_\alpha(W\bigcap U_\alpha)$;
+
+        3) $f$ голоморфно в $p$ $<=>$ $f$ голоморфно в окр. $p$.
+    \end{lemma}
+
+    \begin{proof}
+        1) $\varphi$ --- карта из определения, 
+        
+        $f\circ \varphi^{-1}=(f\circ \varphi^{-1})\circ(f\circ \varphi^{-1})$ --- голоморфно.
+
+        Урп.: 1) $=>$ 2),3).
+    \end{proof}
+
+    \begin{lemma}
+        Если $f,g$ --- голом. в $p$ (на $W$), то $f\pm g$, $fg$ --- голом. в $p$ ($W$).
+    \end{lemma}
+
+    \begin{proof}
+        Урп.
+    \end{proof}
+    
+    \begin{definition}
+        $\mathcal{O}_{x,w}=\mathcal{O}_w=\{f:W\to\mathbb{C}$ --- голом.$\}$ называется кольцом голоморфных функций.
+    \end{definition}
+
+    $\textbf{Примеры.}$ 1) $\varphi:U\to V$ --- карта;
+
+    2) $X=\mathbb{C}_\infty$, $f(z)$ --- голом. в окр. $\infty$ $<=>$ $f(\frac{1}{z})$ голом. в окр. $0$.
+
+    Если $f(z)=\frac{p(z)}{q(z)}$ --- рациональная функция ($p,q\in\mathbb{C}[z]$), $f$ голом. в окр. $\infty$ $<=>$ $\mathrm{deg}\,\, p \le \mathrm{deg}\,\,g$;
+
+    3) $X=\mathbb{P}^1$. $p(z,w),q(z,w)\in\mathbb{C}[w,d]_d$, $p=[z_0:w_0]$, $q(z_0,w_0) \ne 0$, тогда $f([z:w])= \frac{p(z,w)}{q(z,w)}$ --- голом. в окр. $p=[z_0:w_0]$;
+
+    4) $X=\mathbb{C}/L$, $\pi:\mathbb{C}\to\mathbb{C}/L:z\to z\,\, \mathrm{mod}\,\,L$, $f$ голом. в $p$ $<=>$ $\exists$ прообраз $z$ точки $p$: $f\circ \pi^{-1}$ голом. в $z$;
+
+    5) $X\subset \mathbb{P}^2$ --- гладкая проективная кривая $F(x,y,z)=0$, $p=[x_0,y_0,z_0]\in U_0=\{x\ne0\}$, $\frac{y}{x}$, $\frac{z}{x}$ --- голом. функции.
+
+    $\forall g$ --- многочлен, $g(\frac{y}{x}, \frac{z}{x})$ голом.
+
+    $f=\frac{G}{H}$, $G,H\in\mathbb{C}[x,y,z]_d$, $H(x_0,y_0,z_0)\ne 0$ --- голом. функции.
+
+    \section{Ряды Лорана и особые точки}
+
+    Если $f:\mathbb{C}\to \mathbb{C}$ --- голом. в кольце $r<(z-z_0)<R$, $0\le r< R$, то $\exists!$ разложение в ряд Лорана (РЛ): 
+
+    $f(z)=\sum_{n=-\infty}^{+\infty}c_n(z-z_0)^n$, $c_n=\frac{1}{2\pi i}\int_{|z-z_0|=p}^{}\frac{f(z)dz}{(z-z_0)^{n+1}}$.
+
+    \vspace{0.5cm}
+    \textbf{Типы (изолированных) особых точек.}
+
+    1) Устранимая: $\forall n<0$, $c_n=0$;
+
+    2) Полюс: $c_n\ne 0$ для конечного числа $n<0$, т. е. $f(z)=\sum_{n\ge -N}c_n(z-z_0)^n$;
+
+    3) Существенно особая точка: $\exists$ беск. много $n<0$: $c_n\ne 0$.
+
+    \begin{definition}
+        $X$ --- РП, $p\in X$, $W$ --- окр. $p$.
+
+        1) $p$ --- устранимая особенность, если $\exists$ карта $\varphi$: $\varphi(p)$ --- устранимая особенность для $f\circ \varphi^{-1}$;
+
+        2) $p$ --- полюс, если $\exists\varphi$: $\varphi(p)$ --- полюс для $f\circ \varphi^{-1}$;
+
+        3) $p$ --- существенно особая, если $\exists\varphi$: $\varphi(p)$ --- существенно особая для $f\circ \varphi^{-1}$.
+    \end{definition}
+
+    \begin{lemma}
+        $f$ имеет изолированную особую точку типов 1,2,3 $<=>$ $\forall$ карты $\psi$, $\psi(p)$ --- изолированная особая точка $f\circ \varphi^{-1}$ типов 1,2,3.
+    \end{lemma}
+
+    \begin{proof}
+        Урп.
+    \end{proof}
+
+    \begin{definition}
+        $X$ --- РП, $f:X\to \mathbb{C}$, $p\in X$, $f$ называется мероморфной в $p$, если либо $f$ голоморфно в $p$, либо имеет или устранимую ОТ или полюс в $p$.
+
+        $f$ называется мероморфной на $W$, если $f$ мероморфно в $q$, $\forall q\in W$.
+    \end{definition}
+
+    \begin{lemma}
+        $f$, $g$ --- мероморфны в $p$ (на $W$), то $f\pm g$, $fg$ --- мероморфны; если $g\not\equiv 0$, то $\frac{f}{g}$ --- мероморфны в $p$ (на $W$).
+    \end{lemma}
+
+    \begin{proof}
+        Урп. Замечание про $\frac{f}{g}$: Теорема из комплексного анализа: если $f:\mathbb{C}\to \mathbb{C}$ мероморфно на $W\subset \mathbb{C}$ --- открытом связном множестве, то множество нулей и полюсов дискретно (изолировано).
+    \end{proof}
+
+    \begin{definition}
+        $M_{X,W}=M_W=\{f:W\to \mathbb{C}$ --- мероморфны$\}$ называется полем мероморфных функций.
+    \end{definition}
+
+    $\textbf{Примеры.}$ 1) $X=\mathbb{C}$ --- определение мероморфности совпадает с комплексным анализом;
+
+    2) $X=\mathbb{C}_\infty $: $f$ мероморфно в $\infty$ $<=>$ $f(\frac{1}{z})$ мероморфно в 0.
+
+    Если $f(z)=\frac{p(z)}{q(z)}$ --- рациональная функция, то она мероморфна в $\infty$. Т. о. рациональные функции $\in M_{\mathbb{C}_\infty}$;
+
+    3) $X=\mathbb{P}^1$. $f([z:w])= \frac{p(z,w)}{q(z,w)}$, $p,q\in\mathbb{C}[z,w]_d$ --- мероморфная функция:
+
+    ($\varphi=\varphi_1$: $\underset{\{w\ne0\}}{U}\to \mathbb{C}$, $\varphi([z:w])= \frac{z}{w}$, $\varphi^{-1}(u)=[u:1]$, $(f\circ \varphi^{-1})(u)=f(\varphi^{-1}(u))=\frac{p(u,1)}{q(u,1)}$ рациональная мероморфная функция, $z\ne0$ --- аналогично);
+
+    4) $X=\mathbb{C}/L$, $\pi:\mathbb{C}\to\mathbb{C}/L$, $f$ мероморфно на $W$ $<=>$ $g=f\circ\pi$ мероморфно на $\pi^{-1}(w)$, $g(z+\omega)=g(z), \forall \omega\in L$;
+
+    5) $X: F(x,y,t)=0$, $G,H\in\mathbb{C}[x,y,z]_d$, $H\ne0$, $\frac{G(x,y,z)}{H(x,y,z)}$ --- мероморфно на $F$.
+
+    \begin{definition}
+        $X$ --- РП, $f$ мероморфно в $p\in X$, $z=\varphi(X)$ --- карта, $\varphi(p)=z_0$, $f(\varphi^{-1}(z))=\sum_{n\ge c_N}^{}c_n(z-z_0)^n$ --- Ряд Лорана (РЛ), $c_N\ne0$, $N$ называется порядком функции $f$ в $p$ (Обозн. $\nu_p(f)=N$).
+    \end{definition}
+
+    \begin{lemma}
+        $\nu_p(f)$ корректно определено.
+    \end{lemma}
+
+    \begin{proof}
+        Пусть $\psi$ --- другая карта $w=\psi(x)$, $\psi(p)=w_0$, функция склейки $T=\varphi\circ \psi^{-1}$, $T(w)=z$: $z=T(w)=z_0 + \sum_{k\ge1}^{}a_k(w-w_0)^k$, $a_1\ne0$. Тогда $\sum_{m\ge M}c_m'(w-w_0)^m=f(\psi^{-1}(w))=f(\varphi^{-1}(T(w)))=\sum_{n\ge N}c_n(\sum_{k\ge 1}a_k(w-w_0)^k)^n$ $=>$ $M=N$, $c_M'=c_Na_1^N\ne0$.
+    \end{proof}
+
+    \begin{lemma}
+        Пусть $f$ --- мероморфно в $p\in X$, тогда
+
+        1) $f$ голоморфно в $p$ $<=>$ $\nu_p\ge0$;
+
+        2) $f(p)=0$ $<=>$ $\nu_p(f)>0$;
+
+        3) $p$ --- полюс $f$ ($f(p)=\infty$) $<=>$ $\nu_p(f)<0$;
+
+        4) $p$ не нуль и не полюс $<=>$ $\nu_p(f)=0$.
+    \end{lemma}
+
+    \begin{proof}
+        Урп.
+    \end{proof}
+
+    \begin{lemma}
+        1) $\nu_p(fg)=\nu_p(f)+\nu_p(g)$;
+
+        2) $\nu_p(\frac{1}{f})=-\nu_p(f)$, $\nu_p(\frac{f}{g})=\nu_p(f)-\nu_p(g)$;
+
+        3) $\nu_p(f\pm g)\ge \mathrm{min}(\nu_p(f),\nu_p(g))$.
+    \end{lemma}
+
+    \begin{proof}
+        Урп.
+    \end{proof}
+
+    Т. о. $w$ --- окр. $p$, $0<\rho<1$, $\varphi_p(f)=\rho^{\nu_p(f)}$ --- неархимедова метрика поля $\mu_w$.
+
+    $\textbf{Пример.}$ $X=\mathbb{C}_\infty$, $f=\frac{p}{q}$, $f=c\prod(z-\lambda_i)^{e_i}$, $\lambda_i$ --- корни $p$ или $q$, $\nu_{_{\lambda_i}}(f)=e_i$, $\nu_\infty(p)= \mathrm{deg}\,\,q-\mathrm{deg}\,\,p=-\sum e_i$ $=>$ $\sum_{p\in X}\nu_p(f)=\sum e_i-\sum e_i=0$.
+
+    \section{Сфера $\mathbb{C}_\infty$} 
+
+    \begin{theorem}
+        $\forall f\in M_{\mathbb{C}_\infty}$, $f=\frac{p}{q}$ --- рациональная функция.
+    \end{theorem}
+
+    \begin{proof}
+        Множество нулей и полюсов $f$ дискретно, а $\mathbb{C}_\infty$ --- компакт, т. е. замкн. огр. $=>$ $f$ имеет только конечное число "$0,\infty$" $(\lambda_i)_{1\le i \le k}$. $\nu_{_{\lambda_i}}(f)=e_i$, Пусть $r(z)=\prod_{i=1}^k(z-\lambda_i)^{e_i}$, $r$ --- рациональная функция (причём $0$ и $\infty$ и $\nu$ совпадают с $0$ и $\infty$ и $\nu$ функции $f$ на $\mathbb{C}_\infty\smallsetminus \infty=\mathbb{C}$). Пусть $g(z)=\frac{f(z)}{r(z)}$ --- мероморфная функция, нет $0$ и $\infty$ в $\mathbb{C}_\infty\smallsetminus \infty=\mathbb{C}$ $=>$ $g$ --- голоморфна на $\mathbb{C}$, т.е. $g(z)=\sum_{n=0}^\infty c_nz^n$. $g$ мероморфно в $\infty$, $g(\frac{1}{z})=g(w)$, $w=\frac{1}{z}$, $g(w)=\sum_{n=0}^\infty c_nw^{-n}$ --- мероморфна $=>$ $\exists N$: $\forall n \ge N$ $c_n=0$ $=>$ $g\in\mathbb{C}[z]$. Если $g\ne \mathrm{const}$, $\exists z_0:$ $g(z_0)=0$ $=>$ $?!!$ $=>$ $g= \mathrm{const}$, $f=cr$.
+    \end{proof}  
+
+    \begin{corollary}
+        $\forall f\in M_{\mathbb{C}_\infty}$, $\sum_{p\in\mathbb{C}_\infty}\nu_p(f)=0$.
+    \end{corollary} 
+
+    \section{Проективная прямая $\mathbb{P}^1$}
+
+    Если $p,q\in\mathbb{C}[z,w]_d$, $q\ne0$, $f=\frac{p}{q}$: $f(z,w)=w^df(\frac{z}{w},1)=w^dc\prod(\frac{z}{w}-\lambda_i)^{e_i}=\prod(b_iz-a_iw)^{e_i}$.
+
+    \begin{theorem}
+        $\forall f\in M_{\mathbb{P}^1}$, $f=\frac{p}{q}$, $p,q\in\mathbb{C}[z,w]_d$.
+    \end{theorem}
+
+    \begin{proof}
+        Урп., аналогично $\mathbb{C}_\infty.$
+    \end{proof}
+
+    \begin{corollary}
+        $\forall f\in M_{\mathbb{P}^1}$, $\sum\nu_p(f)=0$.
+    \end{corollary} 
+
+    \section{Тор $\mathbb{C}/L$}
+
+    $L=L(1,\omega)=L_\omega$, $\omega\in \mathbb{H}=\{z:Im  \,\,z>0\}$. $\theta(\omega,z)=\theta_\omega(z)=\sum_{l\in \mathbb{Z}} e^{\pi i (2lz+l^2\omega)}$, $\theta(\omega)=\theta(\omega,0)$, $\theta_\omega(z+1)=\theta_\omega(z)$, $\theta_\omega(z+w)=e^{-\pi i (2z+w)}\theta_\omega(z)$, $\forall z\in \mathbb{C}$. (Упр.)
+
+    \begin{lemma}
+        1) $\theta_\omega$ голоморфна на $\mathbb{C}$;
+
+        2) $\theta_\omega(z_0)=0$ $<=>$ $\theta_\omega(z_0+m+n\omega)=0$, $\forall m,n\in\mathbb{Z}$;
+
+        3) $\nu_{z_0}(\theta_\omega)=\nu_{z_0+m+n\omega}(\theta_\omega)$;
+
+        4) Нули имеют вид: $z_0=\frac{1}{2}+\frac{\omega}{2}+m+n\omega$, $\nu_{z_0}(\theta_\omega)=1$.
+    \end{lemma}
+
+    \begin{proof}
+        Урп.; надо рассмотреть $\int_{p(1,\omega)}\frac{\theta'(z)}{\theta(z)}dz$.
+    \end{proof}
+
+    $\textbf{Обозн.}$ $\theta_\omega^{(x)}(z)=\theta_\omega(z-\frac{1}{2}-\frac{\omega}{2}-x)$.
+
+    \begin{lemma}
+        $\theta_\omega^{(x)}(z+1)=\theta_\omega^{(x)}(z)$, $\theta_\omega^{(x)}(z+\omega)=-e^{-2\pi i(z-x)}\theta_\omega^{(x)}(z)$.
+    \end{lemma}
+
+    \begin{theorem}
+        $x_i,y_i\in\mathbb{C}$, $1\le i \le d$: $\sum_{i=1}^{d}x_i-\sum_{i=1}^{d}y_i\in\mathbb{Z}$, Тогда $f=\prod_{i=1}^{d}\theta_\omega^{(x_i)}(z)/\prod_{i=1}^{d}\theta_\omega^{(y_i)}(z)\in M_{\mathbb{C}/L}$ (Или $f$ мероморфно на $\mathbb{C}$ и $L$-периодическая).
+    \end{theorem}
+
+    \begin{proof}
+        $f$ --- мероморфно, т.к. $\theta_\omega^{(x)}$ голоморфно, $f(z+1)=f(z)$ --- из $\theta_\omega^{(x)}$. $f(z+\omega)=\prod_{i}\theta_\omega^{(x_i)}(z+\omega)\prod_{j}(\theta_\omega^{(y_j)}(z+\omega))^{-1}= 
+        \prod_{i}(-e^{-2\pi i(z-x_i)}\theta_\omega^{(x_i)}(z))\prod_{j}(-e^{-2\pi i(z-y_j)}\theta_\omega^{(y_j)}(z))^{-1}=
+        e^{-2\pi i(\sum y_i- \sum x_i)}f(z)=f(z)$.
+    \end{proof}  
+
+    \begin{remark}
+        Идея похожа на $\mathbb{P}^1$, $\mathbb{P}^1=\{[z:w]=[\lambda z: \lambda w]\}= \mathbb{C}^2_{\ne(0,0)}/\mathbb{C}^*$, т.е. $\mathbb{C}^*$ действует на $\mathbb{C}^2_{\ne(0,0)}$ умножениями $(z,w)\to (\lambda z, \lambda w)$.
+
+        $f\in M_{\mathbb{P}^1}$, $f=\frac{p(z,w)}{q(z,w)}$ --- инвариантны относительно этого действия, $f(\lambda z, \lambda w)=\frac{\lambda^dp(z,w)}{\lambda^dq(z,w)}=f(z,w)$.
+    \end{remark}
+
+    \section{Гладкие кривые}
+
+    \begin{theorem}
+        $X$ --- гладкая афинная кривая $f(x,y)=0$, $f\in\mathbb{C}[x,y]$ --- невырожденный многочлен, $p,q\in\mathbb{C}[x,y]$, $f\nmid  q$. тогда $h=\frac{p}{q}\in M_x$.
+    \end{theorem}
+
+    \begin{theorem}
+        $X$ --- гладкая проективная кривая $F(x,y,z)=0$, $P,Q\in\mathbb{C}[x,y,z]_d$, $F\nmid Q$, тогда $H=\frac{P}{Q}\in M_x$.
+    \end{theorem}
+
+    \begin{theorem}(Гильберта о нулях)
+        Пусть $f\in\mathbb{C}[x,y]$ --- неприводимый многочлен, $g\in\mathbb{C}[x,y]$: $g(x,y)=0$ $\forall (x,y):f(x,y)=0$, тогда $f|g$.
+    \end{theorem}
+\end{document}

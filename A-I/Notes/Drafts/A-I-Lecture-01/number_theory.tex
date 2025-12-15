@@ -1,0 +1,55 @@
+%!TEX options=-shell-escape
+%!TEX program=pdflatex
+
+\newcommand*{\memfontpack}{tempora}
+\input{config.tex}
+\documentclass[
+    a4paper,
+    article,
+    oneside,
+    onecolumn,
+    14pt,
+    extrafontsizes,
+    openright,
+    \Status,
+    colorthm
+]{civarticle}
+
+% \usepackage[% 
+%   backend=biber, %подключение пакета biber
+%   bibstyle=gost-numeric, %подключение одного из четырех главных стилей biblatex-gost 
+%   citestyle=numeric-comp, %подключение стиля 
+%   language=auto, %указание сортировки языков
+%   sorting=none, %тип сортировки в библиографии
+%   doi=true, 
+%   eprint=false, 
+%   isbn=false, 
+%   dashed=true, 
+%   url=true
+% ]{biblatex}
+
+%Полезный условный оператор
+\usepackage{ifthen}
+\usepackage{braket}
+\usepackage{hyperref}
+\usepackage[doublespacing]{setspace}
+\usepackage[math]{blindtext}
+\usepackage{tcolorbox}
+\usepackage[math]{blindtext}
+
+\begin{document}
+    %Титульная страница
+    \input{styles/title}
+
+    %Вставляем оглавление
+    \clearpage
+    \tableofcontents
+    \clearpage
+
+    %Вставляем основное содержание
+    \Source
+
+    %Печатаем библиографию
+    \clearpage
+    %\printbibliography
+\end{document}

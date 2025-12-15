@@ -1,0 +1,172 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+
+\title{Лекция №8 «Характеры. Суммы Гаусса». Курс A-I}
+\author{Кучерин Георгий Дмитриевич 619/2}
+\date{28 октября 2025}
+
+\begin{document}
+
+\maketitle
+
+Везде G - конечная абелева группа
+
+\newtheorem{definition}{Определение}
+
+\begin{definition}
+    \textcyrillic{Характером} \quad G \quad \textcyrillic{называется} \quad \textcyrillic{голом} \quad \chi: G \rightarrow \mathbb{C}^* \quad (\textcyrillic{то есть} \quad \chi - \textcyrillic{функция} \quad \chi(gh) = \chi(g)\chi(h), \quad \chi(e)=1)
+\end{definition}
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    \textcyrillic{Множество характеров} \quad G \quad \textcyrillic{является конечной абелевой группой} \newline \square \quad |G| = K \Rightarrow g^K = e \newline \chi(g^K) = \chi(g)^K = 1 \newline |\chi(g)|=1 \quad (\chi: G \rightarrow U: \quad \{z: |z| = 1\}) \newline \chi_0: \quad \forall g \in G \quad \chi_0(g)=1 \newline (\chi_1,\chi_2)(g) = \chi_1(g)\chi_2(g) \newline 1 = |\chi(g)|^2 = \chi(g)\overline{\chi(g)} \newline \Rightarrow \chi^{-1} = \overline{\chi} \qquad \blacksquare
+\end{lemma}
+
+\begin{definition}
+    \widehat{G} \quad \textcyrillic{называется двойственной к} \quad G
+\end{definition}
+
+\newtheorem*{examples}{Примеры}
+
+\begin{examples}
+    1) \psi (x) = e^{2\pi i \frac{x}{p}}, \quad x \in \mathbb{F}_p \newline \psi(x + y) = e^{2\pi i \frac{x}{p}}e^{2\pi i \frac{y}{p}} \newline 2) \mathbb{F}_p^* \quad \chi(x) = (\frac{x}{p}) - \textcyrillic{символ Лежандра (тоже характер мультипликативной группы)} 
+\end{examples}
+
+\begin{definition}
+    \chi_0 \equiv 1 \quad \textcyrillic{называется тривиальным главным}, \quad \chi \ne \chi_0 \quad \textcyrillic{неглавным}
+\end{definition}
+
+\begin{lemma}
+    \textcyrillic{Если} \quad G - \textcyrillic{циклическая (конечная)} \quad |G| = n, \quad G = <g> \newline \forall \chi \in \widehat{G} \quad \textcyrillic{имеет вид}: \quad \exists K: \quad 0 \le k \le n-1 \quad \chi_K(g^j) = e^{2\pi i \frac{Kj}{n}} \quad 0 \le j \le n-1 \newline \chi = \chi_K \qquad \widehat{G} \cong G \newline \square g^n = e \quad \chi(g)^n = 1 \newline \chi(g) = e^{2\pi i \frac{K}{n}} \quad 0 \le K \le n-1 \newline \chi_K^n = \chi_0 \newline \chi_K - \textcyrillic{различны между собой} \newline \chi_1(g^j) = e^{2\pi i \frac{j}{n}} - \textcyrillic{образующ} \quad \widehat{G} \qquad \blacksquare
+\end{lemma}
+
+\newtheorem{theorem}{Теорема}
+
+\begin{theorem}
+    \forall G - \textcyrillic{конечн абелев группы} \quad \widehat{G} \cong G \newline \square \quad (\textcyrillic{набросок доказательства}) \quad \textcyrillic{факт из алгебры}: \newline G \cong G_1 \timess \dots \times G_r, \quad \textcyrillic{где} \quad G_i - \textcyrillic{циклические}, \quad |G_i|=p^{a_i} \newline n = \prod_{i = 1}^{r} p^{a_i} \quad \dots \qquad \blacksquare
+\end{theorem}
+
+\begin{lemma}
+    H < G, \quad \forall \psi \quad \psi \in \widehat{H} \Rightarrow \exists \chi \in \widehat{G}: \quad \chi \vert_H = \psi \quad (\textcyrillic{то есть} \quad \forall h \in H \newline \chi(h)=\psi(h)) \newline \square \quad a \in G \setminus H, \quad a \ne e \newline H_1 = <a, H> \newline \textcyrillic{Пусть} \quad m - \textcyrillic{порядок} \quad [a] \quad \textcyrillic{в} \quad G \setminus H \newline \forall g \in H: \quad g = a^j h \quad 0 \le j \le m-1 \quad h \in H \newline \psi(a^m) = \eta \in \mathbb{C}^*, \quad \textcyrillic{то есть возьмем} \quad \zeta: \quad \zeta^n = \eta \newline \psi_1(g) = \zeta^j\psi(h) \quad g' = a^Kh' \newline \psi_1(gg') = \psi_1(a^{j+K}) = \newline \textcyrillic{для случая} \quad j + K < m \newline \psi_1(gg') = \psi_1(a^{j+K}) = \zeta^{j+K} \psi(h)\psi(h') = \psi_1(g)\psi_1(g') \newline \textcyrillic{для случая} \quad j + K > m \newline \psi_1(gg') = \psi_1(a^{j+K}) = \psi_1(a^{j+K-m}a^mhh') = \zeta^{j+K-m}\zeta^m\psi(h)\psi(h') = \psi_1(g)\psi_1(g') \newline G \setminus H_1 \ni a_2 \ne e \quad \dots \qquad \blacksquare
+\end{lemma}
+
+\newtheorem*{consequence}{Следствие}
+
+\begin{consequence}
+    \forall g \in G \setminus \{e\} \quad \exists \chi \in \widehat{G} \quad \chi(g) \ne 1 \newline \square \quad H = <g> \quad \forall \psi \in \widehat{H} \quad \psi = \psi_K \newline \psi_K(g^j) = e^{2\pi i \frac{Kj}{n}} \quad \psi_1(g) = e^{2\pi i \frac{1}{n}} \ne 1 \qquad \blacksquare
+\end{consequence}
+
+по лемме: \exists \chi: \chi\vert_H = \psi_1 \newline \chi - \textcyrillic{искомый характер}
+
+\begin{theorem}
+    G - \textcyrillic{конечная абелева} \quad |G| = n \newline \sum_{g \in G} \chi(g) = \left\{ \begin{aligned} 
+        n, \quad \chi = \chi_0 \\
+        0, \quad \chi \ne \chi_0  
+    \end{aligned} \right \newline \sum_{\chi \in \widehat{G}} \chi(g) = \left\{ \begin{aligned} 
+        n, \quad g = 0\\
+        0, \quad g \ne 0 
+    \end{aligned} \right \newline \square \quad 1) \quad \chi = \chi_0 - \textcyrillic{очевидно} \newline \chi \ne \chi_0 \newline \exists g_0 \ne e: \quad \chi(g_0) \ne 1 \newline \chi(g_0)\sum_{g \in G} \chi(g) = \sum_{g \in G} \chi(g_0g) = \sum_{g \in G} \chi(g) \newline (1 - \chi(g_0))\sum_{g \in G} \chi(g) = 0 \quad (\textcyrillic{первое} \quad \ne 0, \quad \textcyrillic{второе} \quad = 0) \newline 2) \quad \textcyrillic{доказывается по аналогии, только в этом случае двойственная картина} \newline (g \in G \quad \textcyrillic{опред} \quad \widehat{g}: \quad \widehat{g} = \chi(g), \quad \widehat{g} \in \widehat{G}) \qquad \blacksquare
+\end{theorem}
+
+\begin{consequence}
+\[
+\frac{1}{|G|} \sum_{g \in G} \chi(g)\,\overline{\psi(g)} =
+\begin{cases}
+    1, & \text{если } \chi = \psi \\
+    0, & \text{если } \chi \ne \psi
+\end{cases}
+\]
+\end{consequence}
+
+Двойственное равенство
+
+\[
+\frac{1}{|\widehat{G}|} \sum_{x \in \widehat{G}} \chi(g)\,\overline{\chi(h)} =
+\begin{cases}
+    1, & \text{если } g = h \\
+    0, & \text{если } g \ne h
+\end{cases}
+\]
+
+Характеры для \mathbb{F}_q, \quad \mathbb{F}_q^* \newline \mathbb{F}_p \quad \psi(x) = e^{2\pi i \frac{x}{p}}
+
+\begin{lemma}
+    \forall \quad \textcyrillic{аддитивн характер} \quad \psi \quad \textcyrillic{группы} \quad \mathbb{F}_q \quad \textcyrillic{имеет вид}: \newline \psi = \psi_{\beta}, \quad \psi_{\beta}(x) = e^{2\pi i \frac{Tr(\beta x)}{p}} \newline \square \quad \psi_{\beta} \in \widehat{\mathbb{F}_q} \newline \psi = \psi_1 \quad \exists x: \quad Tr \quad x \ne 0 \newline \textcyrillic{то есть} \quad \psi_1 - \textcyrillic{неглавный} \newline \psi_{\alpha} \ne \psi_{\beta}, \quad \textcyrillic{если} \quad \alpha \ne \beta \newline \frac{\psi_{\alpha}(x)}{\psi_{\beta}(x)} = \psi(\alpha x - \beta x) \ne 1 \newline \textcyrillic{то есть} \quad q \quad \textcyrillic{различных характеров} \quad \psi_{\alpha} \newline \Rightarrow \forall \psi \in \widehat{\mathbb{F}_q} \quad \exists \alpha: \psi = \psi_{\alpha} \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    \mathbb{F}_q^* = <\eta>, \quad \forall \chi \in \widehat{\mathbb{F}_q^*} \quad \textcyrillic{имеет вид} \quad \chi = \chi_j, \quad \textcyrillic{где} \quad \chi_j(\eta^K) = e^{2\pi i \frac{jK}{\eta - 1}} \newline \square \quad \textcyrillic{из леммы выше} \quad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    s \vert q - 1, \quad \mathbb{F}_q^* = <\eta> \newline 1) \quad \sum_{\chi^s=\chi_0} \chi(a) = \begin{cases}
+    s, &  a \in (\mathbb{F}_q^*)^s \quad (\exists x: x^s = a) \\
+    0, &  a \not \in (\mathbb{F}_q^*)^s \quad (\exists x: x^s = a) \\
+    1, &  a = 0 
+\end{cases} \newline (\chi(0) = 0) \newline 2) \quad \textcyrillic{Если} \quad \chi^s = \chi_0 \quad (\chi \ne \chi_0) \newline \sum_{j=0}^{s-1} \chi(\eta^j) = 0 \newline \square \quad G = \mathbb{F}_q^*, \quad H = (\mathbb{F}_q^*)^s = \{y \in \mathbb{F}_q: \quad y = x^s\} \newline |G| = q - 1 \newline s \vert q - 1. \quad \chi^s = \chi_0 \newline \exists \chi_1 \in \widehat{G/H}: \quad \chi_1([a])=\chi(a) \quad (\chi_1 \quad \textcyrillic{индуцирует  характер} \quad \chi) \newline G/H - \textcyrillic{циклическая} \newline |G/H| = \frac{|\mathbb{F}_q^*|}{|(\mathbb{F}_q^*)^s|} = \frac{q-1}{(\frac{q-1}{s})} = s \newline 1) \quad \textcyrillic{если} \quad a \ne 0 \newline \sum_{\chi^s = \chi_0} \chi(a) = \sum_{\chi_1 \in \widehat{G/H}} \chi_1([a]) = \begin{cases}
+    s, &  [a] = a \\
+    0, &  \textcyrillic{если а не} \quad s-\textcyrillic{той степени} 
+\end{cases} \newline 2) \quad G/H = \{1, \eta, \dots, \eta^{s-1]\} \newline \sum_{j=0}^{s-1}\chi(\eta^j) = \sum_{g \in G/H} \chi(g) = 0 \qquad \blacksquare
+\end{lemma}
+
+\newtheorem*{notion}{Замечание}
+
+\begin{notion}
+    \mathbb{F}_q, \quad s = 2 \newline \sum_{\chi^s = \chi_0} \chi(a) = 1 + (\frac{a}{p}) = N(x^2 = a) - \textcyrillic{число решений уравнения}
+\end{notion}
+
+\\~\\
+
+Общий случай: \newline \sum_{\chi^s=\chi_0} \chi(a) = N(x^s = a) \quad (\textcyrillic{в следующий раз})
+
+\\~\\ 
+
+Суммы Гаусса
+
+\begin{definition}
+    \chi - \textcyrillic{мультипликативный характер} \quad \mathbb{F}_p \quad (\chi \in \widehat{\mathbb{F}_p^*})
+\end{definition}
+
+\newline G_a(\chi) = \sum_{x \in \mathbb{F}_p} \chi(x) e^{2 \pi i \frac{ax}{p}} - \textcyrillic{сумма Гаусса}
+
+\begin{theorem}
+    \textcyrillic{Если} \quad \chi \ne \chi_0, \quad a \ne 0 \newline (p \vert a), \quad \textcyrillic{то тогда} \quad |G_a(x)|=\sqrt{p} \newline \square \quad F = \{f: \mathbb{F}_p \rightarrow \mathbb{C}\} \newline (f, g) = \frac{1}{p} \sum_{x \in \mathbb{F}_p} f(x)\overline{g(x)} \newline \psi_a(x) = e^{2\pi i \frac{ax}{p}} \quad (\psi_a) - \textcyrillic{ортонормированный базис} \quad a \in \mathbb{F}_p \newline \chi \in F \Rightarrow \chi = \sum_{a \in \mathbb{F}_p} \alpha_a \psi_a, \quad \alpha_a = (\chi, \psi_a) = \frac{1}{p} \sum_{c \in \mathbb{F}_p} \chi(x) e^{2\pi i \frac{ax}{p}} = \frac{1}{p} G_a(\chi) \newline \exists c \in \mathbb{F}_p^*: \quad \chi(c) \ne 1 \newline \chi(xc^{-1}) = \chi(x)\chi(c^{-1}) = \sum_a \alpha_a \chi(c^{-1}) \psi_a(x) \newline \chi(xc^{-1}) = \chi(x)\chi(c^{-1}) = \sum_a \alpha_a \psi_a (xc^{-1}) = \sum_{a \in \mathbb{F}_p} \alpha_a \psi_{ac^{-1}} (x) = [ac^{-1} = b] = \sum_{b \in \mathbb{F}_p} \alpha_{bc} \psi_b(x) \newline (\psi_a) - \textcyrillic{базис} \Rightarrow \alpha_a \chi(c^{-1}) = \alpha_{ac} \newline \alpha_a = \chi(c) \alpha_{ac} \newline \textcyrillic{Если} \quad \textcyrillic{при} \quad a = 1: \quad |\alpha_1| = |\alpha_c| \newline \textcyrillic{при} \quad a = 0: \quad \alpha_0 = \chi(c)\alpha_0 \quad (\chi c \ne 1) \Rightarrow \alpha_0 = 0 \newline (\chi, \chi) = \frac{1}{p} \sum_{x \in \mathbb{F}_p} \chi(x)\overline{\chi(x)} = \frac{p-1}{p} \newline (\chi,\chi) = (\sum_{a \ne 0} \alpha_a \psi_a, \sum_{a \ne 0} \alpha_a \psi_a) = \sum_{a \ne 0} |\alpha_a|^2 = (p-1) |\alpha_1|^2 \newline \Rightarrow |\alpha_c|^2 = |\alpha_1|^2 \quad (\textcyrillic{этот вывод мы сделали ранее}) \quad = \frac{1}{p} \quad |\alpha_c| = |\alpha_1| = \frac{1}{\sqrt{p}} \newline |\frac{1}{p} G_a(x)| = \frac{1}{\sqrt{p}} \Rightarrow |G_a(\chi)| = \sqrt{p} \qquad \blacksquare
+\end{theorem}
+
+\begin{notion}
+    |G_a(\chi)|^2 = G_a(\chi)\overline{G_a(\chi)}
+\end{notion}
+
+\begin{definition}
+    \textcyrillic{для} \quad \mathbb{F}_q \quad \textcyrillic{сумма Гаусса} \quad \nerwline G(\chi, \psi) = \sum_{x \in \mathbb{F}_q} \chi(x)\psi(x) \newline \textcyrillic{где} \quad \chi, \psi - \textcyrillic{мултиплик, аддитивн}, \quad \chi(0) = 0
+\end{definition}
+
+\begin{theorem}
+    1) \quad \chi \ne \chi_0, \quad \psi \ne \psi_0 \newline |G(\chi, \psi)| = \sqrt{q} \newline 2) \quad G(\chi_0,\psi_0) = q - 1 \newline G(\chi_0,\psi \ne \psi_0) = -1 \newline G(\chi \ne \chi_0, \psi_0) = 0 \newline 3) \quad G(\chi,\overline{\psi}) = \chi(-1)G(\chi,\psi)
+\end{theorem}
+
+\begin{theorem}
+    \mathbb{F}_p^2 \quad \chi(\cdot) = (\frac{\cdot}{p}) \newline G_1(\chi) = \begin{cases}
+    \sqrt{p}, &  p \equiv 1(4) \\
+    i\sqrt{p}, &  p \equiv 3(4)
+\end{cases}
+\end{theorem}
+
+\begin{theorem}
+    \textcyrillic{(Соотношение Хассе Девинхорта)} \quad \mathbb{F}_{q^s}/\mathbb{F}_q \quad N_{\mathbb{F}_{q^s}/\mathbb{F}_q} \newline Tr_{\mathbb{F}_{q^s}/\mathbb{F}_q} \newline \chi, \psi - \textcyrillic{аддитивные характеры} \quad \mathbb{F}_q \newline \chi' = N_{\mathbb{F}_{q^s}/\mathbb{F}_q} \circ \chi \newline \psi' = Tr_{\mathbb{F}_{q^s}/\mathbb{F}_q} \circ \psi \newline G(\chi',\psi') = (-1)^{s-1}G(\chi,\psi)^s 
+\end{theorem}
+
+\end{document}

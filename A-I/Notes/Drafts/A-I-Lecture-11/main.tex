@@ -1,0 +1,397 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{fullpage}
+\usepackage{cancel}
+
+% Окружения теорем (названия на русском)
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{fact}{Факт}
+\newtheorem{definition}{Определение}
+\newtheorem{remark}{Замечание}
+
+% Обозначения
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\wt}{\mathrm{wt}}
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Inv}{\mathrm{Inv}}
+\newcommand{\codim}{\mathrm{codim}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\begin{document}
+
+\section{P-адические числа}
+
+Вводный пример:
+Рассмотрим:
+\begin{equation}
+    x^2 \equiv 2 \ (mod \ 7^n), \ n \in \Z_{\geq1}
+\end{equation}
+Пусть сначала:
+\begin{equation}
+    ] \ n = 1: \ x^2 \equiv 2 \ (mod \ 7) \newline
+    \Rightarrow \ x = \pm \ 3 \ (7)
+\end{equation}
+Пусть теперь:
+\begin{equation}
+    ] \ n = 2: \ x^2 \equiv 2 \ (mod \ 49) \newline
+\end{equation}
+Ищем решение вида: 
+\begin{equation}
+    x_1= x_0 + 7 t; x_0  = 3 \Rightarrow \ (3 + 7t)^2 = 2 \ (7^2)
+\end{equation}
+\begin{equation}
+    9 + 6 \cdot 7 t + 7^2t^2 = 2 \ (7^2) \ \Rightarrow
+\end{equation}
+\begin{equation}
+    7 + 6 \cdot 7 t + 7^2t^2 = 0 \ (7^2) \ \Rightarrow
+\end{equation}
+\begin{equation}
+    1 + 6t + 7 t^2 = 0 \ (7) \ \Rightarrow
+\end{equation}
+\begin{equation}
+    6t \equiv -1 \ (7) \ \Rightarrow
+\end{equation}
+\begin{equation}
+    t_1 = 1 \ \Rightarrow
+\end{equation}
+\begin{equation}
+    x_1 = x_0 + 7t = 3 + 7 = 10 \ (7^2) 
+\end{equation}
+Продолжим:
+\begin{equation}
+    ] \ n = 3: \ x^2 \equiv 2 \ (mod \ 7^3) \newline
+\end{equation}
+Ищем:
+\begin{equation}
+    x_2= x_1 + 7^2 t_2 \ (7^3)
+\end{equation}
+И т.д. \newline
+Обратим внимание, что:
+\begin{equation}
+    x_n \equiv x_{n-1} \ (7^n)
+\end{equation}
+И что:
+\begin{equation}
+    x_n^2 \equiv 2 \ (7^{n+1})
+\end{equation}
+
+\begin{definition}
+{$\forall p-$}простого, ${\forall n \in \Z_{>0}}$ $\exists \ a: p^a | n, \ p^{a+1}$ не делит $n$, тогда $a = \nu_p(n)$, где $\nu_p(\cdot)$ - функция показатель.
+\end{definition}
+\begin{definition}
+Если $p-$простое, то последовательность $(x_n) = \{x_0, x_1, x_2, ...\}, \ x_n \in \Z \ \forall n$ и $x_n \equiv x_{n-1} \ (p^n), n \geq 1$ называется согласованной. Более того, две согласованных последовательности $(x_n), (x_n^{'})$ называются эквивалентыми, если $x_n \equiv x_n^{'} \ (p^{n+1}) \ \forall n$.
+\end{definition}
+\begin{definition}
+Множество классов эквивалентности назовем целыми $p-$адическими числами. Множество целых $p-$адических чисел будем обозначать $\Z_p$.
+\end{definition}
+В примере выше:
+$(x_0, x_1, ...) = \alpha, \ \alpha^2=2$. По сути: $\alpha$ это $7-$адический корень из $2$.
+\begin{definition}
+Последовательность $(x_n)$ называется канонической, если $\forall n: 0\leq x_n < p^{n+1}$ и $\overline{x_n} \equiv x_n \ (p^{n+1})$ и тогда $\overline{(x_n)} \sim (x_n)$.
+\end{definition}
+\begin{lemma}
+Различные канонические последовательности определяют различные $p-$адические целые числа.
+\end{lemma}
+\begin{proof}
+Пусть $(x_n) \sim \alpha$, - каноническая последовательность.
+Тогда $x_{n+1} = x_n + a_{n+1}p^{n+1} \newline$
+\begin{equation}
+0 \leq x_{n+1} < p^{n+2}\newline
+\end{equation}
+\begin{equation}
+0 \leq x_n < p^{n+1}\newline
+\end{equation}
+\begin{equation}
+\Rightarrow 0 \leq a_{n+1} < p\newline
+\end{equation}
+\begin{equation}
+x_n = a_0 + a_1p + a_2p^2 + ... + a_np^n.
+\end{equation}
+\end{proof}
+\begin{lemma}
+$\Z_p$ имеет мощьность континуум.
+\end{lemma}
+\begin{proof}
+Доказательство аналогично доказательству аналогичного утверждения для вещественных чисел в математическом анализе.
+\end{proof}
+Введем операции кольца (определим их как покоординатное сложение/умножение):
+\begin{equation}
+\alpha \sim (x_n), \beta \sim (y_n) 
+\end{equation}
+\begin{equation}
+\alpha + \beta \sim (x_n + y_n)
+\end{equation}
+\begin{equation}
+\alpha \cdot \beta \sim (x_n \cdot y_n)
+\end{equation}
+\begin{lemma}
+Предлагается доказать, что $\alpha + \beta$ и $\alpha \cdot \beta$ корректно введены.
+\end{lemma}
+\begin{lemma}
+$\Z_p -$коммутативное кольцо с единицей без делителей нуля.
+\end{lemma}
+\begin{definition}
+Пусть $\alpha, \beta \in \Z_p$. Будем обозначать $\alpha |\beta$, если $\exists \gamma\in \Z_p: \beta = \alpha \gamma$.
+\end{definition}
+\begin{lemma}
+$\alpha = (x_n) \in \Z_p -$обратимый $\Longleftrightarrow x_0 \not \equiv 0 \ (p)$
+\end{lemma}
+\begin{proof}
+$\newline$
+Необходимость:
+$\newline \alpha -$ единичный (обратимиый) $\Rightarrow \exists \beta \in (y_n): \alpha\beta=1 \Longleftrightarrow \forall n \ x_ny_n \equiv 1 \ (p^{n+1}); x_0y_0 \equiv 1 \ (p) \Rightarrow x_0 \not \equiv 0 \ \forall n.\newline$
+Достаточночть:
+$\newline x_0 \not \equiv 0 \ (p);$ так как 
+$x_n \equiv x_{n-1} \equiv ... \equiv x_0 \ (p) \ \Rightarrow x_n \not \equiv 0 \ (p) \ \Rightarrow x_n$ обратим по $p$. 
+\end{proof}
+\begin{theorem}
+$\forall \alpha \in \Z_p / \{0\}: \alpha = p^m\epsilon,$ причем такое разложение единственно, где $ \epsilon $ является $p-$адическим обратимым числом, то есть $\epsilon \in \Z_p^*-$ множество обратимых элементов.
+\end{theorem}
+\begin{proof}
+$\newline ] \ \alpha \not \equiv e \Longleftrightarrow x_0 \not \equiv 0 \ (p)$
+$\alpha \not \equiv 0 \Rightarrow \exists m: x_m \not \equiv 0 \ (p^{m+1})$
+$x_{m+s} \equiv x_{m-1} \equiv 0 \ (p^m) \ \forall s \Rightarrow$
+$y_s \equiv \frac{x_{m+s}}{p_m} - $целые числа $\in \Z$. Согласованность очевидна.
+$\newline y_0 = \equiv \frac{x_m}{p_m} \not \equiv 0 \ (p)$
+$(y_s) \sim \epsilon$
+$p^{m}y_s= x_{m+s} \equiv x_s \ (p^{s+1})$
+$\alpha = p^m\epsilon \newline$
+Докажем единственность:
+$\newline \alpha = p^k\mu$
+$\mu \sim (\Z_s)$
+$\Rightarrow p^m\epsilon = p^k\mu \Rightarrow p^my_s = p^kz_s \ (p^{s+1})$
+$y_0, z_0 \not \equiv 0 \ (p) \Rightarrow$
+$s = m \Rightarrow p^my_m \equiv p^kz_m \ (p^{m+1})$
+Так как это выполняется для всех $m$, то $k=m$.
+$p^my_{s+m} \equiv p^mz_{s+m} \ (p^{s+1})$
+$\Rightarrow y_{s+1} \equiv z_{s+1} \Rightarrow \epsilon = \mu$
+\end{proof}
+$\forall \alpha \in \Z_p \Rightarrow \alpha = p^m\epsilon \Rightarrow$
+$\nu_p(\alpha) = m \Rightarrow$
+$\nu_p(\alpha \beta) = \nu_p(\alpha) + \nu_p(\beta)$
+Делаем вывод: подтягиваются все свойства показательной функции.
+\begin{theorem}
+$\alpha \equiv \beta \ (\gamma) \Longleftrightarrow \gamma | (\alpha - \beta) $в $\Z_p \Longleftrightarrow p^n | (\alpha - \beta)$. Считаем, что $\gamma = p^n\epsilon$
+\end{theorem}
+Поезность ввода $p-$адических чисел:
+$\newline \romannumeral 1. \ \forall \ \alpha \in \Z_p: \ \exists \ a \in \Z: \ \alpha \equiv a \ (p^n)$. Тогда $a \equiv b \ (p^n) \Longleftrightarrow a \equiv b \ (p^n)$. В первом случае сравнение происходит в кольце целых $p-$адических чисел $\Z_p$, а во втором - в поле характеристики $p^n: \F_{p^n}$. То есть можно убрать "хвост" и получить обычное сравнение в кольце вычетов.
+% \section{Конечные поля}
+% \begin{equation}
+%     \Z /p \Z = \F_p = GF(p)
+% \end{equation}
+% \begin{equation}
+% f,g \in \F_p[x]
+% \end{equation}
+% \begin{equation}
+%     f \in \F_p[x] \text{ - неприводим}
+% \end{equation}
+% \begin{equation}
+%     g |f \Rightarrow g\in \F_p or f= \alpha g
+% \end{equation}
+% \begin{equation}11
+% gcd(f,g) = d = d(x)
+% \end{equation}
+
+
+% \begin{equation}
+%     I: \forall f \in \F_p[x] \; f=c \prod f_i^{m_i} 
+% \end{equation}
+
+% $f_i$ - неприводимый унитарный
+
+% % всё ок
+% \begin{equation}
+%     \F_p[x] - \text{кольцо главных идеалов} \; \forall \text{идеала } I \exists \text{неприводимый } f : I=(f)
+% \end{equation}
+
+% \begin{theorem}
+% $f \in \F_p[x]$ - неприводимый. $F_p[x] / f$ - поле из $p^n$ элементов, $n=deg(f)$. Тогда $\F_p[x] /f, \; \Z/(p) = \F_p$
+% \end{theorem}
+% \begin{proof}
+% $a(x) \in \F_p[x]$
+% $\exists ! r(x) \in \F_p[x] : a \equiv r(f) \leftrightarrow f | a-r$
+% $\exists ! $ доказательство
+% Пусть $\exists r_1, r_2$
+% $r_1 \equiv a(f), r_e \equiv a(f) \Rightarrow $ вы стёрли.........
+
+
+% $r(x) = a_1x^{n-1} + ... + a_0$
+% $a_1 \in \F_p$
+% есть $p^n$ штук вот таких многочленов
+% $| \F_p(x) / (f)| = p^n$
+% Обозначим $O=(f)$
+% \begin{equation}
+%     E = \{ f \in \F_p[x] : g \equiv 1(f)
+% \end{equation}
+% $A \neq O$
+% $a(x) \in A \Leftrightarrow f \; x \; a \Leftrightarrow (f,a) =(1) = \F_p[x] \Leftrightarrow \exists u,v \in \F_p[x]$
+% $fu+av=1 \Rightarrow av=1(f)$
+% то есть $V= [v(x)]$ класс в $\F_p[x]$
+
+% Докажем единсвтенность
+
+% $AW=E, W \neq V$
+% $\exists w(x), w \cancel{\equiv} v(а)$
+% $aw=1(f); av=1(f)$
+% $a(w-v) = 0(f)$
+% $fxa \Rightarrow f | w-v$
+% \end{proof}
+
+% Отсюда $q=p^n, \F_q=\F_p[x]/(f)$. $def(f) = r, f - $ неприводим
+
+% \begin{theorem}
+%     \begin{equation}
+%         \forall n \ge 1 \exists f \in \F_p[x]
+%     \end{equation}
+%     неприводимый. $deg(f) = 1$
+% \end{theorem}
+
+%     Введём $N(g) = Ng=p(deg(g))$ для $g \in \F_p[x]$
+%     Эта функция мультипликативна. $N(fg)=Nf \; Ng$
+%     Аналог дзета функции. 
+%     $\zeta (s) = \prod_p^*(1 - \frac{1}{(Nf)^s})^{-1}$
+%     $\prod^*$ - произвдение по всем неприводимым унитарным многочленам из кольца
+%     Область сходимости  $\zeta (s) = \sum_{n=1}^{\inf}\frac{1}{n^3} = \prod_{p - \text{простые}} (1 - \frac{1}{p^3})^{-1}$ при $Re(s) > 1$
+
+%     \begin{equation}
+%         \zeta = \prod_p^*(1 + \sum_{m=1}^{\inf} \frac{1}{(Nf)^{ms}})^{-1} = 
+%         1 + \sum_{g}^{*} \frac{1}{(Nf)^{s}}
+%     \end{equation}
+%     \begin{equation}
+%         \sum^* - \text{сумма по унитарным } g \in \F_p[x]
+%     \end{equation}
+%     \begin{equation}
+%         = 1 \sum_{n=1}^{\inf} \sum_{g, deg(g) = n} = \frac{1}{(Ng)^s}
+%     \end{equation}
+%     \begin{equation}
+%         = 1 + \sum_{n=1}^{\inf} p^n \frac{1}{p^{ns}}
+%     \end{equation}
+%     \begin{equation}
+%         = (1-\frac{p}{p^s})^{-1}
+%     \end{equation}
+% Количество неприводимых унитарных мночленов где $deg(g) = n$ - $\nu (n) $
+
+% \begin{equation}
+%     \prod_{n=1}^{\inf} (1 - \frac{1}{p^{ns}})^{- \nu(n)} = 
+%     \prod_f^* = (1 - \frac{1}{(Nf)^s})^{-1}
+% \end{equation}
+% прологорифмируем:
+% \begin{equation}
+%     \sum_{n=1}^{\inf} (-\nu(n) log(1-\frac{1}{p^{ns}} = -log(1 - \frac{p}{p^s})
+%     \end{equation}
+%     \begin{equation}
+%     log(1-\tau) = \sum_{m=1}^{\inf} \frac{1}{m} \tau^m
+% \end{equation}
+
+% У доказательства есть бонус.
+% \begin{equation}
+%     \sum_{n=1}^{\inf} \nu(n) \sum_{l=1}^{\inf} \frac{1}{l} \frac{1}{p^{lns}} 
+%     = \sum_{m=1}^{\inf} \frac{1}{m}\frac{p^m}{p^{ms}} 
+% \end{equation}
+
+% \begin{equation}
+%     \sum_{n=1}^{\inf} \nu(n) \sum_{l=1}^{\inf} \frac{1}{l} \frac{1}{p^{lns}} 
+%     = \sum_{n} \sum_l \frac{\nu(n)}{l}\frac{1}{p^{ms}} = 
+%     \sum_{m=1}^{\inf} \sum _{n |m} \frac{\nu(n)}{m / n}\frac{1}{p^{ms}} = 
+% \end{equation}
+
+% \begin{equation}
+%      = (\sum _{n |m} \nu(n) n)\frac{1}{m} \frac{1}{p^{ms}} = 
+% \end{equation}
+% \begin{equation}
+%     \sum _{n |m} \nu(n) n = p^m
+% \end{equation}
+% \begin{equation}
+%     \Rightarrow \nu(n) = \frac{1}{n} \sum _{d |m} \mu (d) p^{n/d} \cancel{=} 0 
+% \end{equation}
+
+% \begin{theorem}
+%     \begin{equation}
+%         \forall z \in \F_q^*, q - p^n, \F_q = \F_p[x]/(f)
+%     \end{equation}
+%     Тогда
+%     \begin{equation}
+%         z^{q-1} -1 = 0
+%     \end{equation}
+% \end{theorem}
+% \begin{proof}
+%     Пусть
+%     \begin{equation}
+%         g \in \F_p[x], Fxf
+%     \end{equation}
+%     \begin{equation}
+%         \prod_r gr = \prod_r r(f)
+%     \end{equation}
+%     \begin{equation}
+%         (g^{q-1} - 1) \prod r \equiv 0(f)
+%     \end{equation}
+%     Следовательно
+%     \begin{equation}
+%         \prod_{z \in \F_q} (x -z) = x^q - x
+%     \end{equation}
+% \end{proof}
+
+% \begin{lemma}
+%     \begin{equation}
+%         f | x^q - x, deg(f) = d \Rightarrow
+%     \end{equation}
+%     $f$ имеет $d$ различных корней
+% \end{lemma}
+% \begin{proof}
+%     \begin{equation}
+%         x^q-x = f(x) g(x)
+%     \end{equation}
+%     f(x) - d корней, g(x) -  q-d корней
+
+%     если $<d $ корней у f $\Rightarrow d+(q^1d) = 1$ у $x^q - x$ 
+% \end{proof}
+% \begin{theorem}
+%     мультипликативная группа $\F_q^*$ циличская то содержит $\phi(q-1)$
+% \end{theorem}
+% \begin{proof}
+%     \begin{equation}
+%         m | q-1; \psi(m) - \text{число элементов поля}
+%     \end{equation}
+%     Если $\psi(m) > 0$, $\alpha \in \F^*_q -$ порядок $m$.
+%     $1, \alpha, ..., \alpha^{m-1}$ - различны корни $x^m - 1$
+%     это все корни $x^m - 1$
+%     \begin{equation}
+%         \forall \beta \in \F_q^* - \text{порядок }  | m
+%     \end{equation}
+%     \begin{equation}
+%         \beta = \alpha^s, r\le s \le m-1
+%     \end{equation}
+%     если $(s,m) =d, \alpha^s$ - порядок $m/d$ \\
+%     Было упражнение что 
+%     \begin{equation}
+%         \alpha^s \text{ порядок } m \Leftrightarrow (s,m)=1
+%     \end{equation}
+%     Таким образом если $\psi(m) > 0$ то $\psi(m) = \phi(m)$
+%     \begin{equation}
+%         \sum_{m | q-1} \psi(m) = q-1
+%     \end{equation}
+%     Мы знаем что
+%     \begin{equation}
+%         \sum_{m | q-1} \phi(m) = q-1
+%     \end{equation}
+%     Тогда
+%     \begin{equation}
+%         \sum_{m | q-1} (\phi(m) - \psi(m)) = 0 \Rightarrow 
+%         \psi(q-1)=\phi(q-1) 
+%     \end{equation}
+% \end{proof}
+
+\end{document}

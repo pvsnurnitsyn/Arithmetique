@@ -1,0 +1,254 @@
+%%% Работа с русским языком
+\usepackage{cmap}					% поиск в PDF
+\usepackage{mathtext} 				% русские буквы в формулах
+\usepackage[T2A]{fontenc}			% кодировка
+\usepackage[utf8]{inputenc}			% кодировка исходного текста
+\usepackage[english,russian]{babel}	% локализация и переносы
+\usepackage{indentfirst} %Абзацный отступ первого после заголовка абзаца
+\frenchspacing
+\usepackage{misccorr}%Точки после номеров заголовков 
+
+
+\renewcommand{\epsilon}{\ensuremath{\varepsilon}}
+\renewcommand{\phi}{\ensuremath{\varphi}}
+\renewcommand{\kappa}{\ensuremath{\varkappa}}
+\renewcommand{\le}{\ensuremath{\leqslant}}
+\renewcommand{\leq}{\ensuremath{\leqslant}}
+\renewcommand{\ge}{\ensuremath{\geqslant}}
+\renewcommand{\geq}{\ensuremath{\geqslant}}
+\renewcommand{\emptyset}{\varnothing}
+
+%%% Дополнительная работа с математикой
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} % AMS
+\usepackage{icomma} % "Умная" запятая: $0,2$ --- число, $0, 2$ --- перечисление
+\usepackage{mathrsfs}
+
+%% Номера формул
+%\mathtoolsset{showonlyrefs=true} % Показывать номера только у тех формул, на которые есть \eqref{} в тексте.
+%\usepackage{leqno} % Нумереация формул слева
+
+%% Свои команды
+\DeclareMathOperator{\sgn}{\mathop{sgn}}
+\newcommand{\nullcounter}{
+\setcounter{theorem}{0}
+\setcounter{lemma}{0}
+\setcounter{proposition}{0}
+\setcounter{definition}{0}
+\setcounter{corollary}{0}
+\setcounter{task}{0}
+\setcounter{example}{0}
+\setcounter{remark}{0}
+\setcounter{equation}{0}
+} % Обнуление всех счётчиков типа теорема
+
+%% Перенос знаков в формулах (по Львовскому)
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+%%% Работа с картинками
+\usepackage{graphicx}  % Для вставки рисунков
+\graphicspath{{images/}{images2/}}  % папки с картинками
+\setlength\fboxsep{3pt} % Отступ рамки \fbox{} от рисунка
+\setlength\fboxrule{3pt} % Толщина линий рамки \fbox{}
+\usepackage{wrapfig} % Обтекание рисунков текстом
+
+%%% Работа с таблицами
+\usepackage{array,tabularx,tabulary,booktabs} % Дополнительная работа с таблицами
+\usepackage{longtable}  % Длинные таблицы
+\usepackage{multirow} % Слияние строк в таблице
+
+%%% Теоремы
+\theoremstyle{plain} %Стиль курсивом 
+%\newtheorem{theorem}{Теорема}
+%\newtheorem{lemma}{Лемма}
+\newtheorem{proposition}{Предложение}
+%-------------------------------------------------
+\theoremstyle{definition} %Стиль без курсива
+%\newtheorem{definition}{Определение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{task}{№}
+%\newtheorem{example}{Пример}
+\newtheorem{axiom}{Аксиома}
+
+\theoremstyle{remark}
+%\newtheorem{remark}{Замечание}
+%\newtheorem*{remark*}{Замечание}
+\newtheorem*{solution}{Решение}
+
+%%% Программирование
+\usepackage{etoolbox} % логические операторы
+
+%%% Страница
+\usepackage{extsizes} % Возможность сделать 14-й шрифт
+\usepackage{geometry} % Простой способ задавать поля
+	\geometry{top=25mm}
+	\geometry{bottom=25mm}
+	\geometry{left=25mm}
+	\geometry{right=20mm}
+ %
+\usepackage{fancyhdr} % Колонтитулы
+ \pagestyle{fancy}
+	\renewcommand{\headrulewidth}{1pt}  % Толщина линейки, отчеркивающей верхний колонтитул
+	\lfoot{Лектор: Снурницын П.\,В.}
+\rfoot{Спецкурс A-III <<Римановы поверхности>>}
+	\rhead{НЕКОТОРЫЕ ПРИЛОЖЕНИЯ ТЕОРЕМЫ РИМАНА-РОХА}
+%	\chead{}
+ 	\lhead{ЛЕКЦИЯ №11}
+%	\cfoot{Нижний в центре} % По умолчанию здесь номер страницы
+
+\usepackage{setspace} % Интерлиньяж
+%\onehalfspacing % Интерлиньяж 1.5
+%\doublespacing % Интерлиньяж 2
+%\singlespacing % Интерлиньяж 1
+
+\usepackage{statmath}
+
+\usepackage{lastpage} % Узнать, сколько всего страниц в документе.
+
+\usepackage{soul} % Модификаторы начертания
+
+\usepackage{hyperref}
+\usepackage[usenames,dvipsnames,svgnames,x11names, table,rgb]{xcolor}
+
+
+\hypersetup{				% Гиперссылки
+    unicode=true,           % русские буквы в раздела PDF
+    pdftitle={Заголовок},   % Заголовок
+    pdfauthor={Автор},      % Автор
+    pdfsubject={Тема},      % Тема
+    pdfcreator={Создатель}, % Создатель
+    pdfproducer={Производитель}, % Производитель
+    pdfkeywords={keyword1} {key2} {key3}, % Ключевые слова
+    colorlinks=true,       	% false: ссылки в рамках; true: цветные ссылки
+    linkcolor=black,          % внутренние ссылки
+    citecolor=black,        % на библиографию
+    filecolor=magenta,      % на файлы
+    urlcolor=blue           % на URL
+}
+
+\usepackage{csquotes} % Еще инструменты для ссылок
+
+%\usepackage[style=authoryear,maxcitenames=2,backend=biber,sorting=nty]{biblatex}
+
+\usepackage{multicol} % Несколько колонок
+
+\usepackage{tikz} % Работа с графикой
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+
+%GeoGebra
+\usepackage{pgf}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows}
+\usetikzlibrary{patterns}
+
+\usepackage {lscape}
+\usepackage{multicol}
+
+\usepackage{tikzsymbols}
+\usetikzlibrary {arrows.meta}
+\usetikzlibrary{graphs}
+\usetikzlibrary{graphs.standard}
+\usetikzlibrary{patterns}
+
+\usepackage{asymptote}
+%\usepackage{tcolorbox} 
+\usepackage{rotating}
+
+\newcommand{\answer}[1]{\begin{flushright}\textit{Ответы:} \texttt{#1}\end{flushright}}
+
+\usepackage[utf8]{inputenc}
+\usepackage[most]{tcolorbox}
+\usepackage{lipsum}
+% counters
+\newcounter{theorem}
+\newcounter{lemma}
+\newcounter{difinition}
+\newcounter{mark}
+%\counterwithin{theorem}{section}
+%\counterwithin{lemma}{section}
+
+% names for the structures
+\newcommand\theoname{Théorème}
+\newcommand\lemmname{Lemme}
+\newcommand\difname{difinition}
+
+\usepackage{amsmath}
+\usepackage{tikz}
+
+
+\makeatletter
+% environment for theorems
+\newtcolorbox{theorem}[1][]{
+	breakable,
+	enhanced,
+	colback=White!100,
+	colframe=Coral3!70,
+	top=\baselineskip,
+	enlarge top by=\topsep,
+	overlay unbroken and first={
+		\node[thick,draw=Coral3!80!black,fill=Coral1!10,rounded corners] at (frame.north) %
+		{\strut{}\if#1\@empty\relax\relax\else~(#1)\fi};
+		\vspace{1mm}
+	}
+}
+
+% environment for property
+\newtcolorbox{property}[1][]{
+	breakable,
+	enhanced,
+	colback=White!100,
+	colframe=LightBlue3!100!black,
+	top=\baselineskip,
+	enlarge top by=\topsep,
+	overlay unbroken and first={
+		\node[thick,draw=LightBlue3!85!black,fill=LightBlue2!25,rounded corners] at (frame.north) %
+		{\strut{}\if#1\@empty\relax\relax\else~(#1)\fi};
+		\vspace{1mm}
+	}
+}
+% environment for lemas
+\newtcolorbox{difinition}[1][]{
+	breakable,
+	enhanced,
+	colback=White!100,
+	colframe=OliveDrab4!60,
+	top=\baselineskip,
+	enlarge top by=\topsep,
+	overlay unbroken and first={
+		\node[thick,draw=OliveDrab3!80!black,fill=OliveDrab1!10,rounded corners] at (frame.north) %
+		{\strut{}\if#1\@empty\relax\relax\else~(#1)\fi};
+		\vspace{1mm}
+	}
+}
+
+\newtcolorbox{remark}[1][]{
+	breakable,
+	enhanced,
+	colback=White!100,
+	colframe=Goldenrod3!60,
+	top=\baselineskip,
+	enlarge top by=\topsep,
+	overlay unbroken and first={
+		\node[thick,draw=Goldenrod3!90,fill=Goldenrod1!10,rounded corners] at (frame.north) %
+		{\strut{}\if#1\@empty\relax\relax\else~(#1)\fi};
+		\vspace{1mm}
+	}
+}
+
+\newtcolorbox{example}[1][]{
+	breakable,
+	enhanced,
+	colback=White!100,
+	colframe=MediumPurple2!60,
+	top=\baselineskip,
+	enlarge top by=\topsep,
+	overlay unbroken and first={
+		\node[thick,draw=MediumPurple2!90,fill=MediumPurple1!10,rounded corners] at (frame.north) %
+		{\strut{}\if#1\@empty\relax\relax\else~(#1)\fi};
+		\vspace{1mm}
+	}
+}
+
+\makeatother

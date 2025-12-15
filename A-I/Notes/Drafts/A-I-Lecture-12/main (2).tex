@@ -1,0 +1,225 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{geometry}
+\usepackage{xcolor}
+
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\begin{center}
+{\LARGE \textbf{Метризованные поля. $p$-адические числа}}
+\end{center}
+
+\vspace{1em}
+
+Пусть $p$ — простое число. Для рационального числа $x=\dfrac{a}{b}$ определена функция порядка
+\[
+\nu_p(x)=\nu,
+\]
+где $\nu$ — показатель степени $p$, с которой $p$ входит в разложение дроби $a/b$, то есть
+\[
+x = p^{\nu}\frac{a'}{b'}, \qquad p\nmid a',\; p\nmid b'.
+\]
+
+На основе этого определена функция
+\[
+\varphi_p(x)=
+\begin{cases}
+0, & x=0,\\
+\rho^{\nu_p(x)}, & x\neq 0,
+\end{cases}
+\]
+где $\rho$ — фиксированное действительное число, $0<\rho<1$.
+
+Функция $\varphi_p$ обладает свойствами абсолютного значения:
+\[
+\varphi_p(xy)=\varphi_p(x)\varphi_p(y),
+\]
+\[
+\varphi_p(x+y)\le \max\{\varphi_p(x),\varphi_p(y)\},
+\]
+\[
+\varphi_p(x)\ge 0,
+\]
+для всех $x,y\in\mathbb{Q}$.
+
+\medskip
+
+Целые $p$-адические числа $ \mathbb{Z}_p $ определяются как множество последовательностей
+\[
+(x_n)_{n\ge 0},
+\]
+где $x_n\in\mathbb{Z}/p^n\mathbb{Z}$ и выполнено условие согласованности:
+\[
+x_n \equiv x_{n-1} \pmod{p^{n-1}}.
+\]
+
+Эквивалентно:
+\[
+\nu_p(x_n-x_{n-1})\ge n,
+\quad\text{или}\quad
+\varphi_p(x_n-x_{n-1})\le \rho^n.
+\]
+
+На $\mathbb{Z}_p$ определяются операции сложения и умножения, и это кольцо без делителей нуля. Его поле частных — поле $p$-адических чисел $\mathbb{Q}_p$.
+
+Всякое ненулевое $p$-адическое число единственным образом представляется в виде
+\[
+x=p^{\nu_p(x)}u,
+\]
+где $u$ — обратимый элемент в $\mathbb{Z}_p$, который имеет разложение
+\[
+u=a_0+a_1p+a_2p^2+\dots,
+\quad a_0\neq 0,\quad 0\le a_i\le p-1.
+\]
+
+\medskip
+
+Абсолютное значение на поле $K$ — это отображение
+\[
+\varphi:K\to\mathbb{R}_{\ge 0},
+\]
+такое что:
+\[
+\varphi(x)=0 \iff x=0,
+\quad
+\varphi(xy)=\varphi(x)\varphi(y),
+\quad
+\varphi(x+y)\le \varphi(x)+\varphi(y).
+\]
+
+Соответствующая метрика:
+\[
+d(x,y)=\varphi(x-y).
+\]
+
+Пару $(K,\varphi)$ называют \emph{метризованным полем}.
+
+\medskip
+
+Примеры:
+\begin{itemize}
+\item обычный модуль на $\mathbb{R}$;
+\item модуль комплексного числа;
+\item тривиальная метрика: $\varphi(x)=1$ при $x\neq 0$;
+\item $p$-адическая метрика.
+\end{itemize}
+
+\medskip
+
+Свойства:
+\[
+\varphi(-x)=\varphi(x),
+\quad
+\varphi(x-y)\ge \bigl|\varphi(x)-\varphi(y)\bigr|,
+\quad
+\varphi\!\left(\frac{x}{y}\right)=\frac{\varphi(x)}{\varphi(y)}.
+\]
+
+\medskip
+
+Последовательность $(x_n)$ сходится к $x$, если
+\[
+\lim_{n\to\infty}\varphi(x_n-x)=0.
+\]
+
+Последовательность называется \emph{фундаментальной (Коши)}, если
+\[
+\varphi(x_n-x_m)\xrightarrow[n,m\to\infty]{}0.
+\]
+
+Метризованное поле называется \emph{полным}, если всякая фундаментальная последовательность имеет предел в этом поле.
+
+\medskip
+
+Поле $\mathbb{R}$ полно относительно обычного модуля. Поле $\mathbb{Q}_p$ полно относительно $p$-адической метрики.
+
+\medskip
+
+Пусть $K_0\subset K$ — расширение полей с метриками $\varphi_0,\varphi$. Расширение называется метризованным, если ограничение $\varphi$ на $K_0$ совпадает с $\varphi_0$.
+
+\medskip
+
+\textbf{Теорема (о пополнении).}
+Для любого метризованного поля $(K,\varphi)$ существует полное метризованное поле $(\overline K,\overline\varphi)$ такое, что:
+\begin{itemize}
+\item $K$ плотно в $\overline K$;
+\item $\overline\varphi|_K=\varphi$;
+\item пополнение единственно с точностью до топологического изоморфизма.
+\end{itemize}
+
+\[
+\triangleright
+\text{Доказательство аналогично построению } \mathbb{R} \text{ как пополнения } \mathbb{Q}.
+\quad\blacksquare
+\]
+
+\medskip
+
+Метрики $\varphi_1,\varphi_2$ называются \emph{эквивалентными}, если они задают одну и ту же топологию.
+
+\medskip
+
+\textbf{Теорема.}
+Для метризованного поля $(K,\varphi_1,\varphi_2)$ эквивалентны:
+\begin{enumerate}
+\item $\varphi_1$ и $\varphi_2$ эквивалентны;
+\item сходящиеся последовательности совпадают;
+\item $\varphi_1(x)<1 \iff \varphi_2(x)<1$;
+\item существует $\alpha>0$ такое, что
+\[
+\varphi_1(x)=\varphi_2(x)^{\alpha}.
+\]
+\end{enumerate}
+
+\[
+\triangleright
+\text{Основной шаг: }(3)\Rightarrow(4)\text{ через логарифмы и плотность }\mathbb{Q}.
+\quad\blacksquare
+\]
+
+\medskip
+
+Следовательно, все метрики вида $\rho^{\nu_p(x)}$ эквивалентны. Обычно берут $\rho=p^{-1}$:
+\[
+|x|_p=p^{-\nu_p(x)}.
+\]
+
+\medskip
+
+\textbf{Теорема Островского.}
+Всякая нетривиальная абсолютная величина на $\mathbb{Q}$ эквивалентна либо обычному модулю, либо $p$-адическому модулю для некоторого простого $p$.
+
+\medskip
+
+\textbf{Следствие.}
+Все пополнения поля $\mathbb{Q}$ — это либо $\mathbb{R}$, либо поля $\mathbb{Q}_p$.
+
+\medskip
+
+Метрика называется \emph{неархимедовой}, если
+\[
+\varphi(x+y)\le \max\{\varphi(x),\varphi(y)\}.
+\]
+
+$p$-адические метрики — неархимедовы. Для них верно:
+\[
+\varphi(z+1)\le \max\{\varphi(z),1\}.
+\]
+
+\medskip
+
+Формула произведения:
+\[
+|x|_\infty \prod_p |x|_p = 1,
+\quad x\in\mathbb{Q}^\times.
+\]
+
+\medskip
+
+\end{document}

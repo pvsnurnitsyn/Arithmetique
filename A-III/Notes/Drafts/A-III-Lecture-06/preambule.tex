@@ -1,0 +1,71 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[english, russian]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{amsthm, amsfonts, amssymb, mathtools}
+\usepackage{svg}
+\usepackage{mathrsfs}  
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage{ wasysym }
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{corollary}{Следствие}[theorem]
+\newtheorem*{definition}{Определение}
+\newtheorem{lemma}[theorem]{Лемма}
+
+\usepackage{geometry}
+\geometry{top=25mm}
+\geometry{bottom=30mm}
+\geometry{left=20mm}
+\geometry{right=20mm}
+
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections 
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+
+\linespread{1}
+
+\usepackage{titleps}
+\newpagestyle{main}{
+    \setheadrule{0.4pt}
+    \sethead{Дифференциальные формы. Дивизоры}{\thepage}{Осень 2025}
+    \setfootrule{0.4pt}
+    \setfoot{Спецкурс A-III}{\thepage}{ВМК МГУ}
+}
+
+\pagestyle{main}
+
+\newcommand{\deriv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Row}{\sum\limits_{n=1}^\infty}
+\newcommand{\Rowk}{\sum\limits_{k=1}^\infty}
+\newcommand{\Prod}{\prod\limits_{n=1}^\infty}
+\newcommand{\Prodk}{\prod\limits_{k=1}^\infty}
+\newcommand{\eps}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+\newcommand{\fall}{\:\forall\:}
+\newcommand{\ex}{\:\exists\:}
+
+\DeclareMathOperator{\const}{const}
+\DeclareMathOperator{\Ker}{ker}
+\DeclareMathOperator{\Image}{im}
+\DeclareMathOperator{\Def}{def}
+\DeclareMathOperator{\Rank}{rank}
+\DeclareMathOperator{\Dim}{dim}
+\DeclareMathOperator{\Argmin}{argmin}
+\DeclareMathOperator{\Argmax}{argmax}
+\DeclareMathOperator{\Exp}{Exp}
+\DeclareMathOperator{\Softmax}{Softmax}
+
+\usepackage{subfig}
+
+\renewcommand{\thesubfigure}{Figure \arabic{subfigure}}
+\captionsetup[subfigure]{labelformat=simple, labelsep=colon}

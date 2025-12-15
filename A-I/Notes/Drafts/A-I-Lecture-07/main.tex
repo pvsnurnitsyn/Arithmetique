@@ -1,0 +1,374 @@
+\documentclass[12pt]{article}
+
+% -------------------- Packages --------------------
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\geometry{a4paper, margin=2.5cm}
+
+% -------------------- Theorem environments --------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+\newtheorem{example}[definition]{Пример}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Теорема}
+\newtheorem{lemma}[definition]{Лемма}
+\newtheorem{proposition}[definition]{Утверждение}
+\newtheorem{corollary}[definition]{Следствие}
+
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Замечание}
+
+% -------------------- Commands --------------------
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\Gal}{\operatorname{Gal}}
+
+\title{Корни из единицы. Круговой многочлен.}
+\author{Конспект лекции}
+\date{}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Критерий Эйзенштейна и лемма Гаусса}
+
+\subsection{Критерий Эйзенштейна}
+
+\begin{theorem}[Критерий Эйзенштейна]
+Пусть $f \in \Z[x]$:
+\[
+f(x) = a_n x^n + a_{n-1} x^{n-1} + \dots + a_1 x + a_0,
+\]
+где $a_i \in \Z$.
+Пусть $p$ --- простое число такое, что $p \mid a_i$ для всех $i = 0,\dots,n-1$, $p \nmid a_n$, $p^2 \nmid a_0$. Тогда многочлен $f(x)$ неприводим над $\Z$ (и, следовательно, над $\Q$).
+\end{theorem}
+
+\begin{proof}
+Предположим противное: $f = gh$, где $g,h \in \Z[x]$ --- нетривиальные многочлены.
+Рассмотрим редукцию по модулю $p$. В кольце $\F_p[x]$ имеем
+\[
+\overline f(x) = \overline{a_n} x^n.
+\]
+Так как $\F_p[x]$ --- область уникального разложения, то
+
+\[
+\overline f(x) = \overline g(x) \overline h(x),
+\]
+где
+\[
+\overline g(x) = b_m x^m, \qquad \overline h(x) = c_l x^\ell,
+\]
+где $m+\ell = n$ и $b_m,c_l \in \F_p^*$. Также сами многочлены $g, h \in \Z[x]$ имеют вид:
+\[
+ g = \sum_{i=0}^m b_ix_i, \:\: h=\sum_{i=0}^l c_ix_i,
+\]
+а $\overline g, \overline h \in \F_p[x]$:
+\[
+\overline g =  b_mx_m, \:\:\overline h=c_lx_l.
+\]
+Это возможно лишь в том случае, если все коэффициенты $g,h$, кроме старших, делятся на $p$. В частности,
+$p \mid b_0$ и $p \mid c_0$, где $b_0,c_0$ --- свободные члены $g,h$.
+Но тогда
+\[
+a_0 = b_0 c_0 \quad \Rightarrow \quad p^2 \mid a_0,
+\]
+что противоречит условию.
+\end{proof}
+
+\subsection{Лемма Гаусса}
+
+\begin{definition}
+Многочлен $f \in \Z[x]$ называется \emph{примитивным}, если наибольший общий делитель всех его коэффициентов равен $1$.
+\end{definition}
+
+\begin{lemma}[Лемма Гаусса]
+Многочлен $f \in \Z[x]$ неприводим над $\Z$ тогда и только тогда, когда он неприводим над $\Q$.
+\end{lemma}
+
+\begin{proof}
+Одно направление очевидно. Докажем обратное.
+Пусть $f$ приводим над $\Q$, то есть
+\[
+f = gh, \qquad g,h \in \Q[x],
+\]
+где $\deg g, \deg h > 0$.
+Существуют такие $a,b \in \Q^*$, что многочлены
+\[
+g_1 = a g, \qquad h_1 = b h
+\]
+имеют целые коэффициенты и являются примитивными. Тогда
+\[
+f_1 = ab f(x) = ag(x)\cdot bh(x) = g_1(x) h_1(x).
+\]
+Пусть простое $p \mid ab$. Тогда $p$ делит все коэффициенты $f_1$, и редукция $0=\overline f_1 = \overline{g}\overline{h_1}(mod \:p)$.
+Следовательно,
+\[
+\overline g_1 \cdot \overline h_1 = 0 \quad \text{в } \F_p[x].
+\]
+Так как в $\F_p[x]$ здесь нет делителей нуля, то $\overline g_1 = 0$ или $\overline h_1 = 0$, что означает, что $p$ делит все коэффициенты $g_1$ или $h_1$. Это противоречит примитивности этих многочленов.
+Следовательно, $ab = \pm 1$, и $f$ приводим над $\Z$.
+\end{proof}
+
+\section{Применение критерия Эйзенштейна и формальная производная}
+
+\begin{proposition}
+Пусть $p$ --- простое число. Тогда многочлен
+\[
+f(x) = x^{p-1} + x^{p-2} + \dots + x + 1
+\]
+неприводим над $\Q$.
+\end{proposition}
+
+\begin{proof}
+Рассмотрим $f(x+1)$. Имеем
+\[
+f(x) = \frac{x^p - 1}{x-1},
+\]
+откуда
+\[
+f(x+1) = \frac{(x+1)^p - 1}{x}.
+\]
+По биному Ньютона
+\[
+(x+1)^p = x^p + \binom{p}{1}x^{p-1} + \dots + \binom{p}{p-1}x + 1, тогда 
+\]
+\[
+f(x+1) = x^{p-1} + \binom{p}{1}x^{p-2} + \dots + \binom{p}{p-1}.
+\]
+
+Все биномиальные коэффициенты, кроме коэффициента при старшей степени, делятся на $p$, а свободный член после деления на $x$ не делится на $p^2$.
+По критерию Эйзенштейна $f(x+1)$ неприводим, следовательно, неприводим и $f(x)$.
+\end{proof}
+
+\subsection{Формальная производная}
+
+\begin{definition}
+Пусть $K$ --- поле и
+\[
+f(x) = a_n x^n + \dots + a_1 x + a_0 \in K[x].
+\]
+\emph{Формальной производной} многочлена $f$ называется многочлен:
+\[
+f'(x) = n a_n x^{n-1} + \dots + 2 a_2 x + a_1.
+\]
+\end{definition}
+
+\begin{proposition}
+Для любых $f,g \in K[x]$ выполняются свойства:
+\begin{enumerate}[label=(\roman*)]
+\item $(f+g)' = f' + g'$,\
+\item $(fg)' = f'g + fg'.$
+\end{enumerate}
+\end{proposition}
+
+\begin{lemma}
+Пусть $\alpha$ --- корень $f \in K[x]$. Тогда $\alpha$ является кратным корнем тогда и только тогда, когда $f'(\alpha)=0$.
+\end{lemma}
+
+\section{Корни из единицы. Круговые поля.}
+
+\subsection{Корни из единицы}
+
+Рассмотрим многочлен $x^n - 1$ над $\CC$, где
+\[
+x^n - 1 = \prod_{k=1}^n(x - e^{2\pi i k / n}), \qquad k=0,1,\dots,n-1.
+\]
+
+Его корни имеют вид
+\[
+\zeta_n^k = e^{2\pi i k / n}.
+\]
+
+\begin{definition}
+Множество
+\[
+U_n = \{ \zeta_n^k \mid 0 \le k < n \}
+\]
+называется \emph{группой корней степени $n$ из единицы} ($\sqrt[n]{1}$).
+Элемент $\zeta \in U_n$ называется \emph{примитивным корнем $\sqrt[n]{1}$}, если $\ord(\zeta)=n$.
+\end{definition}
+
+\subsection{Круговые поля}
+
+\begin{definition}
+Пусть $K$ --- поле, то \emph{$n$-тым круговым полем над $K$} называется поле разложения многочлена $x^n-1$ над $K$.
+Обозначается $K^{(n)}$.
+\end{definition}
+
+\section{Структура группы корней из единицы}
+
+\begin{theorem}
+Пусть $K$ --- поле и $char \: K = p \ge 0$.
+\begin{enumerate}[label=(\roman*)]
+\item Если $p \nmid n$, то группа $U_n$ циклическая порядка $n$.
+\item Если $p \mid n$ и $n = p^e m$, где $p \nmid m$, то $U_n = U_m$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Если $p \nmid n$, то $(x^n-1)' = n x^{n-1}$ не обращается в ноль на корнях, следовательно, все корни простые и $|U_n|=n$.
+Далее доказывается цикличность стандартным групповым аргументом, используя разложение $n$ на простые множители и построение элемента порядка $n$.
+В случае $p \mid n$ имеем
+\[
+x^n - 1 = (x^m - 1)^{p^e},
+\]
+откуда утверждение.
+\end{proof}
+
+% ==================== ii ====================
+
+\section{Круговые многочлены}
+
+Пусть $n \ge 1$, характеристика поля $K$ не делит $n$,
+и $\zeta$ — примитивный корень степени $n$ из единицы.
+
+\begin{definition}
+\emph{$n$-тым круговым многочленом} называется многочлен
+\[
+\Phi_n(x)
+=
+\prod_{\substack{1 \le k \le n \\ (k,n)=1}} (x - \zeta^k).
+\]
+\end{definition}
+
+\begin{proposition}
+Выполняются следующие свойства:
+\begin{enumerate}[label=(\roman*)]
+  \item $\deg \Phi_n = \varphi(n)$;
+  \item
+  \[
+  x^n - 1 = \prod_{d \mid n} \Phi_d(x);
+  \]
+  \item $\Phi_n(x)$ имеет коэффициенты в простом подполе $K$
+  (в частности, $\Phi_n(x) \in \mathbb{Z}[x]$ при $K=\mathbb{Q}$).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Корни многочлена $x^n-1$ — все корни степени $n$ из единицы.
+Каждый такой корень имеет некоторый порядок $d \mid n$,
+и является примитивным корнем степени $d$.
+Группируя корни по порядкам, получаем разложение.
+Степень $\Phi_n$ равна числу примитивных корней, то есть $\varphi(n)$.
+\end{proof}
+
+\begin{lemma}
+Элемент $\zeta$ является примитивным корнем степени $n$ из единицы
+тогда и только тогда, когда $\Phi_n(\zeta)=0$.
+\end{lemma}
+
+\begin{theorem}
+Круговой многочлен $\Phi_n(x)$ неприводим над $\mathbb{Q}$.
+\end{theorem}
+
+\section{Круговые многочлены над конечными полями}
+
+Пусть $p$ — простое число, $p \nmid n$.
+
+\subsection{Круговое поле над $\mathbb{F}_p$}
+
+Пусть $\zeta$ — примитивный корень степени $n$ из единицы
+в некотором расширении поля $\mathbb{F}_p$.
+
+\begin{proposition}
+Пусть $d$ — наименьшее натуральное число такое, что
+\[
+p^d \equiv 1 \pmod n.
+\]
+Тогда $\zeta \in \mathbb{F}_{p^d}$, и поле разложения многочлена
+$x^n-1$ над $\mathbb{F}_p$ изоморфно $\mathbb{F}_{p^d}$.
+\end{proposition}
+
+\begin{proof}
+Если $\zeta \in \mathbb{F}_{p^k}$, то порядок элемента $\zeta$
+делит $p^k-1$, следовательно $n \mid (p^k-1)$.
+Минимальность $d$ означает, что $d$ есть порядок $p$
+в группе $(\mathbb{Z}/n\mathbb{Z})^\times$.
+Поэтому $\zeta \in \mathbb{F}_{p^d}$, и меньшего поля не существует.
+\end{proof}
+
+\subsection{Разложение $\Phi_n(x)$ над $\mathbb{F}_p$}
+
+\begin{theorem}
+Пусть $d$ — порядок $p$ по модулю $n$.
+Тогда круговой многочлен $\Phi_n(x)$ над $\mathbb{F}_p$
+раскладывается в произведение
+\[
+\Phi_n(x) = f_1(x) f_2(x) \cdots f_r(x),
+\]
+где:
+\begin{enumerate}[label=(\roman*)]
+  \item все $f_i(x)$ неприводимы над $\mathbb{F}_p$;
+  \item $\deg f_i = d$ для всех $i$;
+  \item $r = \varphi(n)/d$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Минимальный многочлен элемента $\zeta$ над $\mathbb{F}_p$
+имеет степень $d$, так как
+\[
+\mathbb{F}_p(\zeta) = \mathbb{F}_{p^d}.
+\]
+Его корни имеют вид
+\[
+\zeta, \zeta^p, \zeta^{p^2}, \dots, \zeta^{p^{d-1}},
+\]
+и являются примитивными корнями степени $n$.
+Следовательно, минимальный многочлен делит $\Phi_n(x)$.
+Все примитивные корни разбиваются на такие орбиты,
+откуда и следует утверждение.
+\end{proof}
+
+\begin{remark}
+Разложение $\Phi_n(x)$ описывается действием автоморфизма Фробениуса
+\[
+\sigma(\alpha) = \alpha^p
+\]
+на множестве примитивных корней степени $n$ из единицы.
+\end{remark}
+
+
+\section*{Дополнительные замечания}
+
+\begin{remark}[Интерпретация результатов]
+Содержание лекции можно суммировать следующим образом:
+структура разложения кругового многочлена $\Phi_n(x)$
+над конечным полем $\mathbb{F}_p$ полностью определяется
+порядком $p$ по модулю $n$.
+\end{remark}
+
+\begin{remark}[Связь с конечными полями]
+Каждое конечное поле характеристики $p$
+изоморфно $\mathbb{F}_{p^d}$,
+а его мультипликативная группа циклическая.
+Корни из единицы и круговые многочлены
+дают удобный язык для описания таких расширений.
+\end{remark}
+
+\begin{remark}[Действие Фробениуса]
+Автоморфизм Фробениуса
+\[
+\alpha \mapsto \alpha^p
+\]
+описывает сопряжения корней и объясняет,
+почему все неприводимые множители $\Phi_n(x)$
+над $\mathbb{F}_p$ имеют одинаковую степень.
+\end{remark}
+
+\end{document}

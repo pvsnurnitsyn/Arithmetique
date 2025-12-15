@@ -1,0 +1,184 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{unicode-math}
+
+\title{Лекция №6 «Группа автоморфизмов. Норма и след». Курс A-I}
+\author{Иванова Ксения Юрьевна 619/1}
+\date{14 октября 2025}
+
+\begin{document}
+
+\maketitle
+
+В прошлый раз
+
+\newline
+\newline
+F_{q} = F_{p}[x] / (f) \quad q=p^n \quad n=deg f \quad f-\textcyrillic{непрерыв}
+
+\newtheorem{theorem}{Теорема}
+
+\begin{theorem}
+    \forall n \quad \exists F_{q} \quad q=p^n
+\end{theorem}
+
+\begin{theorem}
+    F_{q}^* - \textcyrillic{циклическая группа с} \quad \varphi(q-1)
+\end{theorem}
+
+\\~\\
+
+Расширение полей L/K
+\newline
+Конечное расширение, если dim_{k} L < \infty \quad [L:K] = dim_{k} L
+
+\alpha \in L - \textcyrillic{алгебр.} \Leftrightarrow \exists f \in K(x) \quad f(\alpha)=0
+
+L/K - \textcyrillic{алгебр.} \Leftrightarrow \forall \alpha \in L - \textcyrillic{алгебр.}
+
+\begin{theorem}
+    L/K - \textcyrillic{конечное расширение, то} \Rightarrow \textcyrillic{алгебр.}
+\end{theorem}
+
+L/K \textcyrillic{называется простым, если} \exists \theta \in L \quad L=K(\theta)
+\newline
+F_{q}=F_{p}[x]/(f) - \textcyrillic{простое построение}
+\newline
+F_{q}[x] \rightarrow F_{p}[x]/(f)
+\newline
+x \rightarrow \theta: \quad f(\theta)=0 
+\newline
+F_{q}=F_{p}(\theta)
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    1) \quad a \in Z_{>0} \quad a^L-1 \vert a^m-1 \Leftrightarrow L \vert m \newline 2) \quad x^L-1 \vert x^m-1 \quad \textcyrillic{в} \quad F_{q}[x] \Leftrightarrow L \vert m \newline \square \quad \textcyrillic{Упражнение} \quad \blacksquare
+\end{lemma}
+
+\begin{theorem}
+    F_{p^d} - \textcyrillic{подполе} \quad F_{p^n} \Leftrightarrow d \vert n \newline \square \newline \Rightarrow F - \textcyrillic{подполе} \quad F_{p^n} \quad F_{p^n} / F / F_{p}, \quad d = [F:F_{p}] \newline |F|=p^d \quad |F^*|=p^d-1 \newline \forall x \in F^* \quad x^{p^d-1}-1=0 \newline \forall x \in F_{p^n}^* \quad x^{p^n-1}-1=0 \newline F^* \subset F_{p^n}^* \Rightarrow x^{p^d-1}-1 \vert x^{p^n-1}-1 \Rightarrow (\textcyrillic{лемма}) \quad d \vert n \newline \Leftarrow \textcyrillic{Пусть} \quad d \vert n \newline F = \{\alpha \in F_{p^n}: \alpha^{p^d} = \alpha\} \newline \forall \alpha, \beta \quad (\alpha + \beta)^{p^d}=\alpha^{p^d}+\beta^{p^d} \newline F - \textcyrillic{поле} \newline d \vert n \Leftrightarrow \textcyrillic{{лемма}} \quad x^{p^d}-x \vert x^{p^n} - x \quad (x^{p^d}-x \quad \textcyrillic{имеет} \quad p \quad \textcyrillic{различных корней}) \Rightarrow |F|=p^d \quad \textcyrillic{элементов} \newline F = F_{p^d} - \textcyrillic{подполе} \quad F_{p^n} \qquad \blacksquare
+\end{theorem}
+
+\newtheorem*{consequence}{Следствие}
+
+\begin{consequence}
+    F_{q^d} - \textcyrillic{подполе} \quad F_{q^n} \Leftrightarrow d \vert n \newline \square \quad q = p^t \quad F_{p^{nt}}/F_{p^{dt}} \Leftrightarrow dt \vert nt \Leftrightarrow d \vert n \qquad \blacksquare
+\end{consequence}
+
+\newtheorem{definition}{Определение}
+
+\begin{definition}
+    \sigma: K \rightarrow K - \textcyrillic{автоморфизм, если сохраняется структура поля.}
+\end{definition}
+
+\newline
+\sigma(\alpha+\beta)=\sigma(\alpha)+\sigma(\beta) 
+\newline 
+\sigma(\alpha\beta)=\sigma(\alpha)\sigma(\beta)
+
+\begin{definition}
+    L/K \quad \textcyrillic{Рассмотрим автоморфизмы} \quad \sigma: L \rightarrow L \newline \sigma(a)=a \quad \forall a \in K \newline Gal(L/K)=\{\sigma: L \rightarrow L \quad \sigma(a)=a, \quad a \in K \} \newline F_{q}/F_{p}, \quad F_{q}=F_{p}(\theta)
+\end{definition}
+
+\begin{definition}
+    \textcyrillic{Сопост} \quad \sigma: \theta \rightarrow \theta^p \quad \textcyrillic{индуцир отобр} \quad \sigma: F_{q} \rightarrow F_{q} \newline \alpha = a_1\theta^{n-1}+\dots+a_0 \quad \rightarrow \quad a_1((\theta)^p)^{n-1}+\dots \quad a \in F_{p} \quad \sigma(a)=a^p=a \newline \Rightarrow \sigma \in Gal(F_{q}/F_{p}) \quad \textcyrillic{называется афтормофизм Фробениуса}
+\end{definition}
+
+\begin{theorem}
+    Gal(F_{q}/F_{p})=<\sigma> - \textcyrillic{циклическая с порождающим элементом} \quad \sigma \newline
+    |Gal(F_{q}/F_{p})|=n=[F_{q}:F_{p}] \newline \square \quad \textcyrillic{Рассмотрим} \quad \sigma^i \quad \sigma(\alpha)=\alpha^p \newline \sigma^i(\alpha)=\alpha^{p^i} \quad 0 \le i \le n-1 \newline \sigma^i \in Gal(F_{q}/F_{p})=G \newline \sigma^i \ne \sigma^k \newline F_{q}=F_{p}[x]/(f)=F_{p}[\theta] \newline f(\theta)=0, \quad f = x^n + a_1x^{n-1} + \dots \newline f(\theta^p)=(\theta^p)^n + a_1(\theta^p)^{n-1}+\dots = (\theta^n + a_1\theta^{n-1}+\dots)^p=f(\theta)^p=0 \quad \theta^p - \textcyrillic{корень} \quad f \newline \theta, \theta^p, \theta^{p^2}, \dots, \theta^{p^{n-1}} - \textcyrillic{корень} \quad f \newline F_{q}^*=<\eta> \quad \eta - \textcyrillic{порождающий} \quad q-1 \newline \eta = b_1\theta^{n-1}+\dots \newline \textcyrillic{если} \quad 0 \le j \le k \le n-1 \quad \theta^{p^j}=\theta^{p^k} \newline \eta^{p^j} = \eta^{p^k} \Rightarrow \eta^{p^k-p^j}=1 \newline p^k-p^j < q-1 \quad (\textcyrillic{получаем противоречие с} \quad q) \newline \textcyrillic{Значит} \quad f(x)=\prod_{j=0}^{n-1}(x-\theta^{p^j}) \newline \varphi \in Gal(F_{q}/F_{p}) \newline 0 = \varphi(f(\theta))=f(\varphi(\theta)) \Rightarrow \varphi(\theta) - \textcyrillic{корень} \quad f \newline \varphi(\theta)=\theta^{p^j} \qquad \blacksquare
+\end{theorem}
+
+\textcyrillic{Пусть} \quad G_n=Gal(F_{p^n}/F_{p}) \newline [F_{p^n}:F_{p}]=n=|G_n|
+\newline F_{p^d}-\textcyrillic{подполе} \quad F_{p^n} \Leftrightarrow d \vert n \Leftrightarrow \textcyrillic{существует цикл подгруппа порядка} \quad d \quad \textcyrillic{b} \quad G_n
+\newline \textcyrillic{Общий случай}: \quad L/K, \quad G=Gal(L/K)
+\newline 
+\newline \left\{ \begin{aligned} 
+    \textcyrillic{подполя} \quad F \\
+    L/F/K
+    \end{aligned} \right\} \Leftrightarrow \left\{ \begin{aligned} 
+    \textcyrillic{подгруппы} \\
+    H < G
+    \end{aligned} \right\} 
+\newline \newline
+\newline F \rightarrow Gal(F/K)
+\newline L^H \leftarrow H \quad (\textcyrillic{для} \quad L: \{\alpha \in L: \quad \forall \sigma \in H \quad \sigma\alpha=\alpha\})
+
+\begin{definition}
+    \textcyrillic{Коненчое расширение} \quad L/K \quad \textcyrillic{называется расширением Галуа, если} \quad |Gal(L/K)|=[L:K]
+\end{definition}
+
+\begin{lemma}
+    |Gal(L/K)| \le [L:K]
+\end{lemma}
+
+\\~\\
+
+Норма и след
+\newline L/K - конечное расширение
+\newline [L:K]=n
+\newline \forall \alpha \in L \qquad \zeta \rightarrow \alpha\zeta
+\newline \{\omega_1,\dots, \omega_n\} - \textcyrillic{базис} \quad L/K
+\newline A_{\alpha}=(a_{ij}) - \textcyrillic{матрица} \quad \zeta \rightarrow \alpha\zeta 
+\newline \alpha w_i = \sum_{i=1}^{n}a_{ij}w_j \quad a_{ij} \in K
+\newline g_{\alpha}(x)=det(xE_n-A) \in K[x]
+
+\begin{lemma}
+    \alpha \in L, f_{\alpha} \in K[x] - \textcyrillic{линейный многочлен} \quad \alpha, \quad g_{\alpha} - \newline \textcyrillic{характеристический многочлен. Тогда} \quad g_{\alpha} = f_{\alpha}^s \newline \square \quad L/K(\alpha)/K \newline n=[L:K]=[L:K(\alpha)][K(\alpha):K] \quad ([L:K(\alpha)]=s, \quad [K(\alpha):K]=m) \newline \textcyrillic{Упражнение} \quad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    g_{\alpha} \quad \textcyrillic{не зависит от выбора базиса!}
+    \newline \square \quad \dots \quad \blacksquare
+\end{lemma}
+
+\begin{definition}
+    N_{L/K}(\alpha)=detA_{\alpha}
+\end{definition}
+
+Tr_{L/K}(\alpha)=trA_{\alpha}
+
+\begin{lemma}
+    1) \quad a \in K \quad N_{L/K}(a)=a^n \quad Tr_{L/K}(a)=na \newline 2) \quad N(\alpha\beta)=N(\alpha)N(\beta) \quad Tr(\alpha+\beta)=Tr\alpha+Tr\beta
+\end{lemma}
+
+\begin{lemma}
+    M/L/K \newline N_{M/K} = N_{M/L} * N_{L/K} \newline Tr_{M/K} = Tr_{M/L} * Tr_{L/K}
+\end{lemma}
+
+\begin{definition}
+    L/K - \textcyrillic{конечное расширение называется сепарабельным} \Leftrightarrow  Tr_{L/K} \not\equiv 0
+\end{definition}
+
+\newtheorem*{example}{Пример}
+
+\begin{example}
+    char h = p \newline Tr_{L/K}(1)=n\ne0, \quad p \not \vert \quad n 
+\end{example}
+
+\begin{definition}
+    L/K \quad \textcyrillic{называется нормальным, если} \quad \forall \alpha \in L \newline f_{\alpha}(x) \quad \textcyrillic{полностью раскладывается на линейные множители} \quad (L)
+\end{definition}
+
+\begin{theorem}
+    L/K - \textcyrillic{нормально, сепарабельно} \Leftrightarrow |Gal(L/K)|=[L:K]
+\end{theorem}
+
+\begin{lemma}
+    F_{q}/F_{p} \newline 1) \quad N(\alpha)=\prod_{j=0}^{n-1} \sigma^j(\alpha) = \prod_{j=0}^{n-1} \alpha^{p^j} \newline Tr(\alpha) = \sum_{j=0}^{n-1} \sigma^j(\alpha) = \sum_{j=0}^{n-1} \alpha^{p^j} \newline 2) \quad N: \quad F_{q}^* \rightarrow F_{p}^*, \quad Tr: \quad F_{q} \rightarrow F_{p} \quad \textcyrillic{отображение на}
+    \newline \square \quad 2) \quad Tr \quad x + x^p + \dots + x^{p^n-1} \le p^{n-1} \quad \textcyrillic{корней}, \quad \textcyrillic{а} \quad |F_{q}^*|=p^n-1 \qquad \blacksquare
+\end{lemma}
+
+\end{document}

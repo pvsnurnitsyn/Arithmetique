@@ -1,0 +1,120 @@
+\section{Домашние задания и упражнения}
+\subsection{Упражнения}
+\begin{exercise}
+    Доказать свойства делимости:
+    \begin{itemize}
+        \item $a \mid a, \: a \neq 0$;
+        \item $a \mid b, \: b \mid a \Rightarrow a = \pm b$;
+        \item $a \mid b, \: b \mid c \Rightarrow a \mid c$;
+        \item $a \mid b, \: a \mid c \Rightarrow a \mid b \: \pm c$.
+    \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+    Алгоритм Евклида. Пусть $a, b \in \mathbb{Z} \setminus {0}$, $a > b$, определим последовательность $b > r_{1} > r_{2} > \ldots > r_{n}$ следующим образом:
+    $a = bq_{0} + r_{1}$, $b = r_{1}q_{1} + r_{2}$, $r_{1} = r_{2}q_{2} + r_{3} \ldots$, $r_{n} = r_{n - 1}q_{n - 1} + r_{n}$. Доказать, что существует $n: r_{n - 1} = r_{n}q_{n}$ и $r_{n} = (a, b)$.
+\end{exercise}
+
+\begin{exercise}
+    Доказать, что $ord_{p}(n!) = \left[\frac{n}{p}\right] + \left[\frac{n}{p^2}\right] + \left[\frac{n}{p^3}\right] + \ldots$
+\end{exercise}
+
+
+\subsection{Домашние задания}
+\begin{exercise}
+Доказать, что $\sqrt{2}$ - иррациональное число, то есть не $\nexists $ рационального $r = \frac{a}{b}$ ($a, b \: \in \mathbb{Z}$) такого, что $r^2 = 2$. 
+\end{exercise}
+\begin{proof}
+    Пусть $\sqrt{2}$ - рациональное число. Значит его можно представить в виде несократимой дроби: $\sqrt{2} \: = \: \frac{a}{b}$.
+    \begin{equation*}
+        \begin{aligned}
+            & \sqrt{2} = \frac{a}{b}: \: \text{возведём в квадрадт обе части равенства} \\
+            & 2 = \frac{a^2}{b^2}: \\
+            & 2\cdot b^{2} = a^2
+        \end{aligned}
+    \end{equation*}
+    Так как левая часть равенства кратна $2$, то $a$ - чётное число. Пусть $a = 2\cdot k$. Тогда получим:
+    \begin{equation*}
+        \begin{aligned}
+            2\cdot b^{2} = (2\cdot k)^2; \\
+            2\cdot b^{2} = 4\cdot k^2; \\
+            b^{2} = 2\cdot k^2            
+        \end{aligned}
+    \end{equation*}
+    Так как правая часть равенства кратна $2$, то $b$ - чётное число. То есть числа $a, b$ - чётные (по вычислениям). Значит дробь $\frac{a}{b}$ не была несократимой. А значит противоречие (что $\sqrt{2}$ - рациональное число).
+\end{proof}
+
+\begin{exercise}
+    Пусть $\alpha \: \in \mathbb{R}, \: b \in \mathbb{Z}_{+}$. Доказать, что $\left[\frac{\left[\alpha\right]}{b}\right] = \frac{\alpha}{b}$
+\end{exercise}
+
+\begin{exercise}
+    Пусть $(a,b) = 1$. Доказать, что $(a + b, a - b) = 1$ или $ = 2$.
+\end{exercise}
+
+\begin{exercise}
+    Пусть $a, b, c, d \in \mathbb{Z}$. Доказать, что уравнение $ax + by = c$ разрешимо в целых числах $\Leftrightarrow$ $d = (a,b) \: \mid \: c$. Доказать, что если $x_{0}, y_{0}$ - решение этого уравнения, то все решения имеют вид:
+    \[x \: = \: x_{0} + t\cdot \frac{b}{d}, y \: = \: y_{0} - t\cdot \frac{b}{d}\: \text{где} \: t \in \mathbb{Z}\]
+\end{exercise}
+
+\begin{exercise}
+    Доказать свойства:
+    \begin{itemize}
+        \item $ord_{p}([a, b]) \: = \: \max(ord_{p}(a), ord_{p}(b))$;
+        \item $ord_{p}(a + b) \geq \min(ord_{p}(a), ord_{p}(b))$, причём \\
+        $ord_{p}(a + b) = \min(ord_{p}(a), ord_{p}(b))$, если $ord_{p}(a) \neq ord_{p}(b)$;
+        \item $(a, b)[a, b] = ab$;
+        \item $(a + b, [a,b]) = (a, b)$. 
+    \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+    Пусть $a, b, c, d \in \mathbb{Z}, \: (a, b) = 1, \: (c, d) = 1$. Доказать, что если $\frac{a}{b} + \frac{c}{d} \in \mathbb{Z}$, то $b = \pm d$.
+\end{exercise}
+
+\begin{exercise}
+    Пусть $n \in \mathbb{Z}, n > 2$. Доказать, что числа:
+    \begin{equation*}
+        \begin{aligned}
+            & \frac{1}{2} + \frac{1}{3} + \ldots + \frac{1}{n}; \\
+            & \frac{1}{3} + \frac{1}{5} + \ldots + \frac{1}{2n + 1}
+        \end{aligned}
+    \end{equation*}
+    не являются целыми.
+\end{exercise}
+
+\begin{exercise}
+    Пусть $f(n)$ - мультипликативная функция. Доказать, что функция
+    \begin{equation*}
+        \begin{aligned}
+            g(n) = \sum \limits_{d \mid n} f(d) \\
+            h(n) = \sum \limits_{d \mid n} \mu\bigl(\frac{n}{d}\bigr)f(d)
+        \end{aligned}
+    \end{equation*}
+    также мультипликативны.
+\end{exercise}
+
+\begin{exercise}
+    Доказать, что для $\forall n \: \in \mathbb{Z}$:
+    \begin{equation*}
+        \begin{aligned}
+            \sum \limits_{d \mid n} \mu\bigl(\frac{n}{d}\bigr)\nu(d) = 1 \\
+            \sum \limits_{d \mid n} \mu\bigl(\frac{n}{d}\bigr)\sigma(d) = n
+        \end{aligned}
+    \end{equation*}
+\end{exercise}
+
+\begin{exercise}
+    Доказать, что для $\forall m,n \in \mathbb{Z}$:
+    \begin{itemize}
+        \item $\phi(n)\phi(m) = \phi((n, m))\phi([n, m])$;
+        \item $\phi(mn)\phi((m, n)) = (m, n)\phi(m)\phi(n)$.
+    \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+    Пусть $P, Q \in \mathbb{Z}_{+}$ - нечётные, $(P, Q) = 1$. Доказать, что
+    \begin{equation*}
+        \sum \limits_{0 < x < \frac{Q}{2}}\left[\frac{P}{Q}x\right] + \sum \limits_{0 < y < \frac{P}{2}}\left[\frac{Q}{P}y\right] = \frac{P - 1}{2}\frac{Q - 1}{2}
+    \end{equation*}
+\end{exercise}

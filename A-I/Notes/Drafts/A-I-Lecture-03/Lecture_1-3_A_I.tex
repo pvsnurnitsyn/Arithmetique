@@ -1,0 +1,276 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{fullpage}
+\usepackage{cancel}
+
+%\usepackage{indentfirst}
+%\usepackage{amsfonts}
+%\usepackage{multirow}
+%\usepackage{graphicx}
+%\usepackage{algpseudocode}
+%\usepackage{indentfirst}
+%\usepackage{titlesec}
+
+% Окружения теорем (названия на русском)
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{fact}{Факт}
+\newtheorem{definition}{Определение}
+\newtheorem{remark}{Замечание}
+
+% Обозначения
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\wt}{\mathrm{wt}}
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Inv}{\mathrm{Inv}}
+\newcommand{\codim}{\mathrm{codim}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\begin{document}
+	
+	\section{Первообразные корни}
+	$\mathbb{G}$ --- группа, $\mathbb{Z}$ --- группа, $\mathbb{Z}$/m$\mathbb{Z}$ --- группа по $"$+$"$, $\mathbb{H}$ $\subset$  $\mathbb{G}$ подгруппа. 
+	
+	$\textbf{Обозн:}$ $\mathbb{H} < \mathbb{G}$.
+	
+	\begin{lemma}
+		$\mathbb{H} < \mathbb{G}$, отношение $a\sim b$ $<=>$ $\exists h\in \mathbb{H}: a=bh$ является отношением эквивалентности. 
+	\end{lemma}
+	
+	\begin{lemma}
+		$\mathbb{H} < \mathbb{G}$, $|\mathbb{H}|<\infty$ $=>$ $\forall a,b\in \mathbb{G}: |a\mathbb{H}|=|b\mathbb{H}|=|\mathbb{H}|$
+	\end{lemma}
+	
+	\begin{definition}
+		$\mathbb{H} < \mathbb{G}$, если число классов эквивалентности конечно, то оно называется индексом $([\mathbb{G}:\mathbb{H}])$.
+	\end{definition}
+	
+	\begin{lemma}
+		$|\mathbb{G}|<\infty$, $\mathbb{H} < \mathbb{G}$ $=>$ $|\mathbb{G}|=[\mathbb{G}:\mathbb{H}]\cdot|\mathbb{H}|$.
+	\end{lemma}
+	
+	\begin{definition}
+		Группа называется циклической, если порождается единственным элементом, $\mathbb{G}=<a>$.
+	\end{definition}
+	
+	$\forall g \in \mathbb{G}$, $g=a^k$.
+	
+	\begin{definition}
+		Конечным порядком элемента $a\in\mathbb{G}$ называется ннаименьшее $n\in\mathbb{Z}:a^n=e,n=\mathrm{ord}\,a$.
+	\end{definition}
+	
+	\begin{lemma}
+		$\mathbb{G}=<g>$ --- конечная циклическая группа.
+		
+		$0)$ $\mathrm{ord}\,g=|\mathbb{G}|$;
+		
+		$1)$ $\forall\mathbb{H}<\mathbb{G}$, $\mathbb{H}$ --- циклическая;
+		
+		$2)$ $k\in\mathbb{Z}_+$, $\mathbb{H}=<g^k>$ $=>$ $|\mathbb{H}|=\frac{m}{(m,k)}$, $m=|\mathbb{G}|$;
+		
+		$3)$ $\forall d|m$ $\exists!$ $\mathbb{H}<\mathbb{G}$, $|\mathbb{H}|=d$, $\forall f|m$ $\exists!$ $\mathbb{H}<\mathbb{G}:\,[\mathbb{G}:\mathbb{H}]=f$;
+		
+		$4)$ $d|m$ $=>$ $\exists$ $\varphi(d)$ элементов порядка $d$;
+		
+		$5)$ $\exists$ $\varphi(m)$ порождающих(образующих) группу $\mathbb{G}$, $\mathbb{G}=<g^k>$, $(k,m)=1$.
+	\end{lemma}
+	
+	\begin{definition}
+		$f:\mathbb{G}_1\to\mathbb{G}_2$ --- гомоморфизм, если сохраняет структуру группы (т.е. $f(e_1)=e_2,f(g_1g_2)=f(g_1)f(g_2)$ и т.д.).
+	\end{definition}
+	
+	\begin{definition}
+		$\mathrm{ker}\,f=\{a\in\mathbb{G}_1:f(a)=e_2\}$, где $e_2$ --- единичный элемент в $\mathbb{G}_2$.
+	\end{definition}
+	
+	$\textbf{Пример.}$ $f:a\to a\,\mathrm{mod}\,n$, как $\mathbb{Z}\to\mathbb{Z}/n\mathbb{Z}$.
+	
+	$\mathrm{ker}\, f=(n)$.
+	
+	\begin{lemma}
+		$\mathrm{ker}\, f<\mathbb{G}$, причём если $a\in\mathbb{G},b\in\mathrm{ker}\, f$, то $aba^{-1}\in\mathrm{ker}\, f$.
+	\end{lemma}
+	
+	\begin{definition}
+		$\mathbb{H}<\mathbb{G}$ называется нормальной, если $\forall a\in\mathbb{G},b\in\mathbb{H}:aba^{-1}\in\mathbb{H}$ (Обозн. $\mathbb{H}\triangleleft\mathbb{G}$).
+	\end{definition}
+	
+	\begin{lemma}
+		$1)$ $\mathbb{H}<\mathbb{G}$ --- нормальная, если $\forall a\in\mathbb{G}:a\mathbb{H}a^{-1}=\mathbb{H}$;
+		
+		$2)$ $\mathbb{H}<\mathbb{G}$ --- нормальная $<=>$ $\forall a:a\mathbb{H}=\mathbb{H}a$.
+	\end{lemma}
+	
+	\begin{corollary}
+		Если $\mathbb{H}<\mathbb{G}$ --- нормальная, то $\{a\mathbb{H}\}$ --- группа (Обозн. $\mathbb{G}/\mathbb{H}$) ($(a\mathbb{H})\cdot(b\mathbb{H})=((ab)\mathbb{H})$).
+	\end{corollary}
+	
+	\begin{lemma}
+		$|\mathbb{G}|<\infty$, $\mathbb{H}$ --- нормальная $=>$ $|\mathbb{G}/\mathbb{H}|=[\mathbb{G}:\mathbb{H}]=\frac{|\mathbb{G}|}{|\mathbb{H}|}$.
+	\end{lemma}
+	
+	\begin{theorem}(о гомоморфизме)
+		Если $f:\mathbb{G}\to\mathbb{H}$ --- гомоморфно, сюръективно $=>$ $\mathbb{G}/\mathrm{ker}\,f\cong \mathbb{H}$.
+	\end{theorem}
+	
+	\begin{theorem}(версия для колец)
+		Если $\psi:\mathbb{R}\to\mathbb{S}$ --- гомоморфизм колец $=>$ $\mathrm{ker}\,\psi$ --- идеал $\mathbb{R}$, $\mathrm{Im}\,\psi$ --- подкольцо $\mathbb{S},\cong\mathbb{R}/\mathrm{ker}\,\psi$; если $\psi$ --- сюръективно, то $\mathbb{S}\cong\mathbb{R}/\mathrm{ker}\,\psi$.
+	\end{theorem}
+	
+	\begin{theorem}(КТО)
+		$(m_i,m_j)=1$, $1\le i \ne j \le t$, $m=m_1\cdot...\cdot m_t$, 
+		
+		$\mathbb{Z}/m\mathbb{Z} \cong \mathbb{Z}/m_1\mathbb{Z}\oplus ... \oplus \mathbb{Z}/m_t\mathbb{Z}$.
+	\end{theorem}
+	
+	\begin{proof}
+		\[
+		\psi_i =
+		\begin{cases}
+			\mathbb{Z} \to \mathbb{Z}/m_i\mathbb{Z}; \\
+			a \mapsto a\,\mathrm{mod}\,m_i.
+		\end{cases}
+		\]
+		$\psi: \mathbb{Z} \to \mathbb{Z}/m_1\mathbb{Z}\oplus ... \oplus \mathbb{Z}/m_t\mathbb{Z}$;
+		
+		$\psi(a)=(\psi_1(a),...,\psi_t(a))$;
+		
+		если $(b_1,...,b_t)\in\mathbb{Z}/m_1\mathbb{Z}\oplus ... \oplus \mathbb{Z}/m_t\mathbb{Z}$, то КТО: $\exists a\in\mathbb{Z}:$
+		\[
+		\begin{cases}
+			a\equiv b_1(m_1) \\
+			\vdots\\
+			a\equiv b_t(m_t)
+		\end{cases}, 
+		\] $\psi$ --- сюръекция;
+		
+		$\mathrm{ker}\,\psi=\{n:\psi(n)=0\}$;
+		
+		$\forall i=1,...,t$, $n\equiv0(m_i)$ $<=>$ $m_i|n$, $(m_i,m_j)=1$ $=>$ $m|n$;
+		
+		$\mathrm{ker}\,\psi=(m)$ $=>$(из Т. о гомоморфизме) $\mathbb{Z}/(m) \cong \mathbb{Z}/(m_1)\oplus...\oplus\mathbb{Z}/(m_t)$.
+	\end{proof}
+	
+	$\textbf{Обозн:}$ $R$ --- кольцо, $R^*=U(R)$ --- множество единиц $R$; $U(R)$ --- группа.
+	
+	\begin{lemma}
+		$R=R_1\oplus...\oplus R_t$ $=>$ $U(R)\cong U(R_1)\times...\times U(R_t)$.
+	\end{lemma}
+	
+	\begin{proof}
+		$U\in U(R),$ $\exists v:$ $uv=1\Leftrightarrow \forall i$ $u_iv_i=1$ $\Leftrightarrow $ $u_i\in U(R_i)$.
+	\end{proof}
+	
+	\begin{corollary}
+		$m=m_1\cdot...\cdot m_t$, $(m_i,m_j)=1$, то $U(\mathbb{Z}/m\mathbb{Z})=U(\mathbb{Z}/m_1\mathbb{Z})\times...\times U(\mathbb{Z}/m_t\mathbb{Z})$.
+	\end{corollary}
+	
+	$m=p_1^{a_1}...p_t^{a_t}$, $U(\mathbb{Z}/m\mathbb{Z})=U(\mathbb{Z}/p_1^{a_1}\mathbb{Z})\times...\times U(\mathbb{Z}/p_t^{a_t}\mathbb{Z})$.
+	
+	\begin{lemma}(Теорема Лагранжа)
+		Если $F$ --- поле, $f\in F[x]$, $\mathrm{deg}\,f=n$, тогда $f$ имеет не более $n$ корней.
+	\end{lemma}
+	
+	\begin{proof}
+		Индукция по $n$.
+		
+		$n=1$: $f=ax+b$, $-\frac{b}{a}$ --- корень;
+		
+		$n>1$: если у $f$ нет корней, то доказано;
+		
+		Пусть $\alpha \in F$, $f(\alpha)=0$, $f(x)=g(x)(x-\alpha)+r$, здесь не $r(x)$, т. к. $\mathrm{deg}\,r<1\,=>\,r\in F$.
+		
+		При $x=\alpha,\,r=0\,=>\,f(x)=q(x)(x-\alpha),\,\mathrm{deg}\,q=\mathrm{deg}\,f-1=n-1$. Если $\beta \ne \alpha$ --- другой корень: $0=f(\beta)=q(\beta)(\beta-\alpha)\ne 0\, =>\, q(\beta)=0$, но по индукции $q$ имеет $\le n-1$ корней.
+	\end{proof}
+	
+	\begin{corollary}
+		$f,g\in F[x],\,\mathrm{deg}\,f=\mathrm{deg}\,g=n,\,f(\alpha_i)=g(\alpha_i),\,1\le i\le n+1,\,\alpha_1,...,\alpha_{n+1}$ --- различны, тогда $f=g$.
+	\end{corollary}
+	
+	Для $F=\mathbb{Z}/p\mathbb{Z}$.
+	
+	\begin{lemma}
+		$x^{p-1}-1\equiv (x-1)...(x-(p-1))\,\,(p)$.
+	\end{lemma}
+	
+	\begin{proof}
+		$x^{p-1}-1= (x-1)...(x-(p-1))$;
+		
+		$f=(x^{p-1}-1)- (x-1)...(x-(p-1))\,=>\,\mathrm{deg}\,f<p-1$;
+		
+		$f(1)=f(2)=...=f(p-1)=0$;
+		
+		Левая часть $=0$ по т. Ферма, а правая $=0$, т. к. $=0$ $=>$ по предыдущему утверждению $f\equiv0$ и они равны.
+	\end{proof}
+	
+	\begin{corollary}
+		$(p-1)!=-1\,\,(p)$.
+	\end{corollary}
+	
+	\begin{lemma}
+		Если $d|p-1$, то $x^d\equiv1\,\,(p)$ имеет $d$ решений.
+	\end{lemma}
+	
+	\begin{proof}
+		$p-1=cd$; $\frac{x^{p-1}-1}{x^d-1}=\frac{(x^d)^c-1}{x^d-1}=(x^d)^{c-1}+...+x^d+1=g(x)$;
+		
+		$x^{p-1}-1=(x^d-1)g(x)=f(x)g(x)$;
+		
+		Пусть $f=x^d-1$ имеет $<d$ корней, $g(x)$ имеет $\le d(c-1)$ корней; 
+		
+		$x^{p-1}-1$ имеет $<d+d(c-1)=dc=p-1\,=>\,?!!$ с тем, что ровно $p-1$ корней.
+	\end{proof}
+	
+	\begin{theorem}
+		$U(\mathbb{Z}/p\mathbb{Z})$ --- циклическая группа.
+	\end{theorem}
+	
+	\begin{proof}
+		Надо доказать, что существует элемент порядка $p-1$.
+		
+		Пусть $d|p-1,\,\psi(d)=|\{x\in U(\mathbb{Z}/p\mathbb{Z}),$ порядка $d\}|$;
+		
+		\[
+		\begin{cases}
+			x^d\equiv 1\,\,(p) \\
+			x^c\not\equiv 1\,\,(p),\,c<d
+		\end{cases}
+		\]
+		
+		$\sum_{c|d}^{}\psi(c)=d$;
+		
+		$\psi(d)=\sum_{c|d}^{}\mu(c)\frac{d}{c}=\phi(d)\,=>\,\psi(p-1)=d(p-1)=0$.
+	\end{proof}
+	
+	\begin{definition}
+		$g$ называется первообразным корнем (ПК) по mod $n$, если $g$ является образующим $U(\mathbb{Z}/n\mathbb{Z})$.
+	\end{definition}
+	
+	$\textbf{Пример.}$ $U(\mathbb{Z}/\delta\mathbb{Z})=\{1,3,5,7,9\}$.
+	
+	$x^{2}:\,1,9\equiv1,25\equiv1,49\equiv1,81\equiv1\,=>\,$ ПК нет.
+	
+	\begin{theorem}
+		$p>2$, $U(\mathbb{Z}/p^l\mathbb{Z})$ --- циклическая, $U(\mathbb{Z}/2^l\mathbb{Z})$, $U(\mathbb{Z}/4^l\mathbb{Z})$
+		
+		$l\ge3:\,U(\mathbb{Z}/2^l\mathbb{Z})=U_0\times U_{1}$, $U_0$ --- пары $2$, $U_1$ --- пары $l-2$;
+		
+		$\{(-1)^a5^b,\,a=0,1,\,0\le b\lt2^{l-2}\}$.
+	\end{theorem}
+	
+	\begin{theorem}
+		По mod $n$ существуют ПК для $n=2,4,p^l,2p^l$.
+	\end{theorem}
+\end{document}

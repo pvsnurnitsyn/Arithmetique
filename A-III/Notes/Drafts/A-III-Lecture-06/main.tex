@@ -1,0 +1,710 @@
+\input{preambule}
+
+\begin{document}
+
+\title{Конспект лекции 6:\\ 
+<<Дифференциальные формы. Дивизоры>>}
+\author{Иванов Егор Романович, 503 группа}
+\date{Осень 2025}
+\maketitle
+
+\tableofcontents
+
+\section{Дифференциальные формы}
+
+\subsection{Перенос определений}
+
+\begin{definition}
+    Пусть $f:\mathbb C\to\mathbb C$
+    -- голоморфна на открытом множестве
+    $V\subset \mathbb C$.
+    Выражение
+    $\omega=f(z)dz$
+    называют \textit{голоморфной
+    дифференциальной 1-формой
+    (голоморфным дифференциалом)}.
+\end{definition}
+\noindentРаспространим данное определение
+из курса ТФКП на римановы поверхности. Сделать
+это можно с помощью карт.
+Если $z=\varphi(x)$, $w=\psi(x)$
+-- карты, а $T$ -- функция склейки, то есть
+$z=T(w)$, то $dz = T'(w)dw$.
+
+\begin{definition}
+    Пусть имеются
+    две
+    голоморфные дифференциальные 1-формы
+    \begin{equation}
+        \begin{aligned}
+        &\omega_1=f(z)dz\\
+        &\omega_2=g(w)dw
+        \end{aligned}
+    \end{equation}
+    Если
+    $g(w)=f(T(w))T'(w)$,
+    где $T$ -- голоморфная функция, то
+    будем говорить, что $\omega_1$ 
+    \textit{переходит}
+    в $\omega_2$.
+\end{definition}
+
+\begin{definition}
+    Пусть $X$ -- риманова поверхность.
+    \textit{Голоморфной 1-формой} над $X$
+    называется такое семейство 
+    $(\omega_\varphi)$, что
+    для любых карт
+    $\varphi_1,\varphi_2$
+    верно, что
+    $\omega_{\varphi_1}$ 
+    переходит в $\omega_{\varphi_2}$
+    под действием функции склейки
+    $T=\varphi_1\circ\varphi_2^{-1}$.
+\end{definition}
+
+\noindent\textbf{Замечание 1.}
+Достаточно задать на картах одного
+атласа $\mathcal A$.
+
+\noindent\textbf{Замечание 2.}
+Множество голоморфных форм
+обозначается буквой $\Omega$.
+
+\noindent\textbf{Замечание 3.}
+Определения и замечание 1 аналогичны в случае 
+мероморфной функции~$f$.
+Обозначение: $\mathcal M^{(1)}$.
+
+\begin{definition}
+    Пусть
+    $\omega\in\mathcal M_p^{(1)}$, $p\in X$.
+    Если 
+    $z=\varphi(\cdot)$ -- локальная координата,
+    в которой форма имеет вид
+    $\omega=f(z)dz$, $f\in\mathcal M_p$,
+    то число
+    $\nu_p(\omega)=\nu_p(f)$ 
+    называется
+    \textit{порядком} формы~$\omega$.
+\end{definition}
+
+\noindent\textbf{Замечание.}
+Аналогично можно показать, что порядок
+формы корректно определен, то есть
+не зависит от выбора карты.
+
+\begin{lemma}
+    $\ $
+    \begin{enumerate}
+    \item  
+    Пусть
+    $\omega\in\Omega$
+    -- голоморфная форма,
+    $h\in\mathcal O$
+    -- голоморфная функция,
+    тогда $h\omega\in\Omega$.
+    \item 
+    Аналогично, 
+    если $\omega\in\mathcal M^{(1)}$,
+    $h\in\mathcal M$,
+    то $h\omega\in\mathcal M^{(1)}$.
+    \item 
+    Если $\omega\in\mathcal M_p^{(1)}$,
+    $h\in\mathcal M$,
+    то 
+    $\nu_p(h\omega) 
+    =\nu_p(h)+\nu_p(\omega)$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+    Рассмотрим отображение 
+    $d:f\mapsto f'(z)dz$,
+    действующее из
+    $\mathcal M$ в $\mathcal M^{(1)}$.
+    Если форма $\omega$
+    содержится в $d$, то есть $\omega=df$,
+    то она 
+    называется \textit{точной}.
+\end{definition}
+
+\noindentРассмотрим \textbf{примеры}:
+$\mathbb C_\infty$ -- риманова сфера
+\begin{itemize}
+    \item Пусть $\omega=dz$.
+    В любой конечной точке $p\in\mathbb C$
+    верно, что
+    $\nu_p(\omega)>0$. В окрестности~$\infty$:
+    \[
+        z = \frac{1}{w}
+        \Rightarrow
+        dz = -\frac{1}{w^2}dw,
+    \]
+    откуда $\nu_\infty(dz)=-2$.
+    \item Пусть $\omega=f\:dz$.
+    Если $f$ голоморфна на $\mathbb C$
+    и не является тождественной константой,
+    то $\nu_\infty(f)<0$. В окрестности
+    нуля верно, что
+    \begin{equation}
+        \omega=
+        -f
+        \left(\frac{1}{w}\right)
+        \frac{1}{w^2}dw
+        \Rightarrow
+        \nu_\infty(w)=-2
+    \end{equation}
+    \item Пусть $\omega=\frac{1}{z}dz$.
+    Эта форма
+    не является точной, так
+    как все мероморфные функции на сфере
+    -- рациональные функции.
+\end{itemize}
+
+\subsection{Интегрирование 1-форм}
+
+\noindentВ комплексном анализе 
+дифференциальные формы
+-- инструмент для контурного интегрирования,
+поэтому определим
+соответствующие понятия и для 
+случая римановых поверхностей.
+
+\noindentВ $\mathbb R^2$ 1-формы
+имеют вид 
+$f(x,y)dx+g(x,y)dy$. В этой
+модели можно смотреть на $\mathbb C$
+как на плоскость $\mathbb R^2$:
+\begin{equation}
+    z = x+iy, \quad \bar z=x-iy \quad
+    \Leftrightarrow
+    \quad
+    dx = \frac{dz+d\bar z}{2},
+    \quad
+    dy = \frac{dz-d\bar z}{2i}
+\end{equation}
+В данных обозначениях условия
+Коши-Римана можно записать, как 
+\begin{equation}
+    \frac{\partial f}{\partial \bar z} = 0
+\end{equation}
+При их выполнении функция 
+$f(z)=f(x,y)=f(z,\bar z)$ является
+бесконечно-дифференцируемой как отображение
+на плоскости.
+Будем обозначать класс таких функций
+$C^\infty$.
+
+\begin{definition}
+    $C^\infty$-1-формы
+    $\omega=f(z,\bar z)dz + g(z,\bar z)d\bar z$, где $f,g\in C^\infty$.
+\end{definition}
+\noindentАналогично 
+данное понятие распространяется 
+на римановы поверхности с помощью карт.
+
+\begin{definition}
+    $C^\infty$-формы это семейство
+    форм $(\omega_\varphi)$ в каждой карте
+    таких, что для любых карт $\varphi, \psi$
+    $\omega_\varphi$ переходит
+    в $\omega_\psi$. Под
+    этим понимается, что
+    $f_2(w,\bar w)
+    =f_1(T(w), \overline{T(w)})T'(w)$.
+    Аналогично для $g_2$.
+\end{definition}
+
+\begin{definition}
+    Пусть $X$ -- риманова поверхность.
+    \textit{Путь} на $X$ --
+    $C^\infty$ функция $\gamma:[a,b]\to X$.
+\end{definition}
+
+\noindentТак как путь может
+пролегать по нескольким картам,
+необходим аппарат для перехода между ними.
+
+\begin{definition}
+    $\mathcal A$ -- атлас на
+    римановой поверхности $X$, 
+    $\gamma$ - путь на $X$.
+    \textit{Разбиением} $\gamma$ 
+    называется $(\gamma_i)_{i=1}^n$:
+    $[a,b]=\sqcup_i\:[a_i,b_i]$, $\gamma([a_i,b_i])\subset U_i$,
+    где $U_i$ -- область определения
+    некоторой карты.
+\end{definition}
+
+\begin{definition}
+    Пусть
+    $\omega$ -- $C^\infty$-форма такая, что
+    в локальных координатах 
+    $(\varphi_i)_{i=1}^n$ она имеет вид
+    $\omega=f_i(z,\bar z)dz
+    + g_i(z,\bar z)d\bar z$,
+    а $z = \varphi_i\circ\gamma_i:
+    [a_i,b_i]\to V_i\subset \mathbb C$.
+    Тогда \textit{интегралом}
+    \textit{формы} $\omega$ 
+    \textit{по пути} $\gamma$
+    называется:
+    \begin{equation}
+        \int_\gamma\omega = 
+        \sum_{i=1}^n
+        \int_{a_i}^{b_i}
+        f_i(z(t), \overline{z(t)}) z'(t)
+        +
+        g_i(z(t), \overline{z(t)}) z'(t)
+        \: 
+        dt
+    \end{equation}
+\end{definition}
+
+\begin{lemma}
+    Интеграл $\int_\gamma\omega$ не зависит от параметризации
+    и разбиения $\gamma$.
+\end{lemma}
+
+\begin{lemma}
+    Если $f$ -- $C^\infty$-форма,
+    то 
+    $\int_\gamma f = 
+    f(\gamma(b)) - f(\gamma(a))$.
+\end{lemma}
+
+\begin{lemma}
+    Интеграл аддитивен по пути,
+    то есть если 
+    $\gamma = \sqcup_{i=1}^n \gamma_i$,
+    то $\int_\gamma\omega = 
+    \sum_{i=1}^n\int_{\gamma_i}\omega$
+\end{lemma}
+
+\begin{lemma}
+    $\int_{\gamma^-}\omega=-\int_\gamma\omega$,
+    где $\gamma^-$ -- это кривая $\gamma$
+    с обратным направлением обхода.
+\end{lemma}
+
+\begin{definition}
+    Пусть $\omega\in\mathcal M_p^{(1)}$,
+    $z=\varphi$ -- локальная координата
+    с центром в точке $p$.
+    Если $\nu_p(\omega)=-N<0$,
+    то есть если $\omega=fdz$,
+    то $f$ раскладывается в ряд Лорана
+    со старшей отрицательной степенью $-N$,
+    то $c_{-1}$ -- коэффициент 
+    при $1/z$ -- называется  
+    вычетом и обозначается
+    $\mathrm{Res}_p(\omega)$.
+\end{definition}
+
+\begin{lemma}
+    Вычет корректно определен
+    и верно следующее представление:
+    \begin{equation}
+        \mathrm{Res}_p(\omega)
+        =
+        \frac{1}{2\pi i}
+        \oint_\gamma\omega,
+    \end{equation}
+    где $\gamma$ -- замкнутый
+    контур вокруг $p$, внутри которого
+    нет полюсов, кроме, быть может, 
+    самой точки $p$.
+\end{lemma}
+
+\noindentПерейдем
+к рассмотрению формулы Стокса,
+которая использует 2-формы.
+В случае $C^\infty$ они имеют вид
+$h(x,y)dxdy$, в комплексном анализе -- 
+$f(z,\bar z)\:dz\:\wedge\:d\bar z$.
+Данное определение
+по аналогии так же распространяется 
+на римановы поверхности.
+
+\begin{theorem}[Формула Стокса]
+    \begin{equation}
+        \iint_D d\omega = 
+        \int_{\partial D} \omega,
+    \end{equation}
+    где 
+    \begin{equation}
+        d\omega
+        =
+        \left(
+            \frac{\partial g}{\partial z}
+            -
+            \frac{\partial f}{\partial \bar z}
+        \right)
+        \:dz\:\wedge\:d\bar z
+    \end{equation}
+\end{theorem}
+
+\begin{theorem}[о вычетах]
+    Пусть $X$ -- компактная риманова
+    поверхность,
+    $\omega\in\mathcal M_p^{(1)}$,
+    тогда 
+    \begin{equation}
+        \sum_{p\in X}
+        \mathrm{Res}_p(\omega)=0
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Так как $X$ -- компактно,
+    то множество нулей и полюсов 
+    конечно.
+    Пусть $p_1,\dots,p_n$ -- полюса.
+    Возьмем для каждого полюса $p_i$
+    контур $\gamma_i$, не содержащий
+    другие полюса $p_j,\:j\ne i$,
+    обозначим за $U_i$ внутренности
+    $\gamma_i$, то есть 
+    $\partial U_i=\gamma_i$.
+    Положим $D = X\:\backslash\:
+    \sqcup_{i=1}^n U_i$, которое
+    так же будет компактно, причем
+    верно, что
+    $\partial D = (\sqcup_i \gamma_i)^-$.
+    Тогда
+    \begin{equation}
+        \sum_p \mathrm{Res}_p(\omega)
+        =
+        \frac{1}{2\pi i}
+        \sum_{i=1}^n
+        \oint_{\gamma_i}\omega
+        = 
+        -\frac{1}{2\pi i}
+        \int_{(\sqcup\gamma_i)^-} \omega
+        =
+        -\frac{1}{2\pi i} \int_{\partial D}
+        \omega
+        =
+        -\frac{1}{2\pi i} \iint_{D}\omega = 0
+    \end{equation}
+\end{proof}
+
+\begin{lemma}
+    Если $f\in\mathcal M_p$,
+    $\omega=df/f$, то
+    \begin{equation}
+        \mathrm{Res}_p
+        \left(
+        \frac{df}{f}
+        \right)
+        =\nu_p(f)
+    \end{equation}
+\end{lemma}
+
+\begin{theorem}
+    Пусть $X$ -- компактная риманова
+    поверхность, $f\in\mathcal M_X$.
+    Тогда $\sum_p\nu_p(f)=0$.
+\end{theorem}
+
+\begin{proof}
+    Рассмотрим форму 
+    $df/f\in\mathcal M_X^{(1)}$. Тогда
+    \begin{equation}
+        0 = 
+        \sum_p\mathrm{Res}_p
+        \frac{df}{f} = 
+        \sum_p \nu_p(f)
+    \end{equation}
+\end{proof}
+
+\begin{lemma}
+    Пусть 
+    $\omega_1,\omega_2\in\mathcal M_X^{(1)}$,
+    $\omega_1\ne 0$, тогда
+    существует $f\in\mathcal M_X$ 
+    такая, что $\omega_2=f\omega_1$.
+\end{lemma}
+
+\section{Дивизоры}
+
+\noindentПусть $X$ -- компактная 
+риманова поверхность.
+
+\begin{definition}
+    \textit{Группой дивизоров}
+    $\mathrm{Div}(X)$
+    называется
+    свободная абелева группа,
+    порожденная всеми точками
+    $X$. Иными словами, если
+    $D\in\mathrm{Div}(X)$, 
+    то $D$ представим в следующем виде:
+    \begin{equation}
+        D = \sum_{p\in X} n_p\cdot p,
+    \end{equation}
+    где $n_p\ne 0$ для конечного
+    числа слагаемых.
+    \textit{Носителем} дивизора
+    называется множество:
+    \begin{equation}
+        \mathrm{supp}\: D
+        = 
+        \{p\in X: n_p\ne0\}
+    \end{equation}
+    \textit{Степенью} дивизора
+    \begin{equation}
+        \mathrm{deg} D
+        =
+        \sum_{p\in D} n_p
+    \end{equation}
+\end{definition}
+
+\noindent\textbf{Замечание.}
+По сути $D$ -- это функция 
+$X\to\mathbb Z$ с конечным носителем,
+а выражение $\sum n_p \:p$ это удобная
+запись для $\sum D(p)\:p$.
+
+\begin{definition}
+    В пространстве функций
+    можно задать \textit{отношение 
+    частичного порядка}:
+    $D_1\le D_2$ тогда и только тогда,
+    когда $D_1(p)\le D_2(p)$ для всех $p$.
+\end{definition}
+
+\begin{definition}
+    Дивизор вида $D=p$ называется
+    \textit{простым} дивизором.
+\end{definition}
+\begin{definition}
+    Если $f$ -- некоторая мероморфная функция,
+    то ее дивизор можно определить следующим
+    образом:
+    \begin{equation}
+        \mathrm{div}(f)=(f) =
+        \sum_p \nu_p(f)\:p
+    \end{equation}
+    Обратно, всякий дивизор
+    вида $D=(f)$ для некоторой $f$
+    называется \textit{главным} дивизором.
+    \textit{Дивизором нулей} будем
+    называть
+    \begin{equation}
+        (f)_0 = \sum_{\nu_p(f)>0}
+        \nu_p(f) \: p
+    \end{equation}
+    Аналогично \textit{дивизор полюсов}
+    \begin{equation}
+        (f)_\infty = \sum_{\nu_p(f)<0}
+        (-\nu_p(f)) \: p
+    \end{equation}
+    Несложно убедиться в том, что
+    $(f)=(f)_0-(f)_{\infty}$.
+\end{definition}
+
+\begin{lemma}
+    $\ $
+    \begin{enumerate}
+    \item 
+    $(fg)=(f)+(g)$, $(f/g)=(f)-(g)$
+    \item 
+    $\mathrm{deg}\:(f)
+    =
+    \sum\nu_p(f)=0$
+    \end{enumerate}
+\end{lemma}
+
+\noindentОпределение можем распространить
+на формы.
+
+\begin{definition}
+    Если $\omega\in\mathcal M_X^{(1)}$,
+    то
+    ее \textit{дивизором} будем
+    называть
+    \begin{equation}
+        (\omega)=
+        \mathrm{div}(\omega)
+        =
+        \sum \nu_p(\omega)\:p
+    \end{equation}
+\end{definition}
+
+\noindentРассмотрим \textbf{примеры}.
+Пусть $f\in\mathcal M_{\mathbb C_{\infty}}$.
+Тогда $f$ -- рациональная функция,
+то есть она представима в виде
+\begin{equation}
+    f(z)=c\prod_{i=1}^n(z-\lambda_i)^{e_i},\:
+    e_i\in\mathbb Z
+\end{equation}
+Тогда для ее дивизора верно
+\begin{equation}
+    (f)=\sum_{i=1}^n e_i\lambda_i-
+    \left(\sum_{i=1}^ne_i\right)\infty
+\end{equation}
+Если дополнительно рассмотреть
+форму $\omega=fdz$, то
+\begin{equation}
+    (\omega)=(f)+(dz) = 
+    \sum e_i\lambda_i -
+    \left(\sum e_i - 2\right)\infty,
+\end{equation}
+откуда $\mathrm{deg}(\omega)=-2$.
+
+\noindentВведем дополнительные обозначения:
+\begin{enumerate}
+    \item 
+    $\mathrm{Div}_0(X)
+    = \left\{
+    D\in\mathrm{Div}(X): \mathrm{deg} \:D=0
+    \right\}$
+    \item 
+    $\mathrm{PDiv}(X)
+    = \left\{
+    D\in\mathrm{Div}(X): D=(f)
+    \right\}$
+    \item 
+    $\mathrm{KDiv}(X)
+    = \left\{
+    D\in\mathrm{Div}(X): D=(\omega)
+    \right\}$
+\end{enumerate}
+
+\begin{definition}
+    Фактор-группа
+    $\mathrm{Div}(X)/\mathrm{PDiv}(X)$
+    называется \textit{группой
+    классов дивизоров}
+    и обозначается $\mathrm{Cl}(X)$.
+    Это соответствует
+    отношению эквивалентности $D_1\sim D_2$,
+    если $(D_1)~-~(D_2)=(f)$.
+\end{definition}
+
+\begin{lemma}
+    Степени эквивалентных дивизоров равны.
+\end{lemma}
+
+\begin{proof}
+    Верно в силу аддитивности
+    степени и равенства нулю
+    степени любого главного дизизора.
+\end{proof}
+
+\begin{lemma}
+    Дивизоры любых форм эквивалентны.
+\end{lemma}
+
+\begin{proof}
+    По ранее доказанной лемме,
+    существует такая $f$, что
+    $\omega_2=f\omega_1$, откуда
+    и следует утверждение леммы.
+\end{proof}
+
+\begin{definition}
+    Дивизоры $D$ вида $(\omega)$
+    называются \textit{каноническими}.
+\end{definition}
+
+\begin{theorem}
+    Пусть $X=\mathbb C_\infty$,
+    тогда 
+    $D\in\mathrm{PDiv}(X)
+    \Leftrightarrow 
+    \mathrm{deg}\:D = 0
+    $.
+\end{theorem}
+
+\begin{proof}
+    Необходимость была доказана
+    ранее,
+    покажем достаточность.
+    Представим дивизор в следующем виде
+    \begin{equation}
+        D=\sum e_i\lambda_i + e_{\infty}\infty
+    \end{equation}
+    Степень дивизора равна 0 тогда 
+    и только тогда, когда 
+    $e_\infty=-\sum e_i$. В таком
+    случае искомой будет
+    мероморфная функция
+    \begin{equation}
+        f=\prod_i (z_i-\lambda_i)^{e_i}
+    \end{equation}
+\end{proof}
+
+\noindentРассмотрим аналогичную теорему для
+тора $X=\mathbb C/L$. Для этого
+введем 
+
+\begin{definition}
+    Отображение 
+    $A:\mathrm{Div}(\mathbb C/L)\to
+    \mathbb C/L$, ставящее 
+    в соответствие формальной сумме
+    сумму комплексных чисел по модулю решетки,
+    являющееся гомоморфизмом этих групп,
+    называется 
+    \textit{отображением Абеля(-Якоби)}.
+\end{definition}
+
+\begin{theorem}
+    Пусть $X=\mathbb C/L$,
+    тогда 
+    $D\in\mathrm{PDiv}(X)
+    \Leftrightarrow 
+    \mathrm{deg}\:D = 0
+    $ и $A(D)=0$.
+\end{theorem}
+
+\begin{proof}
+    Покажем необходимость.
+    Пусть тор $L$ задается решеткой 
+    $\langle1,\tau\rangle$,
+    где $\tau~\in~\mathbb H$ -- 
+    число из верхней комплексной полуплоскости,
+    $\pi:\mathbb C\to\mathbb C/L$ --
+    естественная проекция.
+    Введем $h:\mathbb C\to\mathbb C$,
+    как $h\circ\pi=f$.
+    Для любой точки $z_0\in\mathbb C$
+    мы можем рассмотреть следующий контур
+    $\gamma_{z_0}$
+    -- фундаментальный параллелепипед
+    решетки на точках
+    $z_0, z_0+1, z_0+1+\tau, z_0+\tau$.
+    Обозначим его внутренность $D$.
+    Так как множество нулей и полюсов дискретно,
+    то можно выбрать $\gamma_{z_0}$ так, что
+    внутри контура нет нулей и полюсов. 
+    \begin{equation}
+        L\ni\int_\gamma z\frac{h'(z)}{h(z)}dz
+        =
+        \sum_{z\in D}\nu_z(h) z,
+    \end{equation}
+    что и означает, что $(f)$ лежит
+    в ядре отображения Абеля.
+
+    \noindentПокажем достаточность.
+    Запишем дивизор $D$ в следующем
+    виде: $D=\sum_i(p_i-q_i)$,
+    возьмем прообразы 
+    \begin{equation}
+        \begin{aligned}
+            &\pi^{-1}(p_i)=z_i\\
+            &\pi^{-1}(q_i)=w_i
+        \end{aligned}
+    \end{equation}
+    Тогда искомой функцией будет
+    \begin{equation}
+        f=\frac{\prod_i \Theta^{(z_i)}(z)}
+        {\prod_i \Theta^{(w_i)}(z)}
+    \end{equation}
+\end{proof}
+
+\end{document}

@@ -1,0 +1,225 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+
+\theoremstyle{plain}
+\newtheorem{lemma}[definition]{Лемма}
+\newtheorem{theorem}[definition]{Теорема}
+\newtheorem{corollary}[definition]{Следствие}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Замечание}
+
+\title{Лекция №13. Лемма Гензеля и принцип Хассе.}
+\date{}
+\author{}
+
+\begin{document}
+\maketitle
+
+\section{Нормированные и ультраметрические поля}
+
+\begin{definition}
+Пусть $K$ — поле. Отображение $\varphi : K \to \mathbb{R}_{\ge 0}$ называется
+\emph{нормой}, если для всех $x,y \in K$ выполнено:
+\begin{enumerate}
+\item $\varphi(x)=0 \iff x=0$;
+\item $\varphi(xy)=\varphi(x)\varphi(y)$;
+\item $\varphi(x+y)\le \varphi(x)+\varphi(y)$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}
+Норма $\varphi$ называется \emph{ультраметрической}, если вместо (3) выполнено
+\[
+\varphi(x+y)\le \max\{\varphi(x),\varphi(y)\}.
+\]
+\end{definition}
+
+\begin{lemma}
+Ультраметрическая норма индуцирует метрику
+\[
+d(x,y)=\varphi(x-y),
+\]
+удовлетворяющую усиленному неравенству треугольника.
+\end{lemma}
+
+\begin{proof}
+Так как $\varphi$ — норма, то $d(x,y)=0 \iff x=y$, симметрия очевидна.
+Для треугольника:
+\[
+d(x,z)=\varphi(x-z)=\varphi((x-y)+(y-z))\le
+\max\{\varphi(x-y),\varphi(y-z)\}.
+\]
+\end{proof}
+
+\section{p-адическая норма и поле $\mathbb{Q}_p$}
+
+\begin{definition}
+Пусть $p$ — простое число. Для $x\in\mathbb{Q}^\times$ представимого в виде
+\[
+x=p^n\frac{a}{b}, \quad (a,b,p)=1,
+\]
+определим \emph{p-адическую валюацию}
+\[
+v_p(x)=n.
+\]
+Полагаем $v_p(0)=+\infty$.
+\end{definition}
+
+\begin{definition}
+\emph{p-адическая норма} определяется формулой
+\[
+|x|_p=p^{-v_p(x)}, \quad |0|_p=0.
+\]
+\end{definition}
+
+\begin{lemma}
+Функция $|\cdot|_p$ является ультраметрической нормой на $\mathbb{Q}$.
+\end{lemma}
+
+\begin{proof}
+Свойства (1) и (2) следуют из свойств валюации.
+Для суммы используем:
+\[
+v_p(x+y)\ge \min\{v_p(x),v_p(y)\},
+\]
+откуда
+\[
+|x+y|_p \le \max\{|x|_p,|y|_p\}.
+\]
+\end{proof}
+
+\begin{definition}
+Поле $\mathbb{Q}_p$ — пополнение $\mathbb{Q}$ по метрике $|\cdot|_p$.
+\end{definition}
+
+\section{Кольцо p-адических целых}
+
+\begin{definition}
+\[
+\mathbb{Z}_p=\{x\in\mathbb{Q}_p : |x|_p\le 1\}.
+\]
+\end{definition}
+
+\begin{lemma}
+$\mathbb{Z}_p$ является кольцом, а множество
+\[
+\mathfrak m=\{x\in\mathbb{Q}_p : |x|_p<1\}
+\]
+— его максимальный идеал.
+\end{lemma}
+
+\begin{proof}
+Если $|x|_p,|y|_p\le1$, то
+\[
+|x+y|_p\le \max(|x|_p,|y|_p)\le1,
+\quad |xy|_p\le1.
+\]
+Максимальность $\mathfrak m$ следует из того, что любой $x\notin\mathfrak m$
+обратим в $\mathbb{Z}_p$.
+\end{proof}
+
+\begin{corollary}
+Поле вычетов $\mathbb{Z}_p/\mathfrak m \simeq \mathbb{F}_p$.
+\end{corollary}
+
+\section{Полнота}
+
+\begin{theorem}
+Поле $\mathbb{Q}_p$ полно.
+\end{theorem}
+
+\begin{proof}
+По построению $\mathbb{Q}_p$ как пополнения метрического пространства
+$\mathbb{Q}$ относительно $|\cdot|_p$.
+\end{proof}
+
+\begin{corollary}
+$\mathbb{Z}$ плотно в $\mathbb{Z}_p$.
+\end{corollary}
+
+\section{Формальные производные}
+
+\begin{definition}
+Пусть
+\[
+f(x)=a_0+a_1x+\dots+a_nx^n.
+\]
+Формальная производная:
+\[
+f'(x)=a_1+2a_2x+\dots+na_nx^{n-1}.
+\]
+\end{definition}
+
+\begin{lemma}[Формула Тейлора]
+Для $f\in\mathbb{Z}_p[x]$ и $h\in\mathbb{Z}_p$:
+\[
+f(x+h)=f(x)+f'(x)h+\frac{f''(x)}{2!}h^2+\dots
+\]
+\end{lemma}
+
+\begin{proof}
+Доказательство стандартно и следует из биномиальной формулы.
+\end{proof}
+
+\section{Лемма Гензеля}
+
+\begin{theorem}[Лемма Гензеля]
+Пусть $f\in\mathbb{Z}_p[x]$ и существует $a_0\in\mathbb{Z}_p$ такое, что
+\[
+f(a_0)\equiv0\pmod p, \quad f'(a_0)\not\equiv0\pmod p.
+\]
+Тогда существует единственный $\alpha\in\mathbb{Z}_p$, для которого
+\[
+f(\alpha)=0, \quad \alpha\equiv a_0\pmod p.
+\]
+\end{theorem}
+
+\begin{proof}
+Построим последовательность
+\[
+a_{n+1}=a_n-\frac{f(a_n)}{f'(a_n)}.
+\]
+Индукцией доказывается:
+\[
+f(a_n)\equiv0\pmod{p^{2^n}}, \quad |a_{n+1}-a_n|_p\le p^{-2^n}.
+\]
+Последовательность фундаментальна, а полнота $\mathbb{Z}_p$ даёт предел $\alpha$.
+Переход к пределу в равенстве $f(a_n)=0$ даёт $f(\alpha)=0$.
+Единственность следует из ультраметричности.
+\end{proof}
+
+\section{Следствия}
+
+\begin{corollary}
+Если уравнение $f(x)\equiv0\pmod p$ имеет простой корень, то оно имеет корень
+в $\mathbb{Z}_p$.
+\end{corollary}
+
+\begin{corollary}
+Пусть $(m,p)=1$. Тогда уравнение $x^m=a$ разрешимо в $\mathbb{Q}_p$
+тогда и только тогда, когда оно разрешимо по модулю $p$.
+\end{corollary}
+
+\begin{proof}
+Рассматриваем $f(x)=x^m-a$ и применяем лемму Гензеля.
+\end{proof}
+
+\section{Принцип Хассе}
+
+\begin{theorem}[Принцип Хассе для квадратичных форм]
+Пусть $F$ — квадратичная форма над $\mathbb{Q}$.
+Тогда уравнение $F=0$ имеет нетривиальное решение в $\mathbb{Q}$
+тогда и только тогда, когда оно имеет решение в $\mathbb{R}$
+и во всех $\mathbb{Q}_p$.
+\end{theorem}
+
+\end{document}

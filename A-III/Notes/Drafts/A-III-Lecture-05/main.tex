@@ -1,0 +1,382 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{float}
+
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+
+\title{Лекция №5 «Группы, действующие на римановых поверхностях». Курс A-III}
+\author{Иванова Ксения Юрьевна 619/1}
+\date{11 октября 2025}
+
+\begin{document}
+
+\maketitle
+
+$X$ - РП, $G$ - группа
+
+\newtheorem{definition}{Определение}
+
+\begin{definition}
+    $G$ \text{ циклическая на } $X \Leftrightarrow \exists$ \text{ отображение } \\
+    $G \times X \rightarrow X$: $(g,p) \mapsto gp$: \\
+    1) \text{ если } $e \in G$ \text{ -- единичный элемент } $\forall p \in X$: \text{ единица группы} \\
+    2) $\forall g, h \in G \quad \forall p \in X (gh)p = g(hp)$
+\end{definition}
+
+\begin{definition}
+    \text{Орбита точки } $p \in X$: $Gp = \{gp: g \in G\}$ \\
+    $\bullet$ \text{ фактор множество } $X/G = \{Gp\}$ $(G \setminus X)$ \\
+    $\bullet$ \text{ стабилизатор точки } $p \in X$: $G_p = \{g \in G: gp = p\}$ \\
+    $\bullet$ \text{ Ядро действия } $K = \bigcap_{p \in X} G_p = \{g \in G: \forall p \in X \quad gp = p\}$
+\end{definition}
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    1) $G_{gp} = gG_pg^{-1}$ \\
+    2) \text{ если } $|G| < \infty$, \text{ то } $|Gp||G_p| = |G|$ \\
+    3) $K$ \text{ -- нормальная подгруппа } $G$, $G/K$ \text{ действует с тривиальным ядром} \\
+    $\square$ \text{Упр} $\blacksquare$
+\end{lemma}
+
+\begin{definition}
+    $G$ \text{ действует на } $X$ \text{ эффективно, если ядро действия $K$ тривиально}
+\end{definition}
+
+\begin{definition}
+    $G$ \text{ действует на $X$ непрерывно/голоморфно, если } $\forall g \in G \quad p \mapsto gp$ \text{ -- непрерывно/голоморфно}
+\end{definition}
+
+\begin{definition}
+    \text{Если } $X$ - \text{ТП}, $G$ \text{ действует непрерывно} \\
+    $\pi: X \rightarrow X/G$: $p \mapsto Gp$ \text{ индуцирует топологию на } $X/G$: $U \subset X/G$ \text{ -- открыто } $\Leftrightarrow \pi^{-1}(U)$ \text{ -- открыто}
+\end{definition}
+
+\text{Когда $X/G$ является РП, если $X$ -- РП?}
+
+\begin{lemma}
+    \text{Пусть } $G$ \text{ -- циклич на РП $X$ голоморфно и эффективно}, $p \in X$: $|G_p| < \infty$ \\
+    \text{Тогда } $G_p$ \text{ -- циклическая группа} \\
+    $\square$ $z = \varphi(x)$, $\varphi(p) = 0$ \text{ -- локальная координата} \\
+    $gz = g(z) = \sum_{n=0}^{\infty} a_n(g)z^n$ \\
+    \text{для } $g \in G_p$ \quad $gp = p$ \text{ то есть в координате $z$} \\
+    $g(0) = 0$, $a_0(g) = 0$ \\
+    $g(z)$, $g^{-1}(z)$ \text{ -- голоморфные функции } $g \circ g^{-1} = e \Rightarrow m_0 g(z) = 1 \Rightarrow a_1(g) \neq 0$ \\
+    \text{Пусть } $h \in G_p$ \quad $g(h(z)) = \sum_{n} a_n(g)(\sum_{m} a_m(h))^n = a_1(g)a_1(h)z + \dots \Rightarrow a_1(gh) = a_1(g)a_1(h)$ \\
+    \text{то есть } $a_1: G_p \rightarrow \mathbb{C}^*$ \text{ -- гомоморфизм групп}
+    $\operatorname{Ker} a_1$ -- ? \text{ Пусть } $g \in \operatorname{ker} a_1$ \\
+    $g(z) = z + \dots = z + az^m + \dots \equiv z + az^m(z) \quad (z^{m+1})$ \\
+    \text{Предположим что } $a \neq 0$. \text{ Тогда} \\
+    $g^k z \equiv z + kaz^m \quad (z^{m+1})$ \\
+    $G_p$ \text{ -- конечно } $\Rightarrow \exists k: g^k = e$ \quad $g^k z = z \Rightarrow z = g^k z \equiv z + kaz^m \quad (z^{m+1}) \Rightarrow ka = 0 \Rightarrow a = 0 \Rightarrow g(z) = z \Rightarrow g = e$ \\
+    \text{Таким образом } $\operatorname{ker} a_1 = \langle e \rangle$ \\
+    $\Rightarrow$ \text{ то есть гомоморфизм } $a_1: G_p \rightarrow \mathbb{C}^*$ \\
+    \text{Но все конечные подгруппы } $\mathbb{C}^*$ \text{ -- циклические } $\Rightarrow G_p$ \text{ -- циклическая группа} \qquad $\blacksquare$
+\end{lemma}
+
+\newtheorem*{consequence}{Следствие}
+
+\begin{consequence}
+    $|G| < \infty \Rightarrow \forall p \in X \quad G_p$ \text{ -- циклическая группа}
+\end{consequence}
+
+\text{Рассмотрим случай когда } $G$ \text{ -- конечная группа}
+
+\begin{lemma}
+    $G$ \text{ -- конечная группа действует на РП $X$ голоморфно и эффективно. Тогда} \\
+    $\{p \in X: G_p \neq \{e\}\}$ \text{ -- дискретно} \\
+    $\square$ \text{Пусть } $(p_n)$ \text{ -- последовательность } $p_n \rightarrow p$: $\forall n \exists g_n \in G_p \setminus \{e\}$: $g_n p_n = p_n$ \\
+    $|G| < \infty \quad \exists$ \text{ подпоследовательность } $g_{n_k} = g$: \\
+    $g$ \text{ -- голоморфна } $\Rightarrow g p_n \rightarrow g p$, \quad $g p = p$ \\
+    $\Rightarrow g = e$ \qquad $\blacksquare$
+\end{lemma}
+
+\begin{lemma}
+    $G$ \text{ -- конечная группа действующая голоморфно и эффективно на $X$}, $p \in X$. $\exists$ \text{ открытая окрестность } $U$ \text{ точки } $p$: \\
+    1) $\forall g \in G_p \quad \forall u \in U \quad gu \in U$ \\
+    2) $U \cap gU \neq \emptyset \quad \forall g \notin G_p$ \quad $(U \cap gU \neq \emptyset = \emptyset \quad g \in G_p)$ \\
+    3) $\alpha: U/G_p \rightarrow W \subset X/G$ \text{ -- гомеоморфное} \\
+    4) $\forall x \in U \setminus \{p\} \quad \forall g \in G_p \quad gx \neq x$ \\
+    $\square$ $G \setminus G_p = \{g_1, \dots, g_n\}$, $\forall i: g_i p \neq p$ \\
+    $X$ \text{ -- Хаусдорфово } $\Rightarrow \forall 1 \leq i \leq n \quad \exists$ \text{ окрестности:} \\
+    $V_i$ \text{ -- точки } $p$, $W_i$ \text{ -- точки } $g_i p$ \quad $(V_i \cap W_i = \emptyset)$ \\
+    $\forall i \quad g_i^{-1} W_i$ \text{ -- открытая окрестность $p$} \\
+    \text{Рассмотрим } $R_i = V_i \cap (g_i^{-1} W_i)$, $R = \bigcap_i R_i$, $U = \bigcap_{g \in G_p} gR$; $R_i, R, U$ \text{ -- открыт окр $p$} \\
+    $\forall h \in G_p \quad hU = \bigcap_{g \in G_p} ghR = \bigcap_{g \in G_p} gR \in U$ \text{ (первое утверждение леммы доказано)} \\
+    $R_i \cap (g_i R_i) \subset V_i \cap W_i = \emptyset \Rightarrow R_i \cap g_i R_i = \emptyset$ \quad $(R_i \subset V_i, \quad g_i R_i \subset W_i)$ \\
+    $\Rightarrow U \cap g_i U = \emptyset$ \quad $(g_i \in G \setminus G_p) \Rightarrow 2)$ \\
+    3) $\alpha: U/G_p \rightarrow X/G$ \quad $(x \mapsto Gx)$ \\
+    $\alpha: U/G_p \rightarrow \sum u\alpha = W$ \text{ -- взаимно однозначное соответствие} \\
+    $\beta: U \rightarrow U/G_p$, $\pi: X \rightarrow X/G$ \\
+    $\pi|_\alpha = \beta \circ \alpha$, $\pi|_\alpha, \beta$ \text{ -- непрерывные открытые отображения} \\
+    $\alpha$ \text{ -- непрерывное отображение} \\
+    4) \text{ следует из дискретности точек с } $|G_p| \neq 1$ \qquad $\blacksquare$
+\end{lemma}
+
+\newtheorem{theorem}{Теорема}
+
+\begin{theorem}
+    $G$ \text{ -- конечная группа действующая голоморфно и эффективно на РП $X$. Тогда } $X/G$ \text{ -- РП. Проекция } $\pi: X \rightarrow X/G$ \text{ -- голоморфное отображение.} \\
+    $\deg \pi = |G|$, $\forall p \in X \quad m_p(\pi) = |G_p|$ \\
+    $\square$ \text{Если } $|G_p| = 1$, \text{ то по лемме } $\exists$ \text{ открытая окрестность } $U$ \text{ точки $p$:} \\
+    $U \rightarrow U/G_p \rightarrow W \subset X/G$ \text{ -- гомеоморфизм} \\
+    $\overline{p} = \pi(r) = Gp$ \qquad $\pi^{-1}|_u: W \rightarrow V \subset U$ \\
+    \text{Если } $m = |G_p| > 1$ \\
+    $z = \varphi(.)$ \text{ -- карта с центром в $p$} \\
+    $g(z)$ \text{ -- голоморфная функция соответствующая } $gp$ \\
+    $f(z) = \prod_{g \in G_p} g(z)$, \quad $m_0(g(z)) = 1$ \\
+    $h \in G_p \quad f(h(z)) = \prod (gh)(z) = \prod g(z) = f(z)$ \\
+    $m_0(f) = m = |G_p|$ \\
+    \text{то есть } $\exists$ \text{ окрестность у точки $p$: в координате } $z$: \quad $f(z) = z^m$ \\
+    $\overline{f}: U/G_p \rightarrow V \in \mathbb{C}$ \\
+    $f$ \text{ -- открытое отображение } $\Rightarrow \overline{f}$ \text{ -- открытое} \\
+    B \quad $U \setminus \{p\}$ \quad $f$ \text{ -- отображение } $m:1$ \\
+    $\forall q \in U \setminus \{p\} \quad |G_p q| = m$ \\
+    $\overline{f}: U/G_p \rightarrow V - 1:1$ \\
+    $\alpha$ \text{ -- из предыдущей леммы } $\alpha: U/G_p \rightarrow W \subset X/G$ \text{ -- гомеоморфное} \\
+    $\varphi: W \rightarrow U/G_p \rightarrow V \subset \mathbb{C}$ \text{ -- искомая карта} \\
+    \text{Совместимость карт -- техническое рассуждение} \qquad $\blacksquare$
+\end{theorem}
+
+\begin{theorem}[\text{Гурвиц}]
+    $X$ \text{ -- компактная РП}, $g(x) = g \geq 2$. $G$ \\
+    \text{ -- конечная группа, действующая голоморфно и эффективно. Тогда } $|G| \leq 42(2g - 2)$ \\
+    $\square$ $\pi: X \rightarrow X/G = Y$, $\deg \pi = |G|$ \\
+    $m_p(\pi) = |G_p|$. \text{ Пусть } $g' = g(Y)$ \\
+    \text{формула Гурвица} \\
+    $2g - 2 = (2g' - 2)\deg \pi + \sum_{p \in X}(m_p(\pi) - 1) = |G|(2g' - 2) + \sum(|a_p| - 1) = |G|((2g' - 2) + \sum(1 - \frac{1}{r_i}))$ \\
+    \text{случай для } $g'$: \\
+    1) $g' \geq 2$: $2g - 2 \geq |G|(4 - 2 + R) \geq 2|G|$ \\
+    $|G| \leq g - 1 \leq 84(g - 1)$ \\
+    2) $g' = 1$ $2g - 2 = |G| \sum_{p}(1 - \frac{1}{|G_p|})$ \\
+    \text{если } $\forall p$: $|G_p| = 1 \Rightarrow 2g - 2 = 0 \Rightarrow g = 1$ \text{ получаем противоречие} \\
+    $\exists p$: $|G_p| \geq 2 \quad 1 - \frac{1}{|G_p|} \geq \frac{1}{2} \Rightarrow 2g - 2 \geq |G| \frac{1}{2}$, $|G| \leq 4(g - 1) \leq 84(g - 1)$ \\
+    3) $g' = 0$: $2g - 2 = |G|(\sum(1 - \frac{1}{|G_p|}) - 2)$ \quad $(1 - \frac{1}{|G_p|} = R)$ \\
+    $R = \sum_{i=1}^{n} (1 - \frac{1}{r_i})$, $r_i \geq 2$ \\
+    $r_i \geq 2$ \quad $\frac{1}{2} \leq 1 - \frac{1}{r_i} < 1$ \\
+    \text{если } $n = 1, 2$, \text{ то } $R - 2 < 0 \Rightarrow 2g - 2 < 0 \Rightarrow g = 0$ \text{ (получаем противоречие)} \\
+    \text{таким образом } $n \geq 3$ \\
+    \text{Если } $n \geq 5$ $R = \sum(1 - \frac{1}{r_i}) \geq \frac{5}{2}$ \\
+    $2g - 2 \geq |G|(\frac{5}{2} - 2) = \frac{|G|}{2}$ \quad $|G| < 4(g - 1)$ \\
+    \text{если } $n = 4$, \text{ если } $r_i = 2$ $\forall i$: $R = \frac{1}{2} + \frac{1}{2} + \frac{1}{2} + \frac{1}{2} = 2 \Rightarrow g = 1$ \text{ (получаем противоречие)} \\
+    $\exists r_i > 2$ \quad $r_i \geq 3$ \\
+    $2g - 2 \geq |G|(\frac{1}{2} + \frac{1}{2} + \frac{1}{2} + (1 - \frac{1}{3}) - 2) = \frac{1}{12}|G|$ \\
+    $|G| \leq 24(g - 1)$ \\
+    $n = 3$ $R = 3 - (\frac{1}{r_1} + \frac{1}{r_2} + \frac{1}{r_3}) > 2$ \\
+    $\frac{1}{r_1} + \frac{1}{r_2} + \frac{1}{r_3} < 1$, $2 \leq r_1 \leq r_2 \leq r_3 \Rightarrow r_2 \geq 3$, $r_3 > 3$ \\
+    \text{Случай} \\
+    $r_3 = 4$, $r_2 \geq 3$, $r_1 \geq 2$ \quad $\frac{1}{r_1} + \frac{1}{r_2} + \frac{1}{r_3} \leq \frac{1}{2} + \frac{1}{3} + \frac{1}{4} = \frac{13}{12}$ \\
+    $2g - 2 \geq |G|(1 - \frac{13}{12})$ \\
+    $|G| \leq 12(g - 1)$ \\
+    $r_3 \geq 7$, $r_1 \geq 2$, $r_2 \geq 3$ \\
+    $\frac{1}{r_1} + \frac{1}{r_2} + \frac{1}{r_3} \leq \frac{1}{2} + \frac{1}{3} + \frac{1}{7} = \frac{41}{42}$ \\
+    $2g - 2 \geq |G|(1 - \frac{41}{42})$ \\
+    $|G| \leq 84(g - 1)$ \\
+    $|G| = 84(g - 1)$ \quad \text{будет достигаться при } $r_1 = 2$, $r_2 = 3$, $r_3 = 7$ \qquad $\blacksquare$
+\end{theorem}
+
+\begin{definition}
+    \text{Положим, что } $G$ \text{ имеет тип действия } $(r_1, \dots, r_n)$
+\end{definition}
+
+\begin{theorem}
+    $X = e_\infty$ \quad \text{есть только следующие типы действия } $G$: $(2, 2, r)$, $(2, 3, 3)$, $(2, 3, 4)$, \\
+    $(2, 3, 5)$ \quad \text{ (последние три давали решетки } $E_6, E_7, E_8)$
+\end{theorem}
+
+\text{Некоторые случаи бесконечных групп}
+
+\begin{definition}
+    $X$ \text{ -- отделимое Хаусдорфово топологическое пространство } $G$ \text{ действует вполне разрывно на $X$, если } $\forall x, y \in X \quad \exists U, V$ \text{ -- окрестности:} \\
+    $|\{g \in G: gU \cap V \neq \emptyset\}| < \infty$
+\end{definition}
+
+\newtheorem*{example}{Пример}
+
+\begin{example}
+    $G = \mathbb{Z} \oplus \mathbb{Z}$ \quad \text{действует на } $\mathbb{C}$ \quad $(m,n) \in \mathbb{Z}: z \mapsto mz + n$. \quad $\mathbb{C}/G$ \text{ -- комплексный тор}
+\end{example}
+
+\text{Модулярные группы. Напоминание}
+
+\[
+SL_2(\mathbb{Z}) = \left\{
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+\mid ad - bc = 1
+\right\}
+\]
+
+$SL_2(\mathbb{Z})$ \text{ действует на верхней полуплоскости } $\mathbb{H} = \{\operatorname{Im} z > 0\}$ \\
+$gz = \frac{az+b}{cz+d}$, \text{ голоморфно } ($cz + d = 0$, $z = -\frac{d}{c} \notin \mathbb{H}$) \\
+$\mathbb{I} = \begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}$ \quad $\mathbb{I}z = z$ \quad $(-\mathbb{I})z = \frac{-z}{-1} = z$ \\
+$\Gamma = SL_2(\mathbb{Z})/\{\pm \mathbb{I}\}$ \\
+\text{Как задать структуру РП на } $\mathbb{H}/\Gamma = Y(\Gamma)$ \\
+\text{из A-II}
+
+\begin{theorem}
+    1) $F = \{z \in \mathbb{H}: |z| \geq 1, -\frac{1}{2} \leq \operatorname{Re} z \leq \frac{1}{2}\}$ \\
+    \text{ -- фундаментальная область для } $\Gamma$, \text{ то есть:} \\
+    $\bullet$ $\forall z \in \mathbb{H} \quad \exists z_0 \in F \quad \exists g \in \Gamma$: $gz = z_0$ \\
+    $\bullet$ $\forall z_1, z_2 \in F \setminus \gamma F \quad z_1 \neq gz_2 \quad \forall g \in \Gamma$ \\
+    $\bullet$ $\forall z_1, z_2 \in F \quad z_1 \neq z_2, z_1 = gz_2 \Rightarrow z_1, z_2 \in \gamma F$ \text{ либо } $\operatorname{Re} z_1 = \pm \frac{1}{2}$ \text{ и} \\
+    $z_2 = z_1 \pm 1$, \text{ либо } $|z_1| = |z_2|$, $z_2 = - \frac{1}{z_1}$
+    
+    \begin{center}
+        \includegraphics[width=0.8\linewidth]{images/photo_1.jpeg}
+    \end{center}
+    
+    2) $T = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$ \quad $Tz = z + 1$ \\
+    $S = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ \quad $Sz = -\frac{1}{z}$ \\
+    \text{стабилизатор } $\Gamma_z$ \text{ тривиален, кроме двух случаев} \\
+    $\bullet$ $z = i$: $\Gamma_i = \{\mathbb{I}, S\}$ \quad $(\{\pm \mathbb{I}, \pm S\})$ \\
+    $\bullet$ $z = \omega = -\frac{1}{2} + i\frac{\sqrt{3}}{2}$ \quad $\Gamma_\omega = \{\mathbb{I}, ST, (ST)^2\}$
+\end{theorem}
+
+\begin{definition}
+    $n_z = |\Gamma_z|$ \text{ называется периодом } $z$, \text{ если } $h_z > 1$, \text{ то тогда} \\
+    $z$ \text{ называется эллиптической точкой.}
+\end{definition}
+
+\begin{definition}
+    $i\infty$ \text{ называется параболической точкой}
+\end{definition}
+
+\text{То есть у } $\Gamma = SL_2(\mathbb{Z})/\{\pm \mathbb{I}\}$ \text{ если } $z$ \text{ -- эллиптические точки } $i, \omega$ \quad $h_i = 2$, $h_\omega = 3$ \\
+\text{образы в } $\mathbb{H}/\Gamma = Y(\Gamma)$ \text{ также называются эллиптическими точками } ($h_z = h_{gz}$)
+
+\begin{lemma}
+    $\Gamma$ \text{ действует вполне разрывно на } $\mathbb{H}$ \text{ (то есть } $\forall U, V$ \\
+    \text{ -- компактных множеств } $|\{g \in \Gamma: gU \cap V \neq \emptyset\}| < \infty$) \\
+    $\square$ \text{Упр} $\blacksquare$
+\end{lemma}
+
+\begin{consequence}
+    $Y(\Gamma) = \mathbb{H}/\Gamma$ \text{ -- Хаусдорфово}
+\end{consequence}
+
+\text{Комплексная структура на } $Y(\Gamma)$ \\
+$z$ \text{ -- не эллиптическая точка} \\
+$\pi: \mathbb{H} \rightarrow \mathbb{H}/\Gamma$ \\
+$\exists$ \text{ окрестность } $U \subset F \setminus \gamma F$ \\
+$\pi^{-1}|_U$ \text{ -- иском}
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{images/photo_2.jpeg}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{images/photo_3.jpeg}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{images/photo_4.jpeg}
+\end{center}
+
+\text{Более общий случай}
+
+\begin{definition}
+    $\Gamma(N) = \left\{
+    \begin{pmatrix}
+    a & b \\
+    c & d
+    \end{pmatrix}
+    \in SL_2(\mathbb{Z})
+    , \text{ где }
+    \begin{pmatrix}
+    a & b \\
+    c & d
+    \end{pmatrix}
+    \equiv
+    \begin{pmatrix}
+    1 & 0 \\
+    0 & 1
+    \end{pmatrix}
+    \pmod{N}
+    \right\}$ \text{ -- главной конгруэнц подгруппой}
+\end{definition}
+
+$\Gamma(1) = \Gamma$ \\
+$\Gamma' < SL_2(\mathbb{Z})$ \text{ называется конгруэнц подгруппой, если } $\exists N$: $\Gamma(N) \subset \Gamma'$ \\
+$Y(\Gamma') = \mathbb{H}/\Gamma'$
+
+\begin{lemma}
+    $\bullet$ $\Gamma'$ \text{ -- конгруэнц подгруппа } $SL_2(\mathbb{Z})$ $\Gamma'$ \text{ действует вполне разрывно и } $Y(\Gamma')$ \text{ -- Хаусдорфово} \\
+    $\bullet$ $Y(\Gamma')$ \text{ имеет конечное число эллиптических точек. } $\Gamma_t$ \text{ -- конечные циклические группы.} \\
+    $\square$ \text{идея: } $[SL_2(\mathbb{Z}): \Gamma'] = N^3 \prod_{p \mid N}(1 - \frac{1}{p^2})$ \\
+    $SL_2(\mathbb{Z}) = \bigcup_{j=1}^{d} \Gamma' g_j \Rightarrow$ \text{ эллиптические точки } $\Gamma' \in \{\Gamma g_j i, \Gamma g_j \omega\}$ \qquad $\blacksquare$
+\end{lemma}
+
+$F'$ \text{ -- фундаментальная область } $\Gamma'$ \\
+$F' = \bigcup_{j=1}^{d} g_j F$, \quad $F$ \text{ -- фундаментальная область } $\Gamma$
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{images/photo_5.jpeg}
+\end{center}
+
+$SL_2(\mathbb{Z})$ \text{ действует на множестве } $\mathbb{Q} \cup \{i\infty\}$ \\
+$\frac{a}{c} \in \mathbb{Q}$ \quad $(a,c) = 1$ \quad $\exists b, d$: $ad - bc = 1$ \\
+$\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix} (i\infty) = \frac{a}{c}$ \\
+$\overline{\mathbb{H}} = \mathbb{H} \cup \mathbb{Q} \cup \{i\infty\}$ \\
+$\Gamma' \subset SL_2(\mathbb{Z})$ \text{ действует на } $\overline{\mathbb{H}}$ \\
+$\overline{\mathbb{H}}/\Gamma' = X(\Gamma')$
+
+\begin{definition}
+    \text{Параболическими точками называются элементы из } $\mathbb{Q} \cup \{i\infty\}$ \\
+    \text{ и их образы в } $(\mathbb{Q} \cup \{i\infty\})/\Gamma'$ \\
+    $\Gamma_{i\infty} = \left\{
+    \begin{pmatrix}
+    1 & n \\
+    0 & 1
+    \end{pmatrix}, \quad n \in \mathbb{Z}
+    \right\}$ \\
+    $\Gamma' \subset SL_2(\mathbb{Z})$, $z \in \mathbb{Q} \cup \{i\infty\}$
+\end{definition}
+
+$\exists g \in SL_2(\mathbb{Z}): gz = i\infty$ \\
+$h_z = h_{z, \Gamma'} = |\Gamma_{i\infty}/(g(\{\pm \mathbb{I}\}\Gamma')g^{-1})_{i\infty}|$ \\
+$X(\Gamma')$ \text{ -- РП?} \\
+$\varphi(z) = e^{\frac{2\pi i z}{h}}$ \\
+$X(\Gamma)$, $\Gamma = SL_2(\mathbb{Z})$ \quad $z \mapsto e^{2\pi i z}$
+
+\begin{theorem}
+    $\Gamma'$ \text{ -- конгруэнц подгруппа } $X(\Gamma')$ \text{ -- компактная РП}
+\end{theorem}
+
+\begin{theorem}
+    $g(X(\Gamma')) = 1 + \frac{d}{12} - \frac{e_2}{4} - \frac{e_3}{3} - \frac{e_{\infty}}{2}$ \\
+    $d = \deg f$, \quad $f: X(\Gamma') \rightarrow X(\Gamma)$
+\end{theorem}
+
+\begin{center}
+    \includegraphics[width=0.8\linewidth]{images/photo_6.jpeg}
+\end{center}
+
+\begin{theorem}
+    $E$: $y^2 = x^3 + ax + b$ \text{ -- эллиптическая кривая } / $\mathbb{C}$ \\
+    $(a,b \in \mathbb{Q})$ \text{ -- РП} \\
+    $\Gamma'$ \text{ -- конгруэнц подгруппа } $X(\Gamma')$ \text{ -- РП} \\
+    $\forall E: \exists \Gamma' \quad \exists f: X(\Gamma') \rightarrow E$ \text{ -- сюръективное, голоморфное отображение РП} \\
+    (\text{Теорема о модулярности})
+\end{theorem}
+
+\end{document}

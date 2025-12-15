@@ -1,0 +1,202 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{Лекция №9 «Сильная аппроксимация, теорема Римана-Роха». Курс A-III}
+\author{Кучерин Георгий Дмитриевич 619/2}
+\date{15 ноября 2025}
+
+\begin{document}
+
+\maketitle
+
+Пусть Х - компактная РП
+
+M_X - \textcyrillic{поле (глобальных) мероморфных функций} 
+
+\newline 
+
+M_x^{(1)} - \textcyrillic{пространство (глобальных) мероморфных 1 - форм}
+
+\newline 
+
+Div X - \textcyrillic{группа дивизоров} 
+
+\newline 
+
+D \in Div X 
+
+\newline 
+
+L(D) = \{ f \in M_X: \quad (f) \ge -D\} 
+
+\newline 
+
+L^{(1)}(D) = \{\omega \in M_X: \quad (\omega) \ge -D\}
+
+\newline 
+
+L^{(1)}(D) \cong L(K+D), \quad K = (\omega)
+
+\newline 
+
+L^{(1)}(D), L(D) - \textcyrillic{конечномерные векторные пространства над} \quad \mathbb{C}
+
+\newtheorem{theorem}{Теорема}
+
+\begin{theorem}
+    \textcyrillic{(Риман-Рох)} \quad \textcyrillic{При некоторых условиях для любого дивизора} \quad D \in Div X \quad dim L(D) = deg D - g(X) + 1 + dim L^{(1)}(-D) \quad (dim L^{(1)}(-D) = dim L(K - D))
+\end{theorem}
+
+\newline \textcyrillic{некоторые условия определяются вот так}
+
+\newtheorem{definition}{Определение}
+
+\begin{definition}
+    S \subset M_X \quad S \quad \textcyrillic{разделяет точки на Х, если} \quad \forall p, q \in X, \quad p \ne q \quad \exists f \in S: \quad f(p) \ne f(q) \newline S \quad \textcyrillic{разделяет касательные, если} \quad \forall p \in X \quad \exists \in S: \quad m_p(f) = 1 \quad (m_p(f) = m_p(F)) \newline F: X \rightarrow \mathbb{C}_{\infty}, \quad \textcyrillic{то есть} \quad m_p(f) = \begin{cases}
+    \nu_p(f-f(p)), &  f - \textcyrillic{голоморфна  в} \quad p \\
+    -\nu_p(f), &  p - \textcyrillic{полюс в } \quad f
+\end{cases}
+\end{definition}
+
+\newline
+
+\textcyrillic{Некоторые условия в теореме Римана - Роха}: \quad M_X \quad \textcyrillic{разделяет точки и касательные}. 
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    \textcyrillic{Если для Х верно условие Римана-Роха} \Rightarrow M_X \quad \textcyrillic{разделяет точки касательной (то есть в теореме Римана-Роха - эквивалентность)} \newline \square \quad p \ne q, g = g(X) \newline D = (g + 1) \cdot p, \quad deg D = g + 1 \newline dim L(D) = g + 1 - g + 1 + dim L(K - D) \ge 2 \quad (dim L(K-D) \ge 0) \Rightarrow \exists f \in L(D) \setminus \mathbb{C}: \quad f - \textcyrillic{имеет полюс только в точке р} \newline p - \textcyrillic{полюс} \quad f, \quad q \ne p - \textcyrillic{не полюс} \quad f \newline \textcyrillic{то есть} \quad M_X \quad \textcyrillic{разделяет точки} \newline \newline \textcyrillic{Разделение касательных} \newline \textcyrillic{Если} \quad deg D \ge 2g - 1 \newline deg (K-D) = deg K - deg D \le 2g - 2 - 2g + 1 = -1 \newline \Rightarrow 2(K-D) = \{0\} \newline dim L(D) = deg D - g + 1 \newline p \in X, \quad D_n = n \cdot p, \quad deg D_n = n \newline dim L(D_n) = n - g + 1, \quad dim L(D_{n+1}) = n - g + 2 \newline \Rightarrow \exists f_n \in L(D_{n+1}) \setminus L(D_n) \quad \textcyrillic{то есть} \quad \nu_p(f_n) = -n \newline \Rightarrow \nu_p(\frac{f_n}{f_{n+1}}) = -1, \quad \textcyrillic{то есть} \quad m_p(\frac{f_n}{f_{n+1}}) = 1 \qquad \blacksquare 
+\end{lemma}
+
+\begin{lemma}
+    M_X - \textcyrillic{разделяет точки касат} \Rightarrow \exists \varphi: X \rightarrow \mathbb{P}^n \newline \square \quad \textcyrillic{В прошлый раз не успели сказать про следующее:}
+    \begin{theorem}
+        D \in Div X \quad \forall p,q \in X \quad dim L(D - p - q) = dim L(D) - 2  \Rightarrow \exists \varphi = \varphi_D: \quad X \rightarrow \mathbb{P}^n - \textcyrillic{голоморфное отображение}
+    \end{theorem}
+    \newline \textcyrillic{Пусть} \quad D \in Div X \quad deg D \ge 2g + 1 \newline deg (D - p - q) \ge 2g - 1 \quad \textcyrillic{и} \quad L(K - D) = 2(K - (D - p -q)) = \{0\} \quad \textcyrillic{теорема Римана - Роха гласит, что} \quad dim L(D) = deg - g + 1 \newline dim L(D - p - q) = deg (D - p - q) - g + 1 \quad \{deg(D - p -q) = deg D - 2\} = dim L(D) - 2 \newline \textcyrillic{Для} \quad D = (2g + 1) \cdot p \quad \varphi_{D}: X \rightarrow \mathbb{P}^n \textcyrillic{голоморфное вложение} \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    (\textcyrillic{Примеры}) \newline 1) \quad X = \mathbb{C}_{\infty}, \quad M_X \quad \textcyrillic{разделяет точки и касательные} \newline 2) \quad X = \mathbb{C}/L, \quad \textcyrillic{аналогично} \newline 3) X \in \mathbb{P}^n - \textcyrillic{голоморфно вложено, то аналогчино} \newline \square \quad \textcyrillic{Упражнение} \quad \blacksquare
+\end{lemma}
+
+\newtheorem*{notion}{Замечание}
+
+\begin{notion}
+    \textcyrillic{Для голоморфно вложенных РП существует система уравнений из однородных многочленов, то есть голомофрно вложенные РП = проективные кривые (следует из Римана - Роха)} \newline \textcyrillic{Таким образом} \quad M_X \quad \textcyrillic{разделяет точки и касательные (это то же самое что и условие} \newline \textcyrillic{Римана - Роха, это тоже самое что Х голоморфно вложено)}
+\end{notion}
+
+\begin{theorem}
+    (\textcyrillic{без доказательства}) \quad \forall \quad \textcyrillic{компактной РП Х выполняются условия Римана-Роха}
+\end{theorem}
+
+\begin{definition}
+    \textcyrillic{Компактная РП, для которой выполнено условие выше, называется алгебраической кривой (АК)}
+\end{definition}
+
+\\~\\ 
+
+\textcyrillic{Слабая аппроксимация или в самом деле аппроксимация рядов Лорана}
+
+\begin{lemma}
+    X - \textcyrillic{АК}, \quad p \in X \newline \forall N \in \mathbb{Z} \quad \exists f \in M_X: \quad \nu_p(f) = N \newline \square \quad X \quad \textcyrillic{отделяет касательную} \longleftrightarrow \exists f \in M_X \quad m_p(f) = 1 \newline \textcyrillic{Если} \quad f - \textcyrillic{голом} \quad g = f - f(p), \nu_p(g) = 1 \newline \textcyrillic{Если р - полюс, то} \quad g = \frac{1}{f} \quad \nu_p(g) = 1 \newline \textcyrillic{Таким образом} \quad \forall p \quad \exists g: \quad \nu_p(g) = 1: \quad \forall N \in \mathbb{Z} \newline \nu_p(g^N) = N \qquad \blacksquare
+\end{lemma}
+
+\begin{definition}
+    r(z) = \sum_{i = n}^{m} c_i z^i \quad n \le m \in \mathbb{Z} - \textcyrillic{назыв многочлен Лорана}
+\end{definition}
+
+\\~\\
+
+\textcyrillic{Будем говорить, что многочлен Лорана} \quad r(z) \quad \textcyrillic{является главной частью ряда Лорана функции} \quad h \in M_X, \quad \textcyrillic{если} \quad h - r = \sum_{i > m} c_i z^i \quad (\textcyrillic{остаток, хвост}, \quad tail) \newline (h - r = O(z^{m+1})) \newline 
+
+\begin{lemma}
+    X - \textcyrillic{АК}, \quad p \in X \quad z - \textcyrillic{локальная координата в р}, \quad r(z) - \textcyrillic{многочлен Лорана} \newline \exists f \in M_X: \quad r - \textcyrillic{главная часть Лорана для} \quad f \quad (\textcyrillic{в точке р}) \newline \square \quad r = \sum_{i = n}^{m} c_iz^i, \quad c_n, c_m \ne 0 \newline \textcyrillic{индукция по} \quad k = m - n - 1 \newline k = 1 \qquad r(z) = c_nz^n \quad \textcyrillic{утвержение равносильно тому, что} \quad f \in M_x, \quad \nu_p(f) = n \newline (\textcyrillic{следует из предыдущей леммы}) \newline n > 1 \qquad r = c_nz^n + c_{n+1}z^{n+1} + \dots + c_mz^m \newline \textcyrillic{По индукции для} \quad c_nz^n \quad \exists h \in M_X: \quad c_nz^n - \textcyrillic{главная часть для} \quad h(z) \newline  h(z) - r(z) = \dots + a_mz^m + a_{m+1}z^{m+1} \quad (s(z) = \dots + a_mz^m \quad - \quad \textcyrillic{многочлен Лорана} \quad \le n-1) \newline \textcyrillic{по индукции} \quad \exists g \in M_x: \quad s(z) - \textcyrillic{главная часть} \quad g(z) \newline \textcyrillic{Таким образом} \quad h - r = s + O(z^{m+1}) \newline g = s + O(z^{m+1}) \newline \textcyrillic{Для} \quad f = h - g = r + O(z^{m + 1}) \newline \Leftrightarrow r(z) - \textcyrillic{главная часть функции} \quad f(z) \in M_X \qquad \blacksquare
+\end{lemma}
+
+\textcyrillic{Что, если заданы точки} \quad p_1, \dots, p_n \in X?
+
+\begin{lemma}
+    X - \textcyrillic{АК} \quad p, q \in X, \quad p \ne q \newline \exists f \in M_X: \quad p - \textcyrillic{ноль}, \quad q - \textcyrillic{полюс} \newline \square \quad \dots \quad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    X - \textcyrillic{АК}, \quad p, q_1, \dots, q_n \in X \newline \exists f \in M_X: \quad p - \textcyrillic{ноль}, \quad q_1, \dots, q_n - \textcyrillic{полюсы} \newline \square \quad \textcyrillic{индукцией по} \quad n: \quad n = 1 - \textcyrillic{предыдущая лемма} \newline n > 1 \quad \textcyrillic{по индукции} \quad \exists g: \quad p - 0, q_1, \dots, q_{n-1} - \textcyrillic{полюсы} \newline \exists h: \quad p - 0, \quad q_n - \infty \newline f = g + h^m \quad \textcyrillic{выберем достаточно большое} \quad m, \quad \textcyrillic{то} \quad f \quad \textcyrillic{будет удовлетворять условиям} \newline (\textcyrillic{Упражненние}) \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    X - \textcyrillic{АК} \quad p, q_1, \dots, q_n \in X, \quad N \ge 1 \newline \exists f \in M_X: \quad \nu_p(f-1) \ge N, \quad \nu_{q_i}(f) \ge N \newline \square \quad \exists g \in M_X: \quad \nu_p(g) > 0, \quad \nu_{q_i}(g) < 0 \newline f = \frac{1}{1 + g} N \qquad \blacksquare
+\end{lemma}
+
+\begin{theorem}
+    (\textcyrillic{аппроксимация рядов Лорана}) \newline X - \textcyrillic{АК}, \quad p_1, \dots, p_n \in X \quad z_i = z_{p_i} - \textcyrillic{локальные координаты с центром в} \quad p_i \quad 1 \le i \le n \newline r_i(z), \quad 1 \le i \le n - \textcyrillic{многочленов Лорана} \newline \exists f \in  M_X: \quad \forall i: \quad 1 \le i \le n \quad r_i(z) - \textcyrillic{главная часть ряда Лорана для} \quad f(z) \quad \textcyrillic{в точке} \quad p_i \newline \square \quad r_i(z_i) = \sum_{j = n_i}^{m_i} c_{ij} z_i^j, \quad N = max \quad m_i \newline (= \sum^N c_{ij}z_i^j, \quad m_i < j \le N, \quad c_{ij} = 0) \newline \forall p_i \quad \exists g_i \in M_X: \quad g_i(z_i) = r_i(z_i) + O(z_i^{N+1}) \newline M = min \quad n_i = min \quad \nu_{p_i}(r_i) = min \quad \nu_{p_i}(g_i) \newline \forall i \quad \exists h_i: \quad M_X: \quad \nu_{p_i}(h_i - 1) \ge N - M \quad \nu_{p_j}(h_i) \ge N - M, \quad j \ne i \newline \textcyrillic{То есть} \quad h_i(z_i) = 1 + O(z_i^{N - M}) \newline h_i(z_j) = O(z_j^{N-M}) \newline (h_ig_i)(z_i) = (1 + O(z_i^{N - M}))(r_i(z_i) + O(z_i^{N - M})) = r_i(z_i) + O(z_i^{N - M}) \newline (h_ig_i)(z_j) = O(z_j^{N - M}) \newline f = \sum_{i = 1}^{n} h_ig_i \quad \textcyrillic{в} \quad f(z_i) = r(z_i) + O(z_i^{N - M}) \qquad \blacksquare
+\end{theorem}
+
+\newtheorem*{consequence}{Следствие}
+
+\begin{consequence}
+    X - \textcyrillic{АК} \quad p_1, \dots, p_n \in X \newline m_1, \dots, m_n \in \mathbb{Z} \quad \exists f \in M_X: \quad \forall i \quad \nu_{p_i}(f) = m_i
+\end{consequence}
+
+\begin{consequence}
+     X - \textcyrillic{АК} \quad 1 \le i \le n \quad p_i \in X \newline m_i \in \mathbb{Z}, \quad f_i \in M_X \quad \exists f \in M \newline \nu_{p_i}(f - f_i) = m_i \newline \square \quad \dots \quad \blacksquare
+\end{consequence}
+
+\\~\\
+
+\textcyrillic{Вспомним КТО из обычной теории чисел}: \quad p_1, \dots, p_n - \textcyrillic{простых} \newline m_1, \dots, m_n \in \mathbb{Z}, \quad a_1, \dots, a_n \in \mathbb{Q} \quad (\mathbb{Z}) \newline \exists a \in \mathbb{Q} \quad (\mathbb{Z}): \quad \forall i: \quad \nu_{p_i}(a - a_i) = m_i \newline (a \equiv a_i (p_i^{m_i})) \newline \textcyrillic{Это теорема о слабой аппроксимации}
+
+\\~\\
+
+\textcyrillic{Расширение полей комплексных чисел} \quad M_X / \mathbb{C}
+
+\begin{lemma}
+    tr. deg (M_x(\mathbb{C})) = 1 \quad (\textcyrillic{то есть} \quad \exists f - \textcyrillic{не алгебраический над} \quad \mathbb{C}) \nerwline \froall f, g \in M_X \quad \textcyrillic{есть алгебраическая зависимость}) \newline \square \quad M_X \ne \mathbb{C}, \quad \textcyrillic{то есть} \quad tr. \quad deg M_X / \mathbb{C} \ge 1 \newline \textcyrillic{Пусть} \quad f, g \in M-X \ \textcyrillic{алгебраически независимы} \newline \textcyrillic{Возьмём} \quad D > max((f)_{\infty}, (g)_{\infty}}) \newline ((f) = (f)_0 - (f)_{\infty} > -D \Rightarrow f \in L(D)) \newline f, g \in L(D) \newline \forall i, j \ge 0 \quad i + j = n \quad f^i g^j \in L(nD) \newline f^ig^j - \textcyrillic{линейно независимы} \newline \Rightarrow dim L(nD) \ge \sum_{k = 1}^{n+1} k = \frac{(n+1)(n+2)}{2} \sim \frac{n^2}{2} \newline D > 0, \quad dim L(nD) \le 1 + deg nD = 1 + n deg D \quad (\textcyrillic{получаем противоречие для больших} \quad n) \newline \textcyrillic{Таким образом если} \quad f \in M_X \setminus \mathbb{C}, \quad \textcyrillic{рассмотрим} \quad \mathbb{C} \subset \mathbb{C}(g) \subset M_X, \quad M_X / \mathbb{C}(f), \mathbb{C} \newline tr. deg \quad \nathbb{C}(f) / \mathbb{C} = 1 = tr. deg \quad M_X / \mathbb{C} \newline \Rightarrow M_X / \mathbb{C}(f) - \textcyrillic{конечное} \newline [M_X : \mathbb{C}(f)] - \textcyrillic{конечна}
+\end{lemma}
+
+\begin{lemma}
+    \forall D \in Div X \quad \exists m \in \mathbb{Z}_{>0} \quad \exists g \in \mathbb{C}(f): \newline D - (g) \le m(f)_{\infty} \newline \square \quad \{p \in X: \quad p \in supp D \setminus supp (f)_{\infty}, \quad D(p) \ge 1\} = \{p_1,\dots,p_n\} \newline \textcyrillic{Рассмотрим функцию} \quad f - f(p_i) \quad \nu_{p_i}(f - f(p_i)) \ge 1 \newline p - \textcyrillic{полюс} \quad f - f(p_i) \Leftrightarrow p - \textcyrillic{полюс} \quad f \newline g = \prod_{i = 1}^{k} (f - f(p_i))^{D(p_i)} \in \mathbb{C}[f] \newline \nu_{p_i}(g) \ge D(p_i): \quad g \quad \textcyrillic{не имеет полюсов, кроме полюсов} \quad f \neline \textcyrillic{Таким образом} \quad (D - (g))(p) > 0 \Leftrightarrow p - \textcyrillic{полюс} \quad f \newline \exists \quad \textcyrillic{достаточно большое} \quad m \in \mathbb{Z}_{>0}: \quad \forall \quad \textcyrillic{полюса} \newline (D - (g))(p) \le m(-\nu_p(f)) \Rightarrow D-(g) \le m(f)_{\infty} \qquad \blacksquare
+\end{lemma}
+
+\begin{consequence}
+    f,h \in M_X \setminus \mathbb{C} \quad \exists r \in \mathbb{C}[f]: \newline r(f)h \quad \textcyrillic{не имеет полюсов кроме} \quad f \newline \textcyrillic{или более точно} \quad \exists m: \quad r(f)h \in L(m(f)_{\infty}) \newline \square \quad D = -(h) \quad \blacksquare
+\end{consequence}
+
+\begin{lemma}
+    \textcyrillic{Пусть} \quad [M_X : \mathbb{C}(f)] \ge K \newline \textcyrillic{Тогда} \quad \exists m_0: \quad \forall m \ge m_0 \newline dim L(m(f)_{\infty}) \ge (m - m_0 + 1)K \newline \square \quad \exists g_1, \dots, g_k - \textcyrillic{линейно независимые над} \quad \mathbb{C}(f) \quad \forall \quad 1  \le i \le n \quad \exists r_i \in \mathbb{C}[f]: \newline h_i = r_i(f)g_i - \textcyrillic{имеют полюса только в} \quad f_i \newline \exists m_0 \in \mathbb{Z}_{>0}: \quad h_i \in L(K(f)_{\infty}) \newline h_i - \textcyrillic{линейно независимы} \newline f^jh_i \in L(m (f)_{\infty}) \quad \textcyrillic{и линейно независимы} \quad 1 \le i \le k \quad 0 \le j \le m - m_0 \quad K \ge m_0 \newline \textcyrillic{то есть} \quad dim L(m(f)_{\infty}) \ge K(m-m_0+1) \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    \textcyrillic{} [M_X : \mathbb{C}(f)] \le deg(f)_{\infty} \newline \square \quad \textcyrillic{Пусть} \quad  [M_X : \mathbb{C}(f)] \ge def(f)_{\infty} + 1 \newline \exists m_0: \quad \forall m \ge m_0 \newline dim L(m(f)_{\infty}) \ge (K - m_0 + 1)(1 + deg(f)_{\infty}) \newline dim L(m(f)_{\infty}) \le 1 + deg (m(f)_{\infty}) = 1 + m deg(f)_{\infty} \newline \textcyrillic{противоречие с тем, что для достаточно больших} \quad m \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    \textcyrillic{} [M_X : \mathbb{C}(f)] = deg(f)_{\infty} \newline \square \quad (f)_{\infty} = \sum n_ip_i \newline \forall i \quad \textcyrillic{по слабой аппроксимации} \quad \exists g_{ij} \quad 1 \le i \le n_i: \newline \nu_{p_i}(g_{ij}) -j  \quad \nu_{p_k}(g_{ij}) = 0, \quad k \ne i \newline g_{ij} - \textcyrillic{линейно независимы, всего их} \quad deg (f)_{\infty} \newline \Rightarrow [M_X : \mathbb{C}(f)] \ge deg (f)_{\infty} \newline [M_X : \mathbb{C}] = deg (f)_{\infty} \qquad \blacksquare
+\end{lemma}
+
+\begin{consequence}
+    M_X - \textcyrillic{конечно порожденная алгебра}
+\end{consequence}
+
+\newtheorem*{examples}{Примеры}
+
+\begin{examples}
+    1) \quad X = \mathbb{C} \quad M_{\mathbb{C}_{\infty}} \cong \mathbb{X} \newline 2) \quad X = \mathbb{C}/L \quad M_{\mathbb{C}/L} - \textcyrillic{порождается} \quad \theta - \textcyrillic{функциями} \newline 3) \quad X \subset \mathbb{P}^n \quad [x_0, \dots, x_n] \newline \mathbb{X} \quad M_X - \textcyrillic{будет порождаться} \quad \frac{x_i}{x_j} \newline M_X = \mathbb{C}(\mathbb{X}) - \textcyrillic{обозначение поля рациональных функций на Х} \newline 
+\end{examples}
+
+\begin{theorem}
+    (\textcyrillic{без доказательства}) \quad X, Y - \textcyrillic{изоморфныы, компактны РП} \Leftrightarrow \mathbb{C}(X) \cong \mathbb{C}(Y)
+\end{theorem}
+
+\end{document}

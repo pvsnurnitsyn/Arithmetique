@@ -1,0 +1,187 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{Лекция №7 «Пространства функций дивизоров и линейные системы». Курс A-III}
+\author{Турашев Артём Сергеевич 619/2}
+\date{25 октября 2025}
+
+\begin{document}
+
+\maketitle
+
+\bullet \quad \textcyrillic{В прошлый раз было введено понятие голоморфных/мероморфных дифференциалов}. \newline 1 - \textcyrillic{форм}: \quad \omega = f(z)dz 
+
+\newline \textcyrillic{Если} \quad \omega_1 = f(z)dz, \quad \omega_2 = g(w)dw \quad \omega_1 \quad \textcyrillic{переходит в} \quad \omega_2, \quad \textcyrillic{если} \quad g(w)=f(T(w))T'(w), \quad T = \varphi \circ \psi^{-1}
+
+\newtheorem{theorem}{Теорема}
+
+\bullet \quad
+    (\textcyrillic{Теорема о вычетах}): \quad \textcyrillic{Если} \quad X - \textcyrillic{компактная РП, то} \quad \forall  \omega \in M_{x}^{(1)} \quad \sum_{p \in X} Res_p \omega = 0 \quad (Res_p \omega = \frac{1}{2 \pi i} \oint_{\gamma_p} \omega )
+
+\bullet \quad Div(X) = \{ D = \sum_{p \in X} n_p \cdot p, \quad n_p = 0 \quad \textcyrillic{для почти всех р}\}
+
+supp D = \{p: \quad n_p \ne 0\}
+
+deg D = \sum n_p
+
+D = \prod_{p \in X} p^{n_p}
+
+D: X \rightarrow \mathbb{Z}
+
+\bullet \quad (f) = \sum \nu_p (f) \cdot p - \textcyrillic{главные дивизоры}, \quad PDiv(X) = \{(f)\} \newline (\omega) = \sum \nu_p(\omega) \cdot p - \textcyrillic{канонические дивизоры}, \quad KDiv(X) \newline \bullet \quad Cl(X) = Div(X)/PDiv(X) \newline ([D_1] = [D_2] \Leftrightarrow D_1 $\mathtt{\sim}$D_2 \Leftrightarrow D_1 \cdot D_2 = (f) \in PDiv \newline (Cl(X) = Pic(X)) \newline \bullet \quad T: \forall \omega_1, \omega_2 \in M_{X}^{(1)} \quad \omega_1$\mathtt{\sim}$\omega_2 \newline \bullet \quad deg(f)=0 \Rightarrow D_1$\mathtt{\sim}$D_2 \Rightarrow deg D_1 = degD_2
+
+\\~\\ 
+
+F: X \rightarrow Y - \textcyrillic{голоморфное непостоянное отображение РП} \newline \forall W \subset Y - \textcyrillic{открытое, также есть функция} \quad g \in O_{W,Y} \quad X \rightarrow^{F} Y \rightarrow^{g} \mathbb{C}  \newline (\textcyrillic{по этому утверждению следует то, что} \quad X \rightarrow^{g \circ F} \mathbb{C}) \newline F - \textcyrillic{индуцирует отображение} \quad F^{*}: O_{W,Y} \rightarrow O_{F^{-1}(W), X}
+
+\textcyrillic{Аналогично} \quad F^{*}: M_{W,Y} \rightarrow M_{F^{-1}(W),X} \newline 
+\textcyrillic{Для 1-форм:} \quad \varphi: u \rightarrow v - \textcyrillic{карта на Х}, \quad \psi: u' \rightarrow v' - \textcyrillic{карта на Y}: \quad F(u) \subset u' \newline z = \varphi(x), \quad w = \psi(y) - \textcyrillic{локальные координаты}. \newline F \textcyrillic{в координатах} \quad z, w \quad \textcyrillic{имеет вид} \quad w = f(z) \newline \textcyrillic{Пусть} \quad \omega \in \Omega_y \quad (\textcyrillic{мероморфн} \in M_Y^{(1)}) \quad w = g(w)dw
+
+\newtheorem{definition}{Опредление}
+
+\begin{definition}
+    F^{*}w = g(f(z))f'(z)dz - \textcyrillic{прообраз формы}
+\end{definition}
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    F^{*}: \Omega_Y \rightarrow \Omega_X; \quad F^{*}: M_Y^{(1)} \rightarrow M_X^{(1)} \newline \square \dots \blacksquare 
+\end{lemma}
+
+\textcyrillic{Для} \quad Div:
+
+\begin{definition}
+    1) \quad D = q \in Div Y \quad F^{*}D = \sum_{p \in F^{-1}(q)} m_p(F) \cdot p \quad (m_p: \quad F:\mathbb{Z} \rightarrow \mathbb{Z}^{m_p}) \newline 2) \quad D = \sum n_q \cdot q \in Div(Y) \newline F^{*}D = \sum n_q \cdot F^{*} q = \sum n_q \sum_{p \in F^{-1}(q)} m_p(F) \cdot p \newline \textcyrillic{или}: \quad D:Y \rightarrow \mathbb{Z} \quad F^{*}D:X \rightarrow \mathbb{Z} \newline (F^{*}D)(p) = m_p(F)D(F(p))
+\end{definition}
+
+\begin{lemma}
+    F: X \rightarrow Y - \textcyrillic{голоморфное непостоянное} \newline 1) \quad F^{*}: \quad Div Y \rightarrow Div X - \textcyrillic{гомоморфизм групп} \newline 2) \quad F^{*}: PDiv Y \rightarrow PDiv X - \textcyrillic{гомоморфизм групп} \newline 3) \quad deg F^{*}D = deg F \cdot deg D \quad (deg F = \sum_{p \in F^{-1}(Y)} m_p(F)) \newline \square \quad 1) - \dots \newline 2) D = (f) \in PDiv Y \newline (F^{*}D/(p)) = m_p(F)D(F(p)) = m_p(F)\nu_{F(p)}(f) \newline \textcyrillic{для} \quad g = f \circ F \quad \nu_{p}(g) = m_p(F)\nu_{F(p)}(f) \newline D' = (g): \quad D' = F^{*}D. \newline 3) - \dots \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    f \in M_X \setminus \mathbb{C}, \quad F: X \rightarrow C_{\infty} - \textcyrillic{соответствующее голоморфное отображение. Тогда:} \newline F^{*}(D) = (f)_0 \newline F^{*}(\infty) = (f)_{\infty} \newline \square \quad F^{*}(D) = \sum_{p \in F^{-1}(D)} m_p(F) \cdot p = \sum_{\nu_p(f)>0} \nu_p(f) \cdot p = (f)_0 \newline F^{*}(\infty) = \sum_{p \in F^{-1}(\infty)} m_p(F) \cdot p = (f)_{\infty} \newline ((f) = (f)_0 - (f)_{\infty}) \qquad \blacksquare 
+\end{lemma}
+
+\begin{definition}
+    F: X \rightarrow Y - \textcyrillic{голоморфное, непостоянное отображение компактных} \quad X, Y \newline \textcyrillic{Можно определить дивизор разветвления}: \quad R_F = \sum_{p \in X} (m_p(x) - 1) \cdot p \in Div X \newline 
+    \textcyrillic{Можно определить дивизор ветвления}: \quad B_F = \sum_{q \in Y}(\sum_{p \in F^{-1}(q)} (m_p(F) - 1)) \cdot q \in Div Y
+\end{definition}
+
+\\~\\
+
+\textcyrillic{Вспомним формулу Гурвица}: \newline 2g(X) - 2 = (2g(Y)-2) \cdot \quad deg F + \sum_{p \in X} (m_p(F) - 1) \quad (\sum_{p \in X} (m_p(F) - 1) = deg R_F) \newline \newline \textcyrillic{Более общая формула Гурвица}
+
+\begin{theorem}
+    F: X \rightarrow Y - \textcyrillic{голоморфное непостоянное}, \quad  \omega \in M_Y^{(1)} \setminus \{0\} \newline (F^{*}\omega) = F^{*}(\omega) + R_F
+\end{theorem}
+
+\begin{lemma}
+     F: X \rightarrow Y - \textcyrillic{голоморфное непостоянное}, \quad p \in X \newline \nu_p(F^{*}\omega) = (1 + \nu_{F(p)}(\omega))m_p(F) - 1 \newline \square \quad m_p(F) = n, \quad k = \nu_{F(p)}(\omega) \newline \textcyrillic{для первого выражения означает, что в окретсности точки р} \quad  F: w = z^n = h(z) \newline \textcyrillic{для второго вырадения означает, что} \quad \omega \quad \textcyrillic{в окрестности} \quad  F(p) \quad \textcyrillic{имеет вид}: \quad \omega = g(\omega)d\omega \quad g(\omega) = c\omega^k + \dots \newline F^*\omega: \quad g(h(z))h'(z)dz = (cz^{nk} + \dots)nz^{n-1} dz = (cnz^{nk + n - 1} + \dots) \quad \textcyrillic{где} \quad \nu_p(F^*\omega) = nk + n - 1 = (1 + k)n - 1 \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    X - \textcyrillic{компактно}, \quad g(X) = g, \quad M_X \quad \textcyrillic{нетривиально} \newline \textcyrillic{Тогда} \quad deg(\omega) = deg \{(\omega)\}=2g-2 \newline \square \quad \exists f \in M_X \quad f \not \equiv const, \quad F: X \rightarrow \mathbb{C}_{\infty} - \textcyrillic{голоморфное отображение} \newline \textcyrillic{Пусть} \quad deg F = d \qquad  \textcyrillic{формула Гурвица} \newline 2g - 2 = - 2 \cdot d + \sum (m_p(F)-1) \newline \omega = dw \in  M_{\mathbb{C}_{\infty}}^{(1)} \quad (\nu_{\infty}(\omega) = -2, \quad \nu_p(\omega) = 0 \quad \forall p \quad \textcyrillic{отличного от} \quad \infty) \newline \eta = F^{*} \omega \in M_{X}^{(1)} \newline deg \eta = \sum \nu_p(\eta) = \sum \nu_p(F^* \omega) = \sum_{p \in X} ((1 + \nu_{F(p)}(\omega))m_p(F) - 1) = \newline \sum_{q \ne \infty, p \in F^{-1}(q)} (m_p(F)-1) + \sum_{q = \infty, p \in F^{-1}(\infty)}(-m_p(F)-1) = \sum_p (m_p(F)-1) - \newline \sum_{p \in F^{-1}(\infty)} 2 \cdot m_p(F) = \{\textcyrillic{первая сумма равна} \quad 2g-2+2d, \quad \textcyrillic{а вторая сумма равна} \quad 2d\} = 2g - 2 \newline \textcyrillic{то есть} \quad  deg(\eta) = 2g - 2} = deg \{(\eta)\} \qquad \blacksquare
+\end{lemma}
+
+(F^*\omega) = F^*(\omega) + R_F \qquad \square \quad \dots \quad \blacksquare \newline deg (F^*\omega) = deg F^*(\omega) + deg R_F
+
+\\~\\
+
+\textcyrillic{Приложение к кривым} \newline \mathbb{P}^n = \mathbb{P}^n(\mathbb{C}) = \mathbb{C}^{n+1}/\mathbb{C}^n = \{[z_0, \dots, z_n] = [\lambda z_0, \dots, \lambda z_n], \quad \lambda \in \mathbb{C}^*\} \newline \textcyrillic{в} \quad \mathbb{P}^2 - \textcyrillic{гладкие кривые} \quad X = \{[x:y: z] \in \mathbb{P}^2 \setminus F(x,y,z) = 0\}, \quad \textcyrillic{где} \quad F - \newline \textcyrillic{однородный многочлен, гладкость или невырожденность} \quad F: \quad \textcyrillic{нет решений у системы:} \quad F = \frac{\partial{F}}{\partial{x}} = \frac{\partial{F}}{\partial{y}} = \frac{\partial{F}}{\partial{z}} = 0
+
+\begin{definition}
+    \textcyrillic{РП} \quad X \subset \mathbb{P}^n \quad \textcyrillic{наз голоморфн влож, если} \quad \forall p \in X \newline \exists \quad \textcyrillic{однородные кординаты} \quad [z_0,\dots,z_n]: \newline 1) \quad z_j \ne 0 \quad \textcyrillic{в} \quad P \newline 2) \quad \forall k \quad \frac{z_k}{z_j} \in O_p \quad (\textcyrillic{голоморфна в окрестности точки р}) \newline 3) \quad \exists i \quad \frac{z_i}{z_j} - \textcyrillic{лок коорд в окрестности точки р}
+\end{definition}
+
+\begin{lemma}
+    X - \textcyrillic{голоморфное, вложенное в} \quad \mathbb{P}^n \newline G, H - \textcyrillic{однородные многочлены} \quad deg G = deg H, H \not \equiv 0 \quad \textcyrillic{на Х. Тогда} \quad \frac{G}{H} \in M_X \newline \square \dots \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    X \subset \mathbb{P}^2 - \textcyrillic{гладкая проективная кривая} \Rightarrow X - \textcyrillic{голоморфно вложенная} \newline \square \dots \blacksquare 
+\end{lemma}
+
+\newtheorem*{notion}{Замечание}
+
+\begin{notion}
+    X - \textcyrillic{голоморфно вложено, то Х называется проективной кривой}.
+\end{notion}
+
+\\~\\
+
+X - \textcyrillic{голоморфно вложено в} \quad \mathbb{P}^n 
+
+\begin{definition}
+    G - \textcyrillic{однородный многочлен}, \quad G \not \equiv 0 \quad \textcyrillic{на Х} \newline \textcyrillic{Дивизором пересечения будем обозначать} \quad div G \in div X  \newline p \in X \newline \bullet \quad G(p)=0, \quad \textcyrillic{выберем однородный многочлен} \quad H: \quad deg H = deg G. \newline H(p) \ne 0 \quad (\textcyrillic{по определению голоморфной вложенности} \quad \exists z_i \ne 0, \quad H = z_j^d, \quad \textcyrillic{если} \quad d = deg G) \quad f = \frac{G}{H} \in M_X \newline (div G)(p) = \nu_p(f) > 0, \quad \textcyrillic{так как} \quad f(p) \equiv 0 \newline \bullet \quad G(p) \ne 0, (div G)(p) = 0 
+\end{definition}
+
+\begin{lemma}
+    div G \quad \textcyrillic{корректно определено} \newline \square  \quad H_1 - \textcyrillic{другой многочлен однородный из определения, то} \quad f_1 = \frac{G}{H_1} = \frac{G}{H} \frac{H}{H_1} = f \cdot h_1, \quad h_1(p) \ne 0 \newline \nu_p(f_1) = \nu_p(f) + \nu_p(h_1) = \nu_p(f) \qquad \blacksquare
+\end{lemma}
+
+\begin{lemma}
+    div(G_1G_2) = div G_1 + div G_2 \newline \square \dots \blacksquare
+\end{lemma}
+
+\begin{definition}
+    \textcyrillic{Если} \quad deg G = 1, \quad \textcyrillic{то} \quad div G \quad \textcyrillic{называется дивизором гиперплоского сечения}
+\end{definition}
+
+\begin{lemma}
+    \textcyrillic{Если} \quad $f = \frac{G_{1}}{G_{2}}$ \quad (\textcyrillic{то есть} \quad $f \in M_X$), \quad \textcyrillic{то} \quad $(f) = \operatorname{div} G_1 - \operatorname{div} G_2$, \newline \textcyrillic{то есть} \quad $[\operatorname{div} G_1] = [\operatorname{div} G_2] \Rightarrow \deg \operatorname{div} G_1 = \deg \operatorname{div} G_2$  \newline \square \quad \nu_p(f) = \nu_p(\frac{G_1}{G_2}) = \nu_p(\frac{G_1}{H} \cdot (\frac{G_2}{H})^{-1}) = \nu_p(\frac{G_1}{H}) - \nu_p(\frac{G_2}{H}) \qquad \blacksquare
+\end{lemma}
+
+\\~\\
+
+\textcyrillic{В случае плоскости} \quad \mathbb{P}^2 \quad X: F(x,y,z) = 0 \newline deg F = d \quad \textcyrillic{называем степенью кривой Х}
+
+\begin{definition}
+    X - \textcyrillic{голоморфно вложено в} \mathbb{P}^{n} \newline D - \textcyrillic{дивизор гиперплоского сечения} \newline \textcyrillic{степенью Х называется} \quad deg D \quad \textcyrillic{обозначается} \quad deg X \quad (\textcyrillic{корректно определено}, \newline \textcyrillic{так как} \quad deg D_1 = deg D_2)
+\end{definition}
+
+\begin{lemma}
+    \textcyrillic{Для} \quad X \subset \mathbb{P}^{2}: \quad F(x,y,z) = 0 \quad deg F = d, \quad deg X = deg F \newline \square \quad deg X = deg div G_1 \quad G_1 - \textcyrillic{линейная форма} \quad deg G_1 = 1 \newline \textcyrillic{Будем считать, что:} \quad G_1 = X, \quad [0:0:1] \in X \quad \textcyrillic{замена координат} \newline \textcyrillic{в определении дивизора пересечения есть функция} \quad H_1, \quad \textcyrillic{возьмем} \quad H_1 = y \newline \textcyrillic{обозначим} \quad h = \frac{x}{y} \newline \newline div G_1 = div X = \left\{ \begin{aligned} 
+        \nu_p(h), \quad G_1(p) = 0\\
+        0, \quad \textcyrillic{иначе} 
+    \end{aligned} \right \quad = (h)_0 \quad  \quad h = \frac{x}{y} \in M_x \newline H: \quad X \rightarrow \mathbb{C}_{\infty} - \textcyrillic{соотв} \quad h \quad \textcyrillic{голоморфное отображение на риманову сферу} \newline H^* O = (h)_0 \newline deg H^* O = deg H \cdot deg O = deg H \quad (deg O = 1) \newline deg(h)_0 = deg div X \quad (deg H^* O = deg (h)_0) \newline deg H - ? \newline \textcyrillic{Пусть} \quad H(p) = \lambda \in \mathbb{C}, \quad p \in [x:y:z] \quad (H(p) \Leftrightarrow \frac{x}{y} = \lambda, \quad x = \lambda y, \newline p = [\lambda  y:y:z]) \newline p \in X, \quad \textcyrillic{то есть} \quad F(p) = 0, \quad \textcyrillic{если} \quad x = 0 \quad \textcyrillic{или} \quad y = 0 \newline p = [0:0:z] = [0:0:1] \not \in X - \textcyrillic{получаем противоречие} \newline \Rightarrow x \ne 0, \quad y \ne 0 \newline \textcyrillic{Таким образом} \quad p = [x:y:z] = [\lambda y:y:z] = [\lambda:1:z] \newline H^{-1}(p) = \{[\lambda:1:z] : F(\lambda,1,z)=0 \quad (F(\lambda,1,z) = f_{\lambda}(z) \quad deg f_{\lambda} = d)\} \newline \exists \lambda: \quad f_{\lambda}(z) = 0 - \textcyrillic{имеет} \quad d \quad \textcyrillic{различных корней кратности равной} \quad 1 \newline (\textcyrillic{иначе будет противоречие с невырожденностью}) \newline \textcyrillic{Таким образом} \quad |H^{-1}(p_{\lambda})| = d \Rightarrow deg H = d \qquad \blacksquare 
+\end{lemma}
+
+\begin{theorem}
+     (\textcyrillic{Безу}) \quad X - \textcyrillic{голоморфно вложено в} \quad \mathbb{P}^{n} \quad \textcyrillic{РП}, \quad deg X = d \newline G - \textcyrillic{однор} \quad deg G = e \quad G \not \equiv 0 \quad \textcyrillic{на Х. Тогда} \quad deg div G = deg G \cdot deg X $\mathtt{\sim}$ d \cdot e 
+\end{theorem}
+
+\newtheorem*{consequence}{Следствие}
+
+\begin{consequence}
+    X \subset \mathbb{P}^2 \quad F = 0 \quad deg div G  - \textcyrillic{число точек пересечения} \quad G \quad \textcyrillic{и} \quad F \quad \textcyrillic{с кратностями} \quad = deg F \cdot deg G 
+\end{consequence}
+
+\\~\\ 
+
+\square \quad (\textcyrillic{Доказательство теоремы Безу}) \quad div H - \textcyrillic{дивизор гиперплоского сечения} \quad deg H = 1, \quad div H^e = e = deg G \newline div H^e - \textcyrillic{дивизор пересечения} \newline deg div H^e = deg div G \quad (deg div H^e = e \cdot deg div H = e \cdot d) \qquad \blacksquare \newline \newline \textcyrillic{В лекции} \quad 4: 
+
+\begin{lemma}
+    X: F(x,y,z) = 0 - \textcyrillic{гладкая проективная плоская кривая} \quad \pi: x \rightarrow \mathbb{P}^1: [x:y:z] \mapsto [x:z] \newline m_p(\pi) > 1 \Leftrightarrow \frac{\partial F}{\partial y} (p) = 0 \newline deg \pi = deg F
+\end{lemma}
+
+\begin{lemma}
+    (\textcyrillic{Все по аналогии с предыдущим случаем}) \quad R_{\pi} = div \frac{\partial F}{\partial y}
+\end{lemma}
+
+\begin{theorem}
+    (\textcyrillic{Формула Плюккера}): \quad X \subset \mathbb{P}^2 - \textcyrillic{плоская гладкая проективная кривая} \quad F = 0 \quad deg F = d \newline g(X) = \frac{(d \cdot 1)(d \cdot 2)}{2} \newline \square \quad \pi: X \rightarrow \mathbb{P}^1 \newline \textcyrillic{формула Гурвица:} \newline 2g(X)-2 = (deg \pi)(2g(\mathbb{P}^1) - 2) + deg R_{\pi} \newline deg R_{\pi} = deg div \frac{\partial F}{\partial y} = deg X \cdot deg \frac{\partial F}{\partial y} \quad (\textcyrillic{они равны соответственно} \quad d \quad \textcyrillic{и} \quad d-1) \newline \textcyrillic{Таким образом} \quad 2g-2 = -2d + d(d-1) \qquad \blacksquare 
+\end{theorem}
+
+\end{document}

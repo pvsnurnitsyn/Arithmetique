@@ -1,0 +1,220 @@
+\part{Элементарная теория чисел}
+\section{Тема №1. Простые числа}
+\begin{definition}
+    Число $a$ делит натуральное число $b$, если $\exists$ такое число $c$, что $a = bc$. Если $b$ делится на $a$, то будем обозначать $a \mid b$. 
+\end{definition}
+
+\begin{definition}
+    Число $p \in \mathbb{Z}_{ > 1}$ назыается простым, если $d \mid p$, где $d \in \{1, p\}$.
+\end{definition}
+
+\begin{theorem}[Теорема Евклида]
+    $\exists$ бесконечно много простых чисел.
+\end{theorem}
+\begin{proof}
+    Пусть заданы числа $p_{1}. \ldots, p_{n}$ - конечное множество простых чисел и  $N = p_{1}\cdot p_{m} + 1$. Для каждого $p_{i}$ такого, что $1 \leq i \leq m$ справедливо: $p_{i} \nmid N$ (так как $p_{i} \mid p_{1}\cdot \ldots p_{m}$ и если $p_{i} \mid N$, то $p_{i} = 1$ - противоречие).
+    Если $p$ - такое число, что $p \mid N$, и $p \in \{p_{1}, \ldots p_{m}\}$, то получили противоречие того, что множество конечно.
+\end{proof}
+
+\begin{theorem}
+    Каждое ненулевое целое число может быть представлено в виде произведения простых чисел.
+\end{theorem}
+\begin{proof}
+    Пусть существует число, которе не может быть представлено в таком виде. Пусть $N$ - наименьшее положительно целое число с таким свойством. Так как $N$ само не может быть простым, то $N = m\cdot k$, где $1 < m,k < N$. Но так как $m$ и $k$ положительны и меньше $N$, они должны быть произведениями простых чисел. А тогда произведением простых чисел будет и $N = mk$ (противоречие).
+\end{proof}
+
+\begin{lemma}[Деление с остатком]\label{chapter1lemma1}
+    Всякое целое $a$ представляется единственным способом через положительное целое $b$ в форме:
+    \begin{equation}
+        a = b\cdot q + r, \: 0 \leq r < b, \: a \in \mathbb{Z}, \: b \in \mathbb{Z}_{>0}.
+    \end{equation}
+\end{lemma}
+\begin{proof}
+    Рассмотрим множество всех целых чисел вида $a - bx$, где $x \in \mathbb{Z}$. Это множество содержит положительные элементы. Пусть $r = a - q\cdot b$ - наименьший неотрицательный элемент этого множества. Мы утверждаем, что $0 \leq r < b$. В противном случае, $r = a - q\cdot b \geq b$, а поэтому \\ $0 \leq a - (q + 1)\cdot b < r$, что противоречит минимальности $r$.
+\end{proof}
+
+\begin{definition}
+    Для $a_{1}, a_{2}, \ldots, a_{n} \in \mathbb{Z}$ определим $\big(a_{1}, a_{2}, \ldots a_{n}\big)$ как множество всех целых чисел вида $a_{1}\cdot x_{1} + a_{2}\cdot x_{2} + \ldots + a_{n}\cdot x_{n}$, \\ где $x_{1}, x_{2}, \ldots x_{n} \in \mathbb{Z}$. \\
+    \textbf{Обозначение:}
+    \begin{equation}
+        A = \{x_{1}\cdot a_{1} + \ldots x_{n}\cdot a_{n}, \: x_{i}\in \mathbb{Z}\} = \big(a_{1}, \ldots, a_{n}\big)
+    \end{equation}
+    На языке теории колец $A$ является \textit{идеалом} в кольце $\mathbb{Z}$.
+\end{definition}
+
+\textbf{Свойства:}
+\begin{itemize}
+    \item Если $a, b \in A$, то $a + b \in A$;
+    \item Если $a \in A$, $r \in \mathbb{Z}$, то $r\cdot a \in A$.
+\end{itemize}
+
+\begin{lemma}
+    Если $a, b \in \mathbb{Z}$, то существует такой элемент $d \in \mathbb{Z}$, что $(a, b) = (d)$.
+\end{lemma}
+\begin{proof}
+    Можно считать, что хотя бы один из элементов $a, b$ ненулевой, так что в $(a, b)$ имеются положительные элементы. Пусть $d$ - наименьший положительный элемент в $(a, b)$. Значит $(d) \subseteq (a, b)$. Покажем, что выполнено и обратное включение. \\
+    Пусть $c \in (a, b)$. По лемме~\ref{chapter1lemma1} существуют такие целые числа $q, r$, что \\ $c = dq + $ и $0 \leq c < d$. Так как $c$ и $d$ входят в $(a, b)$, то $r = c - qd$ также входит в $(a, b)$. Поскольку $0 \leq r < d$, то $r = 0$. Таким образом, $c = qd \in (d)$.
+\end{proof}
+
+\begin{definition}
+    Пусть $a, b, \in \mathbb{Z}$. Целое число $d$ называется \textit{наибольшим общим делителем} целых чисел $a$ и $b$, если $d$ делит одновременно $a$ и $b$ и каждый другой общий делитель $a$ и $b$ делит $d$.\\
+    \textbf{Обозначение:}
+    \begin{equation}
+        \begin{aligned}
+            & \text{НОД}(a, b) = (a, b) = d, \\
+            & d \mid a, d \mid b
+        \end{aligned}
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    Пусть $a, b, \in \mathbb{Z}$. Целое число $d$ называется \textit{наименьшим общим кратным} целых чисел $a$ и $b$, если $a$ делит одновременно $d$, $b$ делит $d$ и каждое другое общее кратное $a$ и $b$ делится на $d$.\\
+    \textbf{Обозначение:}
+    \begin{equation}
+        \begin{aligned}
+            & \text{НОК}(a, b) = [a, b] = d, \\
+            & a \mid d, b \mid d
+        \end{aligned}
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    Два целых числа $a$ и $b$ взаимно просты, если их единственными общими делителями являются единицы $\pm 1$.
+\end{definition}
+
+\begin{lemma}
+    Пусть $a, b \in \mathbb{Z}$. Если $(a, b) = (d)$, то $d$ - является наибольшим общим делителем чисел $a$ и $b$.
+\end{lemma}
+\begin{proof}
+    Так как $a \in (d)$ и $b \in (d)$, мы видим, что $d$ - общий делитель $a$ и $b$. Предположим, что $c$ - их общий делитель. Тогда $c$ делит каждое число вида $ax + by$. В частности, $c \mid d$.
+\end{proof}
+
+\begin{proposition}\label{chapter1proposition1}
+    Предположим, что $a \mid bc$, и что $(a, b) = 1$. Тогда $ a \mid c$
+\end{proposition}
+\begin{proof}
+    Так как $(a, b) = 1$, то существуют целые числа $r$ и $s$, для которых $ra + sb = 1$. Поэтому $rac + sbc = c$. Так как $a$ делит левую часть этого равеннства, то $a \mid c$.
+\end{proof}
+
+\begin{corollary}\label{chapter1corollary1}
+    Если $p$-простое число и $p \mid bc$, то либо $p \mid b$, либо $p \mid c$.
+\end{corollary}
+\begin{proof}
+    Единственными делителями числа $p$ являются $\pm 1$, $\pm p$. Таким образом, $(p, b) = 1$ или $p$, то есть, либо $p \mid b$, либо $p$ и $b$ взаимно просты. Если $p \mid b$, то доказательство закончено. Если $p \nmid b$, то $(p, b) = 1$ и, согласно предположению~\ref{chapter1proposition1}, $p \mid c$.
+\end{proof}
+
+\begin{definition}
+    \textit{Показателем} или \textit{порядком} числа $n$ по основанию $p$ называется такое число $\alpha$, что $p^{\alpha} \mid n$, $p^{\alpha + 1} \nmid n$. \\
+    \textbf{Обозначение:}
+    \begin{equation}
+        \alpha = ord_{p}(n)
+    \end{equation}
+\end{definition}
+
+\begin{proposition}\label{chapter1proposition2}
+    Предположим, что $p$ - простое число и $a, b \in \mathbb{Z}$. Тогда $ord_{p}(ab) = ord_{p}(a) + ord_{p}(b)$.
+\end{proposition}
+\begin{proof}
+    Пусть $\alpha = ord_{p}(a)$, $\beta = ord_{p}(b)$. Тогда $a = p^{\alpha}c$ и $b = p^{\beta}d$, где $p \nmid c$ и $p \nmid d$. Далее, $ab = p^{\alpha + \beta}\cdot c \cdot d$ и, согласно следствию~\ref{chapter1corollary1} $p \nmid c\cdot d$. Таким образом, $ord_{p}(a\cdot b) = \alpha + \beta = ord_{p}(a) + ord_{p}(b)$.
+\end{proof}
+\begin{remark}
+    В дальнейшем будем использовать следующие факты:
+    \begin{itemize}
+        \item $ord_{q}(-1) = 0$;
+        \item $ord_{q}(p) = 0, \: \text{при} \: p \neq q$;
+        \item $ord_{q}(q) = 1$.
+    \end{itemize}
+\end{remark}
+
+Собирая вместе одинаковые простые числа, можно записать $n = p_{1} ^{\alpha_{1}}p_{2} ^{\alpha_{2}}\ldots p_{n} ^{\alpha_{n}}$, где $p_{i}$ - простые числа и $a_{i}$ - неотрицательные целые числа. Будем использовать следующую запись:
+\begin{equation}
+    n = (-1)^{\epsilon(n)}\prod \limits_{p}p^{\alpha(n)},
+\end{equation}
+где $\epsilon(n) = 0$ или $1$ в зависимости от того, будет $n$ положительным или отрицательным, а произведение берётся по всем положительным простым числам. Показатели степени $\alpha(p)$ - неотрицательные целые числа и, конечно, $\alpha(p) = 0$ для всех простых чисел, кроме конечного их числа.
+
+\begin{theorem}
+    Для любого ненулевого целого числа $n$ имеется разложение на простые множители:
+    \begin{equation*}
+        n = (-1)^{\epsilon(n)}\prod \limits_{p}p^{\alpha(n)},
+    \end{equation*}
+    с показателями степени, которые однозначно определяются числом $n$. На самом деле $\alpha(n) = ord_{p}(n)$.
+\end{theorem}
+\begin{proof}
+    Пусть $q \mid n$, и $q$ - простое. Применим функцию $ord_{q}$ к обеим частям равенства $n$ и воспользуемся её своством из предположения~\ref{chapter1proposition2}.
+    \begin{equation*}
+        \begin{aligned}
+            & ord_{q}(n) = ord_{q}((-1)^{\epsilon(n)}\prod \limits_{p}p^{\alpha(n)}) = \\
+            & = \epsilon(n)ord_{q}(-1) + \sum \limits_{p \mid n}\alpha(n)ord_{q}(p) = \\
+            & = \alpha(n)ord_{q}(q) = \alpha(n).
+        \end{aligned}
+    \end{equation*}
+    То есть получили, что $\alpha(n) = ord_{q}(n)$.
+\end{proof}
+
+\begin{definition}
+    $\nu(n)$ - число делителей числа $n$:
+    \begin{equation}
+        \nu(n) = \sum \limits_{d \mid n} 1
+    \end{equation}
+    $\sigma(n)$ - сумма делителей числа $n$:
+    \begin{equation}
+        \sigma(n) = \sum \limits_{d \mid n} d
+    \end{equation}
+\end{definition}
+
+\begin{remark}
+    $(\beta_{1}, \ldots, \beta_{l})$ - кортеж, имеет следующее представление: $p_{1} ^{\beta_{1}}\ldots p_{l} ^{\beta_{l}}$.
+\end{remark}
+
+\begin{proposition}
+    Пусть $n$ - целое положительное число с разложением $\prod \limits_{i = 1}^{l} p_{i} ^{\alpha_{i}}$ на простые множители. Тогда:
+    \begin{equation*}
+        \begin{aligned}
+            & 1) \: \nu(n) = \prod \limits_{i = 1}^{l} (\alpha_{i} + 1), \\
+            & 2) \: \sigma(n) = \prod \limits_{i = 1}^{l} \frac{p_{i} ^{\alpha_{i} + 1} - 1}{p_{i} - 1}.
+        \end{aligned}
+    \end{equation*}
+\end{proposition}
+
+\begin{proof}
+    \textbf{Доказательство пункта 1):}\\
+    $m \mid n$ тогда и только тогда, когда кортеж $(\beta_{1}, \ldots, \beta_{l})$ такой, что $0 \leq \beta_{i} \leq \alpha_{i}$ для $i \in \{\underline{1, l}\}$, а таких наборов в точности $(\alpha_{1} + 1)\ldots(\alpha_{l} + 1)$. \\
+    \textbf{Доказательство пункта 2):}\\
+    Заметим, что $\sigma(n) = \sum p_{1} ^{\beta_{1}}\ldots p_{l} ^{\beta_{l}}$, где сумма берётся по упомянутым выше $l$-наборам. Таким образом, 
+    \[\sigma(n) = \Bigg(\sum \limits_{\beta_{1} = 0}^{\alpha_{1}} p_{1} ^{\beta_{1}}\Bigg)\Bigg(\sum \limits_{\beta_{2} = 0}^{\alpha_{2}} p_{2} ^{\beta_{2}}\Bigg)\ldots \Bigg(\sum \limits_{\beta_{l} = 0}^{\alpha_{l}} p_{l} ^{\beta_{l}}\Bigg),\]
+    откуда и следует доказываемый результат, если воспользоваться формулой суммирования для геометрической прогрессии.
+\end{proof}
+
+\begin{definition}
+    Функция Мёбиуса определяется для всех положительных чисел и задаётся следующим равенством:
+    \begin{equation}
+        \mu(a) = \begin{cases}
+            1, \: \text{если} \: n = 1, \\
+            0, \: \text{если} \: d^2 \mid n,\: \text{где} \: d > 1, \\
+            (-1)^{l}, \: \text{если} \: n = p_{1}\ldots p_{l}
+        \end{cases}
+    \end{equation}
+\end{definition}
+
+\begin{proposition}
+    При $n > 1$ справедливо: $\sum \limits_{d \mid n} \mu(d) = 0$.
+\end{proposition}
+\begin{proof}
+    Если $n = p_{1} ^{\alpha_{1}} \ldots p_{l} ^{\alpha_{l}}$, то
+    \[\sum \limits_{d \mid n} \mu(d) = \sum \limits_{(\epsilon_{1}, \ldots, \epsilon_{l})},\]
+    где $\epsilon_{i}$ есть $0$ или $1$. Таким образом,
+    \[\sum \limits_{d \mid n} \mu(d) = 1 - l + \begin{pmatrix}
+        l \\
+        2
+    \end{pmatrix} - \begin{pmatrix}
+        l \\
+        3
+    \end{pmatrix} + \ldots + (-1)^{l} = (1 - 1)^{l} = 0\]
+\end{proof}
+
+
+\section{Тема №2. Сравнения}
+
+\section{Тема №3. Первообразные корни}
+
+\section{Тема №4. Квадратичные вычеты}
