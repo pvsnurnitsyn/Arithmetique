@@ -1,0 +1,310 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{xcolor}
+
+% Окружение "доказательство" с треугольником и квадратом
+\newenvironment{prooftri}
+{\par\noindent\(\triangleright\)\;}
+{\hfill\(\blacksquare\)\par}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Дзета-функция Артина}
+\end{center}
+
+Пусть $F$ --- поле.
+
+Определим
+\[
+F^n = \mathbb{A}^n(F)=\{(a_1,\ldots,a_n): a_i\in F\}
+\]
+(афинное пространство).
+
+В $\mathbb{A}^{n+1}(F)$ вводится отношение эквивалентности
+\[
+(a_0,\ldots,a_n)\sim (b_0,\ldots,b_n)
+\quad\Longleftrightarrow\quad
+\exists\,\gamma\in F:\ a_i=\gamma b_i,\ i=0,\ldots,n.
+\]
+
+Определим
+\[
+\mathbb{P}^n(F)
+=
+\big(\mathbb{A}^{n+1}(F)\setminus\{0\}\big)/\sim
+=
+\{[a_0:\ldots:a_n]\}.
+\]
+
+Если $F=\mathbb{F}_q$, то
+\[
+|\mathbb{A}^n(\mathbb{F}_q)| = q^n.
+\]
+
+Можно построить отображение
+\[
+\varphi=\varphi_0:\ \mathbb{P}^n(F)\longrightarrow \mathbb{A}^n(F),
+\qquad
+[x_0:\ldots:x_n]\longmapsto
+\left(\frac{x_1}{x_0},\ldots,\frac{x_n}{x_0}\right),
+\]
+при условии $x_0\neq 0$.
+
+Лемма. Пусть
+\[
+H_0=\big\{[x_0:\ldots:x_n]\in\mathbb{P}^n(F):x_0\neq0\big\}.
+\]
+Тогда ограничение
+\[
+\varphi_0:H_0\longrightarrow\mathbb{A}^n(F)
+\]
+является биекцией.
+
+\begin{prooftri}
+Если $[x_0:\ldots:x_n]\in H_0$, то
+\[
+[x_0:\ldots:x_n]
+=
+\left[1:\frac{x_1}{x_0}:\ldots:\frac{x_n}{x_0}\right].
+\]
+Пусть $\varphi_0([x])=\varphi_0([y])$. Тогда
+\[
+\frac{x_i}{x_0} = \frac{y_i}{y_0}
+\quad\Longrightarrow\quad
+x_i y_0 = y_i x_0
+\]
+для всех $i$, т.е. $x_i = \gamma y_i$ при $\gamma = x_0^{-1}y_0$.
+Следовательно, $[x]=[y]$. Обратное отображение есть
+\[
+(x_1,\ldots,x_n)\longmapsto[1:x_1:\ldots:x_n].
+\]
+\end{prooftri}
+
+Таким образом, $H_0\simeq\mathbb{A}^n(F)$.
+
+Имеем разложение
+\[
+\mathbb{P}^n(F)
+=
+\mathbb{A}^n(F)\ \cup\ \mathbb{P}^{n-1}(F).
+\]
+
+Лемма.
+\[
+|\mathbb{P}^n(\mathbb{F}_q)| = q^n + q^{n-1} + \ldots + q + 1.
+\]
+
+\begin{prooftri}
+Индукция по $n$, используя разложение
+$\mathbb{P}^n = \mathbb{A}^n\cup\mathbb{P}^{n-1}$ и то, что
+$|\mathbb{A}^n(\mathbb{F}_q)|=q^n$.
+\end{prooftri}
+
+Примеры.
+
+1) $\mathbb{P}^0$ --- одна точка.
+
+2) $\mathbb{P}^1 = \mathbb{A}^1 \cup \{\infty\}$,
+где $\infty$ --- бесконечно удалённая точка (проективная прямая).
+
+Определение. Многочлен
+\[
+f\in F[x_1,\ldots,x_n]
+\]
+называется \emph{однородным} степени $d$, если
+\[
+f = \sum a_I x_0^{i_0}\cdots x_n^{i_n},
+\qquad i_0+\cdots+i_n=d.
+\]
+
+
+Определение.
+\[
+f\in F[x_1,\ldots,x_n], deg f = d,
+\]
+если возьмем 
+\[
+\overline{f} = y^d_0f(\frac{y_1}{y_0},\ldots,\frac{y_n}{y_n}),\in F[y_1,\ldots,y_n] -
+\]
+соответствующий однородный многочлен. 
+Пример. 
+\[
+x_1^2+x_2^2-1
+\]
+не является однородным многочленом,
+а
+\[
+y_1^2+y_2^2-y_3^2
+\]
+--- однородный.
+
+Далее $F=\mathbb{F}_q$.
+
+\[
+E\setminus F - \text{расширение;}
+\]
+
+\[
+H_f(E) = \{a\in\mathbb{A}^n(E):f(a)=0\} - \text{гиперповерхность над конечным полем.}
+\]
+
+\[
+\overline H_{\overline f(E)} = \{a\in\mathbb{P}^n(E):\overline f(a)=0\}
+\]
+\[
+|H_f| \leq |\overline H_{\overline f}|
+\]
+Пример.
+\[
+f(x_1,x_2)=x_1^2+x_2^2-1 \in \mathbb{F}_p[x_1,x_2].
+\]
+
+\[
+|H_f(\mathbb{F}_p)| =
+\begin{cases}
+p-1 & \text{, если } p\equiv1\pmod4, \\
+p+1 & \text{, если } p\equiv3\pmod4.
+\end{cases}
+\]
+
+
+Проективное множество:
+\[
+H_f(\mathbb{F}_p)
+=
+\{[y_0:y_1:y_2]\in\mathbb{P}^2(\mathbb{F}_p): y_1^2+y_2^2=y_0^2\}.
+\]
+
+Если $y_0 = 0$, то 
+\[
+[0:y_1:y_2] \Rightarrow
+y_1^2 + y_2^2 = 0 \Leftrightarrow (\frac{y_1}{y_0}) = -1
+\]
+\[
+p\equiv1\pmod4 \Rightarrow (\frac{-1}{p}) = -1, a^2 = -1
+\]
+\[
+[0:1:a], [0:1;-a]\in \overline H_{\overline f}
+\]
+\[
+|\overline H_{\overline f}| =p + 1, p\equiv1\pmod4, \text{иначе} p\equiv3\pmod4 - \text{нет решений} [0:y_1:y_2]
+\]
+\[
+\text{Тогда } |\overline H_{\overline f}| = p + 1
+\]
+\vspace{1em}
+
+Далее рассматривается общий случай.
+
+Пусть $f$ --- однородный многочлен степени $n$ над $\mathbb{F}_p$.
+Тогда проективная кривая $\overline{H}_f$ над $\overline{\mathbb{F}}_p$ имеет
+число $\mathbb{F}_p$-точек, удовлетворяющее оценке
+\[
+\bigl||\overline{H}_f(\mathbb{F}_p)| - (p+1)\bigr|
+\le (n-1)(n-2)\sqrt{p}.
+\]
+
+Теорема (на следующей странице).  
+Пусть $F=\mathbb{F}_q$, $r|q-1$, тогда
+\[
+|\overline{H}_{\overline{f}}| = q^{n-1} + \dots + 1 + R,
+\qquad |R| = \frac{1}{q}G(\chi_0)*\dots*G(\chi_n),
+\]
+\[
+\chi_i - \text{характер порядка r}:\chi_i^r=\epsilon - \text{главный характер}
+\]
+\[
+|R|=Cq^{\frac{n}{2}-1} \text{для некоторой константы $C$}
+\]
+
+Пусть далее
+\[
+f(y_0,\ldots,y_n)\in \mathbb{F}_q[y_0,\ldots,y_n].
+\]
+
+Для расширения $\mathbb{F}_{q^m}/\mathbb{F}_q$ обозначим
+\[
+N_m = |\overline{H}_f(\mathbb{F}_{q^m})|
+=
+N_m(f).
+\]
+
+Определение (дзета-функция Артина).
+
+Для $f = 0$ задаётся
+\[
+Z_f(u) = \exp\left(\sum_{m=1}^\infty \frac{N_m}{m}u^m\right),
+\qquad u\in\mathbb{C}.
+\]
+
+Лемма. Функция $Z_f(u)$ определена при $|u|<q^{-n}$.
+
+\begin{prooftri}
+$|N_m|\le|\mathbb{P}^n(\mathbb{F}_q^m)|
+\le (n+1) q^{mn}$, то тогда ряд $Z_f(u)$ сходится.
+\end{prooftri}
+
+\vspace{1em}
+Почему называется дзета-функцией:\\
+рассмотрим дзето-функцию Римана
+\[
+\zeta(s) = \sum_{n=1}^\infty \frac1{n^s} = \prod_{p} \frac1{1-p^{-s}}.
+\]
+
+Далее рассматриваются многочлены над $\mathbb{F}_q[x]$.\\
+
+Дзета-функция Артина определяется
+\[
+\zeta_{\mathbb{F}_q[x]}(s)
+=
+\prod_{f} \bigl(1 - (N_f)^{-s}\bigr)^{-1},
+\]
+где $f$ - неприводимый многочлен.
+\vspace{1em}
+Рассмотрим $H_f(\mathbb{\overline F}_{q^d})$, $\alpha = (a_1,\dots,a_n)\in\mathbb{F}_q$,\\
+$a_i\in\mathbb{F}_{q^d},\quad\alpha^q=(a_1^q,\dots,a_n^q)$\\
+$f(\alpha^q)=f(\alpha)^q=0$
+
+Определение.
+\[
+\text{Множество}\quad P=\{ \alpha_1,\alpha^q,\ldots,\alpha^{q^{d-1}}\} - 
+\]
+называется циклом, deg P = d  называется степенью цикла ($\alpha_1,\alpha^q,\ldots,\alpha^{q^{d-1}},\alpha^{q^{d}}$, $\alpha^{q^{d}}= \alpha$)
+
+\vspace{1em}
+Лемма.
+Если обозначить через $n_d = |\{P - \text{циклов}:deg P=d\}|$, то
+\[
+N_m = \sum_{d\mid m} d\, n_d.
+\]
+
+\begin{prooftri}
+$H_f(\mathbb{F}_{q^m})=\bigcup P, \alpha\in\mathbb{F}_{q^d}$.
+$\mathbb{F}_{q^d}$ подполе $\mathbb{F}_{q^m} \Leftrightarrow d|m$.\\
+$H_f(\mathbb{F}_{q^m})=\bigcup_{d|m} P,\quad P_1\bigcap P_2\neq\emptyset  \quad P_1\neq P_2. \alpha\in P_1\bigcap P_2 \Leftrightarrow \\ \alpha^{q^{d_1}-1}=1, \quad \alpha^{q^{d_2}-1}=1 \Rightarrow d_1=d_2 \Rightarrow p_1=p_2 \quad\bot$
+\end{prooftri}
+
+Теорема.
+
+\[
+Z_p(q^{-s})=\prod_{P}(1 - q^{-s\deg P}\bigr)^{-1}.
+\]
+
+Теорема.
+\[
+Z_f(u)\in\mathbb{C}(u),\qquad
+Z_f(u)=\frac{P(u)}{Q(u)}.
+\]
+
+Теорема.
+\[
+Z_f(u) - \text{рац}\Leftrightarrow N_m = \sum_j{p_j^m}-\sum_i{d_i^m}.
+\]
+
+
+\end{document}

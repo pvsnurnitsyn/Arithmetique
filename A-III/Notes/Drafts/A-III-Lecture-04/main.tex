@@ -1,0 +1,884 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{geometry}
+
+\usepackage{amsmath}   % можно, но не обязательно
+\usepackage{tikz}
+\usepackage{tikz-cd}
+
+\geometry{margin=2cm}
+
+\begin{document}
+
+% ------------------- ТИТУЛЬНЫЙ ЛИСТ -------------------
+\begin{titlepage}
+\centering
+\textbf{\Large Московский государственный университет имени М.В. Ломоносова}\\[0.5cm]
+\textbf{\large Факультет вычислительной математики и кибернетики}\\[2cm]
+
+\vspace{4cm}
+\textbf{\Huge Лекция №4. Отображение Римановых поверхностей. }\\[0.5cm]
+
+
+\vfill
+Москва, 2025
+\end{titlepage}
+
+% ------------------- 1. ВВЕДЕНИЕ -------------------
+\section{Введение}
+Было рассмотрено:
+
+\textbf{Определение 4.1}
+$X \: -$ \textbf{РП} $-$ связные хаусдорфовы топологические пространства со счетной базой, на которых задана комплексная структура атласом $A: \left\{ \phi_\alpha: U_\alpha \to V_\alpha  \right\}$, где $U_\alpha \subset X \: -$ открытое множество пространства РП, $V_\alpha \subset \mathbb{C} \: -$ открытое множество на комплексной плоскости, $\phi_\alpha \: -$ гомеоморфизм.
+
+\textbf{Определение 4.2}
+\textbf{Функция склейки:} $T_{\alpha_\beta} = \phi_\alpha \circ {\phi_\alpha}^{-1}$ $-$ голоморфны на $U_\alpha \cap U_\beta$.
+
+\textbf{Определение 4.3}
+\textbf{Комплекснозначная функция на РП} $- \:$ $f: X \to \mathbb{C} - \:$ голоморфна в точке $p \in X$, если $\exists$ карта $\phi: U \to V, p \in U, f \circ \phi^{-1}$ голоморфна.
+
+\textbf{Определение 4.4}
+Функция $f: X \to \mathbb{C} - \: -$ \textbf{мероморфна}, если она либо голоморфна, либо имеет устранимую особую точку, либо полюс.
+
+\textbf{Определение 4.5}
+Пусть $X, Y -$ РП, отображение$F:X \to Y$ называется голоморфным в точке $p \in X \rightleftharpoons \exists$ карта $\phi_1: U_1 \to V_1, U_1 \subset X, p \in U_1$ и $\exists$ карта $\phi_2: U_2 \to V_2, U_2 \subset Y, F(p) \in U_2$ такие что $\phi_2 \circ F \circ \phi_1^{-1}$ голоморфна в точке $\phi_1(p)$.
+
+
+
+\textbf{Свойство 4.1}
+$F - $ голоморфна на $W \subset X - $ открытое множество $\rightleftharpoons F$ голоморфно в $p \in W \: \forall p \in W$. $F: X \to Y -$ голоморф. отображение, если голоморф. $\forall p \in X$. 
+
+\textbf{Лемма 4.1}
+\begin{enumerate}
+    \item $F$ голоформф. в $p \Leftrightarrow$ вместо "$\exists \:$" можно поставить квантер "$\forall$"
+    \item $F$ голоморфна на $W \Leftrightarrow$ $\exists \left\{ \varphi_1^{\left( i \right)}: u_1^{\left( i \right)} \to v_1^{\left( i \right)} \right\}, \left\{ \varphi_2^{\left( j \right)}: u_2^{\left( j \right)} \to v_2^{\left( j \right)} \right\} - \:$ набор карт на $X Y$, такие что $W\subset \bigcup_{i}^{}u_1^{\left( i \right)}, \: F(w)\subset \bigcup_{i}^{}u_2^{\left( j \right)}, \: \varphi_2^{\left( j \right)}\circ F\circ (\varphi_1^{\left( i \right)})^{-1} - \:$ голоморф. в области определения.
+\end{enumerate}
+
+\textbf{Лемма 4.2}
+\begin{enumerate}
+    \item $F: X \to Y, G Y \to Z - \:$ голоморф. $\Rightarrow G \circ F: X\to Z - \:$ голоморф.
+    \item $F: X \to Y- \:$ голоморф., $g: Y \to \mathbb{C} - \:$ голоморф. на $W \subset Y \Rightarrow g \circ F - \:$ голоморф. функция на $F^{-1}(W)$.
+    \item $F: X \to Y- \:$ голоморф., $g - \:$ мераморф. на $W \in Y F(X) \nsubseteq \left\{ \text{полюсам }g \right\} \Rightarrow g \circ F - \:$ мераморф.
+\end{enumerate}
+
+\vspace{1\baselineskip}
+Пусть $o_x, \mu_x$ полюс/поле голоморф./мераморф. функций.
+\textbf{Замечание} Свойство 2.3 эквивалентно: $g \in O_{W,Y} \to g \circ F \in O_{F^{-1}(W), X}$ то есть $F^{*}(g) = g \circ F$
+
+Есть $F: X \to Y$ можем построить $F^{*}: O_{W,Y} \to O_{F^{-1}(W), X} $
+
+Аналогично можно построить отображение мераформфных функций.
+
+\textbf{Определение 4.6}
+$f: x \to Y - \:$\textbf{ изоморфизм }РП $\rightleftharpoons  f - \:$ голоморф. вз. однознач. отображение $f^{-1}: Y \to X$ голоморф. Если $Y=X$ то $f$ называется \textbf{автоморфизм.}
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.1} $\mathbb{С}_{\infty} \: \: \mathbb{P}' =  \mathbb{P}' (\mathbb{C})$ эти поверхности как РП изоморфны.
+
+\textbf{Доказательство:}
+$F: \mathbb{P}' \to \mathbb{С}_{\infty}:\left\{ z: w \right\} = \left( 2Rez \bar{w}/, 2Im(z\bar{w})  \right), \frac{\left| z \right|^2 - \left| w \right|^2}{\left| z \right|^2 + \left| w \right|^2} $
+
+\vspace{1\baselineskip}
+\textbf{Аналоги следствия из ТФКП}
+\vspace{1\baselineskip}
+
+\textbf{Лемма 4.3}
+$F:X \to Y - \:$ непостоянное, голоморф. отображение, то $F - \:$ открытое отображение.
+
+
+\textbf{Лемма 4.4} 
+$F:X \to Y - \:$ голоморф., инъективное отображение, то $F:X \to F(X) - \:$ изоморфизм.
+
+
+\textbf{Лемма 4.5}
+$F,G:X \to Y - \:$ голоморф., $S \subset X$ множество имеющее предельную точку и $\forall p \in S F(p)=G(p)$. Тогда $F=G$.
+
+
+\textbf{Лемма 4.6}
+$F:X \to Y - \:$ непостоянное, голоморф. отображение $X - \:$ компакт $\Rightarrow F - \:$ сюръекция на $Y - \:$ компакт.
+
+\textbf{Лемма 4.7}
+$F:X \to Y - \:$ непостоянное, голоморф. $\forall y \in Y, \: F^{-1}(y) - \:$ дискретное множество. Если $X - \:$ компакт $\Rightarrow F^{-1}(y) - \:$ конечно
+
+\textbf{Доказательство:}
+$w = g(z, 2\psi(F(\varphi^{-1}(z))))$ голоморф. Пусть $y \in Y, x \in F^{-1}(Y)$. Карты выбираем с центром в $x,y \Rightarrow \varphi(x) =0, \psi(y) = 0$. Тогда прообразу $x \in F^{-1}(y)$ будет соответствовать $z: g(z)= 0$ множества нудей голоморф. функций дискретно.
+
+\vspace{1\baselineskip}
+\textbf{Замечание:} $F:X \to \mathbb{C} = Y - \:$ голоморф. функция, то она голоморфна, как отображение. 
+Пусть $f:X \to \mathbb{C}$ мераморф., рассмотрим ее как функцию $F: x \to \mathbb{С}_{\infty} =  \mathbb{С} \cup \left\{ \infty  \right\} $
+
+$$
+F(x)=\begin{cases}
+f(x),& x - \text{не полюс} f\\
+\infty,& x - \text{полюс} f
+\end{cases}
+$$
+
+Тогда $F - \:$  голоморф. отображение РП.
+Таким образом мераморф. функциям $f:X \to \mathbb{C} \longleftarrow $ голоморф. отображение $F: x \to \mathbb{С}_{\infty}$
+
+Для комплексного тора $\mathbb{C}\L, L - \:$ решетка.
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.2}
+Пусть $\forall f \in \mu_{\mathbb{C} / L}$ — непостоян.
+
+Тогда
+\[
+ \sum_{p}^{} \nu_p(f)=0
+\]
+
+\textbf{\text{Доказательство.}}
+
+Пусть
+\[
+L = L_\omega = L(1,\omega),
+\qquad
+\omega \in \mathbb{H}
+\quad (\operatorname{Im}z > 0).
+\]
+Утверждение равносильно с условием кратности одно число нулей и полюсов.
+Предположим, что число нудей и полюсов различны:
+$(p_i), i=1,...,n - \:$ нули с повторениями.
+$(q_j), j=1,...,n - \:$ полюса с повторениями.
+
+Пусть $n < m $, то есть $n \neq m $, если вдруг иначе заменяем $f$ на $\frac{1}{f}$.
+$$\exists p_{n+1},...,p{m}: \sum_{i=1}^{n}p_i+\sum_{i=n+1}^{m}pi= \sum_{j=1}^{m}q_j $$
+
+$p_i,\; q_j \in \mathbb{C}/L.$
+
+$\pi : \mathbb{C} \to \mathbb{C}/L :
+\; z \mapsto z \bmod L.$
+
+Поднимим $p_i,\; q_j$.
+до
+\[
+x_i \in \pi^{-1}(p_i),
+\qquad
+y_j \in \pi^{-1}(q_j).
+\]
+
+Тогда
+\[
+\sum_{i=1}^{m} x_i = \sum_{j=1}^{m} y_j
+\qquad
+(\text{в } \mathbb{C}).
+\]
+
+(возможно, так как $L$ — решётка)
+
+Напомним:
+\[
+\Theta_\omega(z)
+=
+\sum_{\ell \in \mathbb{Z}}
+e^{\pi i( \ell^2lz + l^2w)}.
+\]
+
+\[
+\Theta_\omega^{(x)}(z)
+=
+\Theta_\omega\!\left(
+z - \frac{1}{2} - \frac{\omega}{2} - x
+\right).
+\]
+
+Т:
+Если $x_i,\; y_j$ :
+\[
+\sum_i x_i - \sum_j y_j \in \mathbb{Z},
+\]
+то
+\[
+\prod_i \Theta_\omega^{(x_i)} \Big/ \prod_j \Theta_\omega^{(y_j)}
+\in \mu_{\mathbb{C}/L}.
+\]
+
+$x_i$ — нули,
+\qquad
+$y_j$ — полюса.
+
+\[
+\sum x_i - \sum y_j = 0 \in \mathbb{Z}.
+\]
+
+\[
+\Rightarrow\quad
+R = \prod \Theta_\omega^{(x_i)} \Big/ \prod \Theta_\omega^{(y_j)},
+\qquad
+R = R(z).
+\]
+
+\[
+R \in \mu_{\mathbb{C}/L)}.
+\]
+
+Рассмотрим
+\[
+g = \frac{R}{f}.
+\]
+
+$g$ не имеет полюсов, т.е. может иметь только нули.
+
+Нули: $p_{n+1},\ldots,p_m$,
+и т.е. $g$ — голоморф.
+
+$\mathbb{C}/L$ — компакт,
+\[
+\Rightarrow\quad g = \text{const} = 0.
+\]
+
+\[
+\Rightarrow\quad R \equiv 0,
+\qquad
+\text{но } R \not\equiv \text{const}\; (\text{противоречие})
+\]
+
+\[
+\Rightarrow\quad m = n.
+\]
+
+\[
+\Rightarrow\quad \sum \nu_p(f) = 0.
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема (о локальной нормальной форме).}
+
+$F : X \to Y$ — непотоянное голоморф отображение,
+$p \in X$.
+
+$F$ определено в $p$.
+
+\[
+\exists\ ! m \in \mathbb{Z}_{> 1} :
+\]
+
+\[
+\forall\, \varphi_2 : u_2 \to v_2 :
+\varphi_2(F(p)) = 0,
+\]
+
+\[
+\exists\, \varphi_1 : u_1 \to v_1 :
+\varphi_1(p) = 0 :
+\]
+
+\[
+\varphi_2\!\left(
+F\bigl(\varphi_1^{-1}(z)\bigr)
+\right)
+=
+z^m.
+\]
+
+\textbf{Доказательство.}
+
+Пусть
+\[
+\varphi_2 : u_2 \to v_2 :
+\varphi_2(F(p)) = 0.
+\]
+
+\[
+\forall\, \psi : U \to V
+\text{ — карта на } X,
+\quad
+\psi(p) = 0.
+\]
+
+т.к.
+\[
+\varphi_2\!\left(
+F(\psi^{-1}(z))
+\right)
+\text{ — голоморфна.}
+\]
+\[
+T(w)
+=
+\varphi_2\!\left(
+F\bigl(\psi_1^{-1}(z)\bigr)
+\right)
+=
+\sum_{i \ge m} c_i w^i.
+\]
+
+где
+\[
+m \ge 0,
+\quad \text{если } m \ge 1,
+\quad \text{то } T(0) = 0.
+\]
+
+\[
+\Rightarrow\quad
+T(w) = w^m\,\xi(w),
+\qquad
+\xi \text{ — голоморфна в окр},
+\quad
+w = 0,
+\quad
+\xi(0) \ne 0.
+\]
+
+\[
+\Rightarrow\quad
+\exists\, R(w) :
+\ \xi(w) = R(w)^m,
+\qquad
+R \text{ — голоморфна}.
+\]
+
+\[
+T(w) = (w R(w))^m
+=
+(\eta(w))^m,
+\qquad
+\eta \text{ — голоморфна}.
+\]
+
+\[
+\eta' = R + w R',
+\qquad
+\eta'(0) = R(0) \ne 0.
+\]
+
+\[
+\Rightarrow\quad
+\eta \text{ — будет. в окр. } 0.
+\]
+
+Тогда \[ \varphi_1 = \eta \circ \psi - \text{карта}\]
+\[
+\varphi_2( F(\varphi_1^{-1}(z)))
+=
+\varphi_2(F( \psi^{-1}(\eta_1^{-1}(z))))
+=
+T\bigl(\eta^{-1}(z)\bigr)
+=
+T(w).
+\]
+
+\[
+T(w) = \eta(w)^m
+\;\Rightarrow\;
+\text{локально } z \mapsto z^m.
+\]
+
+\textbf{Определение 4.7}
+Число $m$ называется кратности $F$ в точке $p$,
+обозн. $m_p(F)$.
+
+\textbf{Лемма 4.7}
+Пусть $F : X \to Y$ — голоморф.отображение в окрестности $p \in X$, $\varphi, \psi$ — карты.
+
+\[
+w = h(z)= \psi(F(\varphi^{-1}(z)))
+\]
+
+Тогда
+\[
+m_p(F) = 1 + \nu_{z_0}\bigl(h'(z)\bigr),
+\qquad
+h' = \frac{dh}{dz}.
+\]
+
+\[
+h(z)
+=
+h(z_0)
++
+\sum_{i > m_p(F)} c_i (z - z_0)^i.
+\]
+
+\vspace{1\baselineskip}
+\textbf{Замечание}
+$w - w_0 = h(z) - h(z_0)$.
+
+
+\textbf{Лемма 4.8}
+$F : X \to Y$ — голоморфно.
+
+\{$\forall\, p \in X$ :
+$F$ — опр. в $p$,
+$m_p(F) \ge 2$\} дичкретное множество.
+
+\textbf{Доказательство}
+
+Следует из того что соответвует нулям $h(z)$
+$
+h \text{ — голоморфна},
+\;\Rightarrow\;
+\text{нулей дискретно}.
+$
+
+\vspace{1\baselineskip}
+\textbf{Определение 4.8}
+$p \in X$ — называется точкой ветвления 
+$F : X \to Y$,
+если
+$
+m_p(F) \ge 2.
+$
+
+\textbf{Лемма 4.9}
+Пусть $f : X \to \mathbb{C}$ — мераморф.
+$F : X \to \mathbb{C}_\infty$ — соответствующее голоморфное отображение.
+\[
+1)\; p \in X \text{ — нуль } f
+\;\Rightarrow\;
+m_p(f) = \nu_p(f).
+\]
+
+\[
+2)\; p \in X \text{ — полюс }
+\;\Rightarrow\;
+m_p(f) = -\nu_p(f).
+\]
+
+\[
+3)\; p \text{ — не нуль и не полюс }
+\;\Rightarrow\;
+m_p(f) = \nu_p\!\bigl(f - f(p)\bigr).
+\]
+
+Для кривых(без док.)
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.3}
+Пусть $X$ :
+$f(x,y)=0$ —
+гладкая аффинная кривая,
+$p$ — точка ветвления 
+\[
+\Leftrightarrow\quad
+\frac{\partial f}{\partial y}(p)\neq 0,
+\qquad
+\pi : X \to \mathbb{C},
+\ (x,y)\mapsto x.
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.4}
+$X$ :
+$F(x,y,z)=0$ — гладкая проективная кривая,
+$\pi : X \to \mathbb{P}'$ — проекция
+на $y=0$, т.е.
+\[
+\pi : (x,y,z)\mapsto (x:z).
+\]
+
+$p\in X$ — точка ветвления
+$
+\Leftrightarrow\quad
+\frac{\partial f}{\partial y}(p)=0.
+$
+
+\textbf{Лемма 4.10}
+$X, Y$ — компактные РП.
+
+$F : X \to Y$ — голоморф., непостоян.
+
+\[
+\forall\, y \in Y \quad \text{определим }
+d_y(F) = \sum_{p \in F^{-1}(y)} m_p(F).
+\]
+
+Тогда
+$d_y(F)$ не зависит от $y$.
+
+$
+\forall\, y \in Y \quad d_y(F) = d.
+$
+
+\textbf{Доказательство(идея)}
+\begin{itemize}
+    \item $F^{-1}(y) = \{x_1,\dots,x_n\}$ —
+    конечное,
+    т.к. $Y$ — компакт.
+    
+    $\forall$ окр. $x_i$
+    $\exists$ лок. координата $z_i, (z_i = \varphi(x),\ x \in \text{окр. } x_i),$
+    \[
+    F : z_i \mapsto z_i^{m_i}.
+    \]
+    \item $w = z^m \;-\; \text{рассмотрим}, f : D \to D, D = \{\, z \in \mathbb{C} : |z| \le 1 \,\}.$
+
+\[
+z = 0 \;-\; \text{точка ветвл.},
+\qquad
+f^{-1}(0) = \{0\}.
+\]
+
+\[
+m_0(f) = m.
+\]
+
+\[
+\forall\, w \in D \setminus \{0\},
+\qquad
+f^{-1}(w) = \{ \sqrt[m]{w} \}.
+\]
+
+\[
+|f^{-1}(w)| = m,
+\qquad
+\forall\, p \in f^{-1}(w),
+\quad
+m_p(f) = 1.
+\]
+
+\[
+d_w(f) =
+\begin{cases}
+m, & w = 0, \\[4pt]
+\sum_{i=1}^{m} 1 = m, & w \neq 0.
+\end{cases}
+\]
+
+\[
+\text{т.е. } f : D \to D,\quad z \mapsto z^m \text{верно}.
+\]
+\item $
+\text{Из компактности и связности:}
+$
+
+\[
+y \mapsto d_y(f) = m_i,
+\quad
+\text{— лок. постоянна} \Rightarrow\quad m_i = m = \text{const}.
+\]
+\end{itemize}
+
+\textbf{Определение 4.9}
+$F : X \to Y$ — голоморфное, непостоян. отображение,
+$X, Y$ — компакты. $d(F) = d_y(F)$ называется степенью отображения $d(F) = \deg(F)$.
+
+\textbf{Лемма 4.11}
+$F : X \to Y$ — -  — 
+\[
+F \text{ — изомарфизм } \Longleftrightarrow \deg F = 1.
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.5}
+$X$ — компактная РП,
+$\exists\, f \in \mu_X$ :
+$f$ имеет единственный полюс $p \in X, \nu_p(f) = -1.$
+Тогда $X$ изоморфно $\mathbb{C}_{\infty}$.
+
+
+\textbf{Доказательство.}
+
+Пусть
+\[
+F : X \to \mathbb{C}_\infty.
+\]
+
+\[
+m_p(F) = 1,
+\qquad
+F^{-1}(\infty) = \{p\},
+\quad
+\text{и т.к. единственный полюс}.
+\]
+
+\[
+\deg F = d_\infty(F) = 1
+\;\Longleftrightarrow\;
+F \text{ — изом.}
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.6}
+$X$ — компактная РП,
+$f \in \mu_X \Rightarrow\quad
+\sum_{p \in X} \nu_p(f) = 0.$
+
+\textbf{Доказательство}
+
+$F : X \to \mathbb{C}_\infty$ —
+соответствующее $f$ голоморф. отображение. Если 
+$(x_i) \; - \; \text{нули } f, (y_j) \; - \; \text{полюса } f.$
+
+\[
+F : x_i \mapsto 0,
+\qquad
+y_j \mapsto \infty.
+\]
+
+\[
+\sum m_{x_i}(F)
+=
+\deg F
+=
+\sum m_{y_j}(F),
+\]
+
+\[
+\text{т.е.}\quad
+\nu_{x_i}(f)
+=
+-\nu_{y_j}(f).
+\]
+
+\[
+\Rightarrow\quad
+0 = d - d
+=
+\sum \nu_{x_i}(f)
++
+\sum \nu_{y_j}(f).
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.7}
+$\forall\, f \in \mu_{\mathbb{C}/L}$,
+$f$ — такого вида $f = \prod \Theta_\omega^{(x_i)} \Big/ \prod \Theta_\omega^{(y_j)}
+\in \mu_{\mathbb{C}/L}.$
+
+\[
+\Theta_\omega^{(x)}(z)
+=
+\Theta_\omega\!\left(
+z - \frac{1}{2} - \frac{\omega}{2} - x
+\right),
+\]
+
+\[
+\Theta_\omega(z)
+=
+\sum_{\ell \in \mathbb{Z}}
+e^{\pi i (2lz + l^2w)}.
+\]
+
+\textbf{Доказательство}
+\[
+\sum \nu_p(f) = 0
+\;\Longleftrightarrow\;
+\text{число нулей совп. с числом полюсов}.
+\]
+
+$(p_i)_{i=1}^n$ — нули (с повторениями).
+
+$(q_j)_{j=1}^n$ — полюса (с повторениями).
+
+Предположим, что $\sum p_i \ne \sum q_j$
+
+Дополним до равенства 
+$\exists\, p_0,\ q_0 \in \mathbb{C}/L.$
+
+\[
+\sum_{i=0}^{n} p_i = \sum_{j=0}^{n} q_j.
+\]
+
+Поднимим $p_i,\ q_j$ в $\mathbb{C}$ относительно $\pi : \mathbb{C} \to \mathbb{C}/L, x_i \in \pi^{-1}(p_i),
+\quad
+y_j \in \pi^{-1}(q_j).
+$
+\[
+\sum_{i=0}^{n} x_i = \sum_{j=0}^{n} y_j.
+\]
+
+Рассмотрим
+\[
+R
+=
+\prod_{i=0}^{n} \Theta_\omega^{(x_i)}
+\Big/
+\prod_{j=0}^{n} \Theta_\omega^{(y_j)}.
+\]
+
+\[
+g = \frac{R}{f},
+\qquad
+g \text{ по построению один нуль } p_0, \text{ по построению один полюс } q_0,
+\]
+и они кратности 1.
+Соответсвующее голоморф. отображение$
+G : X \to \mathbb{C}_\infty.
+$
+
+\[
+\deg g = 1
+\;\Rightarrow\;
+X = \mathbb{C}/L
+\text{ — изоморф.} \mathbb{C}_{\infty}.
+\]
+
+Но
+\[
+g(x) = 1,
+\qquad
+g( \mathbb{C}_{\infty}) = 0. 
+\]
+
+\[
+\Rightarrow\;
+\sum_{i=1}^{n} p_i
+=
+\sum_{i=1}^{n} q_i.
+\]
+
+(Аналогично)
+
+\[
+\exists\, x_i,\ y_i :
+\qquad
+\sum_{i=1}^{n} x_i
+=
+\sum_{i=1}^{n} y_i.
+\]
+
+\[
+R_1
+=
+\prod \Theta_\omega^{(x_i)}
+\Big/
+\prod \Theta_\omega^{(y_i)}.
+\]
+
+\[
+g_1 = \frac{R_1}{f},
+\qquad
+g_1 \text{ не имеет нулей и полюсов}.
+\]
+
+\[
+\Rightarrow\;
+g_1 = \mathrm{const}
+\;\Rightarrow\;
+f = c\,R_1.
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.8}
+(формула Гурвица)
+
+\[
+F : X \to Y
+\ \text{голоморфное непостоян. отображение},
+\quad
+X, Y \text{ — компактн. РП}.
+\]
+
+\[
+2g(x) - 2
+=
+\deg F \,(2g(y) - 2)
++
+\sum_{p \in X} (k_p(F) - 1).
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.9}
+
+$X = \mathbb{C}/L,\quad Y = \mathbb{C}/M.$
+
+$F : X \to Y$ — голоморфное.
+
+Пусть $F$ имеет вид
+\[
+G(z) = \gamma z + a.
+\]
+
+\[
+\gamma : \gamma L \subset M.
+\quad
+a = 0
+\;\Longleftrightarrow\;
+F \text{ — гомом. групп},
+\ (F(0)=0).
+\]
+
+\[
+\deg F = [\,M : \gamma L\,].
+\]
+
+\[
+F \text{ — изом. }
+\;\Longleftrightarrow\;
+\gamma L = M.
+\]
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.10}
+
+$X = \mathbb{C}/L,
+\quad
+F : X \to X$ — автоморфизм.$
+\Longleftrightarrow\quad
+\text{одно из}
+$
+
+\[
+1)\; L \text{ — квадр. реш.},\quad
+\gamma \in \sqrt[4]{1}.
+\]
+
+\[
+2)\; L \text{ гексоганальная реш.},\quad
+\gamma \in \sqrt[6]{1}.
+\]
+
+\[
+3)\; L \text{ — не квадратная, не гексогональная реш.},\quad
+\gamma = \pm 1.
+\]
+
+Или$
+Aut(X)
+$
+
+\[
+1)\; Aut(X) = \mathbb{Z}/4 \mathbb{Z}.
+\]
+
+\[
+2)\; Aut(X) = \mathbb{Z}/6 \mathbb{Z}.
+\]
+
+\[
+3)\; Aut(X) = \mathbb{Z}/2 \mathbb{Z}.
+\]
+
+\textbf{Следствие:}
+$L$ — квадратная, $M$ — гексагональная, то $X/L,\quad X/M \text{ — не изоморф.}$
+
+\vspace{1\baselineskip}
+\textbf{Теорема 4.11}
+
+\[
+L_{\omega_1} = L(1,\omega_1),
+\qquad
+L_{\omega_2} = L(1,\omega_2).
+\]
+
+\[
+\omega_1,\omega_2 \in \mathbb{H}.
+\]
+
+\[
+X_{\omega_1} \text{изоморф.} X_{\omega_2}
+\;\Leftrightarrow\;
+\exists\, g \in SL_2(\mathbb{Z}) :
+\omega_1 = \frac{a\omega_2 + b}{c\omega_2 + d}.
+\]
+
+т.е.
+$
+\text{классы изоморфизмов торов}
+\;\Leftrightarrow\;
+\text{точки фактор пространств}.
+$
+
+
+
+\end{document}
+
