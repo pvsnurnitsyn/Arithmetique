@@ -1,0 +1,624 @@
+
+\documentclass{lecture}
+ 
+\begin{lect} 
+ 
+
+\Title{Алгебраические множества и многообразия}%
+
+\Info{Конспект лекций по спецкурсу A-III \\ «Римановы поверхности и алгебраические кривые»}{Лектор: Снурницын Павел Владимирович}{Конспект подготовила: Арьянова А., группа 601}%
+
+
+ На прошлых лекциях рассмотрели: \textit{определения римановой поверхности (РП), голоморфной функции, мероморфной функции;}
+
+ \textit{\textbf{Th}: Любая мероморфная функция f на сфере Римана \(\mathbb{C}_\infty\) есть рациональная функция, т.е.  \(f = p / q\), \(p, q \in \mathbb{C}[z]\) -- множество многочленов от комплексного переменного.}
+
+\textit{Аналогично, для проективной прямой над комплексной плоскостью \(X = \mathbb{P}' = \mathbb{P}'(\mathbb{C})\)}.
+
+ \(O_{P}\) -- Кольцо голоморфных функций точки \(P \in X\). 
+
+  \(O_{P}.\mathbb{C}_{\infty}\) -- Кольцо голоморфных функций точки \(P \in \mathbb{C}_{\infty}\).  
+
+\vspace{2ex}
+
+\opr \(O_{P}.\mathbb{C}_{\infty} = \left\{ \displaystyle \frac{p(z)}{q(z)}: p,q \in   \mathbb{C}[z], q(P) \neq 0 \right\}\).
+
+\vspace{2ex}
+
+Если X -- гладкая аффинная плоская кривая, т.е. кривая, заданная многочленом \(f(x, y) = 0\), где \(f \in \mathbb{C}[x,y], f\) -- невырожденный, то функции вида \(n = p(x,y) / q(x,y), ~p, q \in \mathbb{C}[x,y]\), причем \textit{q} не делится на \textit{f} \( (f \nmid q)\), являются мероморфными функциями на X. 
+\begin{theorem}[Гильберта о нулях]
+
+Если \(f \in \mathbb{C}[x,y]\) -- неприводимый многочлен, \(g \in \lbrace \mathbb{C}[x,y]: g(x,y)=0 ~\forall (x,y): f(x,y) = 0 \rbrace \) (т.е. \textit{g} обращается в нуль на аффинной кривой \textit{f}), то тогда \textit{f} делит \textit{g}
+\\ \((f \mid g)\).
+
+\end{theorem}
+
+Пусть \textit{k} -- произвольное поле, \(\mathbb{P}^{n}(k)\) -- проективное пространство над полем \textit{k}.  \(\mathbb{P}^{n}(k)\) является множеством классов эквивалентности из \((n+1)\) точек, которые пропорциональны друг другу, т.е. 
+\[
+\mathbb{P}^{n}(k) = \left\{ [a_0:\ldots:a_n] = [\lambda a_0:\ldots:\lambda a_n] \right\},
+\]
+где \(\lambda \in k^*\) -- ненулевой или обратимый элемент поля.
+
+\(k^n = \left\{ (a_1, ..., a_n): a_i \in k \right\} = \mathbb{A}^n(k)\) - \textit{аффинное пространство}.
+
+\opr Пусть \(s\) -- множество многочленов от \textit{n} переменных, т.е. \(s \subset k[x_1, ..., x_n]\). Множество вида
+\[
+V(s) = \left\{ P = (a_1,...,a_n) \in k^n: f(P)=0~ \forall f \in s \right\},
+\]
+т.е. множество, на котором многочлены из \(s\) обращаются в нуль, называется \textit{\textbf{аффинным алгебраическим множеством}}.
+
+Аналогично, если \(s \subset k[x_0, ..., x_n]\) -- множество однородных многочленов, то множество вида
+\[
+V(s) = V_{\mathbb{P}}(s) = \left\{ P = [a_0:...:a_n] : f(P)=0~ \forall f \in s \right\},
+\]
+называется \textit{\textbf{проективным алгебраическим множеством}}.
+
+Если \(f, g \in s, P \in V(s)\), то \((f+g)(P) = 0\).
+
+Если \(f \in s, h\) -- произвольный многочлен и \(P \in V(s)\), тогда
+\\ \((hf)(P)=0\).
+
+Таким образом, естественно рассматривать идеалы кольца \(k[x_1, ..., x_n]\).
+
+\vspace{1em} 
+\hrule
+\begin{center}
+\section*{Напоминание из курса А-I}
+\end{center}
+\markright{Напоминание из курса А-I}{}
+
+
+Пусть \textit{R} -- коммутативное кольцо с единицей.
+
+\opr Множество \(I \subset R\) называется \textit{\textbf{идеалом}}, если:
+
+1) \(\forall ~f, g \in I \rightarrow f+g \in I\), 
+
+2) \(\forall~ f \in I, \forall~h \in R \rightarrow hf \in I\).
+
+\opr Идеал вида \(I = \lbrace hf: h \in R \rbrace = (f)\) называется \textit{\textbf{главным идеалом}}.
+
+\opr Кольцо \textit{R} называется \textit{\textbf{кольцом главных идеалов (КГИ)}}, если \(\forall I: I = (f) \), т.е. всякий идеал из \textit{R} -- главный идеал.
+
+\opr Говорят, что \textit{f делит g}, если \(\exists~ h \in R: g = fh\). обозначение: \(f \mid g\).
+
+\opr Элементы \(f, g \in R\) называются \textit{\textbf{ассоциированными}}, если \(f = ug, u \in R^*\) -- единица кольца \(R\) или обратимый элемент.
+
+\opr Элемент \(f \in R\) называется \textit{\textbf{неприводимым}}, если из того, что \( f \mid g\) слеудет, что \(g \in R^*\) или \(f, g\) - ассоциированные.
+
+\opr Элемент \(f \in R\) называется \textit{\textbf{простым}}, \( \iff f \notin R^*\) и из того, что \(f \mid gh \) следует, что \(f \mid g\) или \(f \mid h\).
+
+\begin{lemma}[на языке идеалов]
+\leavevmode
+\\1) \(f \mid g \iff (g) \subset (f)\).
+\\2) \(f \in R^* \iff (f) = 1 = R\).
+\\3) \(f, g\) -- ассоциированы \(\iff (f) = (g)\).
+\\4) \(f\) -- простой \( \iff \) если из того, что \(gh \in (f)\) следует, что \(g \in (f)\) или \(h \in (f)\).
+\\5) \(f\) -- неприводимый \(\iff \) если из того, что \((f) \subset (g) \) следует, что \( (g) = 1 = R\) или \( (g) = (f)\).
+\end{lemma}
+
+\begin{lemma}[]
+Если \(R\) - кольцо главных идеалов (КГИ), то два определения совпадают, т.е. \(f\) -- простой \(\iff\) \(f\) -- неприводимый.
+
+\textit{\textbf{Упражнение:}} доказать лемму.
+\end{lemma}
+
+\opr Пусть \(I\) -- идеал кольца \(R\). \(I\) называется \textit{\textbf{простым идеалом}} \(\iff\) Если из того, что \(gh \in I \iff\ g \in I\) или \(h \in I\).
+
+\opr Идеал \(I\) называется \textit{\textbf{максимальным идеалом}}, если из того, что \(I \subset J\) следует, что \(J = I\) или \(J = (1) = R\).
+
+\begin{lemma}
+
+Если \(I\) -- максимальный, то \(I\) -- простой.
+
+\textit{\textbf{Упражнение:}} доказать лемму.
+\end{lemma}
+
+\opr \(R\) называется \textit{\textbf{кольцом с однозначным разложением на множители}}, если \(\forall~f\in R\) однозначно раскладывается на простые множители.
+
+\begin{lemma}
+Если \(R\) -- КГИ, то \(R\) -- кольцом с однозначным разложением на множители. 
+
+\end{lemma}
+
+\textit{\underline{Примеры:}}~ \(\mathbb{Z}[i]\) (множество гауссовых чисел), \(\mathbb{Z}[w]\) (множество Эйзенштейна) -- кольца с однозначным разложением на множители.
+
+Действительно, \(\mathbb{Z}[\sqrt{-5}]: 21 = 3 \cdot 7 = (1+2\sqrt{-5})(1-2\sqrt{-5})\).
+
+\opr Кольцо \(R\) называется \textit{\textbf{областью целостности}}, если из того, что \(f \cdot g = 0, f, g \in R\) следует, что \(f  = 0\) или \(g = 0\).
+
+\opr Пусть \(I \subset R\) -- идеал. Говорят, что \textit{\textbf{\(a\) сравнимо с \(b\) по модулю \(I\)}} (обозн. \(a \equiv b(I)\) ), если (\(a - b) \in I\) является отношением эквивалентности и фактор кольца \(R\) по идеалу \(I\) \(R/I\) -- тоже кольцо.
+
+\begin{lemma}
+\leavevmode
+\\1) \(I\) -- простой идеал \(\iff\) фактор-кольцо \(R/I\) является областью целостности.
+\\2) \(I\) -- максимальный \(\iff\)  \(R/I\) является полем.
+
+\textit{\textbf{Упражнение:}} доказать лемму.
+\end{lemma}
+
+
+\opr Кольцо  \(R\) называется \textit{\textbf{нётеровым}}, если для любой возрастающей последовательности по включению идеалов
+\\ \(I_1 \subset I_2 \subset ... \subset I_n \subset ...~~ \exists N: \forall ~n \geq N \Rightarrow I_n = I_{n+1}\).
+
+\begin{lemma}
+Кольцо \(R\) -- нётерово \(\iff \forall\) идеал \(I\) \textit{конечно порожден}, т.е. \(\exists f_1, ..., f_r : I = ( f_1, ..., f_r ) \iff \) для любого множества идеалов \(\mathcal{A} = \lbrace{I}\rbrace ~ \exists \) максимальный по включению идеал \(m\).
+
+\end{lemma}
+
+\textit{\underline{Примеры:}}  КГИ -- нётерово, \(\mathbb{Z}, F[x]\) (кольцо многочленов над полем \(F\)) -- нётеровы, \(D_k\) -- кольцо целых числового поля \(k\) -- нётерово.
+
+\begin{lemma}[Th Гильберта о базисе]
+Если \(R\) -- нётерово, то \(R[x]\) -- тоже нётерово. 
+\end{lemma}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+Покажем, что всякий идеал конечно порожден.
+Пусть \(J\) -- идеал кольца \(R[x]\).
+Определим \(I_n\) следующим образом:
+\[
+I_n = \lbrace{a \in R: \exists f \in J: f = ax^n+...}\rbrace
+\]
+\(I_n\) -- идеал кольца \(R\).
+\(I_n \subset I_{n+1}\), т.к. \( x \cdot (ax^n + ...) = (ax^{n+1} + ...) \).
+Поскольку по условию \(R\) -- нётерово, то \(\exists N: \forall n \geq N \Rightarrow I_n \subset I_{n+1}\) и \(\forall I_n\) -- конечно порожден, т.е. \(I_n = (a_{n1}, ..., a_{nm_n})\).
+
+Пусть \(f_{ij} = a_{ij}x^i+... , 1  \leq  i  \leq N, 1 \leq j \leq m(i)\) -- соответствующие многочлены из \(J\).
+Если \(J' = ( (f_{ij}) ) \), то \(J' = J\).  $\blacksquare$
+
+\textit{\textbf{Упражнение:} доказать последнее утверждение в доказательстве леммы.}
+
+\textit{\textbf{Следствие:}} Если \(R\) -- нётерово, то и \(R[x_1, ..., x_n]\) -- нётерово.
+
+\vspace{1em} 
+\hrule
+\begin{center}
+\section*{Аффинные алгебраические множества}
+\end{center}
+\markright{Аффинные алгебраические множества}{}
+
+Если задано множество многочленов \(s\), можем взять идеал, порожденный этим множеством \(I = (s)\), тогда алгебраическое множество \(V(s) = V(I)\).
+Если \(I = (f)\), то будем использовать обозначение: \(V(I) = V(f)\).
+
+\begin{lemma}[процедура создания алгебр. множества по идеалу]
+\leavevmode
+\\1) \( V(\cup I_\alpha) = \cap V(I_\alpha) \), где \(\lbrace{I_\alpha}\rbrace \) -- семейство идеалов.
+\\2) Если \(I \subset J ~~\Rightarrow~~V(I)\supset V(J)\).
+\\3) \(V(f \cdot g) = V(f) \cup V(g)\).
+\\4) \(V(I) \cup V(J) = V(IJ) = V(I \cap J) \).
+\\5) \(V(0) = k^n, V(1) = \emptyset \).
+\\ \(V(x_1 - a_1, ..., x_n - a_n) = \lbrace{(a_1, ..., a_n)}\rbrace\).
+\end{lemma}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+2) \(P \in V(J) \iff \forall f \in J ~ f(P) = 0 \Rightarrow \forall f \in I ~ f(P) = 0 \iff P \in V(I)\). $\blacksquare$
+
+\textit{\textbf{Упражнение:} доказать остальные свойства из леммы.}
+
+\textit{\textbf{Замечание.}} Можно определить на \(k^n\) \textit{\textbf{топологию Зарисского}}, в которой замкнутые множества = алгебраические множества. В таком случае имеем соответствие:
+\begin{center}
+ идеалы \(k[x_1, ..., x_n] \xrightarrow{V}\) алгебраические множества \(X \subset k^n\)
+\end{center}
+\begin{center}
+ \(I \to X = V(I)\).
+\end{center}
+
+\opr Пусть \(X \subset k^n\). \textit{\textbf{Идеалом множества}} \(X\) называется
+\(
+I(X) = \lbrace{f \in k[x_1, ..., x_n] : f(a_1, ... , a_n) = 0 ~ \forall P = (a_1, ... , a_n) \in X }\rbrace
+\).
+
+\textit{\textbf{Утверждение.}} \(I(X)\) -- идеал.
+
+\textit{\textbf{Упражнение:} доказать утверждение.}
+
+\begin{lemma}
+\leavevmode
+\\1) Если \(X \subset J ~~\Rightarrow ~~ I(X) \supset I(J) \).
+\\2) \(I(\emptyset) = (1) = k[x_1, ... , x_n], I(k^n) = (0)\) ~ (\(k\) -- конечное поле).
+\\ \( I( \lbrace{ (a_1, ... , a_n) }\rbrace ) = (x_1 - a_1, ... , x_n - a_n) \) -- максимальный идеал.
+\\3) \( \forall X \subset k^n \Rightarrow  X \subset V(I(X)) \) или \(X = V(I(X)) \iff X \) -- алгебраическое множество.
+\\4) Если \( J\) -- идеал кольца \(k[x_1, ... , x_n] ~\Rightarrow ~ J \subset I(V(J)) \).
+\end{lemma}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+1): \(f \in I(J) \iff \forall P \in J f(P) = 0 \)
+
+\( X \subset J ~~\Rightarrow ~~ \forall P \in X ~ f(P) = 0 ~~ \Rightarrow~~ f \in I(X) ~\Rightarrow~ I(J) \subset I(X) \).  $\blacksquare$
+
+\textit{\textbf{Упражнение:} доказать остальные свойства из леммы.}
+
+\textit{\textbf{Замечание.}} Включение \(J \subset I(V(J)) \) может быть только строгим, т.е. \( J \subsetneq I(V(J)) \).
+
+Рассмотрим \( (f), (f^n) ~\Rightarrow~ V(f) = V(f^n) \), но при этом в общем случае \(f \notin (f^n) \).
+
+Таким образом, можем построить  обратное соответствие:
+\begin{center}
+ идеалы \(k[x_1, ... , x_n] \xleftarrow{~I~} \) множества \( X \subset k^n \)
+\end{center}
+\begin{center}
+ \(I \leftarrow X = V(I)\).
+\end{center}
+
+\begin{center}
+\section*{Неприводимые множества и компоненты}
+\end{center}
+\markright{Неприводимые множества и компоненты}{}
+
+\opr Алгебраическое множетсво \(X \subset k^n\) называется \textit{\textbf{неприводимым множеством}}, если \( \nexists\) представления \( X = X_1 \cup X_2 \), где \(X_1, X_2 \) -- алгебраические множества и \( X_1, X_2 \subsetneq X \).
+
+\begin{theorem}
+ \( X\) -- неприводимо \( \iff I(X) \) -- простой идеал \( \iff X\) -- приводимо \( \iff I(X) \) -- НЕ простой. 
+\end{theorem}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+\( \Rightarrow \)
+\\Пусть \(X = X_1 \cup X_2, X_1, X_2 \subsetneq X \) -- алгебраическое, \( X_1 \subsetneq X_2 \), т.е. \( X\) -- приводимо.
+\\ \(f_1 \in I(X_1)\ I(X) \)
+\\ \( f_2 \in I(X_2)\ I(X) \)
+
+Но \(f_1 \cdot f_2 \in I(X) \Rightarrow I(X) \) -- НЕ простой.
+
+\(\Leftarrow\)
+\\ \( I(X) \) -- не простой \( \Rightarrow \exists f_1, f_2 \in I(X), f_1 \cdot f_2 \in I(X) \). 
+
+Возьмем  \(I_1 = (I(X), f_1), I_2 = ( I(X), f_2 ) \).
+
+Тогда \(V(I_i) = X_i \)
+\\ \( I(X)  \subsetneq I_i, X = V(X(X)) \supset V(I_i) = X_i \), \( X_i \subsetneq X \).
+\\ \( \forall P \in X, ~~f_1 \cdot f_2 \in I(X) ~~\Rightarrow~~ (f_1 f_2)(P) = 0 ~~\Rightarrow~~ f_1(P) = 0 \)
+
+ или \( f_2(P) = 0 \)
+\\ \( \Rightarrow X \subset (X_1 \cup X_2) \)
+\\ \( X = (X \cap X_1) \cup (X \cap X_2) \) -- приводимое, ( \( X \cap X_1, X \cap X_2 \)  -- собственные алгебраические). $\blacksquare$
+
+\begin{theorem}
+Для любого алгебраического множества \(X ~\exists \) представление вида \(X = X_1 \cup ... \cup X_r, X_i\) -- неприводимые, \(X_i \not\subset X_j, i \neq j \), причём это представление единственно.
+\end{theorem}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+Во-первых, если \( X_1 \supset X_2 \supset ... \) -- убывающая цепочка алгебраических множеств, то \(I(X_1) \subset I(X_2) \subset ... \) -- возрастающая цепочка идеалов \(k[x_1, ... ,x_n]\). Т.к. кольцо нётерово, цепочка идеалов стабилизируется, т.е. \( \exists N: X_N = X_{N+1} = ... ~\). Таким образом, \( \forall \mathcal{X} \) -- множество алгебраических множеств \(k^n - ~\exists\) минимальный элемент \(X\), т.е. такой, что если \(Y\subset X, Y \in \mathcal{X} \), то \( Y = X\) или \(Y = 0\).
+
+Далее от противного. Пусть \( \mathcal{X} \) -- множетсво алгебраических множеств, которые НЕ раскладываются на неприводимые компоненты.
+
+Если \( \mathcal{X} \neq \emptyset \), то  \(\exists\) минимальный элемент \(X \in \mathcal{X}, X \) -- приводимый, т.е. \(X = X_1 \cup X_2\). \(X_1, X_2 \notin \mathcal{X} \), т.к. \(X\) -- минимальный.
+
+ \( \Rightarrow X_1 = X_{11} \cup ... \cup X_{1s}, X_2 = X_{21} \cup ... \cup X_{2t}, X_{ij} - \text{неприводимые}, i = 1, 2\).
+
+\( \Rightarrow X = X_{11} \cup ... \cup X_{1s} \cup X_{21} \cup ... \cup X_{2t} \) -- разложение \(X\) на неприводимые компоненты \(\rightarrow\) противоречие.
+
+Теперь докажем единственность.  
+
+Пусть \(X = X_1 \cup ... \cup X_r = Y_1 \cup ... \cup Y_s\), \(X_{i_0}\) -- неприводимое, 
+
+ \(X_{i_0} = X_{i_0} \cap X = \bigcup_{j = 1}^s (X_{i_0} \cap Y_j) \) \( \Rightarrow X_{i_0} \subset (X_{i_0} \cap Y_{j_0}) = Y_{j_0} \).
+
+Аналогично, \(Y_{j_0} \subset X_{k_0}\) \(\Rightarrow X_{i_0} \subset X_{k_0} \rightarrow i_0 = k_0 \Rightarrow Y_{j_0} = X_{i_0}\), \(r = s \). $\blacksquare$
+
+\begin{center}
+\section*{Аффинные алгебраические множества на плоскости}
+\end{center}
+\markright{Аффинные алгебраические множества на плоскости}{}
+
+\begin{lemma}
+Если \(f, g \in k[x,y] \) не имеют общих делителей, то \(V(f) \cap V(g) = V(f, g)\) -- конечно.
+\end{lemma}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+\(k[x, y] = k[x][y] \subset k(x)[y] \), где \( k(x) = frac~k[x] \) -- поле частных \( k[x]\).  Если \(f, g\) не имеют общих делителей в \( k[x, y] \Rightarrow f, g \) не имеют общих делителей в \( k(x)[y] \). 
+
+\textit{\textbf{Упражнение:} доказать последнее утверждение.}
+
+В \( k(x)[y] ~~(f, g) = 1 ~~\Rightarrow ~~\exists r, s \in k(x)[y]: rf + sg = 1 \).
+
+Возьмём \( h \in k[x]: hr, hs \in k[x][y] ~~ \Rightarrow ~~ hrf + hsg = h \). Если \(P \in V(f, g), P = (x_0, y_0)\), то \( h(x_0) = (hrf + hsg) (x_0, y_0) = 0 \). Т.е. \(x_0\) -- ноль многочлена \(h\), но число нулей \(\leq deg(h) \), т.е. существует конечное число нулей \(x_0\).
+
+Аналогично, есть конечное число \( y_0 \Rightarrow |V(f,g)| < \infty\). $\blacksquare$
+
+\textit{\textbf{Следствия.}} 
+\leavevmode
+\\ 1) Если \(f \in k[x, y] \) -- неприводимый, \(V(f)\) -- бесконечное множество, то \(I(V(F)) = (f) \).
+\\2) Если \(k\) -- бесконечное поле, то неприводимые алгебраические множества \(k^2: \emptyset , k^2\), точки, неприводимые алгебраические кривые \(f = 0, f\) -- неприводимый.
+\\3) Если \(k\) -- алгебраически замкнутое поле, \( f \in k[x, y]\),  \(f = \prod_{i=1}^{k} f_{i}^{a_i}\), \(f_i \) -- неприводимые, тогда
+
+\( V(f) = V(f_1) \cup ... \cup V(f_n)\) и \( I(V(f)) = (\prod f_i ) \).
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+1) : Пусть \( g \in I(V(f)) \Rightarrow V(g) \supset V(I(f)) = V(f) \).
+
+\( V(f, g) = V(f) \cap V(g) = V(g) \supset V(f) \) -- бесконечное множество \( \Rightarrow f, g \) имеют общие делители, \(f\) -- неприводимый \( \Rightarrow f \mid g \Rightarrow g \in (f) \). $\blacksquare$
+
+\textit{\textbf{Упражнение:} доказать следствия 2) и 3).}
+
+\vspace{1ex}
+
+\textit{\underline{Примеры:}} 
+\\1) \( x^2 - y^2 = 0 ~~~ (x-y)(x+y) = 0 \) -- приводимо в \( \mathbb{R}^2, \mathbb{C}^2 \).
+\\2) \(y - x^2=0\) -- неприводимое множество.
+\\3) \( (x-1)(y-x^2) = 0 \) -- приводимое множество.
+\\4) \( y^2 = x(x^2-1) \) -- неприводимо в \( \mathbb{R}^2, \mathbb{C}^2 \).
+\\5) Рассмотрим множетсво ~~ \( y^2 + x^2(x-1)^2 = 0 \). 
+\\Многочлен \(y^2 + x^2(x-1)^2\) -- неприводим в \( \mathbb{R}^2 \), но!
+
+ \(  y^2 + x^2(x-1)^2 = 0 \iff y = 0, ~~ x(x-1) = 0 \)
+\\ \( V(f) = \lbrace{ (0,0), (1,1)} \rbrace \) -- приводимое, т.к. одноточечные множества неприводимы, а данное множество содержит две точки.
+ 
+\begin{center}
+\section*{Теорема Гильберта о нулях}
+\end{center}
+\markright{Теорема Гильберта о нулях}{}
+
+
+\textit{\textbf{Опр. }} Пусть \(I \subset R \) -- идеал. \textit{\textbf{Радикалом идеала}} \(I\) называется множетсво 
+\( \sqrt{I} = rad~I = \lbrace{ f \in R : f^n \in I } \rbrace  \).
+
+\begin{lemma}
+\( \sqrt{I} \) -- идеал.
+\end{lemma}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+Пусть \( f \in \sqrt{I}, \forall h \in R \Rightarrow h^n f^n \in I \). 
+
+\(f, g \in \sqrt{I} \iff f^n, g^m \in I \)
+
+\( (f + g)^l = \sum \binom{l}{k}f^k g^{l-k} \in I ~\text{при}~ l \geq n + m - 1 \)
+
+\( \Rightarrow \sqrt{I} \) -- идеал. $\blacksquare$
+
+\opr Идеал \( I \subset R \) называется \textit{\textbf{радикальным идеалом}}, если \( I = \sqrt{I} \).
+
+\begin{lemma}
+Если \(f \in k[x_1, ... , x_n], f = \prod f_{i}^{a_i}, f_i \) -- неприводимые \( \Rightarrow \sqrt{I} = ( \prod f_i) \).
+\end{lemma}
+
+\textit{\textbf{Упражнение:} доказать лемму.}
+
+\begin{theorem}[Гильберта о нулях]
+Если \(k\) -- алгебраическое поле,
+\\ \(R = k[x_1, ... , x_n]\), то
+
+1) Любой максимальный идеал \( I \subset R \) имеет вид
+\\ \( I = m_p = (x_1 - a_1, ... , x_n - a_n); \)
+
+2) \( \forall J \subset R, J \neq (1) = R \Rightarrow V(J) \neq \emptyset \);
+
+3) Если \(J \subset R \) -- идеал, то \( I(V(J)) = \sqrt{J} \).
+\end{theorem}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+1) \( I \subset  R\) -- максимальный \( \iff R/I \) -- поле. Пусть \( \phi : R \rightarrow R/I \) -- естественная проекция.
+
+\textit{\underline{Факт из алгебры:}} Если \( k\) -- алгебраически замкнутое поле \(L/k\) -- расширение и \(\exists\) сюръективное отображение \( \phi : k[x_1, ... , x_n] \rightarrow L\), тогда \(k = L\). (см. [Fault], [Reid]) 
+\\ \( k \rightarrow R = k[x_1, ... , x_r] \rightarrow R/I = L \) -- изоморфизм
+\\ \( \psi : k \rightarrow L \) -- изоморфизм полей
+\\ \( b_i = \phi (x_i), a_i \in \psi ^{-1} (b_i) \in k \Rightarrow x_i - a_i \in ker~\phi = I \)
+\\ \( \Rightarrow (x_1 - a_1, ... , x_n - a_n ) \subset I \) , но максимальный идеал 
+\\ \(I = (x_1 - a_1, ... , x_n - a_n ) \).
+
+2) \( J \neq R = (1) \Rightarrow \exists \) максимальный идеал \(m : j \subset m \).
+\\Из п. 1) \( \Rightarrow m = m_P = (x_1 - a_1, ... , x_n - a_n ) \). 
+\\ \( \Rightarrow P = (a_1, ... , a_n) = V(m_P) \subset V(J) \Rightarrow V(J) \neq \emptyset \). 
+
+3) \( \sqrt{J} \in I(V(J)) \)  \textit{(\textbf{Упражнение:} доказать это)}
+\\ Обратно: пусть \( g \in I(V(J)) \). 
+\\ \( J = (f_1, ... , f_r) \), т.к. \( k[x_1, ... , x_n]\) -- нётерово.
+\\ Построим \(J_1 = (f_1, ..., f_r, x_0 g - 1) \in k[x_0, ... , x_n] \). \( P \in V(J_1) \subset k^{n+1} \Rightarrow f_i(P) = 0\).
+\\ \( \Rightarrow g(P) = 0 \Rightarrow 0 = -1 \Rightarrow V(J_1) = \emptyset \).
+\\ \( \Rightarrow\) по свойству 2) \( J_1 = (1) = k[x_0, ... , x_n] \)
+\\ \( \Rightarrow h_i \in k[x_0, ... , x_n] : \sum h_i f_i + h_0 (x_0 g - 1) = 1 ~~~(*) \)
+
+Возьмём \( N = \max\limits_{0 \leq i \leq r} \deg_{x_0} h_i\), где \( \deg_{x_0} h_i \) -- степень, с которой \(x_0\) входит в \(h_i\), и домножим равенство \( (*) \) на \( g^N \).
+
+ \( \Rightarrow g^N = \sum g^N h_i f_i + g^N h_0 (x_0 g - 1) \),
+\\ обозначим \( H_i = H_i(gx_0, x_1, ... , x_n) = g^N h_i \).
+
+Здесь мономы: \( g^N x_{0}^{j_1}, ... , x_{n}^{j_n} = (g x_0)^{j1} g^{N-j_1}, ... \) , причем 
+\\ \( g^{N-j_1} \in k[x_1, ... , x_n]\). 
+
+Возьмём вычеты \(mod (x_0 g - 1)\), т.е. \( x_0 g \rightarrow 1 \).
+
+ \(G_i = H_i  \mod (x_0 g - 1) \in k[x_1, ... , x_n] \)
+
+\( g^N \equiv  \sum G_i f_i( \mod (x_0 g - 1) ) \)
+
+Здесь \( g^N \in k[x_1, ... , x_n] \) и \( G_i f_i( mod (x_0 g - 1) ) \in k[x_1, ... , x_n] \).
+
+\( \Rightarrow\) в \(k[x_1, ... , x_n]~ ~g^N = \sum G_i f_i\)
+
+\( \Rightarrow g^N \in J \Rightarrow g \in \sqrt{J} \). $\blacksquare$
+
+\textit{\textbf{Следствие:}} Если \( f \in \mathbb{C}[x, y] \) -- неприводимый многочлен, \( g \in \mathbb{C}[x, y], g \in I(V(f)) \), тогда \( f \mid g \).
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+\( g^N \in (f) \) т.е. \( g^N = hf \)
+
+\( \Rightarrow f \mid g^N \Rightarrow f \mid g \), т.к. \(f\) -- неприводимый.  $\blacksquare$
+
+\newpage
+Таким образом, имеем следующие соответствия:
+\vspace{3ex}
+
+\setlength{\arrayrulewidth}{0pt}
+\begin{tabular}{|c|c|c|}
+\hline
+идеалы \(k[x_1, ... , x_n]\)  & \( \underset{\underset{\text{\normalsize I}}{\xleftarrow{\quad}}}{\overset{\text{\normalsize V}}{\xrightarrow{\quad}} } \)  & \parbox{4cm}{\vspace{0.3cm} алгебр. подмножества \\ \centering \( X \subset k^n \) } \\
+\hline
+\( \cup\) & \quad & \( \cup \) \\
+\hline
+\parbox{4 cm}{\vspace{0.3cm} \centering радикальные \\  идеалы} & \( \leftrightarrow \) & алгебр. множества \\
+\hline
+\( \cup\) & \quad & \( \cup \) \\
+\hline
+\parbox{4 cm}{\vspace{0.3cm} \centering максим. идеалы \\  \( m_p = (x_1 - a_1, ... , x_n - a_n) \)} & \( \leftrightarrow \) &\parbox{4 cm}{ \vspace{0.3cm} \centering точки \\ \( (a_1, ... , a_n) \in k^n \)} \\
+\hline
+\end{tabular}
+
+\vspace{4ex}
+*Соответствия, обозначенные символом \( \leftrightarrow\), взаимно однозначные.
+
+\begin{center}
+\section*{Алгебраические многообразия}
+\end{center}
+\markright{Алгебраические многообразия}{}
+
+\opr Неприводимые алгебраические множества \( \subset k^n \) называются \textit{\textbf{алгебраическими многообразиями}}.
+
+Если \( X \subset k^n \) -- алгебраическое многообразие, то можно говорить о функциях \( f : X \rightarrow k \).
+
+\textit{\textbf{ Опр.}} Функция \( f : X \rightarrow k \) называется \textit{\textbf{регулярной (алгебраической/полиномиальной) }}, если \( \forall P = (a_1, ... , a_n) \in X ~\exists\) многочлен \( F \in k[x_1, ... , x_n] : f (a_1, ... , a_n) = F (a_1, ... , a_n) \).
+
+Многочлены \( F, G \in k[x_1, ... , x_n] \) определяют одну и ту же функцию \( f : X \rightarrow k \iff  \forall P \in X ~~(F - G) (P) = 0\), т.е. \(F-G \in I(x) \).
+
+\textit{\textbf{ Опр.}} \( O_X = \Gamma (X) = k[X] = k[x_1, ... , x_n] / I(X) \), т.е. фактор кольца по многочленам, называется \textit{\textbf {аффинным координатным кольцом} (или  кольцом регулярных функций) }.
+
+Если \(X\) -- многообразие, т.е. \( I(X) \) -- простой идеал, \( k[X] = O_X \) -- область целостности \( \Rightarrow \) можно вложить \( k[X] \hookrightarrow frac~k[X] \)  в поле частных.
+
+
+\textit{\textbf{ Опр.}} \( k (X) = frac~k[X] \) называется \textit{\textbf{ полем рациональных функций}}.
+
+Если \( f \in k(X), P \in X\), то говорят, что \(f\) определена в \(P\), если \( \exists~ p, q \in k[X] : f = p/q, q(P) \neq 0 \).
+
+\(O_{PX} = O_P \) -- кольцо рациональных функций в точке \(P\).
+
+\textit{\textbf{ Опр.}} Точка \(P \in X\) называется \textit{\textbf{полюсом}} функции \( f \in k[X]\), если \(f\) не определена в \(P\).
+
+\begin{lemma}
+\leavevmode
+\\1) Множество полюсов \(f\) является алгебраическим множеством.
+\\2) \( k[X] = \bigcap\limits_{P \in X} O_P \).
+\end{lemma}
+
+\begingroup
+\centering
+\textit{\textbf{Доказательство}}:
+\par
+\endgroup
+
+Пусть \(f \in k[X] \).
+
+Определим множество 
+
+ \( J_f = \lbrace{ g \in k[x_1, ... , x_n] : \overline{g} f \in k[X], \overline{g} = g \mod I(X) } \rbrace \).
+
+\( J_f \) -- идеал и \( I(X) \subset J_f \). \textit{(\textbf{Упражнение:} доказать это)}
+
+\( V(J_f) \) -- алгебраическое множество точек, в которых \(f\) не определена.
+ 
+2) : \( f \in \bigcap\limits_{P \in X} O_P \Rightarrow V(J_f) = \emptyset \Rightarrow J_f = (1) \), т.е. \( f \in k[X] \). Обратное включение очевидно. $\blacksquare$
+
+\begin{theorem}
+Если \(X\) -- алгебраическое многообразие, \( P \in X \Rightarrow \)
+\\1) \( O_P \) -- нётерово, является областью целостности;
+\\2) \( m_P = \lbrace{ f \in O_P : f(P) = 0 }\rbrace \) -- максимальный идеал кольца \( O_P\), причем единственный.
+\end{theorem}
+
+\begin{center}
+\section*{Проективный случай}
+\end{center}
+\markright{Проективный случай}{}
+
+Любой многочлен \( f \in k[x_0, ... , x_n ]\) представляется в виде 
+\\  \( f = F_1 + ... + F_d \), где \( F_i\) -- формы (т.е. однородные многочлены), \( \deg F_i = i \).
+
+\opr Идеал \( I \subset k[x_0, ... , x_n] \) называется \textit{\textbf{ однородным}}, если  \( \forall f \in I ~ F_i \in I \), где \( f = F_1, ... , F_d \).
+
+Аналогично прошлым соответствиям,
+
+\setlength{\arrayrulewidth}{0pt}
+\begin{tabular}{|c|c|c|}
+\hline
+однор. идеалы \(k[x_0, ... , x_n]\)  & \( \underset{\underset{\text{\normalsize I}}{\xleftarrow{\quad}}}{\overset{\text{\normalsize V}}{\xrightarrow{\quad}} } \)  & \parbox{4cm}{\vspace{0.3cm}  \centering подмножества \\ \( X \subset \mathbb{P}^n(k) \) } \\
+\hline
+
+\end{tabular}
+
+\begin{theorem}[Гильберта о нулях]
+\leavevmode
+\\Если \(k\)  алгебраически замкнуто, то 
+
+1) \( V(J) \neq \emptyset \iff \sqrt{J} \supset (x_0, ... , x_n) \);
+
+2) Если \( V(J) \neq \emptyset \Rightarrow I(V(J)) = \sqrt{J} \). $\square$
+
+(Доказательство см. [Fault], [Reid])
+\end{theorem}
+
+\textit{\textbf{Замечание.}} В аффинном пространтсве \( k^{n+1} \) идеал \( (x_0, ... , x_n) \leftrightarrow (0, ... , 0) \)  \( \in k^{n+1}\), это соответствует \( \emptyset \subset \mathbb{P}^n(k) \). 
+
+\textit{\textbf{Следствие.}} Имеют место взаимно однозначные соответствия:
+
+\vspace{2ex}
+\setlength{\arrayrulewidth}{0pt}
+\begin{tabular}{|c|c|c|}
+\hline
+однор. радик. идеалы  & \( \leftrightarrow \)  & алгебр. множества \( \mathbb{P}^n(k) \) \\
+\hline
+однор. простые идеалы  & \( \leftrightarrow \)  & неприводимые алгебр. кривые. \\
+\hline
+\end{tabular}
+\vspace{2ex}
+
+В проективном случае аналогично определяются : \( k[X]\),\( k(X)\), \(O_P\), \(m_P, ... \) и т.д.
+
+\vspace{10ex}
+\begin{references}
+\Source [[Fult]] W. Fulton, Algebraic Curves: An Introduction to Algebraic Geometry, 3rd edition, AMS, 2008.
+
+\Source [[Reid]] M. Reid, Undergraduate Algebraic Geometry, Cambridge University Press, 1988.
+
+
+\end{references}
+
+\end{lect}
+
+ 
