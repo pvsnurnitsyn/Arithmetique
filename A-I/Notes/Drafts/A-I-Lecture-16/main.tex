@@ -1,0 +1,799 @@
+\documentclass[12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb,mathtools,amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.3cm}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\Nm}{\mathrm{N}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\disc}{\mathrm{disc}}
+\newcommand{\ord}{\mathrm{ord}}
+\theoremstyle{plain}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{proposition}[theorem]{Утверждение}
+\newtheorem{corollary}[theorem]{Следствие}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Определение}
+\newtheorem{example}[theorem]{Пример}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Замечание}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{5.3. Квадратичные поля и их кольца целых}}\\[2mm]
+\end{center}
+
+\section*{1. Квадратичные расширения над $\Q$}
+
+\begin{definition}
+Пусть $F/\Q$ --- конечное расширение полей. Его \emph{степенью} называется число
+\[
+[F:\Q]=\dim_{\Q} F.
+\]
+\end{definition}
+
+\begin{definition}
+Поле $F$ называется \emph{квадратичным} над $\Q$, если $[F:\Q]=2$.
+\end{definition}
+
+\begin{proposition}
+Если $F/\Q$ квадратично, то существует элемент $\alpha\in F\setminus \Q$ такой, что
+\[
+F=\Q(\alpha),
+\]
+и минимальный многочлен $\alpha$ над $\Q$ имеет степень $2$.
+\end{proposition}
+
+\begin{proposition}
+Пусть $d\in\Z$ не является квадратом в $\Z$. Тогда
+\[
+F=\Q(\sqrt d)
+\]
+является квадратичным полем и
+\[
+[F:\Q]=2,\qquad \{1,\sqrt d\}\ \text{--- базис $F$ над $\Q$}.
+\]
+\end{proposition}
+
+\begin{remark}
+Обычно выбирают $d$ \emph{квадратсвободным} (squarefree), чтобы представление $\Q(\sqrt d)$ было ``нормальным''.
+\end{remark}
+
+\section*{2. Группа Галуа квадратичного поля, след и норма}
+
+Рассмотрим квадратичное поле $F=\Q(\sqrt d)$, где $d\in\Z$ не квадрат.
+
+\begin{proposition}
+\[
+\Gal(F/\Q)=\{ \mathrm{id},\sigma\},\qquad \sigma(\sqrt d)=-\sqrt d.
+\]
+\end{proposition}
+
+\begin{proof}
+Пусть $\tau\in\Gal(F/\Q)$. Тогда $\tau$ фиксирует $\Q$ и переводит корни минимального многочлена
+$x^2-d$ в корни того же многочлена. Следовательно,
+\[
+\tau(\sqrt d)\in\{\sqrt d,-\sqrt d\}.
+\]
+Это даёт ровно два автоморфизма: тождественный и сопряжение $\sigma$.
+\end{proof}
+
+\begin{definition}
+Для $\alpha\in F$ определим \emph{сопряжение} $\alpha'=\sigma(\alpha)$, а также \emph{след} и \emph{норму}:
+\[
+\Tr_{F/\Q}(\alpha)=\alpha+\alpha',\qquad \Nm_{F/\Q}(\alpha)=\alpha\alpha'.
+\]
+\end{definition}
+
+Если $\alpha=r+s\sqrt d$ (где $r,s\in\Q$), то
+\[
+\alpha'=r-s\sqrt d,\qquad \Tr(\alpha)=2r,\qquad \Nm(\alpha)=r^2-ds^2.
+\]
+
+\section*{3. Кольцо целых элементов квадратичного поля}
+
+\begin{definition}
+Элемент $\alpha\in F$ называется \emph{целым (алгебраически целым)} над $\Z$, если он является корнем некоторого
+унитарного многочлена $f(x)\in\Z[x]$.
+Множество всех целых элементов поля $F$ обозначается $\OO_F$ и называется \emph{кольцом целых} поля $F$.
+\end{definition}
+
+\begin{lemma}\label{lem:int-tr-nm}
+Пусть $F=\Q(\sqrt d)$ и $\alpha\in F$. Тогда $\alpha\in\OO_F$ тогда и только тогда, когда
+\[
+\Tr(\alpha)\in\Z \quad\text{и}\quad \Nm(\alpha)\in\Z.
+\]
+\end{lemma}
+
+\begin{proof}
+($\Rightarrow$) Если $\alpha$ целый, то он удовлетворяет унитарному многочлену степени $2$:
+\[
+x^2 - \Tr(\alpha)x + \Nm(\alpha)=0,
+\]
+причём коэффициенты этого многочлена лежат в $\Z$. Значит $\Tr(\alpha),\Nm(\alpha)\in\Z$.
+
+($\Leftarrow$) Пусть $\Tr(\alpha),\Nm(\alpha)\in\Z$. Тогда $\alpha$ является корнем многочлена
+\[
+x^2 - \Tr(\alpha)x + \Nm(\alpha)\in\Z[x],
+\]
+который унитарен, значит $\alpha$ целый.
+\end{proof}
+
+\begin{theorem}[описание $\OO_F$]\label{thm:ring-of-integers}
+Пусть $F=\Q(\sqrt d)$, где $d$ квадратсвободно. Тогда
+\[
+\OO_F=
+\begin{cases}
+\Z[\sqrt d], & d\equiv 2,3 \pmod 4,\\[1mm]
+\Z\!\left[\dfrac{1+\sqrt d}{2}\right], & d\equiv 1 \pmod 4.
+\end{cases}
+\]
+\end{theorem}
+
+\begin{proof}
+Пусть $\alpha=r+s\sqrt d\in F$ с $r,s\in\Q$. По лемме \ref{lem:int-tr-nm} нужно и достаточно:
+\[
+\Tr(\alpha)=2r\in\Z,\qquad \Nm(\alpha)=r^2-ds^2\in\Z.
+\]
+Из $2r\in\Z$ получаем $r=\dfrac{m}{2}$ для некоторого $m\in\Z$.
+
+Пусть также $s=\dfrac{n}{2}$ для некоторого $n\in\Z$ (это будет следовать из условия на норму).
+Тогда
+\[
+\Nm(\alpha)=\left(\frac{m}{2}\right)^2 - d\left(\frac{n}{2}\right)^2
+=\frac{m^2-dn^2}{4}\in\Z,
+\]
+то есть
+\[
+m^2-dn^2\equiv 0\pmod 4.
+\]
+Рассмотрим случаи по $d\bmod 4$.
+
+\medskip
+\noindent\textbf{Случай 1: $d\equiv 2,3\pmod 4$.}
+Если $n$ нечётно, то $n^2\equiv 1\pmod 4$, и тогда
+\[
+m^2-dn^2\equiv m^2-d\pmod 4.
+\]
+Но при $d\equiv 2,3\pmod 4$ число $d$ не сравнимо с квадратом по модулю $4$ так, чтобы получилось $0$ для любого $m$,
+откуда следует, что $n$ должен быть чётным, то есть $s\in\Z$.
+Тогда и $r\in\Z$ (иначе нарушится целочисленность нормы).
+Значит $\alpha\in\Z[\sqrt d]$, и получаем $\OO_F=\Z[\sqrt d]$.
+
+\medskip
+\noindent\textbf{Случай 2: $d\equiv 1\pmod 4$.}
+Тогда условие $m^2-dn^2\equiv 0\pmod 4$ эквивалентно
+\[
+m^2-n^2\equiv 0\pmod 4 \quad\Longleftrightarrow\quad m\equiv n\pmod 2.
+\]
+Следовательно,
+\[
+\alpha=\frac{m+n\sqrt d}{2},\qquad m\equiv n\pmod 2.
+\]
+Положим $\omega=\dfrac{1+\sqrt d}{2}$. Тогда любой такой $\alpha$ можно записать как
+\[
+\alpha=a+b\omega,\qquad a,b\in\Z,
+\]
+и наоборот, каждый $a+b\omega$ целый. Значит $\OO_F=\Z[\omega]$.
+\end{proof}
+
+\section*{4. Дискриминант квадратичного поля}
+
+\begin{definition}
+Пусть $F/\Q$ --- расширение степени $n$, и $\alpha_1,\dots,\alpha_n\in\OO_F$.
+Определим \emph{дискриминант} набора $(\alpha_1,\dots,\alpha_n)$:
+\[
+\Delta(\alpha_1,\dots,\alpha_n)=\det\bigl(\Tr(\alpha_i\alpha_j)\bigr)_{i,j=1}^n.
+\]
+Дискриминант поля (точнее, дискриминант кольца целых) обозначают $\disc(F)$.
+\end{definition}
+
+\begin{proposition}
+Пусть $F=\Q(\sqrt d)$, $d$ квадратсвободно. Тогда
+\[
+\disc(F)=
+\begin{cases}
+4d, & d\equiv 2,3\pmod 4,\\
+d, & d\equiv 1\pmod 4.
+\end{cases}
+\]
+\end{proposition}
+
+\begin{proof}
+Если $d\equiv 2,3\pmod 4$, то базис $\OO_F$ равен $(1,\sqrt d)$.
+Считаем матрицу следов:
+\[
+\Tr(1\cdot 1)=2,\quad \Tr(1\cdot \sqrt d)=\Tr(\sqrt d)=0,\quad \Tr(\sqrt d\cdot \sqrt d)=\Tr(d)=2d.
+\]
+Значит
+\[
+\Delta(1,\sqrt d)=\det\begin{pmatrix}2&0\\0&2d\end{pmatrix}=4d.
+\]
+
+Если $d\equiv 1\pmod 4$, то базис $\OO_F$ равен $(1,\omega)$, где $\omega=\dfrac{1+\sqrt d}{2}$.
+Тогда $\omega'=\dfrac{1-\sqrt d}{2}$, и
+\[
+\Tr(1)=2,\qquad \Tr(\omega)=\omega+\omega'=1,\qquad \Tr(\omega^2)=\omega^2+(\omega')^2.
+\]
+Заметим:
+\[
+\omega^2=\frac{(1+\sqrt d)^2}{4}=\frac{1+2\sqrt d+d}{4},\qquad
+(\omega')^2=\frac{1-2\sqrt d+d}{4},
+\]
+поэтому
+\[
+\Tr(\omega^2)=\frac{1+d}{2}.
+\]
+Следовательно,
+\[
+\Delta(1,\omega)=\det\begin{pmatrix}2&1\\1&\frac{1+d}{2}\end{pmatrix}
+=2\cdot\frac{1+d}{2}-1=d.
+\]
+\end{proof}
+
+\section*{5. Разложение простого идеала $(p)$ в $\OO_F$}
+
+Пусть $F=\Q(\sqrt d)$, $d$ квадратсвободно, $\OO_F$ --- кольцо целых.
+
+\begin{theorem}[квадратичный закон разложения простого]\label{thm:splitting}
+Пусть $p$ --- нечётное простое, $p\nmid \disc(F)$.
+Тогда в $\OO_F$ возможны ровно три случая:
+\begin{enumerate}
+\item \textbf{Расщепление:} если $\left(\frac{d}{p}\right)=1$, то
+\[
+(p)=\mathfrak{p}\,\mathfrak{p}',\qquad \mathfrak{p}\neq \mathfrak{p}',\qquad
+\Nm(\mathfrak{p})=\Nm(\mathfrak{p}')=p.
+\]
+\item \textbf{Инертность:} если $\left(\frac{d}{p}\right)=-1$, то $(p)$ прост в $\OO_F$ и
+\[
+(p)\ \text{остаётся простым},\qquad \Nm((p))=p^2.
+\]
+\item \textbf{Разветвление:} если $p\mid \disc(F)$, то
+\[
+(p)=\mathfrak{p}^2,\qquad \Nm(\mathfrak{p})=p.
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+Случай $p\mid \disc(F)$ --- это именно \emph{разветвление}. Для нечётного $p$ это эквивалентно $p\mid d$.
+\end{remark}
+
+\section*{6. Частный разбор: конструкция идеалов при $\left(\frac{d}{p}\right)=1$}
+
+Пусть $p$ --- нечётное простое, $p\nmid d$ и $\left(\frac{d}{p}\right)=1$.
+Тогда существует $a\in\Z$ такое, что
+\[
+a^2\equiv d\pmod p.
+\]
+Рассмотрим идеалы
+\[
+\mathfrak{p}=(p,\,a+\sqrt d),\qquad \mathfrak{p}'=(p,\,a-\sqrt d).
+\]
+
+\begin{proposition}
+Имеем включение
+\[
+\mathfrak{p}\mathfrak{p}'\subseteq (p).
+\]
+\end{proposition}
+
+\begin{proof}
+Действительно, в произведении $\mathfrak{p}\mathfrak{p}'$ лежат элементы вида
+\[
+p\cdot p,\quad p(a-\sqrt d),\quad p(a+\sqrt d),\quad (a+\sqrt d)(a-\sqrt d)=a^2-d.
+\]
+Первые три очевидно кратны $p$, а для последнего имеем $a^2-d\equiv 0\pmod p$, значит $a^2-d\in (p)$.
+\end{proof}
+
+\begin{proposition}
+Идеалы $\mathfrak{p}\neq\mathfrak{p}'$ и
+\[
+(p)=\mathfrak{p}\mathfrak{p}'.
+\]
+\end{proposition}
+
+\begin{remark}
+На картинке у преподавателя это записано как ``строим два разных простых идеала над $p$''.
+\end{remark}
+
+\section*{7. Замечания про $p=2$}
+
+Для $p=2$ разложение зависит от $d\bmod 8$ и вида $\OO_F$.
+Обычно отдельно разбирают случаи $d\equiv 1\pmod 8$, $d\equiv 5\pmod 8$ и т.д.,
+потому что дискриминант может содержать степень двойки.
+
+\bigskip
+\noindent\textbf{Итого по страницам:}
+\begin{itemize}
+\item определили квадратичное поле $F=\Q(\sqrt d)$;
+\item описали $\Gal(F/\Q)$ и сопряжение;
+\item ввели $\Tr$ и $\Nm$;
+\item через $\Tr,\Nm$ описали $\OO_F$;
+\item вычислили $\disc(F)$;
+\item сформулировали правило разложения $(p)$ по символу Лежандра $\left(\frac{d}{p}\right)$;
+\item показали конструкцию идеалов $\mathfrak{p}=(p,a+\sqrt d)$ при $\left(\frac{d}{p}\right)=1$.
+\end{itemize}
+
+
+\subsection*{Разложение простого идеала $(p)$ в квадратичном поле}
+
+Пусть $F=\Q(\sqrt d)$, $d$ --- квадратсвободное целое, $D=\mathcal O_F$.
+Для $\alpha=r+s\sqrt d\in F$ (где $r,s\in\Q$) обозначим сопряжение
+\[
+\alpha' = r - s\sqrt d .
+\]
+Для идеала $P\subset D$ положим
+\[
+P'=\{\gamma'\mid \gamma\in P\}.
+\]
+Тогда $P'$ тоже идеал в $D$ (сопряжённый к $P$).
+
+\medskip
+
+\noindent\textbf{Напоминание про типы разложения.}
+Пусть
+\[
+(p)=P_1^{e_1}\cdots P_g^{e_g},\qquad N(P_i)=p^{f_i}.
+\]
+Тогда выполняется равенство $\sum_{i=1}^g e_i f_i = [F:\Q]=2$.
+Отсюда возможны ровно три случая:
+\[
+\begin{array}{ll}
+\text{(a) разветвление:} & (p)=P^2,\quad e=2,\ f=1,\ g=1;\\
+\text{(b) разложение:} & (p)=PP',\quad e=1,\ f=1,\ g=2,\ P\neq P';\\
+\text{(c) инертность:} & (p)=P,\quad e=1,\ f=2,\ g=1.
+\end{array}
+\]
+
+\medskip
+
+\begin{theorem}[Критерий разложения через дискриминант]
+Пусть $p$ --- нечётное простое, $p\neq 2$. Тогда:
+\[
+\left(\frac{\delta_F}{p}\right)=
+\begin{cases}
+0 &\Longleftrightarrow\ p\mid \delta_F\ \Longrightarrow\ (p)=P^2,\\[2mm]
+1 &\Longleftrightarrow\ p\nmid \delta_F\ \Longrightarrow\ (p)=PP',\ P\neq P',\\[2mm]
+-1 &\Longleftrightarrow\ p\nmid \delta_F\ \Longrightarrow\ (p)\ \text{прост в }D.
+\end{cases}
+\]
+\end{theorem}
+
+\subsubsection*{Случай 1: $\left(\frac{\delta_F}{p}\right)=0$ (разветвление)}
+
+Предположим $p\mid \delta_F$. Для квадратичного поля $F=\Q(\sqrt d)$ имеем
+$\delta_F\in\{d,\,4d\}$, поэтому из $p\mid\delta_F$ следует $p\mid d$.
+
+Положим
+\[
+P=(p,\sqrt d)=\{\alpha p+\beta \sqrt d\mid \alpha,\beta\in D\}.
+\]
+Тогда
+\[
+P^2=(p,\sqrt d)^2=(p^2,\;p\sqrt d,\;d).
+\]
+Так как $p\mid d$, то $d=p\cdot \frac{d}{p}$ и
+\[
+(p^2,\;p\sqrt d,\;d)\subset (p)\cdot (p,\sqrt d, d/p).
+\]
+Обозначим
+\[
+I=(p,\sqrt d, d/p).
+\]
+Поскольку $p\mid d$, число $d/p\in\Z\subset D$.
+Кроме того,
+\[
+(p,\ d/p)=1 \quad\Rightarrow\quad \exists\,r,s\in\Z:\ rp+s\frac{d}{p}=1,
+\]
+значит $1\in I$, то есть $I=D$. Следовательно,
+\[
+P^2\subset (p)\cdot I=(p).
+\]
+С другой стороны, очевидно $(p)\subset P$, значит $(p)^2\subset P^2$,
+а так как индекс $[D:P]=p$, то $(p)\neq P$ и единственная возможность при степени $2$:
+\[
+(p)=P^2.
+\]
+
+\subsubsection*{Случай 2: $\left(\frac{\delta_F}{p}\right)=1$ (разложение)}
+
+Пусть $\left(\frac{\delta_F}{p}\right)=1$. Тогда $p\nmid\delta_F$ и
+(для нечётного $p$) это эквивалентно $\left(\frac{d}{p}\right)=1$,
+то есть существует $a\in\Z$ такое, что
+\[
+a^2\equiv d\pmod p.
+\]
+Определим идеалы
+\[
+P=(p,\ a+\sqrt d),\qquad P'=(p,\ a-\sqrt d).
+\]
+Тогда
+\[
+PP' \subset (p,\ a+\sqrt d)(p,\ a-\sqrt d)
+\subset (p,\ a+\sqrt d,\ a-\sqrt d,\ \tfrac{a^2-d}{p}).
+\]
+Обозначим
+\[
+I=(p,\ a+\sqrt d,\ a-\sqrt d,\ \tfrac{a^2-d}{p}).
+\]
+Заметим, что
+\[
+2a=(a+\sqrt d)+(a-\sqrt d)\in I,\qquad
+2\sqrt d=(a+\sqrt d)-(a-\sqrt d)\in I.
+\]
+Кроме того, по построению $\frac{a^2-d}{p}\in\Z\subset D$, поэтому
+\[
+(p,\ 2a,\ \tfrac{a^2-d}{p})=1 \ \Rightarrow\ 1\in I \ \Rightarrow\ I=D.
+\]
+Следовательно,
+\[
+PP'\subset (p)\cdot I=(p).
+\]
+Обратно, поскольку $p\in P$ и $p\in P'$, имеем $(p)\subset PP'$.
+Итак,
+\[
+(p)=PP'.
+\]
+Покажем, что $P\neq P'$. Если бы $P=P'$, то из $a+\sqrt d\in P=(p,a-\sqrt d)$
+следовало бы
+\[
+(a+\sqrt d)-(a-\sqrt d)=2\sqrt d\in P.
+\]
+Тогда $\sqrt d\in P$ (так как $p$ нечётное, $2$ обратимо по модулю $P$),
+а значит $P\supset(p,\sqrt d)$, что в сочетании с $p\nmid d$ приводит к противоречию
+(в этом случае $(p,\sqrt d)=D$). Следовательно, $P\neq P'$.
+
+\subsubsection*{Случай 3: $\left(\frac{\delta_F}{p}\right)=-1$ (инертность)}
+
+Пусть $\left(\frac{\delta_F}{p}\right)=-1$, то есть $p\nmid\delta_F$ и
+$\left(\frac{d}{p}\right)=-1$.
+
+Предположим противное: $(p)$ не прост в $D$. Тогда
+\[
+(p)=PP'
+\]
+для некоторых различных простых идеалов $P\neq P'$ и при этом обязательно
+$f=1$, то есть
+\[
+|D/P|=p.
+\]
+Рассмотрим класс $\overline{\sqrt d}\in D/P$. Так как $D/P\simeq\F_p$,
+существует $a\in\Z$ такое, что $\overline{\sqrt d}=\overline a$ в $D/P$,
+то есть
+\[
+\sqrt d-a\in P \quad\Rightarrow\quad d-a^2\in P\cap\Z=(p).
+\]
+Значит $a^2\equiv d\pmod p$, то есть $\left(\frac{d}{p}\right)=1$ --- противоречие.
+Следовательно, разложения нет и остаётся единственный вариант:
+\[
+(p)\ \text{прост в }D,\qquad f=2.
+\]
+
+\subsection*{Замечание про случай $p=2$}
+
+Далее рассматривается $p=2$ отдельно. Возможны три ситуации:
+\[
+\begin{array}{ll}
+\text{(i)} & 2\mid\delta_F \ \Longrightarrow\ (2)=P^2;\\
+\text{(ii)} & 2\nmid\delta_F,\ d\equiv 1\pmod 8 \ \Longrightarrow\ (2)=PP',\ P\neq P';\\
+\text{(iii)} & 2\nmid\delta_F,\ d\equiv 5\pmod 8 \ \Longrightarrow\ (2)\ \text{прост в }D.
+\end{array}
+\]
+
+\subsection*{Критерий единицы (пометка на полях)}
+Для $\alpha\in D$:
+\[
+\alpha\in D^\times \quad\Longleftrightarrow\quad N_{F/\Q}(\alpha)=\pm 1.
+\]
+
+
+\subsection*{Случай $d<0$}
+
+Пусть $d<0$. Обозначим через $\mathcal D$ кольцо целых поля $\mathbb Q(\sqrt d)$.
+Тогда группа единиц
+\[
+U_d = \mathcal D^{\times}
+\]
+конечна.
+
+\begin{enumerate}
+\item При $d=-1$:
+\[
+U_{-1} = \{\pm 1, \pm i\}, \qquad |U_{-1}| = 4.
+\]
+
+\item При $d=-3$:
+\[
+U_{-3} = \{\pm 1, \pm \omega, \pm \omega^2\},
+\qquad
+\omega = \frac{-1+\sqrt{-3}}{2},
+\qquad
+|U_{-3}| = 6.
+\]
+
+\item При $d<-3$:
+\[
+U_d = \{\pm 1\}.
+\]
+\end{enumerate}
+
+\begin{proof}
+Пусть $x+y\sqrt d \in \mathcal D$ — единица.
+Тогда
+\[
+x^2 - d y^2 = \pm 1.
+\]
+
+Если $|d|>1$, то при $y\neq 0$ имеем
+\[
+x^2 + |d|y^2 \ge |d| > 1,
+\]
+что невозможно.
+Следовательно, $y=0$, откуда $x=\pm1$.
+\end{proof}
+
+
+\subsection*{Циклотомические поля}
+
+Пусть $m\ge 1$,
+\[
+\zeta_m = e^{2\pi i/m},
+\qquad
+F = \mathbb Q(\zeta_m).
+\]
+
+Тогда
+\[
+x^m - 1 = \prod_{d\mid m} \Phi_d(x),
+\]
+где $\Phi_m(x)$ — $m$-й циклотомический многочлен.
+
+\[
+\deg \Phi_m = \varphi(m).
+\]
+
+Следовательно,
+\[
+[F:\mathbb Q] = \varphi(m).
+\]
+
+
+\subsection*{Группа Галуа циклотомического поля}
+
+Рассмотрим
+\[
+\mathrm{Gal}(\mathbb Q(\zeta_m)/\mathbb Q).
+\]
+
+Для $\sigma \in \mathrm{Gal}(\mathbb Q(\zeta_m)/\mathbb Q)$ имеем
+\[
+\sigma(\zeta_m)^m = 1,
+\]
+то есть
+\[
+\sigma(\zeta_m) = \zeta_m^a,
+\qquad
+(a,m)=1.
+\]
+
+Тем самым получаем отображение
+\[
+\mathrm{Gal}(\mathbb Q(\zeta_m)/\mathbb Q)
+\longrightarrow
+(\mathbb Z/m\mathbb Z)^{\times},
+\qquad
+\sigma \mapsto a.
+\]
+
+\begin{lemma}
+Это отображение является изоморфизмом групп.
+\end{lemma}
+
+\begin{proof}
+Инъективность следует из того, что автоморфизм однозначно задаётся образом $\zeta_m$.
+Сюръективность следует из того, что для каждого $(a,m)=1$ отображение
+\[
+\zeta_m \mapsto \zeta_m^a
+\]
+задаёт автоморфизм поля.
+\end{proof}
+
+Следовательно,
+\[
+\mathrm{Gal}(\mathbb Q(\zeta_m)/\mathbb Q)
+\simeq
+(\mathbb Z/m\mathbb Z)^{\times}.
+\]
+
+
+\subsection*{Композиция автоморфизмов}
+
+Пусть $\sigma_a,\sigma_b \in \mathrm{Gal}(\mathbb Q(\zeta_m)/\mathbb Q)$,
+где
+\[
+\sigma_a(\zeta_m)=\zeta_m^a,
+\qquad
+\sigma_b(\zeta_m)=\zeta_m^b.
+\]
+
+Тогда
+\[
+\sigma_a\circ\sigma_b(\zeta_m)
+= \sigma_a(\zeta_m^b)
+= \zeta_m^{ab}.
+\]
+
+Отсюда
+\[
+\sigma_a\circ\sigma_b = \sigma_{ab}.
+\]
+
+Нейтральный элемент:
+\[
+\sigma_1 = \mathrm{id}.
+\]
+
+Обратный элемент:
+\[
+\sigma_a^{-1} = \sigma_{a^{-1}},
+\qquad
+aa^{-1}\equiv 1 \pmod m.
+\]
+
+Тем самым группа автоморфизмов изоморфна
+\[
+(\mathbb Z/m\mathbb Z)^{\times}.
+\]
+
+\subsection*{Циклотомические поля}
+
+Пусть $m \ge 1$ и
+\[
+\zeta_m = e^{2\pi i / m}.
+\]
+Определим циклотомическое поле
+\[
+K = \mathbb{Q}(\zeta_m).
+\]
+
+\begin{theorem}
+Поле $\mathbb{Q}(\zeta_m)$ является расширением Галуа над $\mathbb{Q}$, и
+\[
+\mathrm{Gal}(\mathbb{Q}(\zeta_m)/\mathbb{Q}) \simeq (\mathbb{Z}/m\mathbb{Z})^\times.
+\]
+\end{theorem}
+
+\begin{proof}
+Каждому $a \in (\mathbb{Z}/m\mathbb{Z})^\times$ сопоставим автоморфизм
+\[
+\sigma_a(\zeta_m) = \zeta_m^a.
+\]
+Так как $(a,m)=1$, отображение корректно и сохраняет минимальный многочлен $\zeta_m$.
+Композиция автоморфизмов соответствует умножению по модулю $m$, следовательно,
+\[
+\mathrm{Gal}(\mathbb{Q}(\zeta_m)/\mathbb{Q}) \cong (\mathbb{Z}/m\mathbb{Z})^\times.
+\]
+\end{proof}
+
+\begin{corollary}
+\[
+[\mathbb{Q}(\zeta_m):\mathbb{Q}] = \varphi(m).
+\]
+\end{corollary}
+
+
+\subsection*{Циклотомический многочлен}
+
+\begin{definition}
+\emph{Циклотомическим многочленом} $\Phi_m(x)$ называется минимальный многочлен числа $\zeta_m$ над $\mathbb{Q}$.
+\end{definition}
+
+Из определения следует:
+\[
+x^m - 1 = \prod_{d \mid m} \Phi_d(x).
+\]
+
+\begin{theorem}
+Многочлен $\Phi_m(x)$ имеет целые коэффициенты и неприводим над $\mathbb{Q}$.
+\end{theorem}
+
+\begin{proof}
+Докажем индукцией по $m$.
+Предположим, что все $\Phi_d(x) \in \mathbb{Z}[x]$ для $d<m$. Тогда из разложения
+\[
+\Phi_m(x) = \frac{x^m - 1}{\prod_{d \mid m,\, d<m} \Phi_d(x)}
+\]
+следует, что $\Phi_m(x) \in \mathbb{Z}[x]$.
+
+Неприводимость следует из того, что все сопряжения $\zeta_m^a$, $(a,m)=1$, являются корнями $\Phi_m(x)$, и их число равно $\varphi(m)$.
+\end{proof}
+
+
+\subsection*{Дискриминант циклотомического поля}
+
+Пусть $K=\mathbb{Q}(\zeta_m)$.
+
+\begin{theorem}
+Дискриминант поля $\mathbb{Q}(\zeta_m)$ равен
+\[
+\mathrm{Disc}(K) = (-1)^{\varphi(m)/2}
+\frac{m^{\varphi(m)}}{\prod_{p \mid m} p^{\varphi(m)/(p-1)}}.
+\]
+\end{theorem}
+
+\begin{proof}
+Используется формула дискриминанта через произведение разностей сопряжённых корней:
+\[
+\Delta = \prod_{i<j} (\zeta_m^i - \zeta_m^j)^2.
+\]
+После перегруппировки и применения свойств корней из единицы получается указанная формула.
+\end{proof}
+
+
+\subsection*{Разложение простых в циклотомических полях}
+
+Пусть $p$ — простое число.
+
+\begin{theorem}
+Если $p \nmid m$, то разложение идеала $(p)$ в $\mathbb{Z}[\zeta_m]$ определяется порядком $p$ по модулю $m$.
+\end{theorem}
+
+\begin{proof}
+Пусть $f$ — наименьшее число, такое что
+\[
+p^f \equiv 1 \pmod m.
+\]
+Тогда минимальный многочлен $\zeta_m$ по модулю $p$ распадается на $\varphi(m)/f$ неприводимых множителей степени $f$.
+Следовательно,
+\[
+(p) = \mathfrak{p}_1 \cdots \mathfrak{p}_{\varphi(m)/f},
+\quad \deg \mathfrak{p}_i = f.
+\]
+\end{proof}
+
+ \begin{corollary}
+Простое $p$ полностью раскладывается в $\mathbb{Q}(\zeta_m)$ тогда и только тогда, когда
+\[
+p \equiv 1 \pmod m.
+\]
+ \end{corollary}
+
+
+
+\subsection*{Связь с кольцами вычетов}
+
+\begin{theorem}
+Существует изоморфизм
+\[
+\mathrm{Gal}(\mathbb{Q}(\zeta_m)/\mathbb{Q}) \cong \mathrm{Aut}(\mu_m) \cong (\mathbb{Z}/m\mathbb{Z})^\times,
+\]
+где $\mu_m$ — группа корней $m$-й степени из единицы.
+\end{theorem}
+
+
+
+\subsection*{Заключание}
+
+Циклотомические поля являются фундаментальным примером абелевых расширений поля $\mathbb{Q}$.
+Они играют ключевую роль в:
+\begin{itemize}
+  \item теории Галуа,
+  \item разложении простых в числовых полях,
+  \item доказательстве теоремы Кронекера–Вебера,
+  \item арифметике круговых полей.
+\end{itemize}
+
+\end{document}
+

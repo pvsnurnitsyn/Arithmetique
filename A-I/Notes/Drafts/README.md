@@ -19,4 +19,4 @@
 | [13. Лемма Гензеля, принцип Хассе](/A-I/Notes/Drafts/A-I-Lecture-13/) | Софья Николаевна Сухова | - |
 | 14. Кольцо целых гауссовых чисел, числовые поля | - | - |
 | [15. Делимость в кольцах целых алгебраических чисел](/A-I/Notes/Drafts/A-I-Lecture-15/) | - | https://disk.yandex.ru/i/FIZENqJ7elT9CQ https://disk.yandex.ru/i/gwge8XO_pJjE-A |
-| [16. Квадратичное поле и круговое поле](/A-I/Notes/Drafts/A-I-Lecture-16/) | - | https://disk.yandex.ru/i/TBL0GkCWs699uw |
+| [16. Квадратичное поле и круговое поле](/A-I/Notes/Drafts/A-I-Lecture-16/) | Анна Сергеевна Петровская | https://disk.yandex.ru/i/TBL0GkCWs699uw |
