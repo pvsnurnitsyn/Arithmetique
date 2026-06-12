@@ -1,0 +1,183 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlist[itemize]{leftmargin=*}
+\setlength{\parindent}{0pt}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\title{Лекция №2 «Лемма Минковского». Курс A-II}
+\author{Турашев Артём Сергеевич 619/2}
+\date{17 февраля 2026}
+
+\begin{document}
+
+\maketitle
+
+L = \mathbb{Z}e_{1} \oplus \dots \oplus \mathbb{Z}e_{m} = \{ \sum_{i = 1}^{m} a_ie_i \quad a_i \in \mathbb{Z} \}
+
+L \subset \mathbb{R}^n, \quad m \le n, \quad m = n \quad L - \textcyrillic{полная}
+
+B = \{e_1 \dots e_m\}, \quad \textcyrillic{далее} \quad m = n 
+
+P(B) = \{\sum_{i = 1}^{n} \alpha_ie_i \quad 0 \le \alpha_i < 1\}
+
+vol \quad L = vol \quad \mathbb{R}^n / L = vol \quad P(B)
+
+\newtheorem{theorem}{Теорема}
+
+\begin{theorem}
+    L - \textcyrillic{полная} \Leftrightarrow \exists \quad \textcyrillic{огр} \quad P \subset \mathbb{R}^n \quad \mathbb{R}^n = \sqcup_{\mathbb{Z} \in L} (P + \mathbb{Z})
+\end{theorem}
+
+\begin{theorem}
+    L - \textcyrillic{решетка} \Leftrightarrow L - \textcyrillic{дискретная подгруппа аддитивной группы} \quad \mathbb{R}^n
+\end{theorem}
+
+\newtheorem{lemma}{Лемма}
+
+\begin{lemma}
+    L - \textcyrillic{полная решетка в} \quad \mathbb{R}^{n} \Rightarrow L - \textcyrillic{дискретная} \newline \square \qquad B = e_1, \dots, e_n \quad L = L(B) \newline \exists x \in \mathbb{R}^n \setminus \{0\}: \quad (x, e_2) = \dots = (x, e_n) = 0 \newline \textcyrillic{аналогично} \quad \exists x \in \mathbb{R}^n \setminus \{0\}: \quad (x, e_j) = 0 \quad j \ne i \quad 1 \le j \le n \newline f_i = \frac{x}{(x,e_i)} \newline (f_i, e_j) = \delta_{ij} = \left\{ \begin{aligned} 
+        1, i=j,\\
+        0, i \ne j. 
+    \end{aligned} \right \newline \newline \dots \newline \newline e_i^* = e_i - \sum_{j < i} \mu_{ij} e_j^* \newline (e_i,e_k^*) = (e_i^* + \sum_{j < i} \mu_{ij} e_j^*, e_k^*) = 0 \quad k > i \qquad \blacksquare
+\end{lemma}
+
+\newtheorem{definition}{Определение}
+
+\begin{definition}
+    \textcyrillic{Минимальное расстоняие} \quad L: \quad \lambda(L) = min\{||x-y||, \quad x, y \in L, \quad x \ne y\} = min\{||x||, \quad x \in L \setminus \{0\}\}
+\end{definition}
+
+\begin{lemma}
+    L = L(B) \quad \lambda(L(B)) \ge min_{i} ||e_i^*|| \newline (e_i^* = e_i - \sum_{j=1}^{i-1} \mu_{ij}e_j^*, \quad \textcyrillic{где} \quad \mu_{ij} = \frac{(e_i,e_j^*)}{||e_j^*||^2}) \newline \square \qquad x \in L \setminus \{0\}: \quad x = Bz, \quad z \in \mathbb{Z}^n \setminus \{0\} \newline Bz = \sum_{i \le k} z_ie_i, \quad \textcyrillic{т. ч.} \quad k - \textcyrillic{минимальный индекс} \newline z_k \ne 0, z_{k+1} = \dots = 0 \newline (x,e_k^*) = \sum_{i \le k}z_i(e_i,e_k^*)=z_k(e_k,e_k^*)=z_k(e_k^* + \sum_{j \le k} \mu_{kj}e_j^*,e_k^*)=z_k(e_k^*,e_k^*)=z_k||e_k^*||^2 \newline ||Bz||||e_k^*|| \ge |(Bz, e_k^*)| = |z_k|||e_k^*||^2 \newline ||x|| = ||Bz|| \ge ||z_k||||e_k^*|| \ge ||e_k^*|| \ge min ||e_i^*|| \qquad \blacksquare
+\end{lemma}
+
+\begin{theorem}
+    (\textcyrillic{Гипфельд}) \quad L = L(B) \subset \mathbb{R}^n - \textcyrillic{полная решетка} \newline X \subset \mathbb{R}^n - \textcyrillic{изм} \quad \mu(X) = vol \quad X \newline vol \quad X > vol \quad L, \quad \textcyrillic{то} \Rightarrow \exists x_1, x_2 \in L: \newline x_1 - x_2 \in L \quad (x_1 \ne x_2) \newline \square \qquad x_{z} = X \cap (P(B) + Z) \newline X = \sqcup_{z \in L} x_z \Rightarrow vol \quad X = \sum_{z \in L} vol \quad x_z \newline x_z' = x_z - Z = (X - Z) \cap P(B) \quad (P(B) - \textcyrillic{фундаментальный параллелепипед}) \newline x_z' \subset P(B), \quad vol \quad  x_z' = vol \quad x_z \newline vol \quad P(B) < vol \quad X = \sum_{z \in L} vol \quad x_z' \newline \textcyrillic{Среди} \quad x_z', \quad Z \in L \quad \textcyrillic{есть пересечения} \newline \textcyrillic{Если пересечений нет, то} \newline \sum_{z \in L} x_z' = vol \quad \cup_{z \subset L}x_z' < vol \quad P(B) \newline \textcyrillic{здесь получилось бы противоречие} \newline \exists z_1, z_2 \in L \quad x_{z_1}' \cap x_{z_2}' \ne \emptyset \newline x_1 = z_1 + y \in x_{z_1}' \newline x_2  = z_2 + y \in x_{z_2}' \newline z_i \in L, \quad x_i \in X \newline x_1 - x_2 = z_1 - z_2 \in L \qquad \blacksquare
+\end{theorem}
+
+\begin{definition}
+    X \in \mathbb{R}^n - \textcyrillic{центр симметрии} \rightleftharpoons \forall x \in X \quad -x \in X
+\end{definition}
+
+\begin{theorem}
+    (\textcyrillic{Минковского}) \quad L \in \mathbb{R}^n - \textcyrillic{полная решетка} \quad X \in \mathbb{R}^n - \textcyrillic{выпуклое} \newline \textcyrillic{центр симметричное подмножество} \newline vol \quad X > z^n \quad vol \quad L \Rightarrow X \cap L \ne \emptyset \ne \{0\} \newline \square \qquad x' = \frac{1}{2}x = \{x \in X \quad 2x \in X\} \newline vol \quad x' = \frac{1}{2^n} vol \quad x > vol \quad L \newline \exists x_1, x_2 \in X': \quad x_1 - x_2 \in L \setminus \{0\} \newline 2x_1, 2x_2 \in X, \quad -2x_2 \in X \newline x_1 - x_2 = \frac{1}{2}2x_1 + \frac{1}{2}(-2x_2) \in X \newline x_1 - x_2 \in X \cap L \ne 0 \quad (\textcyrillic{отличен от нуля}). \qquad \blacksquare
+\end{theorem}
+
+\begin{theorem}
+    (\textcyrillic{первая теорема Минковского}) \quad L - \textcyrillic{полная решетка, тогда} \newline \lambda(L) \le \sqrt{n}(vol \quad L)^{\frac{1}{n}} \newline \ssquare x = O(\sqrt{n}(vol \quad L)^{\frac{1}{n}}) - \textcyrillic{шар} \newline X \quad \textcyrillic{содержит куб со стороной} \newline 2(vol \quad L)^{\frac{1}{n}} \newline vol \quad L = 1 \quad [-1, 1]^n \newline vol \quad X > 2^n \quad vol \quad L \Rightarrow \exists x \in X \cap L \setminus \{0\} \newline ||x|| \le \sqrt{n}(vol \quad L)^{\frac{1}{n}} \qquad \blacksquare
+\end{theorem}
+
+\begin{theorem}
+    \lambda(L) \le \frac{2}{|vol \quad B_n|^{\frac{1}{n}}}(vol \quad L)^{\frac{1}{n}}
+\end{theorem}
+
+\begin{definition}
+    L \subset \mathbb{R}^n - \textcyrillic{полная для} \quad k \le n, \newline \lambda_{k}(L) = int\{r > 0 \quad dim (L \cap \overline{O}(r)) \ge k\} \newline \lambda_i(L) = \lambda(L)
+\end{definition}
+
+\newtheorem*{notion}{Замечание}
+
+\begin{notion}
+    \lambda_k \quad \textcyrillic{дост по дискр}
+\end{notion}
+
+\begin{theorem}
+    (\textcyrillic{2 - ая теорема Минковского}) \quad (\prod_{i=1}^{n} \lambda_i(L))^{\frac{1}{n}} \le \sqrt{n}(vol \quad L)^{\frac{1}{n}}
+\end{theorem}
+
+\begin{definition}
+    L - \textcyrillic{решетка} \newline \textcyrillic{Множитель Эрмита для} L \subset \mathbb{R}^n \newline \gamma(L) = (\frac{\lambda(L)}{(vol \quad L)^{\frac{1}{n}}})^2
+\end{definition}
+
+\begin{definition}
+    L - \textcyrillic{решетка} \newline \textcyrillic{Постоянная Эрмита для} L \subset \mathbb{R}^n \newline \gamma_n = sup \quad \gamma(L) \quad L - \textcyrillic{полная решетка}
+\end{definition}
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c|c|c|c| } 
+\hline
+n & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 24 \\
+\hline
+\gamma_n^n & 1 & 4/3 & 2 & 4 & 8 & 64/3 & 64 & 2^8 & 4^{24} \\ 
+\hline
+\end{tabular}
+\end{center}
+
+\gamma_2 = \frac{2}{\sqrt{3}}
+
+\begin{theorem}
+    (\textcyrillic{Вторая теорема Минковского}) \quad (\prod \lambda_i)^{\frac{1}{n}} \le \sqrt{\gamma_n}(vol \quad L)^{\frac{1}{n}}
+\end{theorem}
+
+\begin{theorem}
+    L - \textcyrillic{решетка, достигается постоянная Эрмита} \quad \gamma(L) = \gamma_n, \quad \textcyrillic{то} \quad \lambda_1 = \lambda_2 = \dots = \lambda_n
+\end{theorem}
+
+\begin{definition}
+    L - \textcyrillic{решетка} \newline \textcyrillic{радиус упаковки} \quad r(L) \newline \textcyrillic{радиус покрытия} \quad R(L)
+\end{definition}
+
+\begin{lemma}
+    1) \quad r(L) = 1/2 \lambda_1(L) \newline 2) \quad R(L) \ge \frac{1}{2}\lambda_n(L) \newline 3) \quad R(L) \le \frac{\sqrt{n}}{2} \lambda_n(L) \newline (2r = \lambda_1 \le \lambda_2 \le \dots \le \lambda_n \le 2R \le \sqrt{n}\lambda_n)
+\end{lemma}
+
+\\~\\
+
+\textcyrillic{Двойственные решетки}
+
+\begin{definition}
+    L - \textcyrillic{полная решетка в} \mathbb{R}^n \newline L^* = \{x \in \mathbb{R}^n: \quad (x,y) \in \mathbb{Z}, \quad y \in L\}
+\end{definition}
+
+\textcyrillic{Аналогия}
+
+\begin{notion}
+    v - \textcyrillic{векторное пространство над} \quad \mathbb{R} \newline v^* = Hom(v,\mathbb{R}) \newline v \simeq v^* \quad \forall f \in v^* \quad \exists y \in v: \newline f(x) = (x,y) \newline L^* = Hom(L, \mathbb{Z}) 
+\end{notion}
+
+\begin{lemma}
+    L = L(B) - \textcyrillic{полная} \Rightarrow L^* = L((B^T)^{-1})
+\end{lemma}
+
+\begin{lemma}
+    L - \textcyrillic{полная} \newline 1) \quad c > 0 \quad (cL)^* = \frac{1}{c}L^* \newline 2) \quad (L^*)^* = L \newline 3) \quad L_1 < L_2 \Rightarrow L_1^* > L_2^* \newline 4) \quad vol \quad L^* = \frac{1}{vol \quad L}
+\end{lemma}
+
+\begin{lemma}
+    1) \quad \lambda_1(L)\lambda_1(L^*) \le n \newline 2) \quad \lambda_1(L)\lambda_n(L^*) \ge 1
+\end{lemma}
+
+\begin{theorem}
+    P - \textcyrillic{простое число, сравнимое с} \quad 1 \quad mod \quad 4, \quad \textcyrillic{то} \quad \Rightarrow \exists a, b \in \mathbb{Z}: \quad p = a^2 + b^2 \newline \square \qquad p \equiv 1(4) \quad (\frac{-1}{p}) = 1 \quad \exists L: \newline L^2 \equiv -1 (p) \newline B = \begin{pmatrix} 1 & 0\\ l & p \end{pmatrix} \quad det \quad B = p \newline \lambda_1(L)^2 < 2p - \textcyrillic{вот так будет правильно!} \newline \exists z_0 \in L = L(B) \newline 0 < ||z_0||^2 < 2p \quad z \in L \newline \textcyrillic{можно записать как} \quad z = Bx \newline ||z||^2 = ||Bx||^2 = x_1^2 + (lx_1 + px_2)^2 = (1 + l^2)x_1^2 + p(2lx_1x_2 + px_2^2) \newline \textcyrillic{оба слагаемых делятся на} \quad p \Rightarrow
+    p \quad \textcyrillic{делит} \quad z_0 \newline \Rightarrow ||z_0|| = p \Rightarrow p - \textcyrillic{сумма двух квадратов} \qquad \blacksquare
+\end{theorem}
+
+\begin{lemma}
+    \forall n \in \mathbb{Z} \quad \exists a,b,c,d \newline n = a^2+b^2+c^2+d^2 \newline \square \qquad \textcyrillic{решетка} \quad L \quad \textcyrillic{в} \quad \mathbb{R}^n \quad \dots \qquad \blacksquare
+\end{lemma}
+
+\begin{theorem}
+    (\textcyrillic{Дирихле}) \quad M \in \mathbb{Z}_{>1} \quad \alpha \in \mathbb{R}, \quad \textcyrillic{то} \quad \exists l, m \quad 1 \le m \le M \quad |m\alpha - l|<\frac{1}{M} \quad |\alpha - \frac{l}{m}| < \frac{1}{mM} < \frac{1}{m^2}
+\end{theorem}
+
+\begin{theorem}
+    M \in \mathbb{Z}_{>1} \quad \alpha_1, \dots, \alpha_n \in \mathbb{R}^n \newline \exists m, l_1,\dots,l_n \in \mathbb{Z} \quad 0 < m < M \newline |m\alpha_1 - l_1| < M^{-\frac{1}{n}} = \frac{1}{M^{\frac{1}{n}}}
+\end{theorem}
+
+\\~\\
+
+\textcyrillic{Проблема Гаусса}: \quad N(r) = |\{(m,n): \quad m^2 + n^2 \le r\}|
+
+\begin{theorem}
+    (Гаусса) \quad N(r) = \pi r^2 + O(r) + O(r^{\frac{1}{2} + \varepsilon})
+\end{theorem}
+
+\end{document}

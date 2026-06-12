@@ -1,0 +1,374 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{fullpage}
+\usepackage{cancel}
+
+%\usepackage{indentfirst}
+%\usepackage{amsfonts}
+%\usepackage{multirow}
+%\usepackage{graphicx}
+%\usepackage{algpseudocode}
+%\usepackage{indentfirst}
+%\usepackage{titlesec}
+
+% Окружения теорем (названия на русском)
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}{Лемма}
+\newtheorem{proposition}{Утверждение}
+\newtheorem{corollary}{Следствие}
+\newtheorem{fact}{Факт}
+\newtheorem{definition}{Определение}
+\newtheorem{remark}{Замечание}
+
+% Обозначения
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\wt}{\mathrm{wt}}
+\newcommand{\Spec}{\mathrm{Spec}}
+\newcommand{\Inv}{\mathrm{Inv}}
+\newcommand{\codim}{\mathrm{codim}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\title{Бинарные квадратичные формы}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{definition}
+    Бинарная квадратичная форма --- квадратичная форма двух переменных $f(x, y) = ax^2 + 2bxy + cy^2$.
+
+    Её определитель $d(f) = ac -b^2$
+\end{definition}
+
+\begin{definition}
+    Две формы называются рационально эквивалентными, $f \sim_{\Q} g$, если существует 
+    $\big(\begin{smallmatrix}
+      p & q\\
+      r & s
+    \end{smallmatrix}\big) \in GL_2(\Q)$
+    такая, что для $x' = px+qy, y' = rx+sy$ выполняется $f(x, y) = g(x', y')$.
+\end{definition}
+
+\begin{definition}
+    Две формы называются целочисленно эквивалентными, $f \sim_{\Z} g$, если существует 
+    $\big(\begin{smallmatrix}
+      p & q\\
+      r & s
+    \end{smallmatrix}\big) \in GL_2(\Z)$
+    такая, что для $x' = px+qy, y' = rx+sy$ выполняется $f(x, y) = g(x', y')$.
+\end{definition}
+
+\begin{lemma}
+    Если бинарные квадратичные формы $f, g$ представляют $0$ над произвольным полем $\F$, то они эквивалентны $f \sim_{\Q} g$.
+\end{lemma}
+\begin{proof}
+    Ранее было показано, что если форма представляет $0$, то из неё можно выделить гиперболическую плоскость.
+    Вместе с тем, что формы из леммы имеют только две переменные, получаем $f \sim_{\Q} xy, g \sim_{\Q} xy \implies f \sim_{\Q} g$.
+\end{proof}
+
+\begin{lemma}
+    Пусть $f$ --- невырожденная ($d(f) = d \neq 0$) бинарная квадратичная форма.
+    Тогда $f$ представляет $0$ $\iff$ $(-d) \in (\Q^*)^2$
+\end{lemma}
+\begin{proof}
+    $\implies$ $f \sim g = xy$.
+    $d(f) = d(y) = -1/4 \in (\Q^*)^2$.
+
+    $\impliedby$ Ранее было показано, что над полем любая форма диагонализируема, поэтому $f \sim ax^2 + by^2, -d = -ab = \alpha^2$
+    $f(\alpha, a) = a \alpha^2 + ba^2 = a \cdot (-ab) + ba^2 = 0$.
+\end{proof}
+
+\begin{theorem}
+    Пусть $f, g$ - невырожденные бинарные квадратичные формы.
+    Тогда $f \sim_{\Q} g \iff d(f) = d(g) (\text{в } Q^* / (Q^*)^2)$ и $\exists \alpha \neq 0: f(x, y) = \alpha = g(x', y')$
+\end{theorem}
+\begin{proof}
+    $\implies$ Очевидно.
+    
+    $\impliedby$ Ранее было показано, что если форма $f$ представляет $\alpha$, то $f$ диагонализируема, причем $f \sim \alpha x^2 + \beta y^2$.
+    Аналогично, $g \sim \alpha x^2 + \beta 'y^2$.
+
+    $d(f) = \alpha \beta = \gamma^2 d(g) = \gamma^2 \alpha \beta' \implies \beta = \gamma^2 \beta'$.
+    $g(x', y') \sim \alpha (x')^2 + \beta (y'/\gamma)^2$
+\end{proof}
+
+\begin{theorem}[Минковского-Хассе для бинарных форм]
+    Бинарная квадратичная форма $f$ представляет $0$ над $\Q$ $\iff$ $f$ представляет $0$ над $\Q_p, \forall p \leq \infty$.
+\end{theorem}
+\begin{proof}
+    $\impliedby$
+    $f$ представляет $0$ в $\R$, тогда $-d$ --- это квадрат, а в $\R$ квадраты --- положительны.
+    Т.е. $-d > 0$.
+
+    Также, $-d \in \Q$, потому что форма рассматривается над $\Q$.
+    Разложим $-d$ на простые множители $-d = \prod p^{\nu_p}$.
+
+    $f$ представляет $0$ над $\Q_p$ $\implies$ $-d$ --- это квадрат в $\Q_p$ $\implies$ $\nu_p \equiv 0\ (mod\ 2)\ \forall p: p | (-d)$.
+    Таким образом все $\nu_p$ четные и $-d$ --- квадрат рационального числа.
+\end{proof}
+
+\begin{definition}
+    Пусть $\alpha, \beta \in \Q_p^*$.
+    Символом Гильберта называется следующая функция
+    \begin{equation*}
+    (\alpha, \beta)_p = \begin{cases}
+        \ \ 1, z^2 - \alpha x^2 - \beta y^2\ \text{представляет}\ 0 \text{ в } \Q_p\\
+        -1, \text{иначе}
+    \end{cases}
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}
+    $(\alpha, \beta)_p = 1 \iff -\beta y^2 + z^2$ представляет $\alpha$.
+\end{lemma}
+\begin{proof}
+    $\implies$ $\exists (x, y, z) \neq (0, 0, 0): 0 = z^2 - \alpha x^2 - \beta y^2$.
+    Если $x = 0$, то $-\beta y^2 + z^2$ предствляет $0$, а значит и любое $\alpha$.
+    Если $x \neq 0$, то $\alpha =-\beta (y/x)^2 + (z/x)^2$.
+\end{proof}
+
+\begin{definition}
+    Рассмотрим алгебраическое расширение $\Q_p(\sqrt{\beta})$.
+    $H_{\beta} = \{N\varepsilon\ |\ \varepsilon \in \Q_p(\sqrt{\beta})^*  \}$
+\end{definition}
+
+\begin{lemma}
+    $(\alpha, \beta)_p = 1 \iff \alpha \in H_{\beta}$.
+\end{lemma}
+
+\begin{theorem}
+    Свойства символа Гильберта: \\
+    1. $(\alpha, \beta)_p = (\beta, \alpha)_p$ \\
+    2. $(\alpha, \gamma^2)_p = 1$ \\
+    3. $(\alpha, -\alpha)_p = 1$ \\
+    4. $(\alpha, \beta)_p = 1 \implies (\alpha \alpha', b)_p = (\alpha', b)_p$ \\
+    5. $(\alpha, \beta)_p = (\alpha, -\alpha \beta)_p = (\alpha, (1-\alpha)\beta)_p$
+\end{theorem}
+\begin{proof}
+    Прямое следствие определения.
+\end{proof}
+
+\begin{theorem}
+    Несколько менее очевидных свойств символа Гильберта: \\
+    1. $(\alpha \alpha', \beta)_p = (\alpha, \beta)_p \cdot (\alpha', \beta)_p$ \\
+    2. $\forall \beta \in \Q_p^* \ (\alpha, \beta)_p = 1 \implies \alpha \in (\Q_p^*)^2$
+\end{theorem}
+
+\begin{theorem}
+    Пусть $\alpha, \beta \in \Q_p \setminus \{0\},\ p < \infty$.
+    $\alpha = p^a \xi,\ \beta = p^b \eta$.
+    Тогда верно:
+    
+    1. Символ Гильберта связан с символом Лежандра следующим соотношением
+    \begin{equation*}
+        (p, \varepsilon)_p = \left (\frac{\varepsilon}{p}\right) = \left (\frac{\varepsilon_0}{p}\right)
+    \end{equation*}
+    Где $\varepsilon = \varepsilon_0 + \varepsilon_1 p + \varepsilon_2 p^2 + \dots$.
+    
+    2. Если $p \neq 2$ и $p < \infty$, $\alpha, \beta$ --- единицы, то $(\alpha, \beta)_p = 1$.
+\end{theorem}
+
+\begin{theorem}[Квадратичный закон взаимности]
+    $\prod_p (\alpha, \beta)_p = 1$.
+\end{theorem}
+
+\begin{definition}
+    Пусть $f$ --- квадратичная форма над $\Q$, $f \sim a_1 x_1^2 + \dots + a_nn x_n^2$.
+    Определитель $d(f)$, сигнатура (число плюсов/минусов среди коэффициентов) $(r(f), s(f))$ и $e_p(f) = \prod_{i < j} (a_i, a_j)_p$ --- инварианты.
+\end{definition}
+
+\begin{theorem}
+    Две формы эквивалентны над $\Q$ тогда и только тогда, когда их инварианты совпадают.
+    $f \sim_{\Q} g \iff f(f) = d(g), r(f) = r(g), s(f) = s(g), e_p(f) = e_p(g)\ \forall p < \infty$.
+\end{theorem}
+
+
+% 48:00 - 1:07:00 example
+
+\section*{Решетки на комплексной плоскости}
+
+Будем рассматривать решетки на комплексной плоскости $L \subset \Q, L = L(\gamma_1, \gamma_2), \gamma_1, \gamma_2 \in \mathbb{C}$.
+
+\begin{definition}
+    Решетки $L_1 = <\gamma_1, \gamma_2>$ и $L_1 = <\gamma_1', \gamma_2'>$ подобны, если $<\gamma_1, \gamma_2> = <\varepsilon \gamma_1', \varepsilon \gamma_2'>, \varepsilon \in \mathbb{C}$.
+\end{definition}
+
+\begin{remark}
+    $\gamma_1, \gamma_2$ линейно независимы $\iff Im \frac{\gamma_1}{\gamma_2} \neq 0$.
+\end{remark}
+
+\begin{remark}
+    Решетка --- это группа, поэтому вместе с каждым $\gamma$ в ней лежит $-\gamma$.
+    Поэтому, не ограничивая общности, можно считать, что $Im \frac{\gamma_1}{\gamma_2} > 0$.
+\end{remark}
+
+\begin{lemma}
+    $<\gamma_1, \gamma_2>, <\gamma_1', \gamma_2'>$ --- подобны и $Im \frac{\gamma_1}{\gamma_2} > 0,\ Im \frac{\gamma_1'}{\gamma_2'} > 0$ $\iff$ величины $z = \gamma_1/\gamma_2, z' = \gamma_1'/\gamma_2'$ связанны дробно-линейны преобразованием.
+    Т.е. $\exists \big(\begin{smallmatrix}
+      a & b\\
+      c & d
+    \end{smallmatrix}\big) \in SL_2(\Z):\ z' = \frac{az+b}{cz+d}$.
+\end{lemma}
+\begin{proof}
+    $\implies$ $<\gamma_1, \gamma_2> = <\xi \gamma_1, \xi \gamma_2>$
+    Существует унимодулярная матрица $\big(\begin{smallmatrix}
+      a & b\\
+      c & d
+    \end{smallmatrix}\big)$, т.е. $ad-bc = \pm1$ такая, что
+    $\xi \gamma_1' = a\gamma_1+b\gamma_2,\ \xi \gamma_2' = c\gamma_1+d\gamma_2$.
+    $z' = \frac{\gamma_1'}{\gamma_2'} = \frac{\xi\gamma_1'}{\xi\gamma_2'} = \frac{a\gamma_1+b\gamma_2}{c\gamma_1+d\gamma_2} = \frac{az+b}{cz+d}$.
+
+    Из-за того, что $Im \frac{\gamma_1}{\gamma_2} > 0,\ Im \frac{\gamma_1'}{\gamma_2'} > 0$ определитель матрицы $ad-bc$ равен $1$.
+
+    $\impliedby$
+    % $z' = \frac{az+b}{cz+d}$
+    Рассмотрим следующую цепочку преобразований
+    \begin{equation*}
+        \frac{1}{\gamma_2'} <\gamma_2', \gamma_1'> = <1, \frac{\gamma_1'}{\gamma_2'}> =<1, z'> = <1, \frac{az+b}{cz+d}>
+    \end{equation*}
+    Заменяя $z = \frac{\gamma_1}{\gamma_2}$ и домножая на $\gamma_2$, получаем
+    \begin{equation*}
+        \frac{1}{c\gamma_1 +d\gamma_2} <c\gamma_1+d\gamma_2, a\gamma_1+b\gamma_2>
+    \end{equation*}
+    Т.е.
+    \begin{equation*}
+        <\gamma_2', \gamma_1'> = \frac{\gamma_2'}{c\gamma_1 +d\gamma_2} <c\gamma_1+d\gamma_2, a\gamma_1+b\gamma_2>
+    \end{equation*}
+\end{proof}
+
+Можно рассмотреть такое множество пар комплексных чисел $\mathcal{M} = \{(\gamma_1, \gamma_2) \in \mathbb{C}\ | Im \frac{\gamma_1}{\gamma_2} . 0\}$. \\
+И $\mathcal{L}$ --- множество решеток в $\mathbb{C}$.
+
+Неформально говоря, верны следующие соответствия: \\
+$\mathcal{M} / \mathbb{C}^* \longleftrightarrow \mathbb{H} = \{z \in \mathbb{C}\ |\ Im\ z > 0 \}$ \\
+$(\mathcal{M}/SL_2(\Z))/\mathbb{C}^* \longleftrightarrow \mathbb{H}/\Gamma$ \\
+$\mathcal{L} /\mathbb{C}^* \longleftrightarrow \mathbb{H}/\Gamma$
+
+\begin{definition}
+    Модулярная группа $\Gamma = SL_2(\Z) / \{\pm I\}$.
+\end{definition}
+
+Действие группы на множестве задает на этом множестве отношение эквивалентности.
+Два элемента множества эквивалентны, если они лежат в одной орбите.
+
+\begin{definition}
+    Пусть группа $\Gamma$ действует на множестве $\mathbb{H}$.
+    $z_1, z_2 \in \mathbb{H}$ называются $\Gamma$-эквивалентными, если $\exists g \in \Gamma:\ z_1 = g z_2$.
+
+    Классы эквивалентности относительно этого отношения будем обозначать $\mathbb{H} / \Gamma$.
+\end{definition}
+
+\begin{remark}
+    $\mathbb{H} / \Gamma$ не является фактор-группой.
+\end{remark}
+
+\begin{definition}
+    $F \subset \mathbb{H}$ --- фундаментальная область для действия $\Gamma$, если \\
+    1. $F$ замкнуто и связно \\
+    2. $\forall z \in \mathbb{H}\ \exists z_0 \in \mathbb{H}, \exists g \in \Gamma:\ z = gz_0$ \\
+    3. $\forall z_1, z_2 \in F \setminus \partial F$ $z_1, z_2$ не $\Gamma$-эквивалентны
+\end{definition}
+
+\begin{remark}
+    Ситуация $z_1, z_2 \in \partial F$, $z_1, z_2$ $\Gamma$-эквивалентны допустима.
+\end{remark}
+
+\begin{lemma}
+    Множество $F = \{z \in \mathbb{H}\ |\ |z| \geq 1, Re z < 1/2 \}$ --- фундаментальная область действия $\Gamma$.
+\end{lemma}
+\begin{proof}
+    Действие
+    $T = \big(\begin{smallmatrix}
+      1 & 1\\
+      0 & 1
+    \end{smallmatrix}\big) \in \Gamma$
+    задает параллельный перенос вправо на единицу.
+    $Tz = z + 1$.
+
+    Действие
+    $S = \big(\begin{smallmatrix}
+      0 & -1\\
+      1 & 0
+    \end{smallmatrix}\big) \in \Gamma$
+    задает инверсию с отражением.
+    $Sz = -1/z$.
+
+    Рассмотрим $\Gamma' = <T, S>$ --- подгруппу $\Gamma$.
+    
+    1. $\forall z \in \mathbb{H}\ \exists g \in \Gamma':\ gz \in F$.
+
+    Это можно понять из геометрических соображений.
+    Если $|Re\ z| < 1/2$, то либо $z \in F$, либо $z$ попадает в часть круга $\{z\ |\ |z| < 1, |Re\ z| < 1/2 \}$.
+    Во втором случае $Sz \in F$.
+    Если же $|Re\ z| > 1/2$, то параллельным переносом с помощью $T$ точку $z$ можно сдвинуть в полосу $\{z\ |\ |Re\ z| < 1/2\}$.
+    Формально, для некоторого $k \in \Z$ имеем $|Re\ T^kz| < 1/2$ и сводим к предыдущему.
+
+    2. $z_2 = g z_1 \implies z_1, z_2 \in \partial F$.
+
+    Без ограничения общности, можно считать, что $Im\ z_2 \geq Im\ z_1$.
+    \begin{align*}
+        z_2 &= g z_1 = \frac{az_1 + b}{cz_1 + d} \\
+        Im\ z_2 &= Im\ \frac{az_1 + b}{cz_1 + d} = \frac{Im\ z_1}{|cz_1+d|^2}
+    \end{align*}
+    Откуда из соотношения на мнимые части $z_1$ и $z_2$
+    \begin{equation*}
+        |cz_1+d| \leq 1
+    \end{equation*}
+
+    Если $|c| \geq 2$, то $|cz_1 + d| > 1$.
+
+    Если $c = 0, d \neq 0$, то $|cz_1 + d| = |d| \leq 1 \implies d = \pm 1$.
+    Т.е.
+    $g = \big(\begin{smallmatrix}
+      \pm 1 & b \\
+      0 & \pm 1
+    \end{smallmatrix}\big) = T^b$
+
+    Случай $c = \pm 1$ разбирается аналогично.
+\end{proof}
+
+\begin{corollary}
+    $z_1 \neq z_2 \in \partial F$ $\Gamma$-эквивалентны $\iff$ $Re\ z_1 = \pm 1/2, z_2 = z_1 \mp 1$, либо $|z_1| = |z_2|, z_2 = -1/z_1$.
+\end{corollary}
+
+\begin{lemma}
+    Стабилизатор $z$ --- это $\Gamma_z = \{g \in \Gamma:\ gz = z\}$.
+    $\Gamma_z$ тривиально, кроме следующих случаев: \\
+    1. $z = i: \Gamma_i = \{I, S\}$ \\
+    2. $z = \omega = -1/2+i\sqrt{3}/2: \Gamma_{\omega} = \{I, ST, (ST)^2\}$ \\
+    3. $z = -\bar{\omega} = 1/2+i\sqrt{3}/2: \Gamma_{-\bar{\omega}} = \{I, TS, (TS)^2\}$
+\end{lemma}
+
+\begin{theorem}[Дирихле о единицах]
+    Если $d < 0$, $\mathcal{D}_{\Q(\sqrt{d})}$ --- кольцо целых и $u_d$ --- его группа единиц, то: \\
+    1. $u_d = \{\pm 1\}$ при $d \neq -1, -3$ \\
+    2. $u_{-1} = \{\pm 1, \pm i\}$ \\
+    3. $u_i = \{\pm 1, \pm \omega, \pm \omega^2\}$
+\end{theorem}
+
+Можно заметить сходство групп единиц и стабилизаторов.
+
+\begin{theorem}
+    $\Gamma = <S, T> = \Gamma'$.
+\end{theorem}
+\begin{proof}
+    Возьмем произвольные $z \in F \setminus \partial F, g \in \Gamma$.
+    $gz \in \mathbb{H}$, значит $\exists g' \in \Gamma':\ g'gz \in F$.
+    Но $z$ --- внутренняя точка $F$, значит $g'gz = z$.
+    Т.е. $g'g = I$.
+\end{proof}
+
+\end{document}
