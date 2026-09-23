@@ -4,6 +4,8 @@
 *.fls
 *.out
 *.bbl
+*.nav
+*.snm
 *.fdb_latexmk
 *.synctex.gz
 

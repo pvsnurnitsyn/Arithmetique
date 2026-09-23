@@ -1,0 +1,49 @@
+% ============================================================
+% mymacros.sty
+%
+% Personal math notation, independent of any beamer theme.
+% Load with:  \usepackage{mymacros}   (works in beamer, article, etc.)
+%
+% Keep ALL your recurring math commands here, not scattered across
+% individual talks. When you find a new symbol you keep redefining
+% by hand, add it below instead of inline in the .tex file.
+% ============================================================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{mymacros}[2026/07/21 personal math macros]
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+
+% ------------------------------------------------------------
+% Cyrillic letters for math symbols (needed e.g. for \Sha, the
+% Tate-Shafarevich group symbol). OT2 must be declared as a math
+% alphabet before you can pull individual glyphs out of it.
+% ------------------------------------------------------------
+\RequirePackage[OT2,T1]{fontenc}
+\DeclareSymbolFont{cyrletters}{OT2}{wncyr}{m}{n}
+
+% Sha (Tate-Shafarevich group), e.g. \Sha(A/K)
+\DeclareMathSymbol{\Sha}{\mathalpha}{cyrletters}{"58}
+
+% ------------------------------------------------------------
+% Notation
+% ------------------------------------------------------------
+% "x (mod n)" -- usage: a \Mod{p^k}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+% ------------------------------------------------------------
+% Add the rest of your recurring notation below, grouped by topic,
+% e.g.:
+%
+% % Number sets
+% \newcommand{\ZZ}{\mathbb{Z}}
+% \newcommand{\QQ}{\mathbb{Q}}
+% \newcommand{\RR}{\mathbb{R}}
+% \newcommand{\CC}{\mathbb{C}}
+% \newcommand{\FF}{\mathbb{F}}
+%
+% % Operators
+% \DeclareMathOperator{\ord}{ord}
+% \DeclareMathOperator{\Gal}{Gal}
+% ------------------------------------------------------------

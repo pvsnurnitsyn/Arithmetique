@@ -1,0 +1,577 @@
+% ============================================================
+% A-O-03.tex -- Лекция 3 (1.3). Кольца, поля, алгебраические структуры
+% ============================================================
+
+\documentclass[serif, aspectratio=169]{beamer}
+
+\usepackage[T2A,T1]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{XCharter}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,overlay-beamer-styles}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{booktabs}
+%\usepackage{fontawesome5}
+
+\newcommand{\sagemark}{%
+  \textcolor{green!40!black}{\textbf{\texttt{sage:...}}}%
+}
+
+\usetheme{Math}
+\usepackage{mymacros}
+% \colorscheme{green}
+% \colorscheme{terracotta}
+
+% ------------------------------------------------------------
+% Title data
+% ------------------------------------------------------------
+\author{Павел Владимирович Снурницын}
+\title{Лекция 3 (1.3)\\ Кольца, поля, алгебраические структуры}
+\titlecontext{Инструменты машинно-вспомогательной арифметики\\ с/к, осень 2026}
+\institute{к.ф.-м.н., с.н.с., ИБ ВМК}
+\date{\small 22 сентября 2026 г.}
+
+\setfooterauthor{П.В. Снурницын}
+\setfootertopic{1.3 Кольца, поля, алгебраические структуры}
+\setfootercontext{Спецкурс A-O 2026}
+
+\newif\ifanimated
+\newcommand{\animateon}{\beamerdefaultoverlayspecification{<+-| alert@+>}\animatedtrue}
+\newcommand{\animateoff}{\beamerdefaultoverlayspecification{}\animatedfalse}
+% TikZ-ключи "step on=<n>" (для текста узлов) и "step draw on=<n>" (для линий/
+% стрелок): элемент невидим до шага n, ровно на шаге n подсвечивается цветом
+% ThemeAlert (как это делает <+-| alert@+> для списков), после -- чёрный.
+% В статичном режиме (\animateoff) -- всегда просто чёрный и видимый.
+\newcommand{\steponhelper}[2]{% #1 = свойство цвета (text/draw), #2 = номер шага
+  \ifanimated
+    \edef\stepon@tmp{alt=<#2>{#1=ThemeAlert}{alt=<#2->{#1=black}{invisible}}}%
+  \else
+    \edef\stepon@tmp{#1=black}%
+  \fi
+  \expandafter\pgfkeysalso\expandafter{\stepon@tmp}%
+}
+\tikzset{
+  step on/.code={\steponhelper{text}{#1}},
+  step draw on/.code={\steponhelper{draw}{#1}},
+}
+%\animateon
+\animateoff
+
+\begin{document}
+
+% ================================================================
+\begin{frame}
+    \titlepage
+\end{frame}
+\note{}
+
+% ================================================================
+\begin{frame}{В прошлый раз}
+    \begin{itemize}
+        \item Кольцо $\mathbb{Z}$: делимость, алгоритм Евклида, разложение на простые;
+        \item Кольцо (с единицей) $R$ --- с однозначным разложением (факториальное) $\rightleftharpoons$
+        \begin{itemize}[<.->]
+            \item нет делителей нуля: $ab=0 \Rightarrow a=0$ или $b=0$;
+            \item $\forall r \in R\setminus\{0\}$, $r=\varepsilon p_1^{a_1} \dots p_k^{a_k}$, где $\varepsilon$ --- обратимый, $p_1,\dots p_k$ --- «простые», а разложение однозначно с точностью до порядка множителей и $\varepsilon$.
+        \end{itemize}
+        \item Классы вычетов и сравнения по модулю $n$ --- «факторкольцо» $\mathbb{Z}/n\mathbb{Z}$
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Кольцо с единицей без делителей нуля также называется областью целостности.
+\end{itemize}
+}
+
+% ============================================================
+\section{Гауссовы целые}
+% ============================================================
+
+% ================================================================
+\begin{frame}{Кольцо гауссовых целых}
+    \begin{itemize}
+        \item $5=2^2+1^2=(2+i)(2-i)$, $13=3^2+2^2=(3+2i)(3-2i)$, $\dots$
+        \item $7\neq a^2+b^2$, $\neq (a+bi)(a-bi)$; $11\neq\dots$
+        \item $\mathbb{Z}[i] = \{a+bi : a,b\in\mathbb{Z}\}\subset\mathbb{C}$ ($i^2=-1$);
+        \item $\mathbb{Z}[i]$ --- коммутативное кольцо с $1$.
+        \item Норма: $N(a+bi)=a^2+b^2=(a+bi)(a-bi)$;
+        \item Мультипликативность: $N(zw)=N(z)N(w)$.
+        \item Лемма: $N(z)=1 \Leftrightarrow z\in\{\pm1,\pm i\}$; (аналог в $\mathbb{Z}$: $|z|=1 \Leftrightarrow z\in\{\pm1\}$).
+        \item $\{\pm1,\pm i\}$ --- обратимые элементы $\mathbb{Z}[i]$ (единицы кольца).
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Мультипликативность нормы --- ключевой инструмент арифметики $\mathbb{Z}[i]$, аналог $|ab|=|a||b|$.
+    \item Группа единиц $\mathbb{Z}[i]$ циклическая порядка $4$ --- в отличие от $\{\pm1\}$ в $\mathbb{Z}$.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Арифметика гауссовых целых}
+    \begin{itemize}
+        \item Теорема (деление с остатком): $\forall \alpha,\beta\in\mathbb{Z}[i],\, \beta\ne0\ \exists \delta,\gamma\in\mathbb{Z}[i]: \alpha=\beta \delta+\gamma,\ N(\gamma)<N(\beta)$;
+        \item Пример: $\alpha=7+i$, $\beta=3+2i$: $\alpha=(2-i)\beta + (-1)$.
+        \item Евклидовы кольца $\rightleftharpoons$ кольца с делением с остатком (по некоторой норме); например, $\mathbb{Z}$, $\mathbb{Z}[i]$.
+        \item Делимость в $\mathbb{Z}[i]$: $\beta\mid \alpha\rightleftharpoons \alpha=\beta \gamma$ для некоторого $\gamma\in\mathbb{Z}[i]$;
+        \item $\pi\in\mathbb{Z}[i]\setminus\{\pm1,\pm i\}$ --- простой $\rightleftharpoons$ $\pi=\alpha\beta \Rightarrow$ либо $\alpha$, либо $\beta\in\{\pm1,\pm i\}$;
+        \item Теорема: Евклидовость $\Rightarrow$ Факториальность;
+        \item Т.е. $\mathbb{Z}[i]$ --- факториально: $\forall\alpha\in\mathbb{Z}[i]\,\alpha=\varepsilon \pi_1^{a_1}\dots\pi_k^{a_k}$, где $\varepsilon$ --- единица, $\pi_i$ --- простые;
+        \item Пример: $1+3i=(1+i)(2+i)$, $N(1+3i)=10=2\cdot5=N(1+i)\cdot N(2+i)$.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Алгоритм Евклида и тождество Безу переносятся без изменений с $\mathbb{Z}$ на $\mathbb{Z}[i]$.
+    \item Геометрическая идея доказательства деления с остатком: округляем комплексное частное $\alpha/\beta$ до ближайшего узла решётки; ошибка по каждой координате $\le 1/2 \Rightarrow N(r)\le N(\beta)/2 < N(\beta)$.
+    \item Строгое определение: коммутативное кольцо без делителей нуля $R$ называется евклидовым, если существует функция $\varphi: R\setminus\{0\}\to\mathbb{Z}_{\ge0}$ такая, что для любых $a,b\in R,\,b\ne0$ найдутся $q,r\in R$ с $a=bq+r$, где $r=0$ или $\varphi(r)<\varphi(b)$.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Теорема Эйлера-Ферма о сумме двух квадратов}
+    \begin{itemize}
+        \item Простое $p\in\mathbb{Z}$ либо остаётся простым в $\mathbb{Z}[i]$, либо раскладывается на множители.
+        \item Теорема: разложение $p\in\mathbb{Z}$ на простые в $\mathbb{Z}[i]$:
+        \begin{itemize}
+            \item $p=2$: $2=-i(1+i)^2$ --- «разветвляется»\quad ($2=(1+i)(1-i),\ (-i=i(1+i)$);
+            \item $p\equiv1\ (4)$: $p=\pi\bar\pi$, $\pi\ne\bar\pi$ --- «распадается»;
+            \item $p\equiv3\ (4)$: $p$ --- простое в $\mathbb{Z}[i]$ --- «инертно».
+        \end{itemize}
+        \item Если $p=\pi\bar\pi, \pi=a+bi$, то $N(\pi)=a^2+b^2=p$.
+        \item Теорема: простое $p>2$ представимо как $p=a^2+b^2\ (a,b\in\mathbb{Z}) \Leftrightarrow p\equiv1\ (4)$.
+        \item Теорема: $n\in\mathbb{Z}_{> 0}$ --- сумма двух квадратов $\Leftrightarrow$ все простые $p\equiv3\ (4)$ входят в разложение $n$ в чётной степени.
+        \item Пусть $r_2(n)$ --- число представлений ($r_2(2)=4$, $r_2(3)=0$, $r_2(4)=4$, $\dots$);
+        \item Теорема (формула Якоби): $r_2(n) = 4\big(d_1(n)-d_3(n)\big)$, где $d_1(n), d_3(n)$ --- число делителей $n$, сравнимых с $1$ и $3$ по модулю $4$.
+        \item \sagemark
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Термины «разветвляется / распадается / инертен» --- терминология теории расширений колец (общая теория --- за рамками курса).
+    \item Представимость $p$ суммой двух квадратов эквивалентна существованию элемента нормы $p$ в $\mathbb{Z}[i]$, то есть разложению $p=\pi\bar\pi$.
+    \item Формула Якоби получается из подсчёта элементов нормы $n$ в $\mathbb{Z}[i]$: множитель $4$ --- вклад единиц $\{\pm1,\pm i\}$, а $d_1(n)-d_3(n)$ считает способы распределить простые делители $n$, лежащие над $p\equiv1\ (4)$, между сопряжёнными гауссовыми простыми.
+    \item Историческая справка: факт знал Ферма (без доказательства, 1640), первое известное доказательство --- Эйлер (1749).
+\end{itemize}
+}
+
+% ============================================================
+\section{Целые кватернионы}
+% ============================================================
+
+% ================================================================
+\begin{frame}{Кольцо целых кватернионов}
+    \begin{itemize}
+        \item А если рассмотрим уравнение $p=a^2+b^2+c^2+d^2$?
+        \item $\mathbb{H}(\mathbb{Z})=\{\alpha=a+bi+cj+dk : a,b,c,d\in\mathbb{Z}\}$, где
+        \item Представление $\alpha=a+bi+cj+dk$ однозначно;
+        \item Умножение ассоциативно, 1 --- мультипликативная единица;
+        \item $i^2=j^2=k^2=-1$;
+        \item $ij=-ji=k$, $jk=-kj=i$, $ki=-ik=j$.
+        \item $\mathbb{H}(\mathbb{Z})$ --- некоммутативное кольцо;
+        \item Сопряжение $\bar \alpha=a-bi-cj-dk$;
+        \item Норма $N(\alpha)=\alpha\bar \alpha=a^2+b^2+c^2+d^2$.
+        \item Мультипликативность: $N(\alpha\beta)=N(\alpha)N(\beta)$.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Кватернионы открыты У. Гамильтоном в 1843 г.; в отличие от коммутативности, ассоциативность умножения здесь не выводится «даром» --- как и для матриц, её приходится отдельно проверять/постулировать.
+    \item Мультипликативность нормы --- тот же ключевой инструмент, что и для $\mathbb{Z}[i]$, только теперь вычисляется по четырём координатам.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Арифметика целых кватернионов}
+    \begin{itemize}
+        \item Лемма: $N(q)=1 \Leftrightarrow q\in\{\pm1,\pm i,\pm j,\pm k\}$;
+        \item $\{\pm1,\pm i,\pm j,\pm k\}$ --- обратимые элементы (единицы) $\mathbb{H}(\mathbb{Z})$.
+        \item $\mathbb{H}(\mathbb{Z})$ --- некоммутативно $\Rightarrow$ есть левая и правая делимость:
+        \item $\beta\mid \alpha$ слева $\rightleftharpoons \alpha=\beta\gamma$, $\gamma\in\mathbb{H}(\mathbb{Z})$;
+        \item $\beta\mid \alpha$ справа $\rightleftharpoons \alpha=\gamma\beta$, $\gamma\in\mathbb{H}(\mathbb{Z})$;
+        \item Можно определить левый и правый НОД;
+        \item $\pi\in\mathbb{H}(\mathbb{Z})\setminus\{\pm1,\pm i,\pm j,\pm k\}$ --- неприводимый («простой») $\rightleftharpoons$ $\pi=\alpha\beta \Rightarrow$ либо $\alpha$, либо $\beta\in\{\pm1,\pm i,\pm j,\pm k\}$;
+        \item Теорема: $\forall\alpha\in\mathbb{H}(\mathbb{Z})\,\alpha=\varepsilon \pi_1\dots\pi_k$, где $\varepsilon$ --- единица, $\pi_i$ --- простые;
+        \item \textbf{!!} Ничего не сказано про однозначность, среди $\pi_i$ могут быть повторения.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Кольцо $\mathbb{H}(\mathbb{Z})$ (кватернионы Липшица) не евклидово (недостаточно «плотное» кольцо)
+    \item «Более правильное» с точки зрения арифметики (евклидово) кольцо целых --- кватернионы Гурвица:
+      \[\mathcal H := \mathbb{H}(\mathbb{Z}) \cup \Big(\mathbb{H}(\mathbb{Z}) + \tfrac12(1+i+j+k)\Big)\]
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Теорема Лагранжа о сумме четырёх квадратов}
+    \begin{itemize}
+        \item Теорема: если $p$ --- нечетное простое в $\mathbb{Z}$, то $p$ раскладывается в $\mathbb{H}(\mathbb{Z})$: $p=\delta \bar\delta$;
+        \item $\Rightarrow$ если $\delta=a+bi+cj+dk$, то $p=\delta \bar\delta = N(\delta) = a^2+b^2+c^2+d^2$;
+        \item Теорема Лагранжа: каждое натуральное $n$ --- сумма четырёх квадратов целых чисел.
+        \item Примеры:
+        \[4=1^2{+}1^2{+}1^2{+}1^2=N(1+i+j+k)\]
+        \[5=2^2{+}1^2{+}0^2{+}0^2=N(2+i)\]
+        \[20=1^2{+}3^2{+}3^2{+}1^2=N(1+3i+3j+k)\]
+        \[20=4\cdot 5 = N(1+i+j+k)N(2+i)\]
+        \item Формула Якоби для числа представлений: $r_4(n) = 8 \sum_{\substack{d\mid n, 4\nmid d}} d$.
+        \item \sagemark
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Доказательство теоремы Лагранжа --- по схеме теоремы Эйлера-Ферма: разложение на простые + мультипликативность нормы, надо немного "повозиться" с $2$ и чётностью
+    \item Механизм получения формулы для $r_4(n)$ тот же, что и для $r_2(n)$: подсчёт элементов заданной нормы в кольце целых кватернионов Гурвица $\mathcal H$ (см. выше); техническая часть подсчёта сложнее из-за некоммутативности.
+    \item Теорема Лагранжа известна с 1770 г., доказана другими методами; доказательство через кватернионы --- более позднее (Гурвиц). Аналогично, формула Якоби изначально получена другими методами, без использования кватернионов.
+\end{itemize}
+}
+
+% ============================================================
+\section{Кольцо многочленов}
+% ============================================================
+
+% ================================================================
+\begin{frame}{Кольцо многочленов над полем}
+    \begin{itemize}
+        \item $F[x]=\{a_0+a_1x+\dots+a_nx^n : n\ge0,\ a_i\in F\}$ --- многочлены с коэффициентами из поля $F$.
+        \item $F[x]$ --- коммутативное кольцо с единицей без делителей нуля.
+        \item Обратимые элементы: только ненулевые константы поля $F$ ($\deg f = 0$).
+        \item Делимость: $g\mid f \rightleftharpoons f=gh$ для некоторого $h\in F[x]$.
+        \item Степень: $\deg f = n$ в $f=a_0+\dots+a_nx^n$ ($a_n\ne0$).
+        \item $\deg(fg)=\deg f+\deg g$ --- аналог нормы.
+        \item Теорема о делении с остатком: $\forall f,g\in F[x],\,g\ne0\ \exists! q,r: f=gq+r,\ \deg r<\deg g$.
+        \item Пример: $f=x^3+2x+1$, $g=x^2+1$: $f=x\cdot g+(x+1)$, $\deg(x+1)=1<2=\deg g$.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Норма --- это обычно мультипликативная функция, сам $\deg f$ мультипликативным не является, но можно определить мультипликативную форму. Например, для $F=\mathbb{F}_p=\mathbb{Z}/p\mathbb{Z}$ мультипликативная норма $N(f)=p^{\deg f}$: $N(fg)=N(f)N(g)$.
+    \item В мультипликативной форме $N(f)=1 \Leftrightarrow \deg f = 0 \Leftrightarrow$ $f$ --- ненулевая константа, то есть прямая аналогия с таким же свойством в $\mathbb{Z}$ и $\mathbb{Z}[i]$.
+    \item Деление с остатком работает именно потому, что $F$ --- поле (все ненулевые коэффициенты обратимы); над кольцом (напр. $\mathbb{Z}[x]$) евклидовости уже нет.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Неприводимые многочлены}
+    \begin{itemize}
+        \item $f(x)\in F[x]$, $\deg f\ge1$ --- неприводим $\rightleftharpoons$ $f(x)=g(x)h(x) \Rightarrow$ либо $\deg g=0$, либо $\deg h=0$ (т.е. один из множителей --- обратимый элемент).
+        \item Пример: $x^2+1$
+        \begin{itemize}
+            \item неприводим над $\mathbb{Q}$ и над $\mathbb{R}$; приводим над $\mathbb{C}$: $x^2+1 = (x-i)(x+i)$;
+            \item приводим над $\mathbb{F}_2$: $x^2+1 = (x+1)^2$;
+            \item неприводим над $\mathbb{F}_3$: ($-1$ --- не квадрат $ \bmod 3$).
+        \end{itemize}
+        \item Пример: $x^2-2$
+        \begin{itemize}
+            \item неприводим над $\mathbb{Q}$ (иррациональность $\sqrt2$); приводим над $\mathbb{R}$: $x^2-2 = (x-\sqrt2)(x+\sqrt2)$;
+            \item неприводим над $\mathbb{F}_3$ ($2$ --- не квадрат $\bmod 3$);
+            \item приводим над $\mathbb{F}_7$: $x^2-2=(x-3)(x+3)$ ($3^2=9\equiv2 \pmod{7}$.
+        \end{itemize}
+        \item $F[x]$ евклидово $\Rightarrow$ факториально: $\forall f\in F[x]\ f=c\cdot p_1^{a_1}\cdots p_k^{a_k}$, где $c\in F\setminus{\{0\}}$, $p_i=p_i(x)$ --- неприводимые со старшим коэффициентом $1$).
+        \item Примеры: $x^4-1=(x-1)(x+1)(x^2+1)$ в $\mathbb{Q}[x]$; $x^4-1=(x+1)^4$ в $\mathbb{F}_2[x]$.
+        \item \sagemark
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Ключевое отличие от $\mathbb{Z}$: «простота» многочлена не абсолютна, а относительна поля --- тот же многочлен может быть неприводим над одним полем и разложим над расширением.
+    \item Аналогичное явление --- при разложении простых чисел $p$ в $\mathbb{Z}[i]$: простое в $\mathbb{Z}$ может расщепляться в большем кольце.
+    \item Оба примера --- прямая параллель присоединения корня: $x^2+1$ приводит к $\mathbb{Z}[i]$, $x^2-2$ --- к вещественному квадратичному полю $\mathbb{Q}(\sqrt2)$.
+\end{itemize}
+}
+
+% ============================================================
+\section{Идеалы и факторкольца}
+% ============================================================
+
+% ================================================================
+\begin{frame}{От сравнений к идеалам и факторкольцам}
+    \begin{itemize}
+        \item В $\mathbb{Z}$: $a\equiv b\pmod{n} \Leftrightarrow n\mid(a-b)$
+        \item $\Leftrightarrow a-b\in(n)$, где $(n)=\{kn : k\in\mathbb{Z}\}$.
+        \item Идеал $I\subset R$ ($R$ --- коммутативно) $\leftrightharpoons$ $\forall a,b\in I\ a+b\in I$, $\forall a\in I\ r\in R\ ra\in I$;
+        \item Т.е. идеал --- подгруппа по $+$, замкнутая относительно умножения на любой элемент: $RI\subset I$.
+        \item $a\sim_I b \leftrightharpoons a-b\in I$ --- отношение эквивалентности;
+        \item Классы эквивалентности: $\bar a=a+I=\{a+x : x\in I\}$;
+        \item Факторкольцо $R/I = \{\bar a\}$ c операциями $(a+I)+(b+I)=(a+b)+I$ и $(a+I)(b+I)=ab+I$;
+        \item Пример: $(n)=\{kn : k\in\mathbb{Z}\}$ --- идеал, $\mathbb{Z}/n\mathbb{Z}=\mathbb{Z}/(n)$;
+        \item Обозначение: $(a)=\{ra : r\in R\}$ --- главный идеал;
+        \item Пример: $(x^2+1)\subset\mathbb{R}[x]$ --- идеал, $\mathbb{R}[x]/(x^2+1)\cong\mathbb{C}$.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Идеал --- обобщение «того, по чему сравниваем» с $\mathbb{Z}$ на произвольное кольцо.
+    \item Корректность операций на $R/I$ (независимость от выбора представителя) --- это ровно то условие, которое заложено в определении идеала ($rI\subset I$).
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Конечные поля $\mathbb{F}_{p^n}$ как факторкольца}
+    \begin{itemize}
+        \item Теорема: $F[x]/(f(x))$ --- поле $\Leftrightarrow f$ неприводим;
+        \item (Аналогия: $\mathbb{F}_p=\mathbb{Z}/p\mathbb{Z}$ --- поле $\Leftrightarrow p$ --- простое).
+        \item Для $F=\mathbb{F}_p=\mathbb{Z}/p\mathbb{Z}$: если $f$ --- неприводим (над $\mathbb{F}_p$), то $\mathbb{F}_p[x]/(f(x))$ --- поле;
+        \item Число элементов $|\mathbb{F}_p[x]/(f(x))|=p^n$, $n=\mathrm{deg}(f)$;
+        \item Теорема: $\forall$ конечного поля $\mathbb{F}$ из $q=|\mathbb{F}|$ элементов $\exists$ простое число $p$ и неприводимый $f\in\mathbb{F}_p[x]$ степени $\mathrm{deg}(f)=n$ такие, что $q=p^n$ и $\mathbb{F}_q\cong\mathbb{F}_p[x]/(f(x))$.
+        \item Пример: $\mathbb{F}_4=\mathbb{F}_2[x]/(x^2+x+1)$; пусть $\omega=\bar x$ --- тогда $\omega^2=\omega+1$ (из $x^2+x+1=0$ в характеристике $2$), $\omega^3=\omega\cdot\omega^2=\omega(\omega+1)=\omega^2+\omega=1$; т.е. $\mathbb{F}_4^*=\{1,\omega,\omega^2\}$ --- циклическая группа порядка $3$.
+        \item \sagemark
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Теорема: Все поля из $p^n$ элементов изоморфны между собой.
+    \item Характеристика поля $F$ --- наименьшее $n>0$ такое, что $\underbrace{1+\dots+1}_{n}=0$ (или $0$, если такого $n$ нет); характеристика поля всегда равна $0$ или простому числу $p$ --- для конечных полей всегда простое.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Факторкольца гауссовых и кватернионов}
+    \begin{itemize}
+        \item Пример: $2+i$ --- простой в $\mathbb{Z}[i]$, факторкольцо $\mathbb{Z}[i]/(2+i)\cong\mathbb{F}_5$ ($N(2+i)=5$);
+        \item Теорема: $\mathbb{Z}[i]/(\pi)$ --- конечное кольцо; если $\pi$ простой, то это поле, и $|\mathbb{Z}[i]/(\pi)|=N(\pi)$, при этом:
+        \begin{itemize}
+            \item $p=2$: $\mathbb{Z}[i]/(1+i)\cong\mathbb{F}_2$;
+            \item $p\equiv1\ (4)$: $p=\pi\bar\pi$, $N(\pi)=p$, $\mathbb{Z}[i]/(\pi)\cong\mathbb{F}_p$;
+            \item $p\equiv3\ (4)$: $p$ остаётся простым, $N(p)=p^2$, $\mathbb{Z}[i]/(p)\cong\mathbb{F}_{p^2}$.
+        \end{itemize}
+        \item Кольцо $\mathbb{H}(\mathbb{Z})$ (кватернионы Липшица) не евклидово;
+        \item Кватернионы Гурвица:
+        \[\mathcal H := \mathbb{H}(\mathbb{Z}) \cup \Big(\mathbb{H}(\mathbb{Z}) + \tfrac12(1+i+j+k)\Big);\]
+        \item Арифметика $\mathcal H$ --- кандидат на лабораторную работу.
+        \item \sagemark
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Общий факт: размер факторкольца по идеалу, порождённому простым элементом, равен норме этого элемента --- аналог $|\mathbb{Z}/n\mathbb{Z}|=n$.
+    \item Расщепление/инертность простого $p$ в $\mathbb{Z}[i]$ прямо видно по типу получающегося факторкольца ($\mathbb{F}_p$ или $\mathbb{F}_{p^2}$).
+    \item Целые кватернионы Гурвица $\mathcal H$ по простому нечётному $p$ образуют конечное некоммутативное кольцо.
+    \item Это кольцо изоморфно кольцу матриц $2\times2$ над $\mathbb{F}_p$.
+    \item Частный случай общего факта: $\mathbb{H}\otimes\mathbb{Q}_p$ расщепляется в $M_2(\mathbb{Q}_p)$ для нечётных $p$; детали --- за рамками курса.
+    \item В некоммутативных кольцах нужно различать право-, лево- и двусторонние идеалы --- само понятие фактора усложняется.
+    \item Кандидат в лабораторную работу (детали):
+    \begin{itemize}
+        \item Явное вложение образующих $i,j$ в $M_2(\mathbb{F}_p)$: найти $a,b\in\mathbb{F}_p$ с $a^2+b^2\equiv-1$ (решение существует для любого нечётного $p$), положить $I=\begin{pmatrix}a&b\\b&-a\end{pmatrix}$, $J=\begin{pmatrix}0&1\\-1&0\end{pmatrix}$ над $\mathbb{F}_p$.
+        \item Проверить в Sage, что $I^2=J^2=-E$ и $IJ=-JI$ --- то есть матрицы $I,J$ удовлетворяют тем же соотношениям, что $i,j$ в $\mathbb{H}$.
+        \item (Конкретно для $p=5$: подходит $a=2,\,b=0$, поскольку $2^2+0^2=4\equiv-1\pmod5$).
+        \item Продолжение: положить $K=IJ$ и проверить $K^2=-E$ --- тем самым реализовать все базисные соотношения $\mathbb{H}$ в $M_2(\mathbb{F}_p)$.
+        \item Найти в $\mathcal H$ явный элемент нормы $p$ и проверить, что его образ в $M_2(\mathbb{F}_p)$ --- вырожденная (необратимая) матрица; связать это с тем, что норма делится на $p$.
+    \end{itemize}
+\end{itemize}
+}
+
+% ============================================================
+\section{Дополнения}
+% ============================================================
+
+% ================================================================
+\begin{frame}{Когда однозначность разложения нарушается}
+    \begin{itemize}
+        \item $\mathbb{Z}[\sqrt{-5}]=\{a+b\sqrt{-5}\}$ --- кольцо; делимость, арифметика, $\dots$
+        \item $6 = 2\cdot3 = (1+\sqrt{-5})(1-\sqrt{-5})$ --- два разложения на «неприводимые».
+        \item $\mathbb{Z}[\sqrt{-5}]$ не факториально.
+        \item На языке идеалов: обозн. $(a,b)=\{ra+sb: r,s\in R\}$ --- идеал, пусть
+        \[\mathfrak p_2=(2,1+\sqrt{-5}),\ \mathfrak p_3=(3,1+\sqrt{-5}),\ \bar{\mathfrak p}_3=(3,1-\sqrt{-5});\]
+        \item Идеал $\mathfrak p\subset R, \mathfrak p \neq R$ --- простой $\leftrightharpoons$ $ab\in\mathfrak p \Rightarrow a\in\mathfrak p$ или $b\in\mathfrak p;$
+        \item $\mathfrak p_2, \mathfrak p_3, \bar{\mathfrak p}_3$ --- простые идеалы в $\mathbb{Z}[\sqrt{-5}]$, и
+        \[(2)=\mathfrak p_2^2,\ (3)=\mathfrak p_3\bar{\mathfrak p}_3,\]
+        \[(1+\sqrt{-5})=\mathfrak p_2\mathfrak p_3,\ (1-\sqrt{-5})=\mathfrak p_2\bar{\mathfrak p}_3,\]
+        \[(6)=\mathfrak p_2^2\mathfrak p_3\bar{\mathfrak p}_3;\]
+        \item Т.е. оба разложения $6$ отвечают одному и тому же разложению идеала $(6)$.
+        \item Какие целые числа представимы в виде $a^2+5b^2=N(a+b\sqrt{-5})$?
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item В отличие от $\mathbb{Z}$, $\mathbb{Z}[i]$, $F[x]$ (евклидовых и потому факториальных), $\mathbb{Z}[\sqrt{-5}]$ не евклидово и не факториально.
+    \item Вообще есть два понятия: «неприводимый» (нельзя разложить в нетривиальное произведение --- все примеры выше) и «простой» ($p\mid ab\Rightarrow p\mid a$ или $p\mid b$): в факториальных кольцах понятия совпадают, в общем случае --- нет.
+    \item Слово «идеал» --- от «идеальных чисел» Куммера (1840-е): он ввёл их именно для восстановления однозначности разложения там, где обычных элементов для этого не хватает; современное понятие идеала (Дедекинд) --- формализация этой идеи.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Квадратичные поля: когда факториальность есть}
+    \begin{itemize}
+        \item Теорема: кольцо факториально $\Leftrightarrow$ каждый идеал в нём главный (кольцо главных идеалов).
+        \item «Кольца целых алгебраических чисел в полях $\mathbb{Q}(\sqrt d)$» ($d$ --- свободное от квадратов целое) обобщают $\mathbb{Z}[i]$ ($d=-1$):
+        \item Это кольца вида
+        \begin{itemize}
+            \item $R_d=\mathbb{Z}[\sqrt d]=\{a+b\sqrt d: a,b\in\mathbb{Z}\}$, если $d\equiv2,3\ (4)$,
+            \item $R_d=\mathbb{Z}\big[\tfrac{1+\sqrt d}2\big]=\{a+b\tfrac{1+\sqrt d}2: a,b\in\mathbb{Z}\}$, если $d\equiv1\ (4)$;
+        \end{itemize}
+        \item Связаны с решением уравнений вида $x^2+dy^2=k$ ($x,y,k\in\mathbb{Z}$);
+        \item Вопрос: для каких $d<0$ кольцо $R_d$ факториально?
+        \item Теорема (Хегнер, 1952; Бейкер--Старк, 1966--67): ровно для 9 значений $d=-1,-2,-3,-7,-11,-19,-43,-67,-163$;
+        \item Гипотеза Гаусса: есть бесконечно много $d>0$ для которых $R_d$ факториально.
+        \item \sagemark
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Задача восходит к Гауссу (проблема числа классов); полное решение мнимого случая --- независимо у Бейкера и у Старка/Хегнера, спустя десятилетия после постановки.
+    \item Мнимый и вещественный случаи качественно различаются: первый полностью решён (ровно 9 значений), второй остаётся открытым.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Кольца и поля}
+    \begin{itemize}
+        \item Множество и две согласованные операции $+$, $\times$ (дистрибутивность).
+        \item Кольцо $R$: коммутативная группа по $+$; ассоциативность $\times$; примеры:
+        \begin{itemize}
+            \item $\mathbb{Z}$, $\mathbb{Z}/n\mathbb{Z}$, $F[x]$, $\mathbb{Z}[i]$ --- коммутативные;
+            \item $\mathbb{Z}/n\mathbb{Z}$ может иметь делители нуля;
+            \item $\mathbb{H}(\mathbb{Z})$ --- некоммутативное.
+        \end{itemize}
+        \item $R^*$ --- группа единиц кольца $R$ (обратимые по $\times$); примеры:
+        \begin{itemize}
+            \item $\mathbb{Z}^*=\{\pm1\}$; $\mathbb{Z}[i]^*=\{\pm1,\pm i\}$; $\mathbb{H}(\mathbb{Z})^* = \{\pm1,\pm i,\pm j,\pm k\}$;
+            \item $F[x]^*=F^*$;
+            \item $|(\mathbb{Z}/n\mathbb{Z})^*|=\varphi(n)$.
+        \end{itemize}
+        \item Поле $F$: коммутативное кольцо с $1\ne0$, $F^*$ --- группа по $\times$; примеры:
+        \begin{itemize}
+            \item $\mathbb{Q},\mathbb{R},\mathbb{C}$ --- бесконечные поля;
+            \item $\mathbb{F}_p=\mathbb{Z}/p\mathbb{Z}, \mathbb{F}_{p^n}=\mathbb{F}_p[x]/(f(x))$ --- конечные;
+            \item $\mathbb{Q}(x) = \left\{\frac{f(x)}{g(x)}: f,g\in\mathbb{Q}[x], g\neq 0\right\}$ --- поле рациональных функций;
+            \item Если $R$ --- кольцо без делителей 0, то можно построить его поле частных: $\mathrm{frac}(R)=\left\{\frac{a}{b}: a,b\in\mathbb{Q}[x], b\neq 0\right\}$, напр.: $\mathbb{F}_p(x)=\mathrm{frac}(\mathbb{F}_p[x])$, $\mathbb{Q}(\sqrt{d})=\mathrm{frac}(R_d)$
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Иногда ассоциатиновность не включают в определение кольца и говорят о неассоциативных кольцах.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Алгебры}
+    \begin{itemize}
+        \item $\odot$ --- третья операция умножения на скаляры, согласуется с $\times$ и $+$.
+        \item Алгебра над полем $F$: группа по $+$, векторное пространство над $F$ (!нет условий ассоциативности $\times$); примеры:
+        \begin{itemize}
+            \item $\mathbb{C}$ --- алгебра над $\mathbb{R}$;
+            \item $\mathbb{R}^3$ с векторным произведением --- неассоциативная алгебра над $\mathbb{R}$;
+        \end{itemize}
+        \item Алгебра над кольцом $R$: коммутативная группа по $+$, «$R$-модуль» (в следующий раз); примеры:
+        \begin{itemize}
+            \item $\mathbb{Z}[i]$ и $\mathbb{H}(\mathbb{Z})$ --- алгебры над $\mathbb{Z}$.
+        \end{itemize}
+        \item Алгебра с делением: для любых $a\ne0,\,b$ уравнения $ax=b$ и $ya=b$ однозначно разрешимы (не требуется ассоциативность); примеры:
+        \begin{itemize}
+            \item Рациональные кватернионы $\mathbb{H}(\mathbb{Q})=\{a+bi+cj+dk : a,b,c,d\in\mathbb{Q}\}$ --- некоммутативная ассоциативная алгебра с делением.
+        \end{itemize}
+        \item \sagemark
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Формулировка через разрешимость уравнений (а не через $a^{-1}$) годится и для неассоциативных алгебр, где обычного обратного элемента в ассоциативном смысле нет --- например, для октонионов (см. ниже).
+    \item Каждый ненулевой $q\in\mathbb{H}(\mathbb{Q})$ обратим: $q^{-1}=\bar q/N(q)$.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Теоремы Фробениуса и Гурвица}
+    \begin{itemize}
+        \item Теорема (Фробениус, 1878): единственные конечномерные ассоциативные алгебры с делением над $\mathbb{R}$ --- это $\mathbb{R},\mathbb{C},\mathbb{H}=\mathbb{H}(\mathbb{R})$.
+        \item Теорема (Гурвиц, 1898): единственные алгебры с нормой и с делением над $\mathbb{R}$ --- это $\mathbb{R},\mathbb{C},\mathbb{H},\mathbb{O}$.
+        \item $\mathbb{O}$ --- октонионы: 8-мерная алгебра с делением, не ассоциативная.
+        \item Тождество Дегена о восьми квадратах: произведение суммы восьми квадратов на сумму восьми квадратов снова представимо суммой восьми квадратов --- мультипликативность нормы на $\mathbb{O}$.
+        \item Арифметика октонионов --- кандидат на лабораторную работу.
+        \item Связь «представимость суммой $k$ квадратов $\leftrightsquigarrow$ норма алгебры» работает только при $k\in\{1,2,4,8\}$;
+        \item Для произвольных $k$ есть другие методы --- в следующий раз.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Алгебры с нормой называются также нормированными или композиционными, норма $N: A \to R$ --- невырожденная квадратичная форма с мультипликативностью (композиционностью) $N(xy)=N(x)N(y)$
+    \item Про арифметику октонионов в Sage:
+    \begin{itemize}
+        \item Готового класса октонионов нет --- строятся удвоением Кэли--Диксона поверх \texttt{QuaternionAlgebra(QQ,-1,-1)}: элемент --- пара $(a,b)$, $a,b\in\mathbb{H}$, умножение $(a,b)(c,d)=(ac-\bar d b,\ da+b\bar c)$, норма $N(a,b)=N(a)+N(b)$.
+        \item Численная проверка тождества Дегена: для пары случайных целочисленных октонионов $p,q$ сравнить $N(pq)$ и $N(p)N(q)$.
+        \item Численная проверка неассоциативности: для базисных октонионов $e_i,e_j,e_k$ (единичных «мнимых» образующих, $i\ne j\ne k$) явно вычислить $(e_ie_j)e_k$ и $e_i(e_je_k)$ и убедиться, что результаты различаются (для кватернионов такой пример дал бы одно и то же).
+        \item Найти обратный элемент $q^{-1}=\bar q/N(q)$ для конкретного целочисленного октониона и проверить $qq^{-1}=1$.
+        \item Можно также реализовать матричное представление (Zorn vector-matrix) для октонионов и сравнить его с реализацией через удвоение Кэли--Диксона.
+    \end{itemize}
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{В сторону приложений}
+    \begin{itemize}
+        \item Гауссовы целые и теория кодирования: узлы сигнальных решёток QAM, арифметика $\mathbb{Z}[i]$ естественна для кодирования/декодирования;
+        \item Кватернионы единичной нормы $\leftrightarrow$ вращения $\mathbb{R}^3$ (сопряжение $v\mapsto qvq^{-1}$); приложения: ориентация тела в пространстве, компьютерная графика, интерполяция вращений;
+        \item --- хорошие кандидаты на лабораторные работы.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Материал слайда --- для самостоятельной проработки, не входит в обязательную часть лекции.
+    \item Кандидаты на лабораторные работы Sage: вращение вектора кватернионом единичной нормы; построение решётки QAM как точек $\mathbb{Z}[i]$.
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Итоги лекции}
+    \begin{itemize}
+        \item Единый шаблон «делимость в кольце $\to$ простые/неприводимые $\to$ сравнения/идеалы» обобщается с $\mathbb{Z}$ на $\mathbb{Z}[i]$, $\mathbb{H}$, $F[x]$, \dots
+        \item $\mathbb{Z}[i]$ --- пример евклидовой решётки на комплексной плоскости:
+            \begin{figure}
+            \captionsetup{justification=centering}
+            \subcaptionbox*{$\mathbb{Z}[i]$}[3.2cm]{
+                \begin{tikzpicture}[scale=0.55]
+                    \foreach \i in {-2,...,2}{
+                        \foreach \j in {-1,...,2}{
+                            \fill (\i,\j) circle (2pt);
+                        }
+                    }
+                    \draw[-{Stealth[length=2mm]}, thick] (0,0) -- (1,0);
+                    \draw[-{Stealth[length=2mm]}, thick] (0,0) -- (0,1);
+                \end{tikzpicture}
+            }\hspace{1.2cm}%
+            \subcaptionbox*{$\mathbb{Z}[\omega],\ \omega=\frac{1}{2}+i\frac{\sqrt3}{2}$}[3.5cm]{
+                \begin{tikzpicture}[scale=0.55]
+                    \begin{scope}
+                        \clip (-3.3,-1) rectangle (3.3,3);
+                        \foreach \i in {-4,...,4}{
+                            \foreach \j in {-4,...,4}{
+                                \fill ({\i*1 + \j*1/2},{\j*sqrt(3)/2}) circle (2pt);
+                            }
+                        }
+                    \end{scope}
+                    \draw[-{Stealth[length=2mm]}, thick] (0,0) -- (1,0);
+                    \draw[-{Stealth[length=2mm]}, thick] (0,0) -- ({1/2},{sqrt(3)/2});
+                \end{tikzpicture}
+            }
+            \end{figure}
+        \item В следующий раз --- евклидовы решётки и модулярные формы.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item ---
+\end{itemize}
+}
+
+% ================================================================
+\begin{frame}{Литература}
+    \begin{itemize}[<.->]
+        \item К. Айерлэнд, М. Роузен, \textit{Классическое введение в современную теорию чисел}, 1987 (Оригинал: K. Ireland, M. Rosen, \textit{A Classical Introduction to Modern Number Theory}, 1990). Глава 1.
+        \item G. Davidoff, P. Sarnak, A. Valette, \textit{Elementary Number Theory, Group Theory, and Ramanujan Graphs}, 2003. Глава 2 --- гауссовы целые, кватернионы, суммы двух и четырёх квадратов.
+        \item W. Stein, \textit{Elementary Number Theory: Primes, Congruences, and Secrets}, 2017 (\href{https://wstein.org/ent}{wstein.org/ent}). Главы про многочлены и конечные поля.
+    \end{itemize}
+\end{frame}
+\note{%
+\begin{itemize}
+    \item Всё, что было показано без доказательств, разбирается подробно в источниках выше; полное строгое изложение --- в отдельном курсе алгебраической теории чисел (A-I).
+\end{itemize}
+}
+
+\end{document}

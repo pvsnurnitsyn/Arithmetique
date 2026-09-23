@@ -1,0 +1,374 @@
+% ============================================================
+% beamerthemeMath.sty
+%
+% Personal beamer theme, refactored from an ad-hoc "UoWstyle.sty".
+% Load with:  \usetheme{Math}
+%
+% This file controls VISUAL STYLE ONLY (colors, footline, title page,
+% inner/outer theme). Math notation lives in mymacros.sty instead;
+% the per-talk overlay/animation switch lives in main.tex itself (see
+% the comment in template.tex) -- neither belongs in a shared theme.
+%
+% \usetheme{Math} expands to a plain \usepackage{beamerthemeMath}
+% (that's how beamer's \usetheme is implemented), so this file always
+% loads with catcode of @ already set to "letter" for its whole
+% duration -- the \makeatletter/\makeatother pairs below are strictly
+% not required for that reason, but are kept anyway, one per block, as
+% a self-contained "here be @-commands" marker for anyone copying a
+% single block elsewhere.
+% ============================================================
+
+\mode<presentation>
+
+\RequirePackage{xcolor}  % load once, here, with the options we need
+
+% ------------------------------------------------------------
+% THEME COLORS + COLOR SCHEME PICKER
+%
+%   \colorscheme{blue}         % dark blue (default)
+%   \colorscheme{green}        % dark green
+%   \colorscheme{terracotta}   % dark brick/terracotta
+%
+% Call from main.tex, any time after \usetheme{Math}. Works even
+% though every \setbeamercolor{...}{bg=ThemeMain,...} below has
+% already run by then: beamer looks up color names again at render
+% time, not at \setbeamercolor time, so redefining ThemeMain/
+% ThemeAlert here later still correctly re-colors frametitle/
+% footline/alerted text/structure/etc. (Verified directly: redefining
+% an xcolor after it's already been used in \setbeamercolor does
+% change the rendered color.)
+%
+% All values are "web safe" (each RGB channel a multiple of 51/0x33).
+% ThemeAlert in each scheme is deliberately a brighter step of the
+% SAME hue as ThemeMain (not a different hue), so the "currently
+% active item" highlight always reads as "a lit-up version of the
+% theme color", whichever scheme is picked.
+% ------------------------------------------------------------
+\xdefinecolor{ThemeLight}{RGB}{228,228,228} % neutral gray, shared by
+                                             % every color scheme below
+
+\def\Math@schemeblue{blue}
+\def\Math@schemegreen{green}
+\def\Math@schemeterracotta{terracotta}
+\newcommand{\colorscheme}[1]{%
+  \def\Math@scheme{#1}%
+  \ifx\Math@scheme\Math@schemeblue
+    \xdefinecolor{ThemeMain}{RGB}{0,51,102}%   % #003366
+    \xdefinecolor{ThemeAlert}{RGB}{0,102,204}% % #0066CC
+  \else\ifx\Math@scheme\Math@schemegreen
+    \xdefinecolor{ThemeMain}{RGB}{0,102,0}%    % #006600
+    \xdefinecolor{ThemeAlert}{RGB}{0,153,0}%   % #009900
+  \else\ifx\Math@scheme\Math@schemeterracotta
+    \xdefinecolor{ThemeMain}{RGB}{153,51,0}%   % #993300
+    \xdefinecolor{ThemeAlert}{RGB}{204,102,0}% % #CC6600
+  \else
+    \PackageWarning{beamerthemeMath}{Unknown \string\colorscheme\space
+      '#1' (expected blue/green/terracotta) -- falling back to blue}%
+    \xdefinecolor{ThemeMain}{RGB}{0,51,102}%
+    \xdefinecolor{ThemeAlert}{RGB}{0,102,204}%
+  \fi\fi\fi
+}
+\colorscheme{blue} % default -- call \colorscheme{green} or
+                    % \colorscheme{terracotta} in main.tex to switch
+
+% ------------------------------------------------------------
+% FOOTLINE TEXT -- three fully independent variables, deliberately
+% NOT derived from \author{}/\title{} (no \insertshortauthor-style
+% implicit concatenation). Set the short, footline-sized versions
+% explicitly in your main .tex; the title slide keeps using the full
+% \author{}/\title{}/\subtitle{}/\institute{} as usual.
+%
+%   \setfooterauthor{Name}     -- bottom-left   (e.g. "Jane Doe")
+%   \setfootertopic{Topic}     -- bottom-middle (short version of the title)
+%   \setfootercontext{Venue}   -- bottom-right  (course / conference / school name)
+%
+% All three default to empty if left unset.
+% ------------------------------------------------------------
+\newcommand{\footerauthorname}{}
+\newcommand{\footertopic}{}
+\newcommand{\footercontext}{}
+\newcommand{\setfooterauthor}[1]{\renewcommand{\footerauthorname}{#1}}
+\newcommand{\setfootertopic}[1]{\renewcommand{\footertopic}{#1}}
+\newcommand{\setfootercontext}[1]{\renewcommand{\footercontext}{#1}}
+
+% ------------------------------------------------------------
+% TITLE-PAGE "CONTEXT" LINE -- the FULL event name (conference /
+% school / special-course name), shown once on the title page only,
+% between the title and the speaker's name. Deliberately independent
+% of \setfootercontext{} above: that one is the short, footline-sized
+% venue name shown on every slide; this is the full name shown once.
+%
+%   \titlecontext{Full event/conference/course name}
+%
+% Leave it unset for talks that don't need it -- the line is simply
+% omitted (no leftover blank space) when empty.
+% ------------------------------------------------------------
+\newcommand{\inserttitlecontext}{}
+\newcommand{\titlecontext}[1]{\renewcommand{\inserttitlecontext}{#1}}
+\setbeamerfont{titlecontext}{size=\normalsize,shape=\itshape}
+\setbeamercolor{titlecontext}{fg=ThemeMain}
+
+% ------------------------------------------------------------
+% BASE OUTER/INNER THEMES
+% ------------------------------------------------------------
+\useoutertheme[subsection=false]{smoothbars}
+\useinnertheme{circles}
+
+\setbeamercolor{section in foot}{fg=white, bg=ThemeMain}
+\setbeamercolor{subsection in foot}{fg=ThemeMain, bg=ThemeLight}
+
+% ------------------------------------------------------------
+% FOOTLINE TEMPLATE -- no overall slide-count / page-number display:
+% the deck's length is already conveyed by the title, and a running
+% "N / total" counter is intentionally omitted here. No date either
+% -- \footercontext (course/conference/school name) takes that slot
+% instead.
+% ------------------------------------------------------------
+\makeatletter
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{section in foot}%
+    \usebeamerfont{author in head/foot}\footerauthorname
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,center]{subsection in foot}%
+    \usebeamerfont{title in head/foot}\footertopic
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{section in foot}%
+    \usebeamerfont{title in head/foot}\footercontext
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatother
+
+% ------------------------------------------------------------
+% TITLE PAGE TEMPLATE -- overrides beamer's stock "title page"
+% template (title/author/institute/date all bunched together with
+% the same tight spacing) to get three things:
+%   1) the optional \titlecontext{...} line, shown between the title
+%      and the author, only when it's non-empty;
+%   2) author and institute set almost flush against each other --
+%      NOT via \usebeamertemplate{author}/{institute} (beamer's stock
+%      "author"/"institute" templates each wrap their content in a
+%      \begin{beamercolorbox}[sep=8pt,...] -- that's 8pt of padding
+%      TOP AND BOTTOM on EACH box, so stacking author then institute
+%      always leaves ~16pt between them no matter what \vskip you add
+%      or remove in between). Rendered directly instead, with a
+%      single small, fully-controlled \vskip0.3em;
+%   3) the date pushed down near the bottom of the slide instead of
+%      sitting immediately under institute/titlegraphic -- done by
+%      splitting the box into two \vfill-separated groups, so the
+%      \vfill absorbs the leftover space and the date lands right
+%      above the footline, with a small fixed pad (\vskip1em) so it
+%      doesn't touch it.
+% Retune the \vskip amounts to taste; they're the only numbers that
+% matter here.
+% ------------------------------------------------------------
+\makeatletter
+\setbeamertemplate{title page}{%
+  \vbox{}
+  \vfill
+  \begingroup
+    \centering
+    \usebeamertemplate{title}
+    \vskip1em\par
+    \ifx\inserttitlecontext\@empty\else
+      {\usebeamerfont{titlecontext}\usebeamercolor[fg]{titlecontext}\inserttitlecontext\par}%
+      \vskip1.2em
+    \fi
+    {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par}
+    \vskip0.3em
+    {\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute\par}
+    \usebeamertemplate{titlegraphic}
+  \endgroup
+  \vfill
+  \begingroup
+    \centering
+    \usebeamertemplate{date}
+  \endgroup
+  \vskip1em
+}
+\makeatother
+
+% ------------------------------------------------------------
+% GENERAL COLORS AND FONTS
+% ------------------------------------------------------------
+\setbeamercolor{footline}{bg=ThemeMain}
+\setbeamercolor{frametitle}{bg=ThemeMain,fg=white}
+\setbeamercolor{title}{bg=ThemeMain}
+\setbeamerfont{frametitle}{size=\large}
+
+\setbeamertemplate{bibliography item}[text]
+\setbeamertemplate{caption}[numbered]
+
+\setbeamercolor{alerted text}{fg=ThemeAlert}
+
+\setbeamercolor{palette primary}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor{palette secondary}{use=structure,fg=white,bg=structure.fg!75!black}
+\setbeamercolor{palette tertiary}{use=structure,fg=white,bg=structure.fg!50!black}
+\setbeamercolor{palette quaternary}{fg=white,bg=structure.fg!50!black}
+\setbeamercolor{titlelike}{parent=palette primary}
+
+\setbeamercolor{block title}{bg=ThemeMain,fg=white}
+\setbeamercolor*{block title example}{use={normal text,example text},bg=white,fg=ThemeMain}
+\setbeamercolor{structure}{fg=ThemeMain}
+
+% ------------------------------------------------------------
+% AUTO SECTION/SUBSECTION DIVIDER SLIDES -- also give each divider a
+% \note{} naming the section/subsection: without it, these frames
+% would have no note text of their own and (if you ever build an A4
+% handout, see NOTE-PAGE SAFETY NET below) would desync the slide/note
+% pairing for the rest of the talk.
+% ------------------------------------------------------------
+\makeatletter
+\newcommand{\math@dividerframe}{%
+  \let\math@savedwriteslidentry\beamer@writeslidentry
+  \renewcommand{\beamer@writeslidentry}{\clearpage\beamer@notesactions}%
+  \begin{frame}
+      \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded/hide]
+      \note{\insertsectionhead\ifx\insertsubsectionhead\@empty\else: \insertsubsectionhead\fi}%
+  \end{frame}
+  \let\beamer@writeslidentry\math@savedwriteslidentry
+}
+\AtBeginSection[]{\math@dividerframe}
+\AtBeginSubsection[]{\math@dividerframe}
+\makeatother
+
+% ------------------------------------------------------------
+% NOTE-PAGE SAFETY NET -- if you ever build an A4 handout via
+% \setbeameroption{show notes} + pgfpages "N on 1" (slide + \note{}
+% text stacked on one printed sheet), that layout works ONLY because
+% every frame produces exactly the same number of physical pages
+% (slide, then note). The moment even ONE frame has no \note{} call,
+% that frame contributes just ITS OWN slide page with no matching
+% note page, and pgfpages -- which just glues consecutive physical
+% pages together and has no idea which are "slides" and which are
+% "notes" -- silently shifts every slide/note pairing after it by one
+% slot, for the rest of the document. (Verified directly: this is
+% exactly what was happening with the auto section/subsection divider
+% frames above before they got their own \note{}, and it would happen
+% just as easily with any ordinary content frame you simply forgot to
+% annotate.)
+%
+% Fix, once, here, instead of needing perfect \note{} discipline in
+% every main.tex forever: beamer already resets the note text to
+% empty at the START of every slide (\beamer@framenotesbegin) and
+% \note{...} APPENDS to it (not overwrites -- multiple \note{} calls
+% in one frame are meant to concatenate). So we hook the END of the
+% slide (\beamer@framenotesend) instead: if the note text is STILL
+% empty by then (no \note{} was ever called), fill in a harmless
+% placeholder right before beamer decides whether to emit a note
+% page. A real \note{...} anywhere in the frame overwrites/extends it
+% as normal and is completely unaffected.
+% ------------------------------------------------------------
+\makeatletter
+\let\Math@origframenotesend\beamer@framenotesend
+\renewcommand{\beamer@framenotesend}{%
+  \ifx\beamer@notes\@empty
+    \gdef\beamer@notes{(no notes)}%
+  \fi
+  \Math@origframenotesend
+}
+\makeatother
+
+% ------------------------------------------------------------
+% OVERLAY/ANIMATION LOCAL OVERRIDES -- the global "stepwise reveal +
+% alert current item" switch itself (\beamerdefaultoverlayspecification
+% {<+-| alert@+>}) is set per-talk in main.tex, not here (see the
+% comment in template.tex) -- a shared theme file shouldn't decide
+% whether a given talk animates. What DOES belong here is how to
+% override that per-talk default locally, for just one frame or just
+% one list, since both tricks rely only on plain beamer/TeX grouping
+% and work no matter what the current default is:
+%
+% (a) ONE WHOLE FRAME (e.g. a references/bibliography slide where a
+%     stepwise build makes no sense): put a bare
+%     \beamerdefaultoverlayspecification{} as the very FIRST thing
+%     inside that frame's body. No need to restore anything
+%     afterwards -- \begin{frame}...\end{frame} is itself a TeX
+%     group, so the override reverts automatically the moment the
+%     frame ends.
+%
+%       \begin{frame}{References}
+%           \beamerdefaultoverlayspecification{}
+%           \begin{itemize}
+%               \item ... \item ... \item ...
+%           \end{itemize}
+%       \end{frame}
+%
+% (b) ONE LIST inside an otherwise-animated frame (e.g. one itemize
+%     among several, or a list sitting in a \column): give that
+%     itemize/enumerate its own explicit overlay spec in SQUARE
+%     brackets (itemize/enumerate take it there, unlike columns/
+%     column, which take it directly in angle brackets -- see the
+%     two-column examples in template.tex). <1-> here means "visible
+%     from the first overlay onward, no per-item reveal, no alert
+%     colour":
+%
+%       \begin{itemize}[<1->]
+%           \item ... \item ... \item ...
+%       \end{itemize}
+%
+%     This works because itemize/enumerate/columns/column are all
+%     "overlay-aware" beamer environments: with no explicit overlay
+%     spec of their own they silently inherit whatever
+%     \beamerdefaultoverlayspecification currently is; an explicit
+%     spec always wins over that default, locally, for just that one
+%     environment.
+% ------------------------------------------------------------
+
+% ------------------------------------------------------------
+% BOTTOM-RIGHT BEAMER NAVIGATION ICONS (the tiny arrows/magnifier).
+% Off by default -- most personal talks don't need them. One-command
+% toggle if you ever want them back (e.g. for a self-running kiosk
+% display):
+%
+%   \shownavsymbols
+%   \hidenavsymbols   % default
+% ------------------------------------------------------------
+\newcommand{\shownavsymbols}{\setbeamertemplate{navigation symbols}[default]}
+\newcommand{\hidenavsymbols}{\setbeamertemplate{navigation symbols}{}}
+\hidenavsymbols  % default: hidden
+
+% ------------------------------------------------------------
+% ITEMIZE INDENT -- the single knob to change if bullet lists sit too
+% far from the left edge. \leftmargini/ii/iii are plain LaTeX list
+% lengths (not beamer-specific), so this ONE setting applies
+% identically inside a single-column frame and inside each column of
+% a `columns` environment -- there is no separate "two-column" indent
+% to chase down.
+%
+% Beamer's own default is 2em for all three levels; tighten to taste:
+% ------------------------------------------------------------
+\setlength{\leftmargini}{1em}   % top-level  \begin{itemize}
+\setlength{\leftmarginii}{1em}  % nested one level  (\begin{itemize}\begin{itemize})
+\setlength{\leftmarginiii}{1em} % nested two levels
+% Related, but a DIFFERENT knob: the margin between the frame edge
+% and the itemize block itself (affects text, not just lists) is set
+% separately via, e.g.:
+%   \setbeamersize{text margin left=1cm, text margin right=1cm}
+% (beamer's own default is 1cm/1cm; uncomment and tune if needed.)
+
+% ------------------------------------------------------------
+% DISPLAY-MATH SKIPS -- tightens the vertical space LaTeX puts
+% above/below a displayed equation (\[...\], equation, align, ...)
+% sitting inside an \itemize bullet. Beamer/amsmath's own defaults
+% leave a fairly generous gap there, which reads as an odd hole in a
+% bullet list on a slide. 0.4ex was chosen to match ~2pt at this
+% theme's normal 11pt XCharter text size, but as an EX-based
+% (font-relative) length it also shrinks/grows correctly if the
+% surrounding text is in \small, \footnotesize, \Large, etc. -- unlike
+% a fixed \pt value, which would look right at one size and too
+% loose/tight at another.
+% ------------------------------------------------------------
+\makeatletter
+\g@addto@macro\normalsize{%
+  \setlength\abovedisplayskip{0.4ex}
+  \setlength\belowdisplayskip{0.4ex}
+  \setlength\abovedisplayshortskip{0.4ex}
+  \setlength\belowdisplayshortskip{0.4ex}
+}
+\makeatother
+
+\mode<all>
