@@ -15,7 +15,7 @@
 
 \begin{document}
 
-\begin{center} \Large \bf Листок 5\\ Тема 5 (2.1). Конечные поля. Расширения полей \end{center}
+\begin{center} \Large \bf Листок 5\\ Тема 5 (2.1). Конечные поля \end{center}
 
 \noindent\textbf{Упражнения и задачи}
 
@@ -23,9 +23,6 @@
     \item Завершите доказательство леммы: пусть $k$ --- поле характеристики $p$, тогда $\forall \alpha, \beta \in k$ $\forall d \in \mathbb{Z}_+$ $(\alpha+\beta)^{p^d}=\alpha^{p^d}+\beta^{p^d}$.
     \item Докажите, что многочлен $x^2+x+1$ неприводим над $\mathbb{F}_2$ (т.е. $\mathbb{F}_2[x]/(x^2+x+1)$ является полем). Выпишите таблицы операций сложения и умножения элементов в этом поле, а также обратные элементы.
     \item Найдите все неприводимые многочлены степени $4$ над полем $\mathbb{F}_2$.
-    \item Пусть $L/K$, $M/L$ --- конечные расширения (произвольных) полей. Докажите, что расширение $M/K$ также конечно и $[M:K]=[M:L][L:K]$.
-    \item Докажите, что если $L/K$ --- конечное расширение, то оно является алгебраическим ($L/K$ --- алгебраическое $\rightleftharpoons$ $\forall\alpha\in L$ $\alpha$ --- корень некоторого ненулевого $f\in K[x]$).
-    \item Пусть $q=p^n$, $\mathbb{F}_q/\mathbb{F}_p$ --- расширение. Докажите, что $f(x)\in\mathbb{F}_p[x]$ раскладывается на линейные множители в $\mathbb{F}_{q}[x]$ $\leftrightarrow$ $\deg f \mid n$.
     \item Пусть $p,q$ --- различные простые. Чему равно число неприводимых многочленов степени $q$ в $\mathbb{F}_p[x]$? %[IR, p87 ex7.17]
     \item Докажите следующие оценки для $\nu(n)$ --- числа неприводимых многочленов степени $n\geqslant 2$ над $\mathbb{F}_p$:
     $$
@@ -36,14 +33,15 @@
         \item $\sum\limits_f \dfrac{\sigma_0(f)}{(Nf)^s} = \dfrac{1}{(1-q^{1-s})^2}$;
         \item $\sum\limits_f \dfrac{\sigma_1(f)}{(Nf)^s} = \dfrac{1}{(1-q^{1-s})(1-q^{2-s})}$.
     \end{itemize} %[IR, p87 ex7.20]
-    \item Пусть $\alpha \in \mathbb{F}_q^*$. Докажите, что $x^n=\alpha$ разрешимо $\Leftrightarrow$ $\alpha^{(q-1)/d}=1$, где $d=(n,q-1)$, причем если разрешимо, то $d$ решений. %[IR, p80 prop 7.1.2]
+    \item Пусть $\alpha \in \mathbb{F}_q^*$ ($q=p^s$). Докажите, что $x^n=\alpha$ разрешимо $\Leftrightarrow$ $\alpha^{(q-1)/d}=1$, где $d=(n,q-1)$, причем если разрешимо, то $d$ решений. %[IR, p80 prop 7.1.2]
     \item Как выглядит подгруппа всех квадратов в $\mathbb{F}_{2^n}$? %[IR, p86 ex7.8]
     \item Пусть $n|q-1$, докажите, что $G=\{\alpha\in\mathbb{F}_q^*: x^n=\alpha\ \text{--- разрешимо}\}$ --- подгруппа в $\mathbb{F}_q^*$, $|G|=\frac{q-1}{n}$. %[IR, p86 ex7.4]
-    \item Пусть $n|q-1$, $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $[K:F] = n$. Докажите, что $\forall \alpha \in F^*$ уравнение $x^n=\alpha$ имеет $n$ решений в $K$. %[IR, p86 ex7.5]
-    \item Пусть $K/F$ --- расширение конечных полей, $\mathrm{char} (F) \neq 2$, $[K:F] = 3$. Докажите, что если $\alpha$ не является квадратом в $F$, то $\alpha$ не является квадратом и в $K$. %[IR, p86 ex7.6]
-    \item Пусть $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $\alpha \in \mathbb{F}_q$, $n|q-1$ и $x^n=\alpha$ не разрешимо в $\mathbb{F}_q$. Докажите, что $x^n=\alpha$ не разрешимо в $K$, если $(n,[K:F])=1$. %[IR, p86 ex7.9]
-    \item Пусть $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $[K:F] = 2$. Докажите, что $\forall \beta \in K$ $\beta^{1+q} \in F$. Более того, $\forall \alpha \in F$ $\exists \beta \in K$: $\alpha=\beta^{1+q}$. %[IR, p86 ex7.10]
-
+    \item Пусть $q=p^n, p>2$. Определим аналог символа Лежандра для $\mathbb{F}_q$: $\left(\frac{\alpha}{q}\right)=1$, если $\alpha$ --- квадрат в $\mathbb{F}_q$; $\left(\frac{\alpha}{q}\right)=-1$, если $\alpha$ не является квадратом в $\mathbb{F}_q$; $\left(\frac{0}{q}\right)=0$. Докажите следующие свойства этого символа: 
+    \begin{itemize} [topsep=0pt]
+        \item $\left(\frac{\alpha\beta}{q}\right) = \left(\frac{\alpha}{q}\right)\left(\frac{\beta}{q}\right)$, $\alpha, \beta \in \mathbb{F}_q$; 
+        \item $\sum_{\alpha\in\mathbb{F}_q} \left(\frac{\alpha}{q}\right) = 0$; 
+        \item $\left(\frac{\alpha}{q}\right)=\left(\frac{N_{\mathbb{F}_q/\mathbb{F}_p}(\alpha)}{p}\right)$ --- обычный символ Лежандра $\bmod\, p$.
+    \end{itemize} %[Степ Задача I.2.9]
 \end{enumerate}
 
 % \noindent\textbf{SageMath}
@@ -60,7 +58,7 @@
 
 \noindent\textbf{Темы для самостоятельного изучения}
 \begin{itemize}[topsep=0pt]
-    \item Поле $\mathbb{F}_q$, $q=p^n$, однозначно определено в алгебраическом замыкании $\bar{\mathbb{F}}_p$ как поле разложения многочлена $z^q-z$. Всякое конечное поле изоморфно одному и только одному $\mathbb{F}_q$. ([Степ], [LN])
+    \item ---
 \end{itemize}
 
 

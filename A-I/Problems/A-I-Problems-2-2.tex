@@ -11,12 +11,49 @@
 \usepackage{amsthm}
 \usepackage{enumitem}
 
-\input{declare.tex}
+% \input{declare.tex}
 
 \begin{document}
 
-\begin{center} \Large \bf Листок 6\\ Тема 6 (2.2). Группа автоморфизмов. Норма и след \end{center}
+\begin{center} \Large \bf Листок 6\\ Тема 6 (2.2). Расширения конечных полей \end{center}
 
-\input{A-I-src-Problems-2-2.tex}
+\noindent\textbf{Упражнения и задачи}
+
+\begin{enumerate}[topsep=0pt]
+    
+    \item Пусть $n|q-1$, $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $[K:F] = n$. Докажите, что $\forall \alpha \in F^*$ уравнение $x^n=\alpha$ имеет $n$ решений в $K$. %[IR, p86 ex7.5]
+    \item Пусть $K/F$ --- расширение конечных полей, $\mathrm{char} (F) \neq 2$, $[K:F] = 3$, $\alpha \in F$. Докажите, что если $\alpha$ не является квадратом в $F$, то $\alpha$ не является квадратом и в $K$. %[IR, p86 ex7.6]
+    \item Пусть $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $\alpha \in \mathbb{F}_q$, $n|q-1$ и $x^n=\alpha$ не разрешимо в $\mathbb{F}_q$. Докажите, что $x^n=\alpha$ не разрешимо в $K$, если $(n,[K:F])=1$. %[IR, p86 ex7.9]
+    \item Пусть $F=\mathbb{F}_q$, $K/F$ --- расширение конечных полей, $[K:F] = 2$. Докажите, что $\forall \beta \in K$ $\beta^{1+q} \in F$. Более того, $\forall \alpha \in F$ $\exists \beta \in K$: $\alpha=\beta^{1+q}$. %[IR, p86 ex7.10]
+    \item Докажите, что число упорядоченных базисов $\mathbb{F}_{q^m}$ над $\mathbb{F}_q$ равно $(q^m-1)(q^m-q)\dots (q^m-q^{m-1})$. %[LN Ex 2.37]
+    \item Пусть $\mathbb{F}_{q^m}/\mathbb{F}_q$ --- расширение конечных полей, $\alpha \in \mathbb{F}_{q^m}^*$. Докажите, что сопряженные элементы $\alpha, \alpha^q, \alpha^{q^2}, \dots, \alpha^{q^{m-1}}$ имеют один и тот же порядок в мультипликативной группе $\mathbb{F}_{q^m}^*$.  %[LN, p50 th2.18]
+    \item Пусть $\mathbb{F}_{q^m}/\mathbb{F}_q$ --- расширение. Докажите, что $\forall c\in \mathbb{F}_q$
+    $$
+        \sum_{j=0}^{m-1} x^{q^j} - c = \prod_{\alpha\in \mathbb{F}_{q^m},\ \mathrm{Tr}_{\mathbb{F}_{q^m}/\mathbb{F}_q}(\alpha)=c} (x-\alpha).
+    $$ %[LN Ex 2.34]
+    \item Пусть $\mathbb{F}_{q^m}/\mathbb{F}_q$ --- расширение, $L$ --- $\mathbb{F}_q$-линейный оператор на $\mathbb{F}_{q^m}$ (как на векторном пространстве над $\mathbb{F}_q$). Докажите, что $\exists !\, \alpha_0, \dots, \alpha_{m-1}\in \mathbb{F}_{q^m}$: оператор $L$ имеет вид $L(\beta) = \alpha_0 \beta + \alpha_1 \beta^q + \dots + \alpha_{m-1}\beta^{q^{m-1}}$. %[LN Ex 2.36]
+    \item Пусть $\mathbb{F}_{q^m}/\mathbb{F}_q$ --- расширение.
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item Докажите, что $\mathrm{Tr}_{\mathbb{F}_{q^m}/\mathbb{F}_q}(\alpha)=0$ $\Leftrightarrow$ $\alpha=\beta^q-\beta$ для некоторого $\beta\in\mathbb{F}_{q^m}$.
+        \item ($^*$) Пусть $q=p^s$, $a\in\mathbb{F}_q$. Докажите, что $x^p-x-a$ неприводим над $\mathbb{F}_q$ $\Leftrightarrow$ $\mathrm{Tr}_{\mathbb{F}_q/\mathbb{F}_p}(a)\neq 0$.
+    \end{itemize} %[LN Th 2.25, Th 3.78]
+\end{enumerate}
+
+% \noindent\textbf{SageMath}
+% \begin{itemize}[topsep=0pt]
+%     \item Исследуйте основные функции SageMath связанные с автоморфизмами и расширениями конечных полей:
+%     \begin{itemize}[noitemsep,topsep=0pt]
+%         \item Группа автоморфизмов поля: \texttt{End()};
+%         \item Автоморфизм Фробениуса: \texttt{frobenius\_endomorphism()};
+%         \item Базисы расширений конечных полей;
+%         \item Характеристический многочлен \texttt{charpoly()};
+%         \item Норма, след, дискриминант.
+%      \end{itemize}
+% \end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Нормальный базис и теорема о нормальном базисе, [LN].
+\end{itemize}    
 
 \end{document}
