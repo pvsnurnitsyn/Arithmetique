@@ -1,0 +1,1117 @@
+% ============================================================
+% A-O-05.tex -- Лекция 5 (1.5). Группы и их представления
+% ============================================================
+
+\documentclass[serif, aspectratio=169]{beamer}
+
+\usepackage[T2A,T1]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{XCharter}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,overlay-beamer-styles}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{braids}
+\usetikzlibrary{intersections,spath3,hobby}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{mathtools} % Required for psmallmatrix
+\usepackage{dynkin-diagrams}
+%\usepackage{fontawesome5}
+
+
+\newcommand{\sagemark}{%
+  \textcolor{green!40!black}{\textbf{\texttt{sage:...}}}%
+}
+
+\colorlet{bc1}{blue!70!black}
+\colorlet{bc2}{red!70!black}
+\colorlet{bc3}{green!50!black}
+\colorlet{bc4}{orange!90!black}
+\tikzset{
+  braid colors/.style={
+    braid/strand 1/.style={bc1},
+    braid/strand 2/.style={bc2},
+    braid/strand 3/.style={bc3},
+    braid/strand 4/.style={bc4}},
+  braid slide/.style={% единые параметры всех картинок кос на слайде
+    braid colors,
+    braid/width=0.35cm, braid/border height=0.08cm, braid/gap=0.15,
+    line width=1.2pt, every node/.style={font=\small}}
+}
+
+\newcommand{\braididentity}[4][3]{% [n нитей] x, высота, толщина; шаг 0.35cm, цвета как в braid colors
+  \foreach \i/\c in {0/blue!70!black,1/red!70!black,2/green!50!black,3/orange!90!black}{%
+    \ifnum\i<#1 \draw[\c, line width=#4] (#2+\i*0.35,0) -- ++(0,#3);\fi}%
+}
+
+\newcommand{\braidclosure}[5]{% замыкание косы: #1 -- x левой нити, #2 -- число нитей, #3 -- высота косы, #4 -- толщина, #5 -- перестановка (какая нить приходит вниз в позицию j, напр. {3,1,2}); цвет дуги плавно меняется от цвета верхней нити к цвету нижней
+  \foreach \i in {1,...,#2}{%
+    \pgfmathtruncatemacro{\pj}{{#5}[\i-1]}%
+    \pgfmathsetmacro{\xi}{#1+(\i-1)*0.35}%
+    \pgfmathsetmacro{\e}{0.07+0.07*(#2-\i)}%
+    \pgfmathsetmacro{\xr}{#1+(#2-1)*0.35+0.12+0.07*(#2-\i)}%
+    \pgfmathsetmacro{\lw}{\xr-\xi}%
+    \pgfmathsetmacro{\lh}{#3+2*\e}%
+    \pgfmathsetmacro{\ltot}{2*\e+2*\lw+\lh}%
+    % узлы ломаной: (xi,T) -> (xi,T+e) -> (xr,T+e) -> (xr,-e) -> (xi,-e) -> (xi,0)
+    \def\ca{bc\i}\def\cb{bc\pj}%
+    \foreach \lega/\legb/\lenA/\offA in {%
+        {\xi,#3}/{\xi,#3+\e}/\e/0,
+        {\xi,#3+\e}/{\xr,#3+\e}/\lw/\e,
+        {\xr,#3+\e}/{\xr,-\e}/\lh/{\e+\lw},
+        {\xr,-\e}/{\xi,-\e}/\lw/{\e+\lw+\lh},
+        {\xi,-\e}/{\xi,0}/\e/{\e+2*\lw+\lh}}{%
+      \foreach \k in {0,...,7}{%
+        \pgfmathtruncatemacro{\pc}{100-100*(\offA+(\k+0.5)/8*\lenA)/\ltot}%
+        \edef\cmix{\cb!\pc!\ca}%
+        \draw[color=\cmix, line width=#4, line cap=round] ($(\lega)!{\k/8}!(\legb)$) -- ($(\lega)!{(\k+1)/8}!(\legb)$);}}}%
+}
+
+\newcommand{\trefoilknot}{% трилистник (spath3/knots): разрывы в нижних нитях; рисуется в «натуральном» размере, уменьшается \scalebox
+  \begin{tikzpicture}[use Hobby shortcut, every trefoil component/.style={line width=4pt, draw=black}]
+    \path[spath/save=trefoil] ([closed]90:2) foreach \k in {1,...,3} { .. (-30+\k*240:.5) .. (90+\k*240:2) } (90:2);
+    \tikzset{spath/knot={trefoil}{8pt}{1,3,5}}
+  \end{tikzpicture}}
+\newcommand{\eightknot}{% восьмёрка: Hobby-кривая по точкам x=(2+cos2t)cos3t, y=(2+cos2t)sin3t
+  \begin{tikzpicture}[use Hobby shortcut, every eight component/.style={line width=4pt, draw=black}]
+    \path[spath/save=eight] ([closed]3,0) foreach \t in {15,30,...,345} { .. ({(2+cos(2*\t))*cos(3*\t)}, {(2+cos(2*\t))*sin(3*\t)}) } (3,0);
+    \tikzset{spath/knot={eight}{14pt}{1,3,5,7}}
+  \end{tikzpicture}}
+
+\newcommand{\hopflink}{% зацепление Хопфа: два круга, в точках пересечения (60° и 240°) нижняя дуга прерывается
+  \begin{tikzpicture}[line width=4pt]
+    \draw (0,0) ++(74:1) arc (74:406:1);
+    \draw[shift={(1,0)}] (254:1) arc (254:586:1);
+  \end{tikzpicture}}
+
+\usetheme{Math}
+\usepackage{mymacros}
+% \colorscheme{green}
+% \colorscheme{terracotta}
+
+% ------------------------------------------------------------
+% Title data
+% ------------------------------------------------------------
+\author{Павел Владимирович Снурницын}
+\title{Лекция 5 (1.5)\\ Группы в арифметике}
+\titlecontext{Инструменты машинно-вспомогательной арифметики\\ с/к, осень 2026}
+\institute{к.ф.-м.н., с.н.с., ИБ ВМК}
+\date{\small 13 октября 2026 г.}
+
+\setfooterauthor{П.В. Снурницын}
+\setfootertopic{1.5 Группы в арифметике}
+\setfootercontext{Спецкурс A-O 2026}
+
+\newif\ifanimated
+\newcommand{\animateon}{\beamerdefaultoverlayspecification{<+-| alert@+>}\animatedtrue}
+\newcommand{\animateoff}{\beamerdefaultoverlayspecification{}\animatedfalse}
+\newcommand{\steponhelper}[2]{% #1 = свойство цвета (text/draw), #2 = номер шага
+  \ifanimated
+    \edef\stepon@tmp{alt=<#2>{#1=ThemeAlert}{alt=<#2->{#1=black}{invisible}}}%
+  \else
+    \edef\stepon@tmp{#1=black}%
+  \fi
+  \expandafter\pgfkeysalso\expandafter{\stepon@tmp}%
+}
+\tikzset{
+  step on/.code={\steponhelper{text}{#1}},
+  step draw on/.code={\steponhelper{draw}{#1}},
+}
+% \animateon
+\animateoff
+
+\begin{document}
+
+% ================================================================
+\begin{frame}
+    \titlepage
+\end{frame}
+\note{}
+
+% ================================================================
+\begin{frame}{В прошлый раз}
+    \begin{itemize}
+        \item Евклидовы решётки, разложение на неприводимые компоненты;
+        \item Решётки корней и классификация их неприводимых компонент ($\mathbf{ADE}$);
+        \item Тета-функция решётки --- производящий ряд, пример модулярной формы.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Группы: определения и примеры}
+% ============================================================
+
+\begin{frame}{Группа: определение и знакомые примеры}
+    \begin{itemize}
+        \item Группа $\rightleftharpoons$ $(G,\circ)$: тождественный элемент, обратимость, ассоциативность;
+        \item $G$ --- абелева $\rightleftharpoons$ $\circ$ --- коммутативна;
+        \item Порядок группы $\rightleftharpoons$ число элементов $|G|$ (бывает конечным и бесконечным);
+        \item Мн-во порождающих $S\subset G$ $\rightleftharpoons$ $\forall\ g\in G$ $g=s_1\circ\cdots\circ s_k$, $s_i\in S\cup S^{-1}$; $G=\langle S \rangle$; 
+        \item $G$ --- конечно порождена $\rightleftharpoons$ найдётся конечное $S$;
+        \item $G$ --- циклическая $\rightleftharpoons$ $S=\{g\}$, т.е. $G=\langle g\rangle=\{g^n:n\in\mathbb{Z}\}$;
+        \item Примеры:
+        \begin{center}
+            \small
+        \begin{tabular}{lccl}
+            \toprule
+            $G$ & $|G|$ & абелева? & структура \\
+            \midrule
+            $(\mathbb{Z},+)$ & $\infty$ & да & циклическая, $g=1$ \\
+            $(\mathbb{Q}^*,\cdot)$ & $\infty$ & да & $S=\{-1\}\cup\{\text{простые числа}\}$ \\
+            $(\mathbb{Z}/n\mathbb{Z},+)$ & $n$ & да & циклическая, $g=1$ \\
+            $(\mathbb{F}_p^*,\cdot)$ & $p-1$ & да & циклическая ($\exists\,g$, наз. первообразным корнем) \\
+            $(L,+)$ & $\infty$ & да & конечно порождённая, $\langle\mathbf{v}_1,\dots,\mathbf{v}_k\rangle$, $\mathbf{v}_i$ --- базис $L$ \\
+            $(SL_2(\mathbb{Z}),\cdot)$ & $\infty$ & нет & конечно порождённая, $\langle T=\begin{psmallmatrix}1&1\\0&1\end{psmallmatrix},S=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix} \rangle$ \\
+            \bottomrule
+        \end{tabular}
+        \end{center}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Структура конечно порождённых абелевых групп}
+    \begin{itemize}
+        \item Прямая сумма $G=G_1\oplus G_2$ $\rightleftharpoons$ $(g_1,g_2)+(h_1,h_2)=(g_1+h_1,g_2+h_2)$;\\ равносильно: $G_1,G_2\subset G$ --- подгруппы, $G_1\cap G_2=\{0\}$, $G_1+G_2=G$;
+        \item Пример: $\mathbb{Z}/n\mathbb{Z}\cong\mathbb{Z}/p_1^{e_1}\mathbb{Z}\oplus\dots\oplus\mathbb{Z}/p_r^{e_r}\mathbb{Z}$ (КТО, лекция 2);
+        \item Пример: $L=\mathbb{Z}\mathbf{v}_1\oplus\dots\oplus\mathbb{Z}\mathbf{v}_k \cong\mathbb{Z}^k$ (!! $\oplus$ не путать с $\perp$);
+        \item Теорема: $G$ --- конечно порождённая абелева $\Rightarrow$ $G$ имеет вид ($\cong$)
+        \[\mathbb{Z}^r\oplus\underbrace{\mathbb{Z}/d_1 \mathbb{Z}\oplus\dots\oplus\mathbb{Z}/d_k \mathbb{Z}}_{G_{\text{tors}}},\]
+        где $r$, $d_1$, \dots $d_k$ определены однозначно и $d_1\mid d_2\mid\dots\mid d_k$ (делители);
+        \item $r$ называется рангом $G$, $G_{\text{tors}}$ --- подгруппой точек кручения;
+        \item Пример: $\mathbb{Z}[\sqrt2]^*=\{\pm(1+\sqrt2)^n\}\cong\mathbb{Z}/2\oplus\mathbb{Z}$: кручение $\{\pm1\}$, свободная часть порождена $1+\sqrt2$, ранг $1$; $(1+\sqrt2)^2=3+2\sqrt2, \dots$
+        \item Структура единиц кольца $\mathbb{Z}[\sqrt d]$ ($d>0$ --- без квадратов) $\Rightarrow$ решения уравнения $x^2-dy^2=\pm1$ (ур-е Пелля): $\pm(x_0+y_0\sqrt d)^n$;
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item В $\pm(x_0+y_0\sqrt d)^n$, $(x_0,y_0)$ --- минимальное положительное решение, «фундаментальная единица»;
+            \item Теорема (Дирихле о единицах): $K$ --- числовое поле степени $n=r+2s$ ($r$ действ., $s$ пар компл. вложений) $\Rightarrow$
+            \[\mathcal{O}_K^*\cong \mu_K\oplus\mathbb{Z}^{r+s-1},\]
+            где $\mu_K$ --- (конечная циклическая) группа корней из единицы в $K$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Подгруппы и факторгруппы}
+    \begin{itemize}
+        \item $H$ --- подгруппа $G$ ($H\leq G$) $\rightleftharpoons$ подмножество $H\subseteq G$: $(H,\circ)$ --- группа;
+        \item Отношение эквивалентности $g_1\sim g_2$ $\rightleftharpoons$ $g_1^{-1}g_2\in H$;
+        \item $\sim$ разбивает $G$ на классы эквивалентности (смежные классы) $gH=\{gh:\ h\in H\}$, $|gH|=|H|$;
+        \item $H$ --- нормальна ($H\trianglelefteq G$) $\rightleftharpoons$ $gHg^{-1}=H\ \forall\,g\in G$;
+        \item Лемма: $H\trianglelefteq G$ $\Rightarrow$ $G/H=\{gH\}$ --- группа ($\rightleftharpoons$ фактор группа);
+        \item Индекс $H$ в $G$ $\rightleftharpoons$ $[G:H]=|G/H|$;
+        \item Теорема (Лагранжа): $G$ --- конечна $\Rightarrow$ $|G|=[G:H]\cdot|H|$;
+        \item Пример: $G=\mathbb{Z}/8\mathbb{Z}$, $H=\{0,2,4,6\}$ --- подгруппа $|H|=4$,\\ смежные классы: $H$ и $1+H=\{1,3,5,7\}$, $G/H=\{H,\,1+H\}$, $[G:H]=2$;
+        \item Пример: $M\subset L$ --- подрешётка полного ранга (т.е. того же что и $L$) $\Rightarrow$ $[L:M]=\mathrm{vol}(M)/\mathrm{vol}(L)$.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item На слайде левые классы эквивалентности, то есть умножение на $g$ слева, можно аналогично ввести правые классы эквивалентности $Hg$. $H$ --- нормальна $\Leftrightarrow$ левые и правые классы совпадают.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Гомоморфизмы групп}
+    \begin{itemize}
+        \item Гомоморфизм $\varphi:G\to H$ $\rightleftharpoons$ $\varphi(a\circ b)=\varphi(a)*\varphi(b)$;
+        \item $\ker\varphi = \{g\in G:\ \varphi(g)=e\}$, $\mathrm{im}\,\varphi = \{h\in H:\ h=\varphi(g)\}$;
+        \item Пример: $\mathbb{F}_p^*\to\{\pm1\}:\,a\mapsto a^{(p-1)/2}$, $\ker = \{a\in\mathbb{F}_p^*:\ \exists\, x:\ a=x^2\}$;
+        \item Пример: пусть $GL_n(F)$ --- матрицы $n\times n$ с элементами из поля $F$ (группа по умножению), $\det\colon GL_n(F)\to F^*$, $\ker$ --- матрицы определилителя $1$ --- $SL_n(F)$;
+        \item Лемма: $\ker\varphi\trianglelefteq G$, $\mathrm{im}\,\varphi\leq H$;
+        \item Изоморфизм $\rightleftharpoons$ биективный (взаимно-однозначный) гомоморфизм;
+        \item Теорема (о гомоморфизме): $G/\ker\varphi\cong\mathrm{im}\,\varphi$;\\ $\varphi$ --- сюръективный («на») $\Rightarrow$ $G/\ker\varphi\cong H$;
+        \item Пример: $GL_n(F)/SL_n(F)\cong F^*$;
+        \item Лемма: $G=H_1\oplus H_2$ $\Rightarrow$ $H_1\trianglelefteq G$ и $G/H_1\cong H_2$, $[G:H_1]=|H_2|$;
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Элементы $a\in\mathbb{F}_p^*:\ \exists\, x\in\mathbb{F}_p^*:\ a=x^2$ называются квадратичными вычетами, а отображение из примера --- символом Лежандра.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Примеры: группы гомотопий}
+    \begin{itemize}
+        \item $X$ --- топологическое пространство (напр. поверхность), $x_0\in X$;
+        \item Петля в $x_0$ $\rightleftharpoons$ непрерывное отображение $\gamma:[0,1]\to X$, $\gamma(0)=\gamma(1)=x_0$; 
+        \item Отношение эквивалентности (гомотопия): $\gamma_1\sim\gamma_2$ $\rightleftharpoons$ $\gamma_1$ можно непрерывно деформировать в $\gamma_2$ без отрыва от $x_0$; примеры:
+        \begin{center}
+        \begin{tikzpicture}[scale=0.4, >=Stealth, every node/.style={font=\small}]
+            \tikzset{loop/.style={blue!60!black, thick}, loopb/.style={red!70!black, thick}, pt/.style={circle, fill=black, inner sep=1.2pt}}
+            % --- плоскость
+            \fill[gray!15] (-1.8,-1.3) rectangle (1.8,1.3);
+            \node[pt] at (0,-0.6) {};
+            \draw[loop,] (0,-0.6) .. controls (1.4,-0.6) and (1.2,1.0) .. (0,0.9)
+                .. controls (-1.2,1.0) and (-1.4,-0.6) .. (0,-0.6);
+            \draw[loop, dashed] (0,-0.6) .. controls (0.7,-0.6) and (0.6,0.1) .. (0,0.1)
+                .. controls (-0.6,0.1) and (-0.7,-0.6) .. (0,-0.6);
+            \draw[loop, dashed] (0,-0.6) .. controls (1.05,-0.6) and (0.95,0.5) .. (0,0.5)
+                .. controls (-0.95,0.5) and (-1.05,-0.6) .. (0,-0.6);
+            % --- кольцо: одна петля, гомотопная ей (штрих) и стягиваемая петля
+            \begin{scope}[xshift=5.5cm]
+            \fill[gray!15, even odd rule] (0,0) circle (1.6) (0,0) circle (0.3);
+            \draw[gray] (0,0) circle (1.6) (0,0) circle (0.3);
+            \draw[loop,] (0.9,0) arc (0:360:0.9);
+            \draw[loop, dashed, domain=0:360, samples=60, smooth]
+                plot ({(1.1-0.2*cos(\x))*cos(\x)}, {(1.1-0.2*cos(\x))*sin(\x)});
+            \draw[loopb,] (1.15,0.0) circle (0.25);
+            \node[pt] at (0.9,0) {};
+            \end{scope}
+            % --- кольцо: один оборот и два оборота
+            \begin{scope}[xshift=11cm]
+            \fill[gray!15, even odd rule] (0,0) circle (1.6) (0,0) circle (0.3);
+            \draw[gray] (0,0) circle (1.6) (0,0) circle (0.3);
+            \draw[loop,] (1.2,0) arc (0:360:1.2);
+            \draw[loopb, domain=0:720, samples=120, smooth]
+                plot ({(1.2-0.6*sin(\x/4))*cos(\x)}, {(1.2-0.6*sin(\x/4))*sin(\x)});
+            \node[pt] at (1.2,0) {};
+            \end{scope}
+        \end{tikzpicture}
+        \end{center}
+        \item Пусть $\pi_1(X,x_0)=\{[\gamma]\}$ --- классы эквивалентности, гомотопные петли в $x_0$;
+        \item $\pi_1(X,x_0)$ --- группа (фундаментальная группа):
+        \begin{itemize}
+            \item $[\gamma_1]\circ[\gamma_2]=[\gamma_1\circ\gamma_2]$ --- «пройти сначала $\gamma_1$, затем $\gamma_2$»;
+            \item $[\gamma]^{-1}=[\gamma^{-1}]$ --- «пройти путь в обратную сторону»;
+            \item $[e]$ (тождественный элемент) --- «стоять на месте».
+        \end{itemize}
+        \item Лемма: $X$ линейно связно (любые две точки соединяются путём) $\Rightarrow$ $\pi_1(X,x_0)$ не зависит от $x_0$ (с точностью до изоморфизма), т.е. $\pi_1(X)=\pi_1(X,x_0)$;
+        \item Примеры $\mathbb{R}^2$: $\pi_1(\mathbb{R}^2)=\{e\}$ (петли стягиваются); $\pi_1(\text{кольцо})=\mathbb{Z}$ (обороты).
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Примеры: группы гомотопий (продолжение)}
+    \begin{itemize}
+        \item Примеры поверхностей в $\mathbb{R}^3$:
+        \begin{center}
+        \begin{tikzpicture}[scale=0.8, >=Stealth, every node/.style={font=\small}]
+            \tikzset{la/.style={red!70!black, thick}, lb/.style={blue!60!black, thick},
+                     lc/.style={green!60!black, thick}, ld/.style={orange!90!black, thick},
+                     wall/.style={gray!40}}
+            % --- сфера
+            \shade[shading=radial, inner color=gray!4, outer color=gray!28] (0,0) circle (0.9);
+            \draw (0,0) circle (0.9);
+            \draw[lb] (-0.9,0) arc (180:360:0.9 and 0.3);
+            \draw[lb, dashed] (-0.9,0) arc (180:0:0.9 and 0.3);
+            \node at (0,-1.5) {сфера: $\pi_1=\{e\}$};
+            % --- тор
+            \begin{scope}[xshift=3.6cm]
+            \shade[shading=radial, inner color=gray!4, outer color=gray!28] (0,0) ellipse (1.6 and 1);
+            \fill[white] (0,0) ellipse (0.6 and 0.3);
+            \begin{scope}
+              \clip (0,0) ellipse (0.6 and 0.3);
+              \fill[wall] (0,0) ellipse (0.6 and 0.3);
+              \fill[white] (0,-0.13) ellipse (0.62 and 0.3);
+            \end{scope}
+            \draw (0,0) ellipse (1.6 and 1);
+            \draw (0,0) ellipse (0.6 and 0.3);
+            \draw[la, dashed] (-1.6,0) arc (180:360:0.5 and 0.2);
+            \node[red!70!black] at (-1.1,0.4) {$a$};
+            \draw[la] (-1.6,0) arc (180:0:0.5 and 0.2);
+            \draw[lb] (0,0) ellipse (1.0 and 0.5);
+            \node[blue!60!black] at (0,-0.78) {$b$};
+            \node at (0,-1.5) {тор: $a\not\sim b$, $\pi_1=\;?$};
+            \end{scope}
+            % --- тор с двумя дырами
+            \begin{scope}[xshift=8.6cm]
+            \shade[shading=radial, inner color=gray!4, outer color=gray!28] (-2.4,0) .. controls (-2.4,1.2) and (-0.8,1.2) .. (0,0.6)
+                .. controls (0.8,1.2) and (2.4,1.2) .. (2.4,0)
+                .. controls (2.4,-1.2) and (0.8,-1.2) .. (0,-0.6)
+                .. controls (-0.8,-1.2) and (-2.4,-1.2) .. cycle;
+            \draw (-2.4,0) .. controls (-2.4,1.2) and (-0.8,1.2) .. (0,0.6)
+                .. controls (0.8,1.2) and (2.4,1.2) .. (2.4,0)
+                .. controls (2.4,-1.2) and (0.8,-1.2) .. (0,-0.6)
+                .. controls (-0.8,-1.2) and (-2.4,-1.2) .. cycle;
+            \foreach \cx in {-1.2,1.2}{
+              \fill[white] (\cx,0) ellipse (0.55 and 0.3);
+              \begin{scope}
+                \clip (\cx,0) ellipse (0.55 and 0.3);
+                \fill[wall] (\cx,0) ellipse (0.55 and 0.3);
+                \fill[white] (\cx,-0.13) ellipse (0.57 and 0.3);
+              \end{scope}
+              \draw (\cx,0) ellipse (0.55 and 0.3);}
+            \draw[la, dashed] (-2.4,0) arc (180:360:0.3 and 0.15);
+            \draw[la] (-2.4,0) arc (180:0:0.3 and 0.15);
+            \draw[lb] (-1.2,0) ellipse (0.9 and 0.5);
+            \draw[lc, dashed] (2.37,0) arc (0:-180:0.3 and 0.15);
+            \draw[lc] (2.37,0) arc (0:180:0.3 and 0.15);
+            \draw[ld] (1.2,0) ellipse (0.9 and 0.5);
+            \node[red!70!black] at (-1.96,0.55) {$a_1$};
+            \node[blue!60!black] at (-1.2,-0.75) {$b_1$};
+            \node[green!60!black] at (1.95,0.55) {$a_2$};
+            \node[orange!90!black] at (1.2,-0.75) {$b_2$};
+            \node at (0,-1.5) {тор с двумя дырами: $\pi_1=\;?$};
+            \end{scope}
+        \end{tikzpicture}
+        \end{center}
+        \item Тор $T_1$: $a,b$ --- не гомотопны, $ab=ba$, $\pi_1(T_1)$ --- абелева, $\pi_1(T_1)\cong\mathbb{Z}\oplus\mathbb{Z}=\mathbb{Z}^2$;
+        \item Тор с двумя дырами $T_2$: $a_1b_1\ne b_1a_1$, $\pi_1(T_2)$ --- неабелева;
+        \item Коммутатор $\rightleftharpoons$ $[g,h]=ghg^{-1}h^{-1}$, $[g,h]=e\ \Leftrightarrow\ gh=hg$;
+        \item Факт: $\pi_1(T_2)=\langle a_1,b_1,a_2,b_2\mid [a_1,b_1][a_2,b_2]=e\rangle$;
+        \item «Число дыр» $\rightleftharpoons$ род $g=g(X)$. Иногда (!!) его можно определить через $\pi_1(X)$:\\
+        Положим $\pi_{ab}(X)=\pi_1(X)/\langle[g,h]\rangle$ («максимальная абелева факторгруппа», все коммутаторы обнулены), оказывается что $\pi_{ab}(X)\cong\mathbb{Z}^{2g(X)}$.
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Соотношение $\pi_{ab}(X)\cong\mathbb{Z}^{2g}$ верно для замкнутых ориентируемых поверхностей рода $g$ (число дырок $g$), поэтому $g=\tfrac12\,\mathrm{rk}\,\pi_{ab}(X)$. Для других $X$ оно, вообще говоря, неверно: например, $\pi_{ab}(\mathbb{RP}^2)\cong\mathbb{Z}/2$.
+            \item Группы гомотопий --- инварианты: разные группы $\Rightarrow$ пространства не эквивалентны (например, $S^2$ и $T^2$).
+            \item Высшие группы $\pi_n(X)$: отображения сфер $S^n\to X$ с точностью до деформации; при $n\ge2$ абелевы; $\pi_n(S^n)=\mathbb{Z}$, $\pi_3(S^2)=\mathbb{Z}$ (расслоение Хопфа); $\pi_k(S^n)$ при $k>n$ устроены сложно и известны не для всех $k,n$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Примеры: группы кос}
+    \begin{itemize}
+        \item Коса из $n$ нитей --- $n$ нитей закреплённых вверху и внизу; эквивалентность --- одну можно деформировать в другую (без разрывов и пересечений):
+        \begin{center}
+        \begin{tikzpicture}[braid slide, braid/number of strands=3]
+            % эквивалентные
+            \pic[braid/height=0.3cm] at (0,0) {braid={s_1 s_1^{-1}}};
+            \node at (1.2,0.38) {$\sim$};
+            \braididentity{1.7}{0.76cm}{1.2pt}
+            % не эквивалентные
+            \pic[braid/height=0.6cm] at (4.5,0) {braid={s_1}};
+            \node at (5.7,0.38) {$\not\sim$};
+            \pic[braid/height=0.6cm] at (6.2,0) {braid={s_1^{-1}}};
+            % не эквивалентные
+            \pic[braid/height=0.3cm] at (9,0) {braid={s_1 s_1}};
+            \node at (10.2,0.38) {$\not\sim$};
+            \braididentity{10.7}{0.76cm}{1.2pt}
+        \end{tikzpicture}
+        \end{center}
+        \item Элементарная коса $\sigma_i$: $i$-я и $(i+1)$-я нити меняются местами (первая проходит над второй), остальные нити прямые:
+        \begin{center}
+        \begin{tikzpicture}[braid slide, braid/number of strands=3]
+            \pic[braid/height=0.6cm] at (0.6,0) {braid={s_1}};
+            \node[anchor=east] at (0.45,0.38) {$\sigma_1$:};
+            \pic[braid/height=0.6cm] at (2.6,0) {braid={s_2}};
+            \node[anchor=east] at (2.45,0.38) {$\sigma_2$:};
+        \end{tikzpicture}
+        \end{center}
+        \item Обозначим мн-во кос $B_n$, групповой закон: приписать одну косу над другой:
+        \vspace{-2ex}
+        \begin{center}
+        \begin{tikzpicture}[braid slide, braid/number of strands=3]
+            \braididentity{0.5}{0.76cm}{1.2pt}
+            \node[anchor=east] at (0.35,0.38) {$e$:};
+            \pic[braid/height=0.6cm] at (2.3,0) {braid={s_1}};
+            \node[anchor=east] at (2.15,0.38) {$\sigma_1$:};
+            \pic[braid/height=0.6cm] at (4.4,0) {braid={s_1^{-1}}};
+            \node[anchor=east] at (4.25,0.38) {$\sigma_1^{-1}$:};
+            \pic[braid/height=0.3cm] at (6.7,0) {braid={s_1 s_2}};
+            \node[anchor=east] at (6.55,0.38) {$\sigma_1\sigma_2$:};
+            \pic[braid/height=0.2cm] at (9.3,0) {braid={s_1 s_2 s_1}};
+            \node[anchor=east] at (9.15,0.38) {$\sigma_1\sigma_2\sigma_1$:};
+            \node at (10.5,0.38) {$=$};
+            \pic[braid/height=0.2cm] at (11,0) {braid={s_2 s_1 s_2}};
+            \node[anchor=west] at (11.85,0.38) {($\sigma_2\sigma_1\sigma_2$)};
+        \end{tikzpicture}
+        \end{center}
+        \item $B_2\cong\mathbb{Z}$:
+        \vspace{-2ex}
+        \begin{center}
+        \begin{tikzpicture}[braid slide, braid/number of strands=2]
+            \pic[braid/height=0.6cm] at (0.8,0) {braid={s_1^{-1}}};
+            \node[anchor=east] at (0.65,0.38) {$\sigma_1^{-1}$:};
+            \braididentity[2]{2.3}{0.76cm}{1.2pt}
+            \node[anchor=east] at (2.15,0.38) {$e$:};
+            \pic[braid/height=0.6cm] at (3.8,0) {braid={s_1}};
+            \node[anchor=east] at (3.65,0.38) {$\sigma_1$:};
+            \pic[braid/height=0.3cm] at (5.3,0) {braid={s_1 s_1}};
+            \node[anchor=east] at (5.15,0.38) {$\sigma_1^2$:};
+            \pic[braid/height=0.2cm] at (6.8,0) {braid={s_1 s_1 s_1}};
+            \node[anchor=east] at (6.65,0.38) {$\sigma_1^3$:};
+            \node at (8.0,0.38) {$\dots$};
+        \end{tikzpicture}
+        \end{center}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Примеры: группы кос (продолжение)}
+    \begin{itemize}
+        \item Теорема: при $n\ge3$ $B_n$ --- неабелева, конечно порождённая:
+         $B_n=\langle\sigma_1,\dots,\sigma_{n-1}\mid \sigma_i\sigma_{i+1}\sigma_i=\sigma_{i+1}\sigma_i\sigma_{i+1},\ \sigma_i\sigma_j=\sigma_j\sigma_i\ (|i-j|\ge2)\rangle$.
+        \item Теорема: $B_3/\langle(\sigma_1\sigma_2)^6\rangle\cong SL_2(\mathbb{Z})$, $\sigma_1\mapsto\begin{psmallmatrix}1&1\\0&1\end{psmallmatrix}$, $\sigma_2\mapsto\begin{psmallmatrix}1&0\\-1&1\end{psmallmatrix}$.
+        \item Замыкание косы $\beta\in B_n$: соединить верхние концы нитей с нижними непересекающимися дугами $\leadsto$ «узел или зацепление» $\hat\beta$; примеры:
+        \vspace{-2.0ex}
+        \begin{center}
+        \begin{tikzpicture}[braid slide, every node/.style={font=\small}]
+            % зацепление Хопфа
+            \pic[braid/number of strands=2, braid/height=0.3cm] at (0,0) {braid={s_1 s_1}};
+            \braidclosure{0}{2}{0.76}{1.2pt}{1,2}
+            \node at (1.6,0.38) {$\leadsto$};
+            \node at (2.8,0.38) {\scalebox{0.3}{\hopflink}};
+            \node at (1.6,-1.0) {$\widehat{\sigma_1^2}$ --- зацепление Хопфа};
+            % трилистник
+            \pic[braid/number of strands=2, braid/height=0.2cm] at (4.45,0) {braid={s_1 s_1 s_1}};
+            \braidclosure{4.45}{2}{0.76}{1.2pt}{2,1}
+            \node at (6.15,0.38) {$\leadsto$};
+            \node at (7.45,0.38) {\scalebox{0.3}{\trefoilknot}};
+            \node at (6.25,-1.0) {$\widehat{\sigma_1^3}$ --- «трилистник»};
+            % восьмёрка
+            \pic[braid/number of strands=3, braid/height=0.15cm] at (8.85,0) {braid={s_1 s_2^{-1} s_1 s_2^{-1}}};
+            \braidclosure{8.85}{3}{0.76}{1.2pt}{3,1,2}
+            \node at (10.75,0.38) {$\leadsto$};
+            \node at (12.25,0.38) {\scalebox{0.3}{\eightknot}};
+            \node at (10.65,-1.0) {$\widehat{\sigma_1\sigma_2^{-1}\sigma_1\sigma_2^{-1}}$ --- «восьмёрка»};
+        \end{tikzpicture}
+        \end{center}
+        \item Теорема (Александер): любой узел (зацепление) --- замыкание некоторой косы;
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Узел $\rightleftharpoons$ вложение (без самопересечений) окружности $S^1\hookrightarrow\mathbb{R}^3$, зацепление $\rightleftharpoons$ вложение нескольких непересекающихся окружностей; два узла (зацепления) эквивалентны, если один можно непрерывно деформировать в другой в $\mathbb{R}^3$ без самопересечений (изотопия); тривиальный узел --- стандартная окружность. Узел задаётся диаграммой --- плоской проекцией с указанием «над/под» в точках пересечения;
+            \item Теорема: $B_n\cong\pi_1(\mathrm{UConf}_n(\mathbb{C}))$, где $\mathrm{UConf}_n(\mathbb{C})=\{n\text{-элементные подмножества }\mathbb{C}\}$ --- пространство конфигураций $n$ неупорядоченных точек на плоскости: петля в нём --- движение точек, вернувшихся на прежние места (возможно, переставившись), нити косы --- траектории точек. Для упорядоченных конфигураций $\mathrm{Conf}_n(\mathbb{C})$ получается подгруппа чистых кос (см. также следующий слайд). Например, $\mathrm{UConf}_2(\mathbb{C})\simeq\mathbb{C}^*$ (через $w=(z_1-z_2)^2\ne0$), $\pi_1=\mathbb{Z}=B_2$;
+            \item Теорема (Марков): $\hat\beta_1=\hat\beta_2$ $\Leftrightarrow$ $\beta_1$, $\beta_2$ связаны сопряжениями и стабилизациями $\beta\in B_n\mapsto\beta\sigma_n^{\pm1}\in B_{n+1}$;
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Группы как язык симметрии}
+% ============================================================
+
+\begin{frame}{Группы перестановок}
+    \begin{itemize}
+        \item Перестановка $\rightleftharpoons$ биекция конечного множества $\sigma:\{1,\dots,n\}\to\{1,\dots,n\}$;
+        \item Симметрическая группа $S_n$ $\rightleftharpoons$ мн-во перестановок с композицией; $|S_n|=n!$;
+        \item Цикл $(a_1\,a_2\,\dots\,a_k)$: $a_1\mapsto a_2\mapsto\dots\mapsto a_k\mapsto a_1$;
+        \item При $n\ge3$ $S_n$ --- неабелева, например (композиция слева направо): $(1\,2)(2\,3)=(1\,3\,2)\ne(1\,2\,3)=(2\,3)(1\,2)$
+        \item Лемма: $S_n=\langle(1\,2),(2\,3),\dots,(n{-}1\ n)\rangle$.
+        \item Знак $\mathrm{sgn}: S_n\to\{\pm1\}: (a_1\,a_2\,\dots\,a_k) \mapsto (-1)^{k-1}$ --- гомоморфизм; 
+        \item Знакопеременная группа $\rightleftharpoons$ $A_n=\ker\mathrm{sgn}$ (чётные перестановки), $|A_n|=n!/2$.
+        \item Связь с косами: $B_n\to S_n: \sigma_i\mapsto(i\ \ i{+}1)$ --- гомоморфизм, сюръективен («на»);
+        \item Чистые косы $\rightleftharpoons$ $\ker(B_n\to S_n)$ --- «каждая нить вернулась на своё место»; 
+        \item Примеры:
+        \begin{center}
+        \begin{tikzpicture}[braid slide, braid/number of strands=3]
+            \pic[braid/height=0.3cm] at (1.1,0) {braid={s_1 s_1}};
+            \node[anchor=east] at (0.95,0.38) {$\sigma_1^2$:};
+            \pic[braid/height=0.3cm] at (3.7,0) {braid={s_2 s_2}};
+            \node[anchor=east] at (3.55,0.38) {$\sigma_2^2$:};
+            \pic[braid/height=0.15cm] at (6.9,0) {braid={s_1 s_1 s_2 s_2}};
+            \node[anchor=east] at (6.75,0.38) {$\sigma_1^2\sigma_2^2$:};
+            \pic[braid/height=0.15cm] at (11.0,0) {braid={s_2 s_1 s_1 s_2^{-1}}};
+            \node[anchor=east] at (10.85,0.38) {$\sigma_2\sigma_1^2\sigma_2^{-1}$:};
+        \end{tikzpicture}
+        \end{center}
+        \item Теорема: $S_n\cong B_n/\langle\sigma_1^2,\dots,\sigma_{n-1}^2\rangle$.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Гомоморфизм из группы, заданной образующими и соотношениями, достаточно задать на образующих, если их образы удовлетворяют тем же соотношениям; для $B_n\to S_n$ это соотношения Артина: $(i\ \ i{+}1)(i{+}1\ \ i{+}2)(i\ \ i{+}1)=(i{+}1\ \ i{+}2)(i\ \ i{+}1)(i{+}1\ \ i{+}2)$ и коммутирование непересекающихся транспозиций;
+            \item Включение $\langle\sigma_i^2\rangle\subseteq\ker$ очевидно ($(i\ \ i{+}1)^2=e$), равенство --- нет: оно равносильно тому, что $S_n$ задаётся соотношениями Артина и $s_i^2=e$ (копредставление Кокстера); здесь $\langle\sigma_i^2\rangle$ --- нормальное замыкание.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Группы Галуа}
+    \begin{itemize}
+        \item Пусть $k$ --- поле (напр., $\mathbb{Q}$ или $\mathbb{F}_p$), $f(x)\in k[x]$ --- неприводимый; 
+        \item Поле разложения $K=K_f$ $\rightleftharpoons$ «наименьшее» поле, содержащее $k$ и все корни $f$;
+        \item Группа Галуа $\mathrm{Gal}(f)$ $\rightleftharpoons$ автоморфизмы $\sigma:K_f\to K_f$ (биекции, сохраняющие операции) такие, что $\forall a\in k\ \sigma(a)=a$;
+        \item $\sigma\in \mathrm{Gal}(f)$ переставляет корни $f$ $\Rightarrow$ $\mathrm{Gal}(f)\hookrightarrow S_n$, $n$ --- число разл. корней;
+        \item Примеры $f\in\mathbb{Q}[x]$:
+        \begin{itemize}
+            \item $x^2-2=(x+\sqrt2)(x-\sqrt2)$, $\mathrm{Gal}(f)\cong\mathbb{Z}/2\mathbb{Z}$, $|\mathrm{Gal}(f)|=2$;
+            \item $x^3-2=(x-\sqrt[3]{2})(x-\omega\sqrt[3]{2})(x-\omega^2\sqrt[3]{2})$, $\omega=e^{2\pi i/3}$, $\mathrm{Gal}(f)\cong S_3$, $|\mathrm{Gal}(f)|=6$;
+            \item $x^5-x-1=\dots$, $\mathrm{Gal}(f)\cong S_5$, $|\mathrm{Gal}(f)|=120$.
+        \end{itemize}
+        \item Лекция 2: $\mathbb{F}_{p^m}\cong\mathbb{F}_{p}[x]/(f)$, $\deg f=m$; обозначим $\mathrm{Gal}(\mathbb{F}_{p^m})=\mathrm{Gal}(f)$;
+        \item Примеры $f\in\mathbb{F}_p[x]$:
+        \begin{itemize}
+            \item $\mathbb{F}_4\cong\mathbb{F}_2[x]/(x^2+x+1)$, $\mathrm{Gal}(\mathbb{F}_4)\cong\mathbb{Z}/2\mathbb{Z}$, $\alpha\mapsto\alpha^2\in\mathrm{Gal}(\mathbb{F}_4)$;
+            \item $\mathbb{F}_{27}\cong\mathbb{F}_3[x]/(x^3-x-1)$, $\mathrm{Gal}(\mathbb{F}_{27})\cong\mathbb{Z}/3\mathbb{Z}$, $\alpha\mapsto\alpha^3\in \mathrm{Gal}(\mathbb{F}_{27})$;
+        \end{itemize}
+        \item Теорема: $\mathrm{Gal}(\mathbb{F}_{p^m})\cong\mathbb{Z}/m\mathbb{Z}$, порожд. $\alpha\mapsto\alpha^p$ (автоморфизм Фробениуса).
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Общее определение: если $k\subset K$ --- расширение полей, то $\mathrm{Gal}(K/k)=\{\varphi:K\to K\ \text{автоморфизм},\ \varphi|_k=\mathrm{id}\}$; тогда $\mathrm{Gal}(f)=\mathrm{Gal}(K_f/k)$. Пример: $\mathrm{Gal}(\mathbb{C}/\mathbb{R})=\mathbb{Z}/2\mathbb{Z}$ (комплексное сопряжение);
+            \item Над конечным полем $\mathbb{F}_{p^m}$ --- поле разложения любого неприводимого $f\in\mathbb{F}_p[x]$ степени $m$ (все корни $f$ лежат в $\mathbb{F}_p[x]/(f)$), поэтому $\mathrm{Gal}(f)=\mathrm{Gal}(\mathbb{F}_{p^m}/\mathbb{F}_p)$; на слайде для краткости $\mathrm{Gal}(\mathbb{F}_{p^m})$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Простые группы и теорема Жордана--Гёльдера}
+    \begin{itemize}
+        \item $G\neq \{e\}$ --- простая группа $\rightleftharpoons$ $H\trianglelefteq G$ $\Rightarrow$ $H=G$ или $H=\{e\}$, т.е. нет собственных нетривиальных нормальных подгрупп; примеры:
+        \begin{itemize}
+            \item $\mathbb{Z}/p\mathbb{Z}$ ($p$ --- простое) --- абелевы простые;
+            \item $A_n$ при $n\ge5$ --- неабелевы простые;
+        \end{itemize}
+        \item Композиционный ряд $G$ $\rightleftharpoons$ $G=G_0\rhd G_1\rhd\dots\rhd G_k=\{e\}$, $G_{i+1}\trianglelefteq G_i$ и все факторы $G_i/G_{i+1}$ --- простые;
+        \item Пример: $G=\mathbb{Z}/12\mathbb{Z}$:
+        \begin{itemize}[<.->]
+            \item Ряд $G\rhd\langle2\rangle\rhd\langle6\rangle\rhd\{0\}$ --- факторы $\mathbb{Z}/2,\mathbb{Z}/3,\mathbb{Z}/2$;
+            \item Ряд $G\rhd\langle3\rangle\rhd\langle6\rangle\rhd\{0\}$ --- факторы $\mathbb{Z}/3,\mathbb{Z}/2,\mathbb{Z}/2$;
+        \end{itemize}
+        \item Факт: для $\mathbb{Z}/n\mathbb{Z}$ факторы --- $\mathbb{Z}/p\mathbb{Z}$ по простым $p\mid n$ (с кратностями);
+        \item Теорема (Жордан--Гёльдер): $|G|<\infty$ $\Rightarrow$ композиционный ряд $\exists$ и набор $G_i/G_{i+1}$ определён однозначно с точностью до порядка и изоморфизма;
+        \item Замечание: по факторам группа не восстанавливается однозначно; например, $\mathbb{Z}/4\mathbb{Z}$ и $\mathbb{Z}/2\oplus\mathbb{Z}/2$ --- факторы $\mathbb{Z}/2,\mathbb{Z}/2$; $\mathbb{Z}/6\mathbb{Z}$ и $S_3$ --- факторы $\mathbb{Z}/2,\mathbb{Z}/3$;
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Теорема Жордана--Гёльдера --- очередной аналог разложения на простые множители в $\mathbb{Z}$;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Разрешимые группы и теорема Галуа}
+    \begin{itemize}
+        \item Конечная $G$ --- разрешимая $\rightleftharpoons$ все факторы композиционного ряда абелевы;
+        \item Примеры:
+        \begin{itemize}
+            \item абелевы группы разрешимы;
+            \item $S_3$ --- разрешима ($S_3\rhd A_3\rhd\{e\}$ --- факторы $\mathbb{Z}/2,\mathbb{Z}/3$);
+            \item $S_4$ --- разрешима (\dots);
+            \item $S_n$, $A_n$ --- неразрешимы при $n\ge5$;
+        \end{itemize}
+        \item $f\in\mathbb{Q}[x]$ разрешим в радикалах $\rightleftharpoons$ корни $f$ выражаются через коэффициенты с помощью $+,-,\cdot,/$ и $\sqrt[m]{\ }$;
+        \item Теорема (Галуа): $f$ разрешим в радикалах $\Leftrightarrow$ $\mathrm{Gal}(f)$ разрешима;
+        \item Следствие: $S_2,S_3,S_4$ --- разрешимы $\Rightarrow$ есть формулы в радикалах (квадратное уравнение, формулы Кардано и Феррари);
+        \item Следствие: при $\deg(f)\ge5$ нет общей формулы в радикалах;
+        \item Пример: $\mathrm{Gal}(x^5-x-1)\cong S_5$ неразрешима, нет формулы для корней;
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Общее определение: $G$ (не обязательно конечная) разрешима $\rightleftharpoons$ существует цепочка $G=G_0\rhd G_1\rhd\dots\rhd G_k=\{e\}$, $G_{i+1}\trianglelefteq G_i$, с абелевыми факторами $G_i/G_{i+1}$ (не обязательно простыми). Равносильно: производный ряд $G^{(0)}=G$, $G^{(i+1)}=[G^{(i)},G^{(i)}]$ (подгруппа, порождённая коммутаторами) доходит до $\{e\}$. Для конечной группы равносильно условию на слайде: цепочку с абелевыми факторами можно измельчить до композиционного ряда, а простая абелева группа --- это $\mathbb{Z}/p\mathbb{Z}$. Бесконечные примеры: $(\mathbb{Z},+)$ разрешима (абелева), но композиционного ряда не имеет;
+    }
+\end{frame}
+
+\begin{frame}{Симметрии конечномерных векторных пространств}
+    \begin{itemize}
+        \item Движения (изометрии) $\mathbb{R}^n$ $\leftrightharpoons$ преобразования $g:\mathbb{R}^n\rightarrow \mathbb{R}^n$, сохраняющие расстояния, т.е. $|g(\mathbf{x})-g(\mathbf{y})|=|\mathbf{x}-\mathbf{y}|$; образуют группу по композиции;
+        \item Лемма: всякое движение $\mathbb{R}^n$ имеет вид $g(\mathbf{x})=A\mathbf{x}+\mathbf{b}$, где $A\in M_n(\mathbb{R})$ --- ортогональная матрица $n\times n$: $A^TA=I$, $\mathbf{b}\in\mathbb{R}^n$ --- вектор;
+        \item Ортогональная группа $\leftrightharpoons$ $O_n(\mathbb{R})=\{A^TA=I\}$ --- изометрии: $g(\mathbf{0})=\mathbf{0}$;
+        \item Св-ва $O_n(\mathbb{R})$ ($n\geqslant 2$): неабелева, бесконечна, не конечно порождена;
+        \item $O_n(\mathbb{R})$ --- «топологическая группа»; $g^{-1}, g\circ f$ --- непрерывные;
+        \item Группа Ли $\leftrightharpoons$ «гладкая топологическая группа»; примеры групп Ли:
+        \begin{center}
+            % \small
+            \footnotesize
+            \begin{tabular}{lll}
+                \toprule
+                группа & определение & что сохраняет \\
+                \midrule
+                $GL_n(\mathbb{R})$; $SL_n(\mathbb{R})$ & $\det A\neq0$;\ $\det A=1$ & линейную структуру; + объём и ориентацию \\
+                $O_n(\mathbb{R})$; $SO_n(\mathbb{R})$ & $A^TA=I$;\ $\det A=1$ & скалярное произведение; + ориентацию \\
+                $U_n(\mathbb{C})$; $SU_n(\mathbb{C})$ & $A^*A=I$;\ $\det A=1$ & эрмитово скалярное произведение; + объём \\
+                $Sp_{2n}(\mathbb{R})$ & $A^TJA=J$, $J=\begin{psmallmatrix}0&I\\-I&0\end{psmallmatrix}$ & невырожденную кососимметрическую форму \\
+                \bottomrule
+            \end{tabular}
+        \end{center}        
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Группа $G$ является полупрямым произведением нормальной подгруппы $N\trianglelefteq G$ и подгруппы $H\le G$ (обозначение $G=N\rtimes H$), если $N\cap H=\{e\}$ и $G=NH$, т.е. каждый $g\in G$ единственным образом записывается как $g=nh$, $n\in N$, $h\in H$.
+            \item Пара $(A,\mathbf{a})$ задаёт движение $g(\mathbf{x})=A\mathbf{x}+\mathbf{a}$, умножение (композиция): $(A,\mathbf{a})(B,\mathbf{b})=(AB,\ \mathbf{a}+A\mathbf{b})$. Переносы $\mathbb{R}^n$ образуют нормальную подгруппу, $O_n(\mathbb{R})$ --- стабилизатор нуля, откуда $\mathrm{Isom}(\mathbb{R}^n)\cong\mathbb{R}^n\rtimes O_n(\mathbb{R})$, где $O_n(\mathbb{R})$ действует на $\mathbb{R}^n$ умножением: $A\,T_{\mathbf{b}}A^{-1}=T_{A\mathbf{b}}$. Эта группа не является прямым произведением: перенос и поворот, вообще говоря, не коммутируют.
+            \item Конечно порождённая группа счётна (слов в конечном алфавите счётное число), а $O_n(\mathbb{R})\supset SO_2(\mathbb{R})\cong S^1$ при $n\geqslant2$ несчётна. Как топологическая группа $O_n(\mathbb{R})$ порождается конечным числом элементов (с точностью до замыкания).
+            \item Группа Ли (полное определение): множество $G$, одновременно являющееся группой и гладким многообразием размерности $d$ (хаусдорфово, со счётной базой, локально устроено как $\mathbb{R}^d$ с гладкими функциями перехода между картами), причём умножение $G\times G\to G$ и обращение $G\to G$ --- гладкие отображения. Топологическая группа --- то же, но с непрерывными операциями и без структуры многообразия. Всякая замкнутая подгруппа $GL_n(\mathbb{R})$ является группой Ли (теорема Картана), в частности все группы из таблицы. Например, $\dim O_n(\mathbb{R})=\dim SO_n(\mathbb{R})=\frac{n(n-1)}{2}$.
+            \item $A^*=\overline{A}^{\,T}$ --- эрмитово сопряжённая матрица (транспонирование и комплексное сопряжение). Эрмитово скалярное произведение на $\mathbb{C}^n$: $\langle\mathbf{x},\mathbf{y}\rangle=\mathbf{x}^*\mathbf{y}$; условие $A^*A=I$ равносильно $\langle A\mathbf{x},A\mathbf{y}\rangle=\langle\mathbf{x},\mathbf{y}\rangle$. Симплектическая форма: $\omega(\mathbf{x},\mathbf{y})=\mathbf{x}^TJ\mathbf{y}$ (билинейная, кососимметричная, невырожденная), условие $A^TJA=J$ равносильно $\omega(A\mathbf{x},A\mathbf{y})=\omega(\mathbf{x},\mathbf{y})$. Для $A\in O_n(\mathbb{R})$ всегда $\det A=\pm1$, для $A\in U_n(\mathbb{C})$ --- $|\det A|=1$.
+            \item Названия групп из таблицы: $GL_n$ --- полная линейная (general linear), $SL_n$ --- специальная линейная (special linear), $O_n$ --- ортогональная (orthogonal), $SO_n$ --- специальная ортогональная, $U_n$ --- унитарная (unitary), $SU_n$ --- специальная унитарная, $Sp_{2n}$ --- симплектическая (symplectic). Слово специальная означает условие $\det A=1$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Алгебры Ли и их классификация}
+    \begin{itemize}
+        \item Каждой группе Ли $G$ соответствует «алгебра Ли» $\mathfrak{g}$, например: $SL_n \mapsto \mathfrak{sl}_n = \{\mathrm{Tr}(A)=0\}$, $O_n \mapsto \mathfrak{o}_n = \{A+A^T=0\}$, $SO_n \mapsto \mathfrak{so}_n=\mathfrak{o}_n$, \dots; $\mathfrak{gl}_n$, $\mathfrak{u}_n$, $\mathfrak{su}_n$, $\mathfrak{sp}_{2n}$;
+        \item Простая алгебра Ли $\rightleftharpoons$ неабелева, без нетривиальных идеалов;
+        \item Теорема (Киллинг--Картан): все простые комплексные алгебры Ли:
+            \begin{center}
+                \setlength{\tabcolsep}{5pt}
+                \renewcommand{\arraystretch}{1.4}
+                \begin{tabular}{@{}l l l@{\hspace{1.5em}}l l l@{}}
+                    $\mathbf{A}_n$ & \dynkin A{}  & $\mathfrak{sl}_{n+1}$, $n\geqslant1$
+                    & $\mathbf{E}_6$ & \dynkin E6 & $\mathfrak{e}_6$, $\dim=78$ \\
+                    $\mathbf{B}_n$ & \dynkin B{}  & $\mathfrak{so}_{2n+1}$, $n\geqslant2$
+                    & $\mathbf{E}_7$ & \dynkin E7 & $\mathfrak{e}_7$, $\dim=133$ \\
+                    $\mathbf{C}_n$ & \dynkin C{}  & $\mathfrak{sp}_{2n}$, $n\geqslant3$
+                    & $\mathbf{E}_8$ & \dynkin E8 & $\mathfrak{e}_8$, $\dim=248$ \\
+                    $\mathbf{D}_n$ & \dynkin D{} & $\mathfrak{so}_{2n}$, $n\geqslant4$
+                    & $\mathbf{F}_4$ & \dynkin F4 & $\mathfrak{f}_4$, $\dim=52$ \\
+                    & & & $\mathbf{G}_2$ & \dynkin G2 & $\mathfrak{g}_2$, $\dim=14$ \\
+                \end{tabular}
+            \end{center}
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Алгебра Ли $\rightleftharpoons$ векторное пространство $\mathfrak{g}$ со скобкой $[x,y]$ (билинейной, $[x,x]=0$, тождество Якоби $[x,[y,z]]+[y,[z,x]]+[z,[x,y]]=0$); пример: матрицы, $[A,B]=AB-BA$;
+            \item Группа Ли $\mapsto$ алгебра Ли. Алгебра Ли $\mathfrak{g}=T_eG$ --- касательное пространство в единице; для матричной группы $\mathfrak{g}=\{A:\ e^{tA}\in G\ \ \forall t\in\mathbb{R}\}$, скобка --- коммутатор $[A,B]=AB-BA$. Алгебра определяет только окрестность единицы, поэтому соответствие не взаимно однозначно: разные группы могут иметь одну алгебру, например $SU_2$ и $SO_3$ ($\mathfrak{su}_2\cong\mathfrak{so}_3$; $SU_2\to SO_3$ --- двулистное накрытие с ядром $\{\pm I\}$), а также $O_n$ и $SO_n$ ($\mathfrak{o}_n=\mathfrak{so}_n$, группы различаются компонентами связности). Однозначность восстанавливается для связных и односвязных групп: каждой конечномерной алгебре Ли отвечает единственная односвязная группа Ли, а остальные связные группы с той же алгеброй --- её факторы по дискретным центральным подгруппам.
+            \item Алгебры Ли классических групп (матричные определения):
+            \[
+            \begin{array}{ll}
+                \mathfrak{gl}_n(\mathbb{R}) = M_n(\mathbb{R}), & \mathfrak{sl}_n(\mathbb{R}) = \{A:\ \mathrm{Tr}A=0\}, \\[0.7ex]
+                \mathfrak{o}_n(\mathbb{R}) = \{A:\ A+A^T=0\}, & \mathfrak{so}_n(\mathbb{R}) = \mathfrak{o}_n(\mathbb{R}), \\[0.7ex]
+                \mathfrak{u}_n = \{A\in M_n(\mathbb{C}):\ A+A^*=0\}, & \mathfrak{su}_n = \{A\in M_n(\mathbb{C}):\ A+A^*=0,\ \mathrm{Tr}A=0\}, \\[0.7ex]
+                \mathfrak{sp}_{2n}(\mathbb{R}) = \{A:\ A^TJ+JA=0\}, & J=\begin{psmallmatrix}0&I\\-I&0\end{psmallmatrix}.
+            \end{array}
+            \]
+            \item Корни алгебры Ли $\mathfrak{g}$ --- ненулевые векторы $\alpha\in\mathfrak{h}^*$ (веса присоединённого действия подалгебры Картана $\mathfrak{h}$): $\mathfrak{g}=\mathfrak{h}\oplus\bigoplus_\alpha\mathfrak{g}_\alpha$, $[h,x]=\alpha(h)x$ при $x\in\mathfrak{g}_\alpha$. Они образуют систему корней (порождённая ими решётка — решётка корней из лекции 4), а вершины диаграммы Дынкина --- простые корни. Простое ребро означает угол $120^\circ$ между корнями одной длины; двойное и тройное ребро --- углы $135^\circ$ и $150^\circ$ и корни разной длины (отношение квадратов длин $2$ и $3$), стрелка указывает на короткий корень. Типы $\mathbf{A},\mathbf{D},\mathbf{E}$ (только простые рёбра) отвечают случаям решёток $A_n,D_n,E_n$ с корнями одной длины, а в $\mathbf{B},\mathbf{C},\mathbf{F}_4,\mathbf{G}_2$ корни двух длин.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Дискретные симметрии евклидовых пространств}
+    \begin{itemize}
+        \item Пусть $\mathrm{Aut}(L)$ --- группа автоморфизмов решетки $L\subset\mathbb{R}^m$;
+        \item Лемма: $\mathrm{Aut}(L)$ --- конечная; например, 
+        $|\mathrm{Aut}(\mathbf{A}_2)|=12$, $|\mathrm{Aut}(\mathbf{E}_8)|=696\,729\,600$, $|\mathrm{Aut}(\Lambda_{24})|\approx8.3\times10^{18}$, $|\mathrm{Aut}(\mathbb{Z}^m)|=2^m m!$;
+        \item $\mathrm{Aut}(L)$ --- подгруппа ортогональной группы $O_m(\mathbb{R})$, сохраняющая решётку.
+        \item Рассмотрим правильные $n$-угольники в $\mathbb{R}^2$ ($n\ge3$) и их группу симметрий $D_n$ (диэдральная группа); $|D_n|=2n$ ($n$ вращений и $n$ отражений);
+        \item $D_n$ порождается отражением $s$ и вращением $r$ на угол $2\pi/n$: $D_n=\langle r,s\mid r^n=s^2=e,\ srs^{-1}=r^{-1}\rangle$; $C_n=\langle r\rangle$ --- циклическая подгруппа;
+        \begin{center}
+        \begin{tikzpicture}[scale=0.6]
+            \draw[thick] (90:1) -- (162:1) -- (234:1) -- (306:1) -- (18:1) -- cycle;
+            \foreach \a in {90,162,234,306,18} \fill (\a:1) circle (1.2pt);
+            \draw[red!70!black, dashed] (90:1.2) -- (270:1.2);
+            \node[red!70!black, anchor=east, inner sep=1pt] at (0,-1.05) {$s$};
+            \draw[blue!60!black, ->, thick] (96:1.35) arc (96:156:1.35);
+            \node[blue!60!black, inner sep=1pt] at (126:1.65) {\scriptsize $r$};
+            \node[anchor=east] at (-1.5,0) {Пример: $n=5$: $|D_5|=10$};
+        \end{tikzpicture}
+        \end{center}
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Пример доказательства из высшей математики: $\mathrm{Aut}(L)$ --- конечная, т.к. является «дискретной подгруппой компактной группы»;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Симметрии правильных многогранников}
+    \begin{itemize}
+        \item Правильный многогранник в $\mathbb{R}^3$ (платоновы тела):
+        \begin{center}
+        \begin{tikzpicture}[scale=0.5,every node/.style={scale=0.8}]
+            % Тетраэдр: 4 вершин, 6 рёбер, 4 граней
+            \draw[thick] (1.113,-0.929) -- (0.405,1.261);
+            \draw[thick] (-1.113,-0.549) -- (0.405,1.261);
+            \draw[thick] (-1.113,-0.549) -- (1.113,-0.929);
+            \draw[thick] (-0.405,0.217) -- (0.405,1.261);
+            \draw[thick] (-0.405,0.217) -- (1.113,-0.929);
+            \draw[thick] (-0.405,0.217) -- (-1.113,-0.549);
+            \node[below] at (0.000,-1.7) {Тетраэдр};
+            % Куб: 8 вершин, 12 рёбер, 6 граней
+            \draw[gray,dashed] (3.505,-0.217) -- (1.987,-0.549);
+            \draw[gray,dashed] (3.505,-0.217) -- (4.213,-0.929);
+            \draw[gray,dashed] (3.505,1.261) -- (3.505,-0.217);
+            \draw[thick] (2.695,0.217) -- (2.695,-1.261);
+            \draw[thick] (1.987,-0.549) -- (2.695,-1.261);
+            \draw[thick] (1.987,0.929) -- (2.695,0.217);
+            \draw[thick] (1.987,0.929) -- (1.987,-0.549);
+            \draw[thick] (4.213,-0.929) -- (2.695,-1.261);
+            \draw[thick] (4.213,0.549) -- (2.695,0.217);
+            \draw[thick] (4.213,0.549) -- (4.213,-0.929);
+            \draw[thick] (3.505,1.261) -- (1.987,0.929);
+            \draw[thick] (3.505,1.261) -- (4.213,0.549);
+            \node[below] at (3.100,-1.7) {Куб};
+            % Октаэдр: 6 вершин, 12 рёбер, 8 граней
+            \draw[gray,dashed] (5.587,0.617) -- (6.200,-1.280);
+            \draw[gray,dashed] (7.514,0.288) -- (6.200,-1.280);
+            \draw[gray,dashed] (7.514,0.288) -- (5.587,0.617);
+            \draw[thick] (6.813,-0.617) -- (4.886,-0.288);
+            \draw[thick] (6.200,-1.280) -- (4.886,-0.288);
+            \draw[thick] (6.200,-1.280) -- (6.813,-0.617);
+            \draw[thick] (6.200,1.280) -- (4.886,-0.288);
+            \draw[thick] (6.200,1.280) -- (6.813,-0.617);
+            \draw[thick] (5.587,0.617) -- (4.886,-0.288);
+            \draw[thick] (5.587,0.617) -- (6.200,1.280);
+            \draw[thick] (7.514,0.288) -- (6.813,-0.617);
+            \draw[thick] (7.514,0.288) -- (6.200,1.280);
+            \node[below] at (6.200,-1.7) {Октаэдр};
+            % Икосаэдр: 12 вершин, 30 рёбер, 20 граней
+            \draw[gray,dashed] (8.978,-0.765) -- (8.182,-0.918);
+            \draw[gray,dashed] (8.978,-0.765) -- (8.088,0.374);
+            \draw[gray,dashed] (8.978,-0.765) -- (9.622,-1.413);
+            \draw[gray,dashed] (9.470,0.676) -- (8.088,0.374);
+            \draw[gray,dashed] (9.470,0.676) -- (8.978,-0.765);
+            \draw[gray,dashed] (9.470,0.676) -- (8.978,1.413);
+            \draw[gray,dashed] (10.418,-0.428) -- (9.622,-1.413);
+            \draw[gray,dashed] (10.418,-0.428) -- (8.978,-0.765);
+            \draw[gray,dashed] (10.418,-0.428) -- (10.512,-0.374);
+            \draw[gray,dashed] (10.418,-0.428) -- (9.470,0.676);
+            \draw[gray,dashed] (10.418,0.918) -- (9.470,0.676);
+            \draw[gray,dashed] (10.418,0.918) -- (10.418,-0.428);
+            \draw[thick] (8.182,0.428) -- (8.182,-0.918);
+            \draw[thick] (9.130,-0.676) -- (8.182,-0.918);
+            \draw[thick] (9.130,-0.676) -- (8.182,0.428);
+            \draw[thick] (8.088,0.374) -- (8.182,-0.918);
+            \draw[thick] (8.088,0.374) -- (8.182,0.428);
+            \draw[thick] (9.622,-1.413) -- (8.182,-0.918);
+            \draw[thick] (9.622,-1.413) -- (9.130,-0.676);
+            \draw[thick] (9.622,0.765) -- (8.182,0.428);
+            \draw[thick] (9.622,0.765) -- (9.130,-0.676);
+            \draw[thick] (8.978,1.413) -- (8.182,0.428);
+            \draw[thick] (8.978,1.413) -- (8.088,0.374);
+            \draw[thick] (8.978,1.413) -- (9.622,0.765);
+            \draw[thick] (10.512,-0.374) -- (9.130,-0.676);
+            \draw[thick] (10.512,-0.374) -- (9.622,-1.413);
+            \draw[thick] (10.512,-0.374) -- (9.622,0.765);
+            \draw[thick] (10.418,0.918) -- (9.622,0.765);
+            \draw[thick] (10.418,0.918) -- (8.978,1.413);
+            \draw[thick] (10.418,0.918) -- (10.512,-0.374);
+            \node[below] at (9.300,-1.7) {Икосаэдр};
+            % Додекаэдр: 20 вершин, 30 рёбер, 12 граней
+            \draw[gray,dashed] (11.287,-0.549) -- (11.172,-0.726);
+            \draw[gray,dashed] (11.359,0.474) -- (11.287,-0.549);
+            \draw[gray,dashed] (11.359,0.474) -- (11.287,0.929);
+            \draw[gray,dashed] (12.181,-0.976) -- (11.287,-0.549);
+            \draw[gray,dashed] (12.181,-0.976) -- (12.619,-1.416);
+            \draw[gray,dashed] (12.296,0.679) -- (11.359,0.474);
+            \draw[gray,dashed] (12.805,-0.217) -- (12.181,-0.976);
+            \draw[gray,dashed] (12.805,-0.217) -- (12.296,0.679);
+            \draw[gray,dashed] (12.805,1.261) -- (12.296,0.679);
+            \draw[gray,dashed] (13.628,-0.188) -- (12.805,-0.217);
+            \draw[thick] (11.172,0.188) -- (11.172,-0.726);
+            \draw[thick] (11.995,-1.261) -- (11.172,-0.726);
+            \draw[thick] (11.995,0.217) -- (11.172,0.188);
+            \draw[thick] (11.287,0.929) -- (11.172,0.188);
+            \draw[thick] (12.504,-0.679) -- (11.995,-1.261);
+            \draw[thick] (12.504,-0.679) -- (11.995,0.217);
+            \draw[thick] (12.619,-1.416) -- (11.995,-1.261);
+            \draw[thick] (12.619,0.976) -- (11.995,0.217);
+            \draw[thick] (12.181,1.416) -- (11.287,0.929);
+            \draw[thick] (12.181,1.416) -- (12.619,0.976);
+            \draw[thick] (13.441,-0.474) -- (12.504,-0.679);
+            \draw[thick] (13.513,-0.929) -- (12.619,-1.416);
+            \draw[thick] (13.513,-0.929) -- (13.441,-0.474);
+            \draw[thick] (13.513,0.549) -- (12.619,0.976);
+            \draw[thick] (13.513,0.549) -- (13.441,-0.474);
+            \draw[thick] (12.805,1.261) -- (12.181,1.416);
+            \draw[thick] (13.628,-0.188) -- (13.513,-0.929);
+            \draw[thick] (13.628,0.726) -- (13.513,0.549);
+            \draw[thick] (13.628,0.726) -- (12.805,1.261);
+            \draw[thick] (13.628,0.726) -- (13.628,-0.188);
+            \node[below] at (12.400,-1.7) {Додекаэдр};
+        \end{tikzpicture}
+        \end{center}
+        \item Их группы симметрий:
+        \begin{center}
+            \footnotesize
+            \begin{tabular}{lcccc}
+                \toprule
+                многогранник & вращения ($SO_3$) & $|\cdot|$ & все симметрии ($O_3$) & $|\cdot|$ \\
+                \midrule
+                тетраэдр & $A_4$ & 12 & $S_4$ & 24 \\
+                куб, октаэдр & $S_4$ & 24 & $S_4\times\mathbb{Z}/2$ & 48 \\
+                додекаэдр, икосаэдр & $A_5$ & 60 & $A_5\times\mathbb{Z}/2$ & 120 \\
+                \bottomrule
+            \end{tabular}
+        \end{center}        
+        \item Теорема (Клейн): конечные подгруппы $SO_3(\mathbb{R})$ с точностью до сопряжения:
+        \[C_n\ (n\ge1),\ D_n\ (n\ge2),\qquad A_4=T,\ S_4=O,\ A_5=I\]
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Правильный многогранник $\rightleftharpoons$ выпуклый многогранник, все грани которого --- равные правильные многоугольники, и в каждой вершине сходится одинаковое число граней; в $\mathbb{R}^3$ их ровно пять (платоновы тела);
+            \item Двойственные многогранники (куб $\leftrightarrow$ октаэдр, додекаэдр $\leftrightarrow$ икосаэдр) имеют одну группу симметрий, поэтому групп три;
+            \item Все симметрии = вращения + отражения; у куба и икосаэдра есть центральная симметрия, поэтому $\text{все}=\text{вращения}\times\{\pm1\}$, у тетраэдра её нет;
+            \item Названия: группы вращений тетраэдра, куба (октаэдра) и икосаэдра (додекаэдра) --- тетраэдральная $T\cong A_4$, октаэдральная $O\cong S_4$, икосаэдральная $I\cong A_5$; полные группы симметрий в обозначениях Шёнфлиса: $T_d\cong S_4$, $O_h\cong S_4\times\mathbb{Z}/2$, $I_h\cong A_5\times\mathbb{Z}/2$;
+            \item В теореме Клейна $D_1=C_2$ (поворот на $\pi$ вокруг оси), поэтому $D_n$ берётся при $n\ge2$; $D_2$ --- четверная группа Клейна $V_4$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Бинарные многогранные группы}
+    \begin{itemize}
+        \item Вспомним алгебру кватернионов: $\mathbb{H}=\mathbb{H}(\mathbb{R})=\{a+bi+cj+dk\}$, $i^2=j^2=k^2=ijk=-1$, $ij=-ji$, \dots; $|q|^2=a^2+b^2+c^2+d^2$;
+        \item Единичные кватернионы $\{q\in\mathbb{H}:\ |q|=1\}\cong S^3\subset\mathbb{R}^4$ --- сфера;
+        \item Лемма: $SU_2(\mathbb{C})\cong S^3\cong\{q\in\mathbb{H}:\ |q|=1\}$;
+        \item $\mathrm{Im}\,\mathbb{H}=\{bi+cj+dk\}\cong\mathbb{R}^3$; для $v\in\mathrm{Im}\,\mathbb{H}$, $|q|=1$,\ \  $v\mapsto q v q^{-1}$ --- вращение $\mathbb{R}^3$;
+        \item Т.о. $SU_2(\mathbb{C})\to SO_3(\mathbb{R})$ --- сюръективный гомоморфизм, $\ker=\{\pm1\}$ $\Rightarrow$ $SO_3(\mathbb{R})\cong SU_2(\mathbb{C})/\{\pm1\}$ (каждому вращению отвечают два кватерниона $\pm q$);
+        \item Бинарные многогранные группы в $SU_2(\mathbb{C})$ $\rightleftharpoons$ прообразы конечных подгрупп $G\subset SO_3(\mathbb{R})$ (в $SU_2(\mathbb{C})$ порядок $2|G|$);
+        \item Примеры (в терминах кватернионов $\mathbb{H}$): 
+        \begin{itemize}
+            \item $2T=\{\pm1,\pm i,\pm j,\pm k,\tfrac{\pm1\pm i\pm j\pm k}{2}\}$ --- 24 единицы Гурвица (корни $\mathbf{D}_4$);
+            \item $2O=2T\cup\{\tfrac{\pm x\pm y}{\sqrt2}:\ x\ne y\in\{1,i,j,k\}\}$ --- 48 элементов;
+            \item $2I=2T\cup\{\dots\}$ --- 120 элементов;
+        \end{itemize}
+        \item Теорема: конечные подгруппы $SU_2(\mathbb{C})$: $C_n$, $2D_n$ $(n\ge2)$,\quad $2T$, $2O$, $2I$;
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Названия: бинарные диэдральные (дициклические) $2D_n$ ($4n$), бинарная тетраэдральная $2T$ (24), бинарная октаэдральная $2O$ (48), бинарная икосаэдральная $2I$ (120); прообраз $G\subset SO_3(\mathbb{R})$ имеет порядок $2|G|$;
+            \item $2D_1\cong C_4$, поэтому $2D_n$ берётся при $n\ge2$; $2D_2$ --- группа кватернионов $Q_8=\{\pm1,\pm i,\pm j,\pm k\}$.
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{ADEology, Moonshine, Langlands}
+% ============================================================
+
+\begin{frame}{ADEология}
+    \begin{itemize}
+        \item Диаграммы $\mathbf{ADE}$ возникают в разных задачах классификации, например:
+        \begin{itemize}
+            \item евклидовы решётки корней;
+            \item простые алгебры Ли;
+        \end{itemize}
+        \item Шаблон: два беск. семейства ($\mathbf{A}_n$, $\mathbf{D}_n$) + три исключительных ($\mathbf{E}_6,\mathbf{E}_7,\mathbf{E}_8$);
+        \item Конечные подгруппы $SO_3(\mathbb{R})$:
+        ($C_n$, $D_n$) + ($A_4$, $S_4$, $A_5$) --- есть ли связь?
+        \item Аналогично, для $SU_2(\mathbb{C})$?
+        \item Оказывается есть:
+        \begin{itemize}[<.->]
+            \item соответствие Маккея: конечные подгруппы $SU_2(\mathbb{C})$ $\leftrightsquigarrow$ «расширенные диаграммы» $\tilde{\mathbf{A}}_n$, $\tilde{\mathbf{D}}_n$, $\tilde{\mathbf{E}}_{6,7,8}$ (подгруппы $SO_3(\mathbb{R})$ --- через бинарные накрытия);
+        \end{itemize}
+        \item Другие области применения классификации $\mathbf{ADE}$:
+        \begin{itemize}[<.->]
+            \item простые особенности гиперповерхностей (Арнольд), особенности Клейна $\mathbb{C}^2/G$;
+            \item представления колчанов конечного типа (теорема Габриэля);
+            \item \dots
+        \end{itemize}
+        \item Еще одна «троица» $(\mathbb{R},\mathbb{C},\mathbb{H})$ --- есть ли связь с $\mathbf{ADE}$? (вопрос Арнольда)
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Подробнее про эти классификации: M. Hazewinkel, W. Hesselink, D. Siersma, and F. D. Veldkamp, The ubiquity of Coxeter–Dynkin diagrams (an introduction to the A-D-E problem), Nieuw Arch. Wisk. 25 (1977), 257–307.
+            \item Троицы Арнольда --- параллели между тройками объектов: $(\mathbb{R},\mathbb{C},\mathbb{H})$ и $(\mathbf{A}_3,\mathbf{B}_3,\mathbf{H}_3)$, $(\mathbf{D}_4,\mathbf{F}_4,\mathbf{H}_4)$, $(\mathbf{E}_6,\mathbf{E}_7,\mathbf{E}_8)$; для $\mathbf{E}$: $2T,\ 2O,\ 2I$ $\leftrightarrow$ тетраэдр, куб, икосаэдр;
+            \item Арнольд поставил вопрос о причине появления ADE в разных классификациях (1976) и позднее ввёл «троицы» (Symplectization, complexification and mathematical trinities, 1997/1999) как эвристический принцип: теоремы и конструкции для $\mathbb{R}$ имеют «комплексные» и «кватернионные» аналоги. Сам Арнольд признавал, что эти параллели держатся скорее на вере, чем на доказательствах.
+            \item Современное понимание: общей теоремы нет, но часть параллелей объяснена. Тройка $(\mathbf{A}_3,\mathbf{B}_3,\mathbf{H}_3)$ (симметрии тетраэдра, куба, икосаэдра) поднимается в кватернионы (бинарные группы), что даёт $(\mathbf{D}_4,\mathbf{F}_4,\mathbf{H}_4)$ и, через соответствие Маккея, $(\mathbf{E}_6,\mathbf{E}_7,\mathbf{E}_8)$ --- см. работы Дехант (P.-P. Dechant, \textit{From the Trinity $(A_3,B_3,H_3)$ to an ADE correspondence}, Proc. R. Soc. A 474 (2018), 20180034, arXiv:1812.02804).
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Классификация конечных простых групп}
+    \begin{itemize}
+        \item Теорема ($\sim$1955--2004): Каждая конечная простая группа изоморфна одной из следующих:
+        \begin{itemize}
+            \item циклические группы простого порядка $\mathbb Z/p\mathbb Z$;
+            \item знакопеременные группы $A_n$, $n\geqslant 5$;
+            \item 16 бесконечных семейств групп лиева типа (напр. $PSL_n(q)$, \dots);
+            \item 26 «спорадических» групп.
+        \end{itemize}
+        %\item Группы лиева типа строятся по диаграммам Дынкина.
+        \item Доказательство: сотни авторов, 50 лет, десятки тысяч страниц статей.
+        \item Спорадические группы --- группы-исключения, среди которых:
+        \begin{itemize}
+            \item Группы Конвея --- группы автоморфизмов решётки Лича $\Lambda_{24}\subset\mathbb R^{24}$;
+            \item Группа Монстр $\mathbb M$ --- «Самая большая» группа, $|\mathbb M|\approx8\times10^{53}$.
+        \end{itemize}
+        \item \sagemark
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{$j$-функция и Monstrous Moonshine}
+    \begin{itemize}
+        \item Вспомним модулярные формы $E_4, \Delta$ (лекция 4), определим
+        \[j(z) = E_4(z)^3/\Delta(z) = q^{-1} + 744 + 196884\,q + 21493760\,q^2 + \dots \quad q=e^{2\pi i z};\]
+        \item $j(z)$ --- не модулярная форма (имеет полюс в $q=0$, т.е. при $z\to i\infty$);
+        \item $j(z)$ --- «модулярный инвариант»: $\forall\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}\in SL_2(\mathbb{Z})\ \ j\!\left(\tfrac{az+b}{cz+d}\right)=j(z)$;
+        \item Маккей заметил, что:
+        \[196884 = 1 + 196883,\qquad 21493760=1+196883+21296876\]
+        \item $1$, $196883$, $21296876$ --- «размерности неприводимых представлений» группы Монстр $\mathbb M$;
+        \item Гипотеза Moonshine (Конвей--Нортон, 1979) --- общая постановка про связь $\mathbb M$ с $j(z)$, доказана Борчердсом (1992);
+        \item «Moonshine» в широком смысле --- связи конечных групп (например, групп Конвея) с модулярными формами и их обобщениями.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Аналогично: $j^{1/3}=E_4/\Delta^{1/3}=q^{-1/3}(1+248\,q+4124\,q^2+\dots)$, где $E_4=\theta_{\mathbf{E}_8}$; $248=\dim\mathfrak{e}_8$, $4124=1+248+3875$ --- размерности неприводимых представлений $\mathfrak{e}_8$;
+            \item Идея: $j^{1/3}$ --- «ряд размерностей» представления бесконечномерной алгебры (аффинной $\widehat{\mathfrak{e}}_8$), построенного по решётке $\mathbf{E}_8$; для Монстра --- по решётке Лича.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Представления групп}
+    \begin{itemize}
+        \item Представление $\rho\colon G\to GL(V)$ $\rightleftharpoons$ гомоморфизм в группу обратимых линейных операторов комплексного векторного пространства $V$ («реализация группы матрицами»); $\dim\rho=\dim V$;
+        \item Примеры:
+        \begin{itemize}
+            \item знак $\mathrm{sgn}\colon S_n\to GL_1(\mathbb{C})=\mathbb{C}^*$; 
+            \item матричная группа действует на себе: $SU_2\subset GL_2(\mathbb{C})$, $SL_2(\mathbb{Z})\subset GL_2(\mathbb{C})$;
+            \item перестановочное: $\sigma\in S_n$ $\mapsto$ матрица перестановок (переставляет координаты);
+        \end{itemize}
+        \item Подпредставление $\rightleftharpoons$ $W\subset V$ с $\rho(g)W\subset W$ $\forall g\in G$; 
+        \item $\rho$ --- неприводимое $\rightleftharpoons$ $V\neq0$ без собственных подпредставлений; прямая сумма $\rho_1\oplus\rho_2$ действует на $V_1\oplus V_2$;
+        \item Теорема (Машке): для конечной группы $G$ любое конечномерное комплексное представление --- прямая сумма неприводимых, единственная с точностью до порядка и изоморфизма.
+        \item Пример: у $\mathbb M$ ровно $194$ неприводимых представления, $\dim=1,\ 196883,\dots$
+        \item \sagemark
+        % lab: Характеры представлений - кандидат на лабораторную
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Теорема Машке --- аналог разложения решёток на неприводимые (лекция 4). Число неприводимых представлений равно числу классов сопряжённости $G$, а сумма квадратов их размерностей равна $|G|$: для $S_3$ --- три представления ($\mathbf{1}$, $\mathrm{sgn}$, $\mathbf{2}$), $1^2+1^2+2^2=6$; у Монстра классов сопряжённости 194. Аналогично для компактных групп ($SO_2$, $SU_2$; представления непрерывные). Над $\mathbb{R}$ поворотное представление $SO_2(\mathbb{R})\to GL_2(\mathbb{R})$ неприводимо, над $\mathbb{C}$ --- нет.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Программа Ленглендса}
+    \begin{itemize}
+        \item Программа Ленглендса --- сеть гипотез, связывающая два мира:
+        \begin{center}
+        \begin{tikzpicture}[box/.style={draw, rounded corners, align=center, inner sep=6pt, font=\small}]
+            \node[box] (L) {\textbf{Арифметика}\\[0.5ex] группа Галуа,\\ их представления};
+            \node[box, right=2.0cm of L] (R) {\textbf{Анализ}\\[0.5ex] модулярные и «автоморфные» формы,\\ операторы на пространстве форм};
+            \draw[<->, thick, decorate, decoration={snake, amplitude=0.5mm, segment length=3mm}] (L) -- (R);
+        \end{tikzpicture}
+        \end{center}
+        \item Гипотеза Рамануджана: $|\tau(p)|\le2p^{11/2}$ ($\tau(n)$ --- коэффициенты $\Delta=\sum\tau(n)q^n$); доказана Делинем (1974) через представления Галуа, связанные с $\Delta$ --- случай соответствия Ленглендса для $GL_2$;
+        \item Другой известный пример: теорема о модулярности (гипотеза Таниямы--Шимуры--Вейля) и теорема Ферма --- в следующий раз;
+        \item Другие версии: над функциональными полями, геометрическая программа Ленглендса, ... --- активная область современной математики.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{В сторону приложений}
+% ============================================================
+
+\begin{frame}{Точечные группы и кристаллографические решётки}
+    \begin{itemize}
+        \item Кристалл --- периодическая расстановка атомов в $\mathbb{R}^3$; сдвиги, сохраняющие её, образуют решётку в $\mathbb{R}^3$;
+        \item Пространственная группа --- все движения $\mathbb{R}^3$, сохраняющие кристалл; точечная группа --- факторгруппа по сдвигам (повороты и отражения);
+        \item Классификация в $\mathbb{R}^3$: 32 точечные группы, 14 типов решёток (7 сингоний), 230 пространственных групп; в $\mathbb{R}^2$ --- 17 «обойных» групп;
+        \item Любая физическая характеристика кристалла не меняется при преобразованиях его точечной группы (Принцип Неймана);
+        \item Пример: если у кристалла есть центр симметрии ($\mathbf{v}\mapsto-\mathbf{v}$), то нет пьезоэлектричества;
+        \item Кристаллографическое ограничение (у обычных кристаллов): точечная группа может содержать повороты только порядков $1,\ 2,\ 3,\ 4,\ 6$;
+        \item Квазикристаллы --- нет периодичности, но есть симметрии, точечные группы нарушают кристаллографическое ограничение.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Эквивариантные нейронные сети}
+    \begin{itemize}
+        \item Идея: если при преобразовании входа $g$ (поворот, сдвиг, перестановка) ответ должен меняться предсказуемо, можно заложить это в архитектуру: $f(g\cdot x)=g\cdot f(x)$ (эквивариантность); если ответ не должен меняться вовсе --- $f(g\cdot x)=f(x)$ (инвариантность);
+        \item Пример: свёртка эквивариантна относительно сдвигов (группа $\mathbb{Z}^2$) --- сдвиг картинки $\to$ сдвиг карты признаков;
+        \item Зачем: симметрия задачи уже известна, поэтому сети не нужно «выучивать» её по данным --- меньше данных, лучше обобщение;
+        \item Приложения: молекулы и межатомные взаимодействия (группы $SO(3)$, $E(3)$), структура белков (AlphaFold~2 учитывает повороты и сдвиги в 3D), графы (порядок вершин не важен: группа $S_n$, GNN); признаки в таких сетях --- неприводимые представления группы ($SO(2)$; $SO(3)$).
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Криптография на группах кос}
+    \begin{itemize}
+        \item Идея (Anshel--Anshel--Goldfeld, 1999; Ko et al., 2000): обмен ключом в $B_n$ на трудности вариантов задачи сопряжения --- по $x$ и $a^{-1}xa$ найти $a$; произведения и нормальные формы кос вычисляются быстро;
+        \item Атаки (Cheon--Jun, 2003; Hughes--Tannenbaum и др.): линейные представления $B_n$ (Burau, Lawrence--Krammer) и атаки по длине (length-based) $\rightsquigarrow$ первые предложенные схемы взломаны;
+        \item Были попытки обобщить (другие задачи, другие платформенные группы); braid-based схема WalnutDSA подавалась на конкурс NIST PQC, но во второй раунд не прошла, а среди стандартизованных NIST схем (ML-KEM, ML-DSA, SLH-DSA) схем на группах кос нет;
+        \item Вывод: «трудная на вид» задача в группе может упрощаться из-за структуры (линейные представления).
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% \begin{frame}{Графы Рамануджана}
+%     \begin{itemize}
+%         \item Идея: разреженные графы, в которых из любой вершины быстро попадаем в любую (расширители); граф Рамануджана --- оптимальный: собственные значения $|\lambda|\le 2\sqrt{d-1}$ (меньше нельзя);
+%         \item Как строят: граф Кэли группы $G$ --- вершины элементы $G$, рёбра $g\to gs$ для образующих $s$; всё определяется группой и набором образующих;
+%         \item Пример (Любоцкий--Филлипс--Сарнак, 1988): $G=PSL_2(\mathbb{F}_q)$, образующие --- $p+1$ целых кватернионов нормы $p$, взятых по модулю $q$;
+%         \item Оценка собственных значений следует из теоремы Делиня (как оценка $|\tau(p)|\le2p^{11/2}$ для $\Delta$) --- отсюда название «графы Рамануджана»; применения: сети, коды, псевдослучайность, хэш-функции.
+%         \item Применения: сети и коды, хэш-функции, дерандомизация 
+%     \end{itemize}
+%     \note{
+%         \begin{itemize}
+%             \item ---
+%         \end{itemize}
+%     }
+% \end{frame}
+
+\begin{frame}{Другие приложения}
+    \begin{itemize}
+        \item Группы симметрий решёток ($G\subset\mathrm{Aut}(L)$) --- применяются в кодах и криптографии основанных на решетках;
+        \item Группы гомологий $H_k$ (например, $H_1=\pi_1^{ab}=\pi_{ab}$) --- лежат в основе идей топологического анализа данных;
+        \item Химия: точечная группа молекулы действует на пространстве колебаний; разложение на неприводимые представления даёт число и типы колебательных мод и правила отбора в ИК- и рамановской спектроскопии;
+        \item Физика: частицы --- неприводимые представления групп симметрии (Вигнер, группа Пуанкаре); калибровочная группа Стандартной модели $SU(3)\times SU(2)\times U(1)$; теорема Нётер: непрерывной симметрии отвечает закон сохранения;
+        \item \dots
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Итоги лекции}
+    \begin{itemize}
+        \item Теория групп --- отдельный очень большой раздел алгебры;
+        \item Основное в рамках нашего спецкурса:
+        \begin{itemize}
+            \item Структура конечно порождённых абелевых групп, ранг и кручение;
+            \item Косы и узлы --- вспомним их позже;
+            \item Группы Галуа и теория Галуа;
+            \item Проявления $\mathbf{ADE}$;
+            \item Группы и модулярные формы (Moonshine \& Langlands);
+        \end{itemize}
+        \item В следующий раз --- эллиптические кривые.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Литература}
+    \begin{itemize}[<.->]
+        \item P.\,J.~Cameron, P.-P.~Dechant, Y.-H.~He, J.~McKay, \textit{ADE: Patterns in Mathematics}, 2025;
+        \item Это сложнее, рекомендуется запомнить на будущее:
+        \begin{itemize}
+            \item S.P.~Sirag, \textit{ADEX Theory}, 2016;
+            \item T.~Gannon, \textit{Moonshine Beyond the Monster}, 2006.
+        \end{itemize}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\end{document}
