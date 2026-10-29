@@ -11,7 +11,7 @@
 \usepackage{amsthm}
 \usepackage{enumitem}
 
-\input{declare.tex}
+% \input{declare.tex}
 
 \begin{document}
 
@@ -20,48 +20,41 @@
 \noindent\textbf{Упражнения и задачи}
 
 \begin{enumerate}[topsep=0pt]
-    \item Пусть $G$ --- конечная абелева группа, $H$ --- собственная подгруппа, $g\in G$, $g \not\in H$. Докажите, что существует характер $\chi$ группы $G$ такой что $\chi(g)\neq 1$ и $\forall h\in H$ $\chi(h)=1$. %[LN Ex 5.1]
-    \item Пусть $G$ --- конечная абелева группа, $\widehat{G}$ --- группа характеров, $H < G$ ---  подгруппа, $A < \widehat{G}$ --- аннигилятор $H$: $A=\{\chi\in\widehat{G}: \forall h\in H\ \chi(h)=1 \}$. Докажите, что $A\cong G/H$ и что $H\cong \widehat{G}/A$. %[LN Ex 5.2]
-    \item Пусть $G = G_1\times \cdots \times G_k$ --- прямое произведение конечных абелевых групп (множество $k$-кортежей с операцией $(g_1,\dots,g_k) (h_1,\dots,h_k) = (g_1 h_1, \dots, g_k h_k)$). Докажите, что $\widehat{G}\cong \widehat{G_1}\times \cdots \times \widehat{G_k}$. %[LN Ex 5.4]
-    \item Основная теорема о стуктуре конечных абелевых групп утверждает, что каждая такая группа изоморфна прямому произведению конечного числа циклических групп. Выведете из этой теоремы, что если $G$ --- конечная абелева группа, то $\widehat{G}\cong G$. %[LN Ex 5.5]
-    \item Пусть $G$ -- конечная абелева группа, $m>0$ --- целое. Докажите, что $g\in G$ является $m$-ой степенью в $G$ $\iff$ $\forall$ характера порядка $m$ выполняется $\chi(g)=1$. %???
-    \item Покажите, что для аддитивных характеров $\psi_a$, $\psi_b$ поля $\mathbb{F}_q$ выполняется $\psi_a \psi_b = \psi_{a+b}$, и что из этого следует изоморфизм аддитивной группы $\mathbb{F}_q$ группе аддитивных характеров поля. %[LN Ex 5.6]
-    \item Докажите, что для аддитивного характера $\psi=\psi_1$ поля $\mathbb{F}_q/\mathbb{F}_p$ для всех $\alpha\in\mathbb{F}_q$, $j\in\mathbb{Z}_+$ справедливо $\psi_1(\alpha^{p^j})=\psi_1(\alpha)$. %[LN Ex 5.7]
+    \item Пусть $G$ --- конечная абелева группа, $H$ --- собственная подгруппа, $g\in G$, $g \not\in H$. Докажите, что существует характер $\chi$ группы $G$ такой, что $\chi(g)\neq 1$ и $\forall h\in H$ $\chi(h)=1$. %[LN Ex 5.1]
+    \item Пусть $G$ --- конечная абелева группа, $m>0$ --- целое. Докажите, что $g\in G$ является $m$-ой степенью в $G$ $\iff$ для всех характеров $\chi$ группы $G$ с $\chi^m=\chi_0$ выполняется $\chi(g)=1$. %???
+    \item Докажите, что для аддитивного характера $\psi=\psi_1$, $\psi_1(\alpha)=e^{2\pi i\,\mathrm{Tr}(\alpha)/p}$, поля $\mathbb{F}_q/\mathbb{F}_p$ (где $\mathrm{Tr}=\mathrm{Tr}_{\mathbb{F}_q/\mathbb{F}_p}$; при $q=p$ это $\psi(x)=e^{2\pi i x/p}$) для всех $\alpha\in\mathbb{F}_q$, $j\geqslant 0$ справедливо $\psi_1(\alpha^{p^j})=\psi_1(\alpha)$. %[LN Ex 5.7]
     \item Пусть $\chi'$ --- мультипликативный характер $\mathbb{F}_{q^s}$ порядка $m$, $\chi$ --- ограничение $\chi'$ на $\mathbb{F}_q$. Докажите, что $\chi$ --- мультипликативный характер $\mathbb{F}_q$ порядка $m/(m,(q^s-1)/(q-1))$. %[LN Ex 5.8]
-    \item Пусть $\chi$ --- мультипликативный характер $\mathbb{F}_q$ порядка, $\chi'$ --- продолжение $\chi$ на $\mathbb{F}_{q^s}$. Докажите, что $\chi'(a)=\chi(q)^s$ $\forall a \in\mathbb{F}_q^{*}$. %[LN Ex 5.10]
-    \item Пусть $p\neq 2$, $ab\not\equiv 0\,(p)$, $\chi$ --- квадратичный характер $\mathbb{F}_p^*$. Докажите, что
+    \item Пусть $\chi$ --- мультипликативный характер $\mathbb{F}_q$, $\chi'=\chi\circ N_{\mathbb{F}_{q^s}/\mathbb{F}_q}$ --- его поднятие на $\mathbb{F}_{q^s}$. Докажите, что $\chi'$ --- мультипликативный характер $\mathbb{F}_{q^s}$ и $\chi'(a)=\chi(a)^s$ $\forall a \in\mathbb{F}_q^{*}$. %[LN Ex 5.10]
+    \item Пусть $H$ --- множество функций $f:\mathbb{F}_p\to\mathbb{C}$, определим скалярное произведение $(f,g)=\frac{1}{p}\sum_{x\in\mathbb{F}_p}f(x)\overline{g(x)}$. Пусть $\psi_a(x)=e^{2\pi i ax/p}$, $a,x\in\mathbb{F}_p$. Докажите, что $(\psi_a)_{a\in\mathbb{F}_p}$ --- ортонормированный базис $H$.
+    \item Пусть $f:\mathbb{F}_q \rightarrow \mathbb{C}$, $\psi\neq\psi_0$ --- аддитивный характер $\mathbb{F}_q$, $\hat{f}(s) = \frac{1}{q}\sum_{u\in\mathbb{F}_q} f(u)\overline{\psi(su)}$ --- конечное преобразование Фурье. Докажите, что $f(t)=\sum_{s\in\mathbb{F}_q} \hat{f}(s) \psi(st)$. %[IR Ex 10.23]
+    \item Пусть $p\neq 2$, $ab\not\equiv 0\,(p)$, $\chi$ --- квадратичный характер $\mathbb{F}_p^*$, $\psi_a(x)=e^{2\pi i ax/p}$, $G(\chi,\psi_a)=\sum_{x\in\mathbb{F}_p^*}\chi(x)\psi_a(x)$. Докажите, что
     \begin{itemize}[topsep=0pt]
         \item $G(\chi,\psi_a)G(\chi,\psi_b) = \left(\dfrac{-ab}{p}\right) p$; %[БШ стр 26 упр 5]
-        \item $\sum_a G(\chi,\psi_a)=0$. %[БШ стр 26 упр 6]
+        \item $\sum_{a\in\mathbb{F}_p} G(\chi,\psi_a)=0$. %[БШ стр 26 упр 6]
     \end{itemize}
-    \item Пусть $p>2$, $G = \sum_{x=0}^{p-1} e^{2\pi i x^2/p}$ --- сумма Гаусса для квадратичного характера, $A = (a_{st})_{0\leqslant s,t \leqslant p-1}$ --- $p\times p$ матрица с элементами $a_{st}=e^{2\pi i st/p}$. Докажите, что:
+    \item Докажите свойства обобщенных сумм Гаусса для конечного поля $\mathbb{F}_q/\mathbb{F}_p$. Пусть $\chi$ --- мультипликативный, $\psi$ --- аддитивный характер $\mathbb{F}_q$, $\psi_b(x)=\psi(bx)$, $\bar\psi(x)=\psi(-x)$, $G(\chi,\psi)=\sum_{x\in\mathbb{F}_q^*}\chi(x)\psi(x)$.
     \begin{itemize}[topsep=0pt]
-        \item если $\lambda_0,\dots,\lambda_{p-1}$ – характеристические числа матрицы $A$, то $\sum_{k=0}^{p-1} \lambda_k = G$;
-        \item характеристический многочлен матрицы $A^2$ имеет вид: $(t-p)^{(p+1)/2} (t+p)^{(p-1)/2}$;
-        \item для определителя матрицы $A$ справедливо $\det A = i^{p(p-1)/2}p^{p/2}$.
-    \end{itemize} %???
-    \item Докажите свойства обобщенных сумм Гаусса для конечного подя $\mathbb{F}_q/\mathbb{F}_p$:
-    \begin{itemize}[topsep=0pt]
-        \item $G(\chi,\psi_{ab})=\chi(a) G(\chi, \psi_b)$, $a\in\mathbb{F}_q^*$, $b\in \mathbb{F}_q$;
+        \item $G(\chi,\psi_{ab})=\bar{\chi}(a) G(\chi, \psi_b)$, $a\in\mathbb{F}_q^*$, $b\in \mathbb{F}_q$;
         \item $G(\chi,\bar{\psi}) = \chi(-1) G(\chi,\psi)$;
         \item $G(\bar{\chi},\psi) = \chi(-1) \overline{G(\chi,\psi)}$;
         \item $G(\chi,\psi)G(\bar{\chi},\psi)=\chi(-1) q$, $\chi\neq\chi_0$, $\psi\neq\psi_0$;
-        \item $G(\chi^p,\psi_b)=G(\chi,\psi_{\sigma(b)})$, $b\in\mathbb{F}_q$, $\sigma$ --- автоморфизм Фробениуса.
+        \item $G(\chi^p,\psi_b)=G(\chi,\psi_{\sigma(b)})$ при $\psi=\psi_1$, $b\in\mathbb{F}_q$, $\sigma$ --- автоморфизм Фробениуса;
+        \item $G(\chi_0,\psi_0)=q-1$, $G(\chi_0,\psi)=-1$ при $\psi\neq\psi_0$, $G(\chi,\psi_0)=0$ при $\chi\neq\chi_0$.
     \end{itemize} %[LN Th 5.12]
-    \item Пусть $f:\mathbb{F}_q \rightarrow \mathbb{C}$, $\hat{f} = \frac{1}{q}\sum_{t\in\mathbb{F}_q} f(t)\overline{\psi(st)}$ --- конечное преобрахование Фурье. Докажите, что $f(t)=\sum_{s\in\mathbb{F}_q} \hat{f}(s) \psi(st)$. %[IR Ex 10.23]
 \end{enumerate}
 
-\noindent\textbf{SageMath}
-\begin{itemize}[topsep=0pt]
-    \item Исследуйте основные функции SageMath связанные с группой характеров конечных абелевых групп:
-    \begin{itemize}[noitemsep,topsep=0pt]
-        \item \texttt{character\_table()}.
-     \end{itemize}
-\end{itemize}
+% \noindent\textbf{SageMath}
+% \begin{itemize}[topsep=0pt]
+%     \item Исследуйте основные функции SageMath связанные с группой характеров конечных абелевых групп:
+%     \begin{itemize}[noitemsep,topsep=0pt]
+%         \item \texttt{character\_table()}.
+%      \end{itemize}
+% \end{itemize}
 
 \noindent\textbf{Темы для самостоятельного изучения}
 \begin{itemize}[topsep=0pt]
-    \item Докажательство квадратичного закон взаимности через суммы Гаусса. [IR], \S 7.3; [LN], \S 5.2.
+    \item Доказательство соотношения Хассе--Дэвенпорта. [LN], \S 5.2.
+    \item Доказательство квадратичного закона взаимности через суммы Гаусса. [IR], \S 7.3; [LN], \S 5.2.
 \end{itemize}
 
 
