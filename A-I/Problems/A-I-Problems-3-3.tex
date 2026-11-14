@@ -11,12 +11,52 @@
 \usepackage{amsthm}
 \usepackage{enumitem}
 
-\input{declare.tex}
-
 \begin{document}
 
-\begin{center} \Large \bf Листок 10\\ Тема 10 (2.6). Дзета функция Артина \end{center}
+\begin{center} \Large \bf Листок 10\\ Тема 10 (3.3). Дзета-функция Артина \end{center}
 
-\input{A-I-src-Problems-2-6.tex}
+\noindent\textbf{Упражнения и задачи}
+
+\begin{enumerate}[topsep=0pt]
+    \item Докажите, что для $f=-y_0^2+y_1^2+y_2^2+y_3^2$ над $\mathbb{F}_q$ при $\operatorname{char}\mathbb{F}_q\neq 2$ дзета-функция имеет вид
+        \[
+        Z_f(u)=
+        \begin{cases}
+        \dfrac{1}{(1-u)(1-qu)^2(1-q^2u)}, 
+            & \text{если $-1$ --- квадрат в $\mathbb{F}_q$}, \\[2mm]
+        \dfrac{1}{(1-u)(1-qu)(1+qu)(1-q^2u)}, 
+            & \text{в противном случае}.
+        \end{cases}
+        \] %[IR, p153]
+    \item Докажите, что проективная гиперплоскость в $\mathbb{P}^n(\mathbb{F}_q)$ (т.е. гиперповерхность, заданная однородным многочленом степени 1) имеет столько же точек, сколько $n-1$-мерное проективное пространство $\mathbb{P}^{n-1}(\mathbb{F}_q)$. %[IR Ex 10.4]
+    \item Пусть $f,h\in\mathbb{F}_q[x_0,x_1,x_2]$, где $f$ --- однородный многочлен степени $n$, а $h$ --- ненулевая линейная форма, такая, что $h\nmid f$. Докажите, что в $\mathbb{P}^2(\mathbb{F}_q)$ у $f$ и $h$ может быть не более $n$ общих нулей (т.е. плоская проективная кривая пересекается с проективной прямой, не являющейся её компонентой, не более чем в $n$ точках). %[IR Ex 10.5]
+    \item Пусть $\operatorname{SL}_n(\mathbb{F}_q)$ --- множество $n\times n$ матриц с элементами из поля $\mathbb{F}_q$ и определителем, равным $1$. Покажите, что $\operatorname{SL}_n(\mathbb{F}_q)$ можно рассматривать как гиперповерхность в $\mathbb{A}^{n^2}(\mathbb{F}_q)$ и что число её точек равно $(q-1)^{-1} (q^n-1) (q^n-q) \dots (q^n-q^{n-1})$. %[IR Ex 10.6]
+    \item Пусть $\frac{\partial}{\partial x_i}$ --- операторы формальных производных на $\mathbb{F}_q[x_0,\dots,x_n]$ (например, для $f(x)=a_0 x^n +\dots + a_{n-1}x+a_n$ по определению $\frac{\partial}{\partial x} f=\sum_{j=0}^{n-1}(n-j)a_jx^{n-j-1}$), и пусть $f\in\mathbb{F}_q[x_0,\dots,x_n]$ --- однородный многочлен степени $m$. Докажите, что:
+    \begin{itemize}[topsep=0pt]
+        \item $\sum_{i=0}^n x_i \frac{\partial f}{\partial x_i} = mf$; %[IR Ex 10.7]
+        \item если $(m,p)=1$ ($p=\operatorname{char} \mathbb{F}_q$) и для $a=(a_0,\dots,a_n)$ при всех $i$ выполняется $\frac{\partial f}{\partial x_i}(a)=0$, то $f(a)=0$. (Такая точка $a$ называется особой точкой гиперповерхности $f=0$; в проективном случае предполагается, что $a\neq 0$.) %[IR Ex 10.8]
+    \end{itemize}
+    \item Пусть $q=p^r$, $(m,p)=1$, $a_0,\dots,a_n\in\mathbb{F}_q^*$. Докажите, что гиперповерхность $a_0 x_0^m + \dots + a_n x_n^m=0$ не имеет особых точек в $\mathbb{P}^n(\mathbb{F}_q)$. %[IR Ex 10.9]
+    \item Пусть $q=p^r$, $p\neq 2$. Рассмотрим кривую $ax^2+bxy+cy^2=1$, $a,b,c\in\mathbb{F}_q$, $(a,b,c)\neq(0,0,0)$. Докажите, что если $d=b^2-4ac$ не является квадратом в $\mathbb{F}_q$, то на проективном замыкании кривой в $\mathbb{P}^2(\mathbb{F}_q)$ нет бесконечно удалённых точек; если $d=0$, то существует ровно одна такая точка, а если $d$ --- ненулевой квадрат, то существуют ровно две такие точки. При этом если $d=0$, то бесконечно удалённая точка является особой точкой проективного замыкания кривой. %[IR Ex 10.13]
+    \item Выпишите дзета-функцию проективной поверхности $x_0 x_1 - x_2 x_3=0$ в $\mathbb{P}^3(\mathbb{F}_p)$. %[IR Ex 11.4]
+    \item Выпишите дзета-функцию для $f = a_0 x_0^2 + \dots + a_n x_n^2$ над $\mathbb{F}_q$ при $\operatorname{char}\mathbb{F}_q\neq 2$ и $a_0,\dots,a_n\in\mathbb{F}_q^*$. %[IR Ex 11.5]
+    \item Покажите, что на кривой $x_0^3+x_1^3+x_2^3 = 0$ в $\mathbb{P}^2(\mathbb{F}_4)$ лежит девять точек. Выпишите дзета-функцию этой кривой. %[IR Ex 11.6]
+    \item Выпишите дзета-функцию проективного замыкания кривой $y^2=x^3+x^2$ над $\mathbb{F}_p$ (рассмотрите также случай $p=2$). %[IR Ex 11.9]
+    \item Пусть $q \equiv 1\,(3)$, $\operatorname{char}\mathbb{F}_q\neq 2$, $\alpha\in\mathbb{F}_q^*$. Покажите, что дзета-функция кривой $y^2=x^3+\alpha$ над $\mathbb{F}_q$ имеет вид $Z(u) = (1+au+qu^2)(1-u)^{-1}(1-qu)^{-1}$, где $a\in\mathbb{Z}$, $|a|\leqslant 2\sqrt{q}$. %[IR Ex 11.10]
+    \item Пусть $p\neq 2$, $D\in\mathbb{F}_p^*$, а $C_1$ и $C_2$ --- аффинные кривые над $\mathbb{F}_p$, заданные уравнениями $y^2=x^3-Dx$ и $u^2-v^4=4D$ соответственно. Покажите, что подстановка $x=\frac{1}{2}(u+v^2)$, $y=\frac{1}{2}v(u+v^2)$ задаёт биекцию между точками $C_2$ и точками $C_1$ с $x\neq 0$. Докажите, что для любого конечного расширения $\mathbb{F}_q/\mathbb{F}_p$ справедливо $|C_1(\mathbb{F}_q)| > |C_2(\mathbb{F}_q)|$. %[IR Ex 11.11]
+\end{enumerate}
+
+% \noindent\textbf{SageMath}
+% \begin{itemize}[topsep=0pt]
+%     \item Исследуйте основные функции SageMath связанные с количеством точек на кривых над конечными полями:
+%     \begin{itemize}[noitemsep,topsep=0pt]
+%         \item Для эллиптических и гиперэллиптических кривых: \texttt{cardinality()}.
+%      \end{itemize}
+% \end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item $L$-функции Артина. Суперэллиптическое уравнение. [Степ], \S\S I.3--I.4.
+\end{itemize}
 
 \end{document}

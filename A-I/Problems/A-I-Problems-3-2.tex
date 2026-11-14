@@ -11,12 +11,88 @@
 \usepackage{amsthm}
 \usepackage{enumitem}
 
-\input{declare.tex}
-
 \begin{document}
 
-\begin{center} \Large \bf Листок 9\\ Тема 9 (2.5). Тригонометрические суммы. Уравнения над конечными полями \end{center}
+\begin{center} \Large \bf Листок 9\\ Тема 9 (3.2). Тригонометрические суммы. Уравнения над конечными полями \end{center}
 
-\input{A-I-src-Problems-2-5.tex}
+\noindent\textbf{Упражнения и задачи}
+
+\begin{enumerate}[topsep=0pt]
+    
+    \item Пусть $F_1(x_1,\dots, x_n), \dots, F_m(x_1,\dots, x_n)$ --- многочлены с целыми коэффициентами степеней $r_1, \dots, r_m$. Докажите, что если $r_1+\dots+r_m < n$, то число решений системы сравнений $F_i(x_1,\dots, x_n) \equiv 0\ (p), 1\leqslant i \leqslant m$, делится на $p$. %[БШ стр 14 теорема 4]
+    
+    \item Пусть $p$ --- простое, $F(x_1, \dots, x_n)\in \mathbb{Z}[x_1,\dots,x_n]$ --- многочлен, $\deg F = r < n(p-1)$. Докажите, что $p^a\ |\ \sum' F(x_1, \dots, x_n)$, где в сумме $x_i$ пробегают независимо друг от друга полную систему вычетов $\bmod\, p$, и $a=n-[r/(p-1)]$. %[БШ стр16 задача 1]
+
+    \item Пусть $m$ --- натуральное, $f(x) \in \mathbb{Z}[x]$, $S_a = \sum\limits_{x \bmod m} e^{2\pi i \frac{af(x)}{m}}$. Докажите, что
+    $$
+        \sum\limits_{a \bmod m} |S_a|^2 = m \sum\limits_{c \bmod m} N(c)^2,
+    $$
+    где $N(c) = N_m\left(f(x) \equiv c\ (m)\right)$ --- число решений сравнения $f(x) \equiv c\ (m)$.
+    %[БШ стр26 задача 9]
+
+    \item Пусть $p$ --- простое, $S_a = \sum\limits_{x \in \mathbb{F}_p} e^{2\pi i \frac{a x^r}{p}}$, $d=(r,p-1)$. Докажите, что 
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $\sum\limits_{a \in \mathbb{F}_p^*} |S_a|^2 = p(p-1)(d-1)$;
+        \item $|S_a| < d \sqrt{p}$ при $a \neq 0$;
+        \item и более точная оценка: $|S_a| \leqslant (d-1) \sqrt{p}$ при $a \neq 0$.
+    \end{itemize} %[БШ стр26 задачи 10-12]
+
+    \item Пусть $\chi$, $\lambda$ --- неглавные мультипликативные характеры $\mathbb{F}_p$, $\epsilon$ --- главный, $G(\chi)$ --- сумма Гаусса. В этой и следующих трех задачах считаем, что $\epsilon(0)=1$, а $\psi(0)=0$ для любого неглавного мультипликативного характера $\psi$. Докажите свойства сумм Якоби:
+        \begin{itemize}[topsep=0pt]
+            \item $J(\epsilon,\epsilon)=p$;
+            \item $J(\epsilon,\chi)=0$;
+            \item $J(\chi,\chi^{-1})=-\chi(-1)$;
+            \item $J(\chi,\lambda) = G(\chi)G(\lambda)/G(\chi\lambda)$ при $\chi\lambda \neq \epsilon$.
+        \end{itemize} % [IR, \S 8.3 Th1]
+
+    \item Пусть $p$ --- нечетное простое, $\chi, \rho$ --- мультипликативные характеры $\mathbb{F}_p^*$, $\chi$ --- неглавный, $\rho$ --- порядка $2$. Во всех суммах по $t$ переменная $t$ пробегает $\mathbb{F}_p$; $m$ --- натуральное число, а в сумме по $\lambda^m=\epsilon$ переменная $\lambda$ пробегает мультипликативные характеры $\mathbb{F}_p^*$. Докажите следующие утверждения:
+    \begin{itemize}[topsep=0pt]
+        \item $\sum_t \chi(1-t^2)=J(\chi,\rho)$; %[IR Ex 8.3]
+        \item $\sum_t \chi(t(k-t))=\chi(k^2/4)J(\chi,\rho)$, $k\in\mathbb{F}_p^*$; %[IR Ex 8.4]
+        \item $G(\chi)^2=\chi(2)^{-2}J(\chi,\rho) G(\chi^2)$, если $\chi^2$ --- неглавный; %[IR Ex 8.5]
+        \item $J(\chi,\chi)=\chi(2)^{-2}J(\chi,\rho)$; %[IR Ex 8.6]
+        \item если $p\equiv 1\, (4)$, $\chi$ --- порядка $4$, то $\chi^2=\rho$ и $J(\chi,\chi)=\chi(-1)J(\chi,\rho)$; %[IR Ex 8.7]
+        \item $\sum_t \chi(1-t^m) = \sum_{\lambda^m=\epsilon} J(\chi,\lambda)$; %[IR Ex 8.8]
+        \item $|\sum_t \chi(1-t^m)| \leqslant (m-1) \sqrt{p}$. %[IR Ex 8.8]
+    \end{itemize}
+
+    \item Пусть $\chi_1, \chi_2, \dots, \chi_l$ --- мультипликативные характеры, $\epsilon$ --- главный характер $\bmod\, p$,\\ $J = J(\chi_1, \chi_2, \dots, \chi_l) = \sum\limits_{t_1+\dots+t_l=1} \chi_1(t_1) \cdots \chi_l(t_l)$ --- обобщенная сумма Якоби,\\ $J_0 = J_0(\chi_1, \chi_2, \dots, \chi_l) = \sum\limits_{t_1+\dots+t_l=0} \chi_1(t_1) \cdots \chi_l(t_l)$. Докажите следующие свойства $J$ и $J_0$:
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $J_0(\epsilon, \dots, \epsilon) = J(\epsilon, \dots, \epsilon) = p^{l-1}$;
+        \item если некоторые, но не все, среди характеров $\chi_i$ являются главными, то $J_0 = 0$, $J = 0$;
+        \item пусть $\chi_l \neq \epsilon$; если $\chi_1 \chi_2 \cdots \chi_l \neq \epsilon$, то $J_0 = 0$, а если $\chi_1 \chi_2 \cdots \chi_l = \epsilon$, то
+        \[
+            J_0(\chi_1, \chi_2, \dots, \chi_l)=(p-1)\chi_l(-1)J(\chi_1, \chi_2, \dots, \chi_{l-1}).
+        \]
+    \end{itemize} %[IR p99 prop 8.5.1]
+
+    \item Пусть $\chi_1, \chi_2, \dots, \chi_l$ --- неглавные характеры $\bmod\, p$, такие, что $\chi_1 \chi_2 \cdots \chi_l$ тоже неглавный, $G$ --- сумма Гаусса, $J$ --- обобщенная сумма Якоби. Докажите, что
+    \begin{itemize}[noitemsep,topsep=0pt]
+        \item $G(\chi_1) \cdots G(\chi_l) = J(\chi_1, \dots, \chi_l) G(\chi_1 \cdots \chi_l)$;
+        \item $|J(\chi_1, \dots, \chi_l)| = p^{(l-1)/2}$.
+    \end{itemize} %[IR p100 Th 3, 4]
+
+    \item Пусть $p$ --- нечетное простое, $(k,p)=1$, $S=\sum'_x \sum'_y \left(\frac{xy+k}{p}\right)$, где $x$ и $y$ пробегают два подмножества полной системы вычетов $\bmod\, p$ мощности $X$ и $Y$ соответственно. Докажите, что $|S|\leqslant\sqrt{XYp}$. %[В стр82 Задача 8c]
+
+    \item Пусть $m>1$ --- целое, $(a,m)=1$, $S=\sum\limits_{x \bmod m}\sum\limits_{y \bmod m} \xi(x) \eta(y) e^{2\pi i \frac{axy}{m}}$, где $\xi,\eta\colon\mathbb{Z}/m\mathbb{Z}\to\mathbb{C}$ --- функции, такие, что $\sum\limits_{x \bmod m} |\xi(x)|^2=X$, $\sum\limits_{y \bmod m} |\eta(y)|^2=Y$. Докажите, что $|S|\leqslant\sqrt{XYm}$. %[В стр103 8]
+
+    \item Пусть $p$ --- простое, $(a,p)=(b,p)=1$, $n$ --- целое, $1<n<p$, $S=\sum\limits_{x \in \mathbb{F}_p^*} e^{2\pi i \frac{ax^n+bx}{p}}$. Докажите, что $|S| < \frac{3}{2} n^{1/4} p^{3/4}$. %[В стр103 9]
+
+    \item Пусть $p>60$ --- простое, $M,Q$ --- целые, $0<M<M+Q\leqslant p$, $\chi$ --- неглавный характер $\bmod\, p$, $S = \sum\limits_{x=M}^{M+Q-1} \chi(x)$. Докажите, что $|S|<\sqrt{p}\ (\log p - 1)$, где $\log$ --- натуральный логарифм. %[В стр112 4]
+  
+\end{enumerate}
+
+% \noindent\textbf{SageMath}
+% \begin{itemize}[topsep=0pt]
+%     \item Сопроводите оценки тригонометрических сумм полученные в лекции и упраждениях экспериментальными оценками с помощью SageMath.
+% \end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+
+\begin{itemize}[topsep=0pt]
+    \item Вывод числа решений уравнения $a_1 x_1^{l_1} + \dots + a_r x_r^{l_r}=b$ через суммы Якоби. [IR], глава 8.
+    \item Теорема Бёрджесса. [Степ], \S II.1.
+\end{itemize}
+
 
 \end{document}
