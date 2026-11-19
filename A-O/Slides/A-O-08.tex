@@ -1,0 +1,1813 @@
+% ============================================================
+% A-O-08.tex -- Лекция 8 (1.8). Графы и теория чисел
+% ============================================================
+
+\documentclass[serif, aspectratio=169]{beamer}
+
+\usepackage[T2A,T1]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{XCharter}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,overlay-beamer-styles}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{braids}
+\usetikzlibrary{intersections,spath3,hobby}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{dynkin-diagrams}
+%\usepackage{fontawesome5}
+
+\newcommand{\sagemark}{%
+  \textcolor{green!40!black}{\textbf{\texttt{sage:...}}}%
+}
+
+\usetheme{Math}
+\usepackage{mymacros}
+% \colorscheme{green}
+% \colorscheme{terracotta}
+
+% ------------------------------------------------------------
+% Title data
+% ------------------------------------------------------------
+\author{Павел Владимирович Снурницын}
+\title{Лекция 8 (1.8)\\ Графы и теория чисел}
+\titlecontext{Инструменты машинно-вспомогательной арифметики\\ с/к, осень 2026}
+\institute{к.ф.-м.н., с.н.с., ИБ ВМК}
+\date{\small 17 ноября 2026 г.}
+
+\setfooterauthor{П.В. Снурницын}
+\setfootertopic{1.8 Графы и теория чисел}
+\setfootercontext{Спецкурс A-O 2026}
+
+\newif\ifanimated
+\newcommand{\animateon}{\beamerdefaultoverlayspecification{<+-| alert@+>}\animatedtrue}
+\newcommand{\animateoff}{\beamerdefaultoverlayspecification{}\animatedfalse}
+\newcommand{\steponhelper}[2]{% #1 = свойство цвета (text/draw), #2 = номер шага
+  \ifanimated
+    \edef\stepon@tmp{alt=<#2>{#1=ThemeAlert}{alt=<#2->{#1=black}{invisible}}}%
+  \else
+    \edef\stepon@tmp{#1=black}%
+  \fi
+  \expandafter\pgfkeysalso\expandafter{\stepon@tmp}%
+}
+\tikzset{
+  step on/.code={\steponhelper{text}{#1}},
+  step draw on/.code={\steponhelper{draw}{#1}},
+  step fill on/.code={\steponhelper{fill}{#1}},
+}
+% \animateon
+\animateoff
+
+\begin{document}
+
+% ================================================================
+\begin{frame}
+    \titlepage
+\end{frame}
+\note{}
+
+% ================================================================
+\begin{frame}{В прошлый раз}
+    \begin{itemize}
+        \item $p$-адические числа: $\mathbb{Z}_p$, $\mathbb{Q}_p$;
+        \item Также вспоминали:
+        \begin{itemize}[<.->]
+            \item конечные поля (и их расширения),
+            \item кватернионные алгебры,
+            \item модулярные формы,
+            \item эллиптические кривые,
+            \item дзета-функции.
+        \end{itemize}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Арифметические графы}
+% ============================================================
+
+% ================================================================
+\begin{frame}{Арифметические графы}
+    \begin{itemize}
+        \item Граф $G=(V,E)$: множество вершин $V=\{v\}$ и рёбер $E=\{\{v_1,v_2\}\}$;
+        \item Рёбра могут быть ориентированными, кратными или петлями;
+        \item Идея:
+        \begin{itemize}
+            \item $V$ --- арифметические (математические) объекты,
+            \item $E$ --- отношения или преобразования между ними,
+        \end{itemize}
+        \item Какие примеры таких графов уже видели ранее:
+        \begin{center}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.47\linewidth}
+                \centering
+                \begin{tikzpicture}[
+                    scale=0.84,
+                    every node/.style={font=\footnotesize,inner sep=2pt}
+                ]
+                    \path[use as bounding box]
+                        (-2.65,-1.45) rectangle (2.65,1.60);
+
+                    % A_3
+                    \begin{scope}[shift={(-1.25,0.85)}]
+                        \draw[thick] (-0.60,0)--(0,0)--(0.60,0);
+                        \foreach \x in {-0.60,0,0.60}
+                            \fill (\x,0) circle[radius=2pt];
+                        \node at (0,-0.30) {$A_3$};
+                    \end{scope}
+
+                    % D_4
+                    \begin{scope}[shift={(1.25,0.85)}]
+                        \draw[thick]
+                            (-0.60,0)--(0,0)--(0.60,0)
+                            (0,0)--(0,0.60);
+                        \foreach \x/\y in {-0.60/0,0/0,0.60/0,0/0.60}
+                            \fill (\x,\y) circle[radius=2pt];
+                        \node at (0,-0.30) {$D_4$};
+                    \end{scope}
+
+                    % E_8
+                    \begin{scope}[yshift=-0.75cm]
+                        \draw[thick]
+                            (-1.80,0)--(1.80,0)
+                            (-0.60,0)--(-0.60,0.60);
+                        \foreach \x in {-1.80,-1.20,-0.60,0,0.60,1.20,1.80}
+                            \fill (\x,0) circle[radius=2pt];
+                        \fill (-0.60,0.60) circle[radius=2pt];
+                        \node at (0,-0.30) {$E_8$};
+                    \end{scope}
+                \end{tikzpicture}\\[-0.5ex]
+                {\scriptsize Диаграмма Дынкина $A_3\oplus D_4\oplus E_8$}
+            \end{minipage}
+            \end{actionenv}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.47\linewidth}
+                \centering
+                \begin{tikzpicture}[
+                    scale=0.84,
+                    every node/.style={font=\footnotesize,inner sep=2pt, outer sep=2pt}
+                ]
+                    \path[use as bounding box]
+                        (-2.65,-1.45) rectangle (2.65,1.60);
+
+                    % Вершины двоичного дерева
+                    \coordinate (r) at (0,1.12);
+                    \coordinate (a0) at (-1.20,0.42);
+                    \coordinate (a1) at ( 1.20,0.42);
+
+                    \foreach \k/\x in {0/-1.80,1/-0.60,2/0.60,3/1.80}
+                        \coordinate (b\k) at (\x,-0.28);
+
+                    \foreach \k in {0,...,7}
+                        \coordinate (c\k) at ({-2.10+0.60*\k},-0.98);
+
+                    % Рёбра
+                    \draw[thick]
+                        (r)--(a0) (r)--(a1)
+                        (a0)--(b0) (a0)--(b1)
+                        (a1)--(b2) (a1)--(b3);
+
+                    \foreach \u/\v in {
+                        0/0,0/1,1/2,1/3,2/4,2/5,3/6,3/7}
+                        \draw[thick] (b\u)--(c\v);
+
+                    % Вершины
+                    \foreach \v in {
+                        r,a0,a1,b0,b1,b2,b3,
+                        c0,c1,c2,c3,c4,c5,c6,c7}
+                        \fill (\v) circle[radius=2pt];
+
+                    % Представители классов вычетов
+                    \node[above] at (r) {$\mathbb Z_2$};
+
+                    \node[above left]  at (a0) {$0$};
+                    \node[above right] at (a1) {$1$};
+
+                    \node[above left]  at (b0) {$0$};
+                    \node[above right] at (b1) {$2$};
+                    \node[above left]  at (b2) {$1$};
+                    \node[above right] at (b3) {$3$};
+
+                    \foreach \k/\val in {0/0,1/4,2/2,3/6,4/1,5/5,6/3,7/7}
+                        \node[below] at (c\k) {$\val$};
+                \end{tikzpicture}\\[-0.5ex]
+                {\scriptsize Приближения в $\mathbb Z_2$}
+            \end{minipage}
+            \end{actionenv}
+        \end{center}
+        \vspace{1ex}
+        \item Можно изучать св-ва математических объектов методами теории графов;
+        \item А можно строить графы с «хорошими» свойствами по этим объектам.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Башни расширений полей}
+    \begin{itemize}
+        \item Пусть $p$ --- простое, $\mathbb{F}_p=\mathbb{Z}/p\mathbb{Z}$ --- конечное поле;
+        \item Теорема: $\mathbb{F}_{p^m}\subseteq\mathbb{F}_{p^n}$ $\Leftrightarrow$ $m\mid n$; $\mathbb{F}_{p^n}$ --- расширение $\mathbb{F}_{p^m}$;
+        \item Пример: $\mathbb{F}_{p}\subset\mathbb{F}_{p^2}\subset\mathbb{F}_{p^4}\subset\mathbb{F}_{p^8}\subset\dots$;
+        \item Граф:
+        \begin{itemize}
+            \item вершины --- поля, 
+            \item рёбра --- (непосредственные) включения;
+        \end{itemize}
+        \item Примеры:
+        \vspace{-3ex}
+        \begin{center}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.4\linewidth}
+                \centering
+                \begin{tikzpicture}[
+                    node distance=6mm,
+                    fld/.style={inner sep=2pt, font=\scriptsize},
+                    >={Stealth}
+                ]
+                    \node[fld] (F1) {$\mathbb{F}_{p}$};
+                    \node[fld, above=of F1] (F2) {$\mathbb{F}_{p^2}$};
+                    \node[fld, above=of F2] (F4) {$\mathbb{F}_{p^4}$};
+
+                    \draw[thick] (F1) -- (F2);
+                    \draw[thick] (F2) -- (F4);
+                \end{tikzpicture}\\
+                {\scriptsize Башня расширений}
+            \end{minipage}
+            \end{actionenv}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.4\linewidth}
+                \centering
+                \begin{tikzpicture}[
+                    fld/.style={inner sep=2pt, font=\scriptsize}
+                ]
+                    \node[fld] (F1)  at (0,0)    {$\mathbb{F}_{p}$};
+                    \node[fld] (F2)  at (-1.35,1.0) {$\mathbb{F}_{p^2}$};
+                    \node[fld] (F3)  at ( 1.35,1.0) {$\mathbb{F}_{p^3}$};
+                    \node[fld] (F4)  at (-1.35,2.0) {$\mathbb{F}_{p^4}$};
+                    \node[fld] (F6)  at ( 1.35,2.0) {$\mathbb{F}_{p^6}$};
+                    \node[fld] (F12) at (0,3.0)    {$\mathbb{F}_{p^{12}}$};
+
+                    \draw[thick] (F1) -- (F2);
+                    \draw[thick] (F1) -- (F3);
+                    \draw[thick] (F2) -- (F4);
+                    \draw[thick] (F2) -- (F6);
+                    \draw[thick] (F3) -- (F6);
+                    \draw[thick] (F4) -- (F12);
+                    \draw[thick] (F6) -- (F12);
+                \end{tikzpicture}\\
+                {\scriptsize Подполя $\mathbb{F}_{p^{12}}$}
+            \end{minipage}
+            \end{actionenv}
+        \end{center}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Граф Пэли}
+    \begin{itemize}
+        \item Пусть $p\equiv1\pmod4$ --- простое;
+        \item Граф Пэли $P(p)$: вершины $V=\mathbb{F}_p$, рёбра $(a,b)\in E$ $\Leftrightarrow$ $a\neq b$, $a-b$ квадрат в $\mathbb{F}_p$;
+        \item $-1$ --- квадрат при $p\equiv1\pmod4$, поэтому отношение симметрично;
+        \item Кстати, $a\in\mathbb{Z}$ такое, что разрешимо сравнение $a\equiv x^2 \pmod{n}$, называется квадратичным вычетом $\bmod\, n$ (если неразрешимо, то невычетом);
+        \item Примеры:
+        \vspace{-2ex}
+        \begin{center}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.45\linewidth}
+                \centering
+                \begin{tikzpicture}[
+                    scale=0.8,
+                    every node/.style={font=\footnotesize, inner sep=1pt}
+                ]
+                    \path[use as bounding box] (-2,-2) rectangle (2,2);
+
+                    \foreach \k in {0,...,4}{
+                        \coordinate (v\k) at ({90-360*\k/5}:1.35);
+                        \node at ({90-360*\k/5}:1.72) {$\k$};
+                    }
+
+                    \draw[thick] (v0) -- (v1) -- (v2) 
+                        -- (v3) -- (v4) -- (v0);
+
+                    \foreach \k in {0,...,4}
+                        \fill (v\k) circle[radius=2pt];
+                \end{tikzpicture}\\[-0.5ex]
+                {\scriptsize $P(5)$: ненулевые квадраты $\{1,4\}$}
+            \end{minipage}
+            \end{actionenv}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.45\linewidth}
+                \centering
+                \begin{tikzpicture}[
+                    scale=0.8,
+                    every node/.style={font=\footnotesize, inner sep=1pt}
+                ]
+                    \path[use as bounding box] (-2,-2) rectangle (2,2);
+
+                    \foreach \k in {0,...,12}{
+                        \coordinate (v\k) at ({90-360*\k/13}:1.35);
+                        \node at ({90-360*\k/13}:1.72) {$\k$};
+                    }
+
+                    \foreach \k in {0,...,12}{
+                        \foreach \d in {1,3,4}{
+                            \pgfmathtruncatemacro{\j}{mod(\k+\d,13)}
+                            \draw[thick] (v\k) -- (v\j);
+                        }
+                    }
+
+                    \foreach \k in {0,...,12}
+                        \fill (v\k) circle[radius=2pt];
+                \end{tikzpicture}\\[-0.5ex]
+                {\scriptsize $P(13)$: ненулевые квадраты $\{1,3,4,9,10,12\}$}
+            \end{minipage}
+            \end{actionenv}
+        \end{center}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Графы Кэли}
+    \begin{itemize}
+        \item Пусть $H$ --- конечная группа, $S\subset H$ --- множество образующих;
+        \item Граф Кэли $\operatorname{Cay}(H,S)$: вершины $V=H$, рёбра $(h_1, h_2)\in E$ $\Leftrightarrow$ $\exists\, s\in S$: $h_2=h_1 s$;
+        \item При $S=S^{-1}$ граф можно считать неориентированным; при $e\notin S$ нет петель;
+
+        \item
+        \begin{minipage}[t]{0.68\linewidth}
+            \raggedright
+            \strut Пример: $H=\mathbb{Z}/n\mathbb{Z}$, $S=\{\pm1\}$ при $n\ge3$ ---
+            цикл; все вершины имеют одну и ту же локальную структуру;
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.30\linewidth}
+            \centering
+            \begin{tikzpicture}[
+                baseline={([yshift={-\ht\strutbox}]current bounding box.north)},
+                scale=0.7,
+                every node/.style={font=\footnotesize, inner sep=1pt}
+            ]
+                \foreach \k in {0,...,7}{
+                    \coordinate (v\k) at ({90-45*\k}:1.2);
+                    \node at ({90-45*\k}:1.48) {$\k$};
+                }
+
+                \draw[thick] (v0) -- (v1) -- (v2) -- (v3)
+                    -- (v4) -- (v5) -- (v6) -- (v7) -- (v0);
+
+                \foreach \k in {0,...,7}
+                    \fill (v\k) circle[radius=2pt];
+            \end{tikzpicture}
+        \end{minipage}
+
+        \item
+        \begin{minipage}[t]{0.68\linewidth}
+            \raggedright
+            \strut Пример: группа симметрий квадрата
+            $D_4=\langle r,s\mid r^4=s^2=1,\ srs=r^{-1}\rangle$,
+            $S=\{r,r^{-1},s\}$.
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.30\linewidth}
+            \centering
+            \begin{tikzpicture}[
+                baseline={([yshift={-\ht\strutbox}]current bounding box.north)},
+                scale=0.7,
+                every node/.style={font=\footnotesize, inner sep=1pt,  outer sep=2pt}
+            ]
+                % Внутренний квадрат
+                \coordinate (e)   at (-0.60, 0.60);
+                \coordinate (r)   at ( 0.60, 0.60);
+                \coordinate (r2)  at ( 0.60,-0.60);
+                \coordinate (r3)  at (-0.60,-0.60);
+
+                % Внешний квадрат
+                \coordinate (s)   at (-1.35, 1.35);
+                \coordinate (rs)  at ( 1.35, 1.35);
+                \coordinate (r2s) at ( 1.35,-1.35);
+                \coordinate (r3s) at (-1.35,-1.35);
+
+                % Рёбра
+                \draw[thick]
+                    (e) -- (r) -- (r2) -- (r3) -- (e)
+                    (s) -- (rs) -- (r2s) -- (r3s) -- (s)
+                    (e) -- (s)
+                    (r) -- (rs)
+                    (r2) -- (r2s)
+                    (r3) -- (r3s);
+
+                % Вершины
+                \foreach \v in {e,r,r2,r3,s,rs,r2s,r3s}
+                    \fill (\v) circle[radius=2pt];
+
+                % Обозначения вершин
+                \node[below right] at (e) {$1$};
+                \node[below left]  at (r) {$r$};
+                \node[above left]  at (r2) {$r^2$};
+                \node[above right] at (r3) {$r^3$};
+
+                \node[above left]  at (s) {$s$};
+                \node[above right] at (rs) {$rs$};
+                \node[below right] at (r2s) {$r^2s$};
+                \node[below left]  at (r3s) {$r^3s$};
+            \end{tikzpicture}
+        \end{minipage}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Некоторые понятия из теории графов}
+    \begin{itemize}
+        \item Простой граф $\leftrightharpoons$ неориентированный граф без петель и кратных рёбер;
+        \item Степень вершины $\deg(v)$ $\leftrightharpoons$ число инцидентных ей рёбер (петли --- дважды);
+        \item Лемма (о сумме степеней): $\sum_{v\in V}\deg(v)=2|E|$;
+        \item $d$-регулярный граф $\leftrightharpoons$ $\deg(v)=d$ для всех $v\in V$; $d|V|=2|E|$;
+        \item Пример: граф Пэли --- $(p-1)/2$-регулярный ($(p-1)/2$ квадратов $\neq 0$);
+        \item Маршрут $\leftrightharpoons$ посл-сть смежных вершин, длина --- число пройденных рёбер;
+        \item Путь $\leftrightharpoons$ маршрут без повторения вершин;
+        \item Цикл $\leftrightharpoons$ замкнутый маршрут без повторения (кроме начала и конца);
+        \item Связный граф $\leftrightharpoons$ между любыми двумя вершинами существует путь;
+        \item Расстояние $d_G(u,v)$ $\leftrightharpoons$ длина кратчайшего пути между $u$ и $v$;
+        \item Диаметр связного графа $\leftrightharpoons$ $\operatorname{diam}(G)=\sup_{u,v\in V}d_G(u,v)$;
+        \item Дерево $\leftrightharpoons$ связный граф без циклов;
+        \item Двудольный граф $\leftrightharpoons$ $V=V_1\cup V_2$, $V_1\cap V_2=\varnothing$ и $\forall \{v_1,v_2\}\in E$: $v_1\in V_1$, $v_2\in V_2$.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Матрица смежности}
+    \begin{itemize}
+        \item Для графа без кратных рёбер $n$ вершинами матрица смежности:
+        \[A=(a_{ij})_{i,j=1}^n,\qquad
+        a_{ij}=\begin{cases}
+            1,&(v_i,v_j)\in E,\\
+            0,&(v_i,v_j)\notin E;
+        \end{cases}\]
+        \item $A=A^{\mathsf{T}}$ для неориентированного $G$; $a_{ii}=1$, если есть петля в $v_i$;
+        \item $(A^k)_{ij}$ --- число маршрутов длины $k$ из $v_i$ в $v_j$ (с повторениями);
+        \item $\operatorname{tr}(A^k)$ --- число замкнутых маршрутов с отмеченным началом;
+        \item Пример: $C_4=\operatorname{Cay}(\mathbb{Z}/4\mathbb{Z},\{\pm1\})$, $v_i=i-1$,
+            \begin{center}
+            \begin{tikzpicture}[
+                baseline=(current bounding box.center),
+                >={Stealth[length=2mm]},
+                every node/.style={font=\footnotesize, inner sep=1pt, outer sep=2pt}
+            ]
+                \ifanimated
+                    \tikzset{
+                        step1/.style={visible on=<.->, alt=<.>{color=ThemeAlert}{}},
+                        step2/.style={visible on=<+->, alt=<.>{color=ThemeAlert}{}},
+                        step3/.style={visible on=<+->, alt=<.>{color=ThemeAlert}{}},
+                        step4/.style={visible on=<+->, alt=<.>{color=ThemeAlert}{}},
+                        step5/.style={visible on=<+->, alt=<.>{color=ThemeAlert}{}}
+                    }
+                \else
+                    \tikzset{
+                        step1/.style={},
+                        step2/.style={},
+                        step3/.style={},
+                        step4/.style={},
+                        step5/.style={}
+                    }
+                \fi
+
+                \path[use as bounding box] (-1.3,-2.2) rectangle (9.6,1.3);
+
+                % --- Граф C_4 ---
+                \coordinate (v1) at (-0.56, 0.56);
+                \coordinate (v2) at ( 0.56, 0.56);
+                \coordinate (v3) at ( 0.56,-0.56);
+                \coordinate (v4) at (-0.56,-0.56);
+
+                \begin{scope}[step1]
+                    \draw[thick] (v1) -- (v2) -- (v3) -- (v4) -- (v1);
+
+                    \foreach \i in {1,...,4}
+                        \fill (v\i) circle[radius=2pt];
+
+                    \node[above left]  at (v1) {$v_1$};
+                    \node[above right] at (v2) {$v_2$};
+                    \node[below right] at (v3) {$v_3$};
+                    \node[below left]  at (v4) {$v_4$};
+                \end{scope}
+
+                % --- Матрица A ---
+                \node[anchor=west, step2] at (1.55,0) {$\displaystyle
+                    A=\begin{pmatrix}
+                        0&1&0&1\\
+                        1&0&1&0\\
+                        0&1&0&1\\
+                        1&0&1&0
+                    \end{pmatrix}
+                $};
+
+                % --- Матрица A^2 ---
+                \node[anchor=west, step3] at (4.8,0) {$\displaystyle
+                    A^2=\begin{pmatrix}
+                        2&0&2&0\\
+                        0&2&0&2\\
+                        2&0&2&0\\
+                        0&2&0&2
+                    \end{pmatrix}
+                $};
+
+                % --- (A^2)_{13} и соответствующие пути ---
+                \begin{scope}[step4]
+                    % Путь v1 -> v2 -> v3
+                    \draw[->,thick,draw=green!60!black]
+                        ($(v1)!0.18!(v2)+(0,-0.14)$) --
+                        ($(v1)!0.82!(v2)+(0,-0.14)$);
+                    \draw[->,thick,draw=green!60!black]
+                        ($(v2)!0.18!(v3)+(-0.14,0)$) --
+                        ($(v2)!0.82!(v3)+(-0.14,0)$);
+
+                    % Путь v1 -> v4 -> v3
+                    \draw[->,thick,draw=red]
+                        ($(v1)!0.18!(v4)+(0.14,0)$) --
+                        ($(v1)!0.82!(v4)+(0.14,0)$);
+                    \draw[->,thick,draw=red]
+                        ($(v4)!0.18!(v3)+(0,0.14)$) --
+                        ($(v4)!0.82!(v3)+(0,0.14)$);
+
+                    \node[anchor=north west, align=left] at (-1.0,-1.20) {$\displaystyle
+                        (A^2)_{13}=2:\quad
+                        \textcolor{green!60!black}{v_1\to v_2\to v_3},\quad
+                        \textcolor{red}{v_1\to v_4\to v_3};
+                    $};
+                \end{scope}
+
+                % --- След ---
+                \node[anchor=north west, step5] at (6.3,-1.20) {$\displaystyle
+                    \operatorname{tr}(A^2)=8.
+                $};
+            \end{tikzpicture}
+            \end{center}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item При кратных рёбрах соответствующие элементы учитывают их число $a_{ij}$ --- число рёбер;
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Спектр регулярного графа}
+    \begin{itemize}
+        \item Пусть $G$ --- конечный простой граф, $A=A^{\mathsf T}$ --- его матрица смежности;
+        \item Число $\lambda$ --- собственное значение $A$, если $A\mathbf{x}=\lambda \mathbf{x}$ при некотором $\mathbf{x}\ne\mathbf{0}$;\\
+        для симметричной $A$ все $\lambda$ действительны;
+        \item Спектр графа $\leftrightharpoons$ собственные значения $A$: $\lambda_1\ge\lambda_2\ge\cdots\ge\lambda_n$;
+        \item Лемма: Для неориентированного $d$-регулярного графа без петель кратность собственного значения $d$ равна числу компонент связности.
+        \item Лемма: Для связного $d$-регулярного графа $\lambda_1=d$,\quad $-d\le\lambda_i<d$, $i\ge2$;\\
+        $-d$ --- собственное значение ровно тогда, когда граф двудольный;
+        \item $\lambda=\pm d$ будем называть тривиальными собственными значениями;
+        \item Спектральный зазор $\leftrightharpoons$ $\lambda_1-\lambda_2$; для связного $d$-регулярного: $d-\lambda_2$;
+        \item Т.о. спектр графа --- инвариант, отражающий связность и некоторые другие характеристики;
+        \item Пример: спектр цикла $C_4$ --- $(2,0,0,-2)$, зазор --- $2$.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Графы-экспандеры}
+% ============================================================
+
+% ================================================================
+\begin{frame}{«Плохие» и «хорошие» графы}
+    \begin{center}
+        % Первая строка: плохие примеры
+        \begin{actionenv}
+        \begin{minipage}[t]{0.31\linewidth}
+            \centering
+            
+            \begin{tikzpicture}[scale=0.78]
+                \path[use as bounding box] (-1.85,-1.45) rectangle (1.85,1.45);
+
+                \foreach \k in {0,...,9}
+                    \coordinate (v\k) at ({90-36*\k}:1.35);
+
+                \draw[thick] (v0)--(v1)--(v2)--(v3)--(v4)
+                    --(v5)--(v6)--(v7)--(v8)--(v9)--(v0);
+
+                \foreach \k in {0,...,9}
+                    \fill (v\k) circle[radius=2pt];
+            \end{tikzpicture}\par
+            {\scriptsize Цикл $C_{10}$}\par
+            {\scriptsize Мало рёбер, большие расстояния}
+        \end{minipage}
+        \end{actionenv}
+        \begin{actionenv}
+        \begin{minipage}[t]{0.31\linewidth}
+            \centering
+            \begin{tikzpicture}[scale=0.78]
+                \path[use as bounding box] (-1.85,-1.45) rectangle (1.85,1.45);
+
+                \begin{scope}[xshift=-1.05cm]
+                    \foreach \k in {0,...,4}
+                        \coordinate (l\k) at ({72*\k}:0.70);
+                \end{scope}
+                \begin{scope}[xshift=1.05cm]
+                    \foreach \k in {0,...,4}
+                        \coordinate (r\k) at ({180+72*\k}:0.70);
+                \end{scope}
+
+                \foreach \i in {0,...,4}{
+                    \foreach \j in {0,...,4}{
+                        \ifnum\i<\j
+                            \draw[thick] (l\i)--(l\j);
+                            \draw[thick] (r\i)--(r\j);
+                        \fi
+                    }
+                }
+
+                \draw[thick] (l0)--(r0);
+
+                \foreach \k in {0,...,4}{
+                    \fill (l\k) circle[radius=2pt];
+                    \fill (r\k) circle[radius=2pt];
+                }
+            \end{tikzpicture}\par
+            {\scriptsize Два кластера и мост}\par
+            {\scriptsize Узкое место}
+        \end{minipage}
+        \end{actionenv}
+        \begin{actionenv}
+        \begin{minipage}[t]{0.31\linewidth}
+            \centering
+            \begin{tikzpicture}[scale=0.78]
+                \path[use as bounding box] (-1.85,-1.45) rectangle (1.85,1.45);
+
+                \foreach \k in {0,...,7}
+                    \coordinate (v\k) at ({90-45*\k}:1.35);
+
+                \foreach \i in {0,...,7}{
+                    \foreach \j in {0,...,7}{
+                        \ifnum\i<\j
+                            \draw[semithick] (v\i)--(v\j);
+                        \fi
+                    }
+                }
+
+                \foreach \k in {0,...,7}
+                    \fill (v\k) circle[radius=2pt];
+            \end{tikzpicture}\par
+            {\scriptsize Полный граф $K_8$}\par
+            {\scriptsize Слишком много рёбер}
+        \end{minipage}
+        \end{actionenv}
+        \vspace{2ex}
+
+        % Вторая строка: хорошие примеры
+        \begin{minipage}[t]{0.32\linewidth}
+            \vspace{-13ex}
+            \begin{itemize}
+                \item Т.о. «хороший» граф:
+                \begin{itemize}
+                    \item много узлов,
+                    \item мало рёбер,
+                    \item хорошо свзяный,
+                    \item без узких мест;
+                \end{itemize}
+            \end{itemize}
+        \end{minipage}
+        \begin{actionenv}
+        \begin{minipage}[t]{0.32\linewidth}
+            \centering
+            \begin{tikzpicture}[scale=0.82]
+                \path[use as bounding box] (-1.85,-1.45) rectangle (1.85,1.45);
+
+                \foreach \k in {0,...,4}{
+                    \coordinate (v\k) at ({90-72*\k}:1.35);
+                    \coordinate (u\k) at ({90-72*\k}:0.64);
+                }
+
+                \draw[thick]
+                    (v0)--(v1)--(v2)--(v3)--(v4)--(v0)
+                    (u0)--(u2)--(u4)--(u1)--(u3)--(u0);
+
+                \foreach \k in {0,...,4}
+                    \draw[thick] (v\k)--(u\k);
+
+                \foreach \k in {0,...,4}{
+                    \fill (v\k) circle[radius=2pt];
+                    \fill (u\k) circle[radius=2pt];
+                }
+            \end{tikzpicture}\par
+            {\scriptsize Граф Петерсена}
+        \end{minipage}
+        \end{actionenv}
+        \begin{actionenv}
+        \begin{minipage}[t]{0.32\linewidth}
+            \centering
+            \begin{tikzpicture}[scale=0.82]
+                \path[use as bounding box] (-2.0,-1.55) rectangle (2.0,1.55);
+
+                \foreach \k in {0,...,13}
+                    \coordinate (v\k) at ({90-360*\k/14}:1.35);
+
+                % цикл C_14
+                \draw[thick]
+                    (v0)--(v1)--(v2)--(v3)--(v4)--(v5)--(v6)--(v7)
+                    --(v8)--(v9)--(v10)--(v11)--(v12)--(v13)--(v0);
+
+                % хорды графа Хивуда: {2k,2k+5} mod 14
+                \draw[thick] (v0)--(v5);
+                \draw[thick] (v2)--(v7);
+                \draw[thick] (v4)--(v9);
+                \draw[thick] (v6)--(v11);
+                \draw[thick] (v8)--(v13);
+                \draw[thick] (v10)--(v1);
+                \draw[thick] (v12)--(v3);
+
+                \foreach \k in {0,...,13}
+                    \fill (v\k) circle[radius=2pt];
+            \end{tikzpicture}\par
+            {\scriptsize Граф Хивуда}
+        \end{minipage}
+        \end{actionenv}
+    \end{center}
+
+    \note{
+        \begin{itemize}
+            \item Граф Хивуда можно получить как граф инцидентности плоскости Фано: вершины --- 7 точек и 7 прямых, ребро означает принадлежность точки прямой. Эквивалентно: точки --- одномерные подпространства $\mathbb{F}_2^3$, прямые --- двумерные подпространства, рёбра --- включения.
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Константа Чигера}
+    \begin{itemize}
+        \item Для $U\subset V(G)$ обозначим через $\partial U$ множество рёбер между $U$ и $V\setminus U$;
+        \item Константа Чигера $\leftrightharpoons$ $h(G)=\min\limits_{0<|U|\le |V|/2}|\partial U|/|U|$;
+        \item Примеры:
+        \vspace{-2ex}
+        \begin{center}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.31\linewidth}
+                \centering
+                \begin{tikzpicture}[scale=0.82]
+                    \path[use as bounding box] (-1.95,-1.75) rectangle (1.95,1.75);
+
+                    % Вершины цикла
+                    \foreach \k in {0,...,9}
+                        \coordinate (v\k) at ({90-36*\k}:1.18);
+
+                    % Обычные рёбра
+                    \draw[thick]
+                        (v0)--(v1)--(v2)--(v3)--(v4)
+                        (v5)--(v6)--(v7)--(v8)--(v9);
+
+                    % Граница \partial U
+                    \draw[red,thick] (v9)--(v0) (v4)--(v5);
+
+                    % Выделенное множество U
+                    \draw[red,dashed]
+                        (-72:1.48)
+                        arc[start angle=-72,end angle=108,radius=1.48]
+                        -- cycle;
+
+                    \node[red] at (0.7,0.3) {\scriptsize $U$};
+
+                    % Вершины
+                    \foreach \k in {0,...,9}
+                        \fill (v\k) circle[radius=2pt];
+                \end{tikzpicture}\\[-2ex]
+                {\scriptsize $|U|=5,\ |\partial U|=2,\ h(G)=2/5$}
+            \end{minipage}
+            \end{actionenv}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.31\linewidth}
+                \centering
+                \begin{tikzpicture}[scale=0.82]
+                    \path[use as bounding box] (-2.05,-1.75) rectangle (2.05,1.75);
+
+                    % Левый K5
+                    \begin{scope}[xshift=-1.10cm]
+                        \foreach \k in {0,...,4}
+                            \coordinate (l\k) at ({90-72*\k}:0.72);
+                    \end{scope}
+
+                    % Правый K5
+                    \begin{scope}[xshift=1.10cm]
+                        \foreach \k in {0,...,4}
+                            \coordinate (r\k) at ({90-72*\k}:0.72);
+                    \end{scope}
+
+                    % Рёбра K5
+                    \foreach \i in {0,...,4}{
+                        \foreach \j in {0,...,4}{
+                            \ifnum\i<\j
+                                \draw[thick] (l\i)--(l\j);
+                                \draw[thick] (r\i)--(r\j);
+                            \fi
+                        }
+                    }
+
+                    % Мост = граница
+                    \draw[red,thick] (l1)--(r4);
+
+                    % Выделенное множество U
+                    \draw[red,dashed,rounded corners=8pt]
+                        (-2.02,1.05) rectangle (-0.18,-1.05);
+                    \node[red] at (-0.5,0.7) {\scriptsize $U$};
+
+                    % Вершины
+                    \foreach \k in {0,...,4}{
+                        \fill (l\k) circle[radius=2pt];
+                        \fill (r\k) circle[radius=2pt];
+                    }
+                \end{tikzpicture}\\[-2ex]
+                {\scriptsize $|U|=5,\ |\partial U|=1,\ h(G)=1/5$}
+            \end{minipage}
+            \end{actionenv}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.31\linewidth}
+                \centering
+                \begin{tikzpicture}[scale=0.82]
+                    \path[use as bounding box] (-1.95,-1.75) rectangle (1.95,1.75);
+
+                    % Внешние и внутренние вершины
+                    \foreach \k in {0,...,4}{
+                        \coordinate (v\k) at ({90-72*\k}:1.20);
+                        \coordinate (u\k) at ({90-72*\k}:0.58);
+                    }
+
+                    % Обычные рёбра графа Петерсена
+                    \draw[thick]
+                        (v0)--(v1)--(v2)--(v3)--(v4)--(v0)
+                        (u0)--(u2)--(u4)--(u1)--(u3)--(u0);
+
+                    % Граница \partial U
+                    \foreach \k in {0,...,4}
+                        \draw[red,thick] (v\k)--(u\k);
+
+                    % Выделенное множество U
+                    \draw[red,dashed] (0,0) circle[radius=0.8];
+                    \node[red] at (0.35,0.45) {\scriptsize $U$};
+
+                    % Вершины
+                    \foreach \k in {0,...,4}{
+                        \fill (v\k) circle[radius=2pt];
+                        \fill (u\k) circle[radius=2pt];
+                    }
+                \end{tikzpicture}\\[-2ex]
+                {\scriptsize $|U|=5,\ |\partial U|=5,\ h(G)=1$}
+            \end{minipage}
+            \end{actionenv}
+        \end{center}
+        \vspace{1ex}
+        \item Интерпретация: чем больше $h(G)$, тем труднее отделить существенную часть графа малым числом рёбер;
+        \item Это и будет характеристикой хороших графов: чем больше константа Чигера, тем лучше «расширение» графа.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Спектральный зазор и расширение}
+    \begin{itemize}
+        \item Пусть $G$ --- связный $d$-регулярный граф ($d-\lambda_2$ --- спектральный зазор);
+        \item Теорема (неравенства Чигера):
+        \[\frac{d-\lambda_2}{2}\le h(G)\le\sqrt{2d(d-\lambda_2)}.\]
+        \item Интерпретация: большой зазор $\Rightarrow$ хорошее расширение;
+        \item Пример: Граф Пэли 
+        \begin{itemize}
+            \item вершины $a\in\mathbb{F}_p$; $a\sim b$ при $a\ne b$ и $a-b=x^2$ для некоторого $x\in\mathbb{F}_p^*$;
+            \item арифметическое описание позволяет найти спектр: $\frac{p-1}{2}$, $\frac{-1+\sqrt p}{2}$, $\frac{-1-\sqrt p}{2}$;
+            % \item Последние два значения имеют кратность $(p-1)/2$ каждое и связаны с квадратичными суммами Гаусса;
+            % \item Суммы характеров $\longrightarrow$ оценки спектра $\longrightarrow$ псевдослучайные свойства;
+            \item и по спектру оценить $h(P(p))$:
+            \[
+                \frac{p-\sqrt p}{4}\le h(P(p))\le
+                \sqrt{\frac{(p-1)(p-\sqrt p)}{2}}.
+            \]
+            \item Нижняя граница порядка $p$: даже большие части графа связаны многими рёбрами с остальными.
+        \end{itemize}
+        
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Семейства расширяющихся графов (экспандеры)}
+    \begin{itemize}
+        \item У графов Пэли степень вершин $d=(p-1)/2$ растёт с $p$;
+        \item Хотим семейство графов $G_n$ с $|V(G_n)|\to\infty$, но фиксированной степенью $d$;
+        \item Но «хороших» (например, для семейства циклов $C_n$: $h(C_n)\to0$, $n\to\infty$);
+        \item Семейство экспандеров $\leftrightharpoons$ существует $\varepsilon>0$ такое, что $h(G_n)\ge\varepsilon$ для всех $n$;
+        \item Теорема (Алон--Боппана): для семейства связных $d$-регулярных графов с растущим числом вершин ($d\ge3$):
+        \[\liminf_{n\to\infty}\lambda_2(G_n)\ge2\sqrt{d-1}.\]
+        \item Граф называется графом Рамануджана, если каждое нетривиальное собственное значение  удовлетворяет
+        \[|\lambda|\le2\sqrt{d-1},\quad \lambda\neq \pm d;\]
+        % \item Это оптимальная асимптотическая спектральная граница: большой граф не может существенно её улучшить.
+        \item Таким образом, семейство \(d\)-регулярных графов Рамануджана асимптотически достигает оптимальной спектральной границы.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Любоцкий--Филлипс--Сарнак: явные графы Рамануджана}
+    \begin{itemize}
+        \item Берём различные простые $p\equiv q\equiv1\pmod4$, $q>2\sqrt p$;
+        \item Среди целых кватернионов $a+bi+cj+dk$ нормы $a^2+b^2+c^2+d^2=p$ выбираем $a>0$ нечётное, $b,c,d$ чётные (ровно $p+1$ решений);
+        \item $\exists\,t\in\mathbb{F}_q$ с $t^2=-1$ (т.к. $q\equiv1\pmod4$); каждому решению сопоставляем
+        \[M=\begin{pmatrix}a+tb&c+td\\-c+td&a-tb\end{pmatrix},\quad \det M=p\pmod q;\]
+        \item Берём граф Кэли матричной группы над $\mathbb F_q$:
+        \begin{itemize}
+            \item $\operatorname{Cay}(PSL_2(\mathbb F_q),S)$, если $p$ --- квадрат $\bmod\, q$; $\operatorname{Cay}(PGL_2(\mathbb F_q),S)$, иначе;
+            \item $PGL_2(\mathbb F_q)$ --- группа обратимых матриц с точностью до ненулевого скаляра,\\ $PSL_2(\mathbb F_q)$ --- её подгруппа с определителем-квадратом;
+            \item $S=\{[M]\}$ --- множество классов в $PGL_2(\mathbb F_q)$ полученных матриц;
+        \end{itemize}
+        \item $p+1$ выбранных матриц задают рёбра в каждой вершине, степень $d=p+1$;
+        \item Получаем семейство $d$-регулярных графов, $d$ фиксировано при росте $q$;
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item В случае, когда \(p\) не является квадратом по модулю \(q\), граф на \(PGL_2(\mathbb F_q)\) двудольный.
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Любоцкий--Филлипс--Сарнак: явные графы Рамануджана (продолжение)}
+    \begin{itemize}
+        \item Оказывается, что матрица (оператор) смежности этого графа связана с функциональным оператором на пр-ве модулярных форм веса $2$;
+        \item Оператор Гекке $T_p$ --- линейный оператор на МФ ($p$ --- простое);
+        \item Cобственные функции и значения: $T_p f=a_p f$, $f(z)=\sum_{n=1}^{\infty}a_n e^{2\pi inz}$;
+        \item Теорема (Рамануджан--Петерссон, Делинь): для нормированной параболической ($a_0=0$) собственной формы Гекке веса $k$ и уровня $N$:
+        \[|a_p|\le 2p^{(k-1)/2},\ p\nmid N;\quad \text{в частности, для } k=2: |a_p|\le 2\sqrt p;\]
+        % \item Теорема (г. Рамануджана--Петерссона; Делинь, 1974): если $f$ --- собственная форма оператов:
+        % \[|a_p|\le 2p^{(k-1)/2};\]
+        \item Откуда для нетривиальных собственных значений построенного графа:
+        \[|\lambda|\le 2\sqrt p=2\sqrt{d-1},\quad d=p+1;\]
+        \item Т.о., полученное семейство есть семейство графов Рамануджана, итого:
+        \begin{actionenv}
+            \begin{center}
+            \begin{tikzpicture}[
+                every node/.style={draw, rounded corners=2pt, align=center, font=\small, minimum height=9mm, inner sep=4pt}
+            ]
+                \node (quat) {Кватернионы};
+                \node[anchor=west] (gc) at ([xshift=8mm]quat.east) {Графы Кэли};
+                \node[anchor=west] (mf) at ([xshift=8mm]gc.east) {Модулярные формы};
+                \node[anchor=west] (exp) at ([xshift=8mm]mf.east) {Оценка спектра};
+
+                \draw[->] (quat) -- (gc);
+                \draw[->] (gc) -- (mf);
+                \draw[->] (mf) -- (exp);
+            \end{tikzpicture}
+            \end{center}
+        \end{actionenv}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Дерево Брюа--Титса}
+    \begin{itemize}
+        \item С матричной группой $PGL_2(\mathbb{Q}_p)$ можно ассоциировать бесконечное $(p+1)$-регулярное дерево (дерево Брюа--Титса):
+        \begin{itemize}
+            \item Вершины: классы $\mathbb{Z}_p$-решёток $L\subset\mathbb{Q}_p^2$ с точностью до умножения на число из $\mathbb{Q}_p^*$;
+            \item Рёбра $[L]\sim[L']$: можно выбрать представителей так, что $pL\subsetneq L'\subsetneq L$ и $[L:L']=p$;
+        \end{itemize}
+        \item Группа $PGL_2(\mathbb{Q}_p)$ действует на дереве; фактор по подходящей арифметической группе даёт конечный граф;
+        \item Пример: $PGL_2(\mathbb Q_2)$
+        \begin{center}
+            \begin{tikzpicture}[
+                scale=0.85,
+                every node/.style={font=\footnotesize, inner sep=2pt}
+            ]
+                % Дерево Брюа--Титса
+                \coordinate (a) at (0,1.25);
+                \coordinate (b) at (-1.75,0.35);
+                \coordinate (c) at (0,0.35);
+                \coordinate (d) at (1.75,0.35);
+
+                \foreach \i/\x in {1/-2.2,2/-1.3,3/-0.45,4/0.45,5/1.3,6/2.2}
+                    \coordinate (t\i) at (\x,-0.55);
+
+                % Рёбра дерева
+                \draw[thick]
+                    (a)--(b) (a)--(c) (a)--(d)
+                    (b)--(t1) (b)--(t2)
+                    (c)--(t3) (c)--(t4)
+                    (d)--(t5) (d)--(t6);
+
+                % Бесконечное продолжение
+                \foreach \i in {1,...,6}{
+                    \draw[dashed] (t\i)--++(-0.22,-0.48);
+                    \draw[dashed] (t\i)--++(0.22,-0.48);
+                }
+
+                % Вершины
+                \foreach \v in {a,b,c,d,t1,t2,t3,t4,t5,t6}
+                    \fill (\v) circle[radius=2pt];
+
+                % Метки орбит
+                \node[above] at (a) {$a$};
+                \node[left]  at (b) {$b$};
+                \node[right] at (c) {$c$};
+                \node[right] at (d) {$d$};
+
+                \node[above left]  at (t1) {$c$};
+                \node[above right] at (t2) {$d$};
+                \node[above left]  at (t3) {$b$};
+                \node[above right] at (t4) {$d$};
+                \node[above left]  at (t5) {$b$};
+                \node[above right] at (t6) {$c$};
+
+                \node at (0,-1.3)
+                    {\scriptsize Бесконечное дерево $T_2$};
+
+                % Факторизация
+                \draw[->,thick] (2.8,0)--(4.5,0)
+                    node[midway,above] {\scriptsize фактор};
+
+                % Конечный граф
+                \begin{scope}[xshift=5.9cm]
+                    \coordinate (A) at (0,1.1);
+                    \coordinate (B) at (-0.95,-0.55);
+                    \coordinate (C) at (0.95,-0.55);
+                    \coordinate (D) at (0,0);
+
+                    \draw[thick]
+                        (A)--(B)--(C)--(A)
+                        (A)--(D) (B)--(D) (C)--(D);
+
+                    \foreach \v in {A,B,C,D}
+                        \fill (\v) circle[radius=2pt];
+
+                    \node[above] at (A) {$a$};
+                    \node[below left] at (B) {$b$};
+                    \node[below right] at (C) {$c$};
+                    \node[above right] at (D) {$d$};
+
+                    \node at (0,-1.3)
+                        {\scriptsize Конечный граф $K_4$};
+                \end{scope}
+            \end{tikzpicture}
+        \end{center}
+        \item Некоторые такие арифметические факторы обладают спектральными оценками Рамануджана и образуют семейства экспандеров;
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Суперсингулярные графы изогений}
+    \begin{itemize}
+        \item Пусть $p\ne\ell$ --- простые числа, $p\equiv1\,(12)$, $E$ --- эллиптическая кривая над $\overline{\mathbb F}_p$;
+        \item Теорема: для конечной подгруппы $C\subset E(\overline{\mathbb F}_p)$ фактор $E/C$ является ЭК;
+        \item При $|C|=\ell$ естественное отображение $E\to E/C$ называется $\ell$-изогенией;
+        \item Суперсингулярные ЭК: $\operatorname{End}(E)$ --- макс. порядок в кватернионной алгебре;
+        \item Построим граф $\mathcal{G}_p=\mathcal{G}_p(\ell)$:
+        \begin{itemize}
+            \item вершины --- классы изоморфизма суперсинг. ЭК над $\overline{\mathbb F}_p$ ($(p-1)/12$ вершин);
+            \item рёбра $\sim$ $\ell$-изогении (возможны петли и кратные рёбра);
+        \end{itemize}
+        \item Теорема (Pizer, 1990): $\mathcal{G}_p(\ell)$ --- $(\ell+1)$-регулярный граф Рамануджана;
+        \item Получаем семейство экспандеров $\mathcal{G}_p$, $p\to\infty$;
+        \item Конструкция использует арифметику порядков и идеалов в кватернионной алгебре и оценки спектра через коэффициенты МФ; таким образом:
+        \begin{actionenv}
+            \begin{center}
+            \begin{tikzpicture}[
+                every node/.style={draw, rounded corners=2pt, align=center, font=\small, minimum height=9mm, inner sep=4pt}
+            ]
+                \node (ec) {Эллиптические\\кривые};
+                \node[anchor=west] (quat) at ([xshift=8mm]ec.east) {Кватернионные\\алгебры};
+                \node[anchor=west] (mf) at ([xshift=8mm]quat.east) {Модулярные\\формы};
+                \node[anchor=west] (exp) at ([xshift=8mm]mf.east) {Графы\\экспандеры};
+
+                \draw[<->] (ec) -- (quat);
+                \draw[<->] (quat) -- (mf);
+                \draw[<->] (mf) -- (exp);
+            \end{tikzpicture}
+            \end{center}
+        \end{actionenv}
+        \item Приложения: хэш-функции и постквантовая криптография.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            
+            \item Условие $p\equiv1\pmod{12}$ исключает суперсингулярные ЭК с $j=0$ и $j=1728$, поскольку они суперсингулярны при $p\equiv2\pmod3$ и $p\equiv3\pmod4$ соответственно. Поэтому для всех рассматриваемых кривых $\operatorname{Aut}(E)=\{\pm1\}$ и матрица смежности графа изогений симметрична (двойственные изогении задают противоположные направления рёбер).
+            \item A.~K.~Pizer, Ramanujan Graphs and Hecke Operators, Bulletin of the AMS 23 (1990), 127--137. \url{https://doi.org/10.1090/S0273-0979-1990-15918-X}
+            \item A.~Pizer, Ramanujan graphs, Computational Perspectives on Number Theory, AMS, 1998, 159--178.
+            \item D.~Charles, K.~Lauter, E.~Goren, Cryptographic Hash Functions from Expander Graphs, Journal of Cryptology 22 (2009), 93--113. \url{https://doi.org/10.1007/s00145-007-9002-x}
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Хэш-функции на графах Кэли}
+    \begin{itemize}
+        \item Хэш-функция --- вычислимая функция, отображающая битовые строки произвольной длины в битовые строки фиксированной длины:
+        \[H\colon\{0,1\}^*\to\{0,1\}^N;\]
+        \item Идея конструкции: берём конечную группу $G$ и два её образующих $A_0,A_1$;
+        \item Для битовой строки $w=b_1\dots b_k$ произвольной длины определяем:
+        \[H(w)=A_{b_1}\cdots A_{b_k}\in G;\]
+        \item Свойство: $H(uv)=H(u)H(v)$ --- можно параллелить или дописывать хэш;
+        \item Интерпретация: движение по графу Кэли согласно битам сообщения;\\
+        хэш --- конечная вершина маршрута;
+        \item Пример: $G=SL_2(\mathbb F_p)$, где $p$ --- большое простое число,
+        \[
+            A_0=\left(\begin{smallmatrix}1&2\\0&1\end{smallmatrix}\right),\quad
+            A_1=\left(\begin{smallmatrix}1&0\\2&1\end{smallmatrix}\right),\quad
+            H(01010110)=\left(\begin{smallmatrix}309&688\\128&285\end{smallmatrix}\right)\pmod p;
+        \]
+        \item Теорема (Bourgain--Gamburd, 2008): графы Кэли $G=SL_2(\mathbb F_p)$ с образующими $A_0^{\pm1},A_1^{\pm1}$ образуют семейство экспандеров при $p\to\infty$;
+        
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Хорошее расширение и большой обхват графа сами по себе не гарантируют криптографической стойкости хэш-функции.
+            \item Важную роль в таких конструкциях играют свойства расширения графа и его обхват (girth) --- длина кратчайшего простого цикла.
+            \item V.~Shpilrain, Girth of the Cayley graph and Cayley hash functions, 2025. \url{https://arxiv.org/abs/2502.13197}
+            \item J.~Bourgain, A.~Gamburd, Uniform expansion bounds for Cayley graphs of $SL_2(\mathbb F_p)$, Annals of Mathematics 167 (2008), 625--642. \url{https://doi.org/10.4007/annals.2008.167.625}
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Другие приложения экспандеров}
+    \begin{itemize}
+        \item Коды, исправляющие ошибки: экспандеры позволяют строить помехоустойчивые коды с декодированием за линейное время;
+        \item Сети: построение разреженных коммуникационных сетей с хорошей связностью и без узких мест;
+        \item Случайные блуждания: на экспандерах распределение положения частицы быстро приближается к равномерному независимо от начальной вершины (время перемешивания $O(\log |V|)$);
+        \item Псевдослучайность и алгоритмы: заменяя независимые случайные выборки блужданием по экспандеру, можно уменьшать вероятность ошибки рандомизированных алгоритмов, расходуя меньше случайных битов;
+        \item Графовые нейронные сети (GNN): экспандеры используются как дополнительная структура связей для эффективной передачи информации между удалёнными вершинами.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item M.~Sipser, D.~A.~Spielman, Expander Codes, IEEE Transactions on Information Theory 42 (1996), 1710--1722.
+            \item S.~Hoory, N.~Linial, A.~Wigderson, Expander Graphs and Their Applications, Bulletin of the AMS 43 (2006), 439--561.
+            \item A.~Deac, M.~Lackenby, P.~Veličković, Expander Graph Propagation, Learning on Graphs Conference, 2022. \url{https://arxiv.org/abs/2210.02997}
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Дзета-функция Ихары}
+% ============================================================
+
+% ================================================================
+\begin{frame}{Примитивные циклы}
+    \begin{itemize}
+        \item Пусть $G$ --- конечный неориентированный граф;
+        \item Каждому ребру сопоставим два ориентированных: $e$ и $\bar e$;
+        \item Маршрут $e_1 \dots e_r$ без возвратов: $e_{i+1}\ne\bar e_i$;
+        \item Далее под циклом (Ихары) будем понимать замкнутый маршрут без хвоста и без возвратов (включая $e_1\ne\bar e_r$), т.е. допускаются повторения;
+        \item Цикл $C^k$ --- $k$ повторных обходов цикла $C$;
+        \item Цикл $C$ --- примитивный $\leftrightharpoons$ $C\neq D^k$ для более короткого цикла $D$ и $k\ge2$;
+        \item Примеры:
+        \vspace{-2ex}
+        \begin{center}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.31\linewidth}
+                \centering
+                \begin{tikzpicture}[scale=0.95, >={Stealth[length=2mm]}]
+                    \path[use as bounding box] (-1.6,-1.35) rectangle (1.6,1.35);
+
+                    % Немедленный возврат
+                    \coordinate (a1) at (-0.85,0.65);
+                    \coordinate (b1) at ( 0.85,0.65);
+
+                    \draw[thick] (a1)--(b1);
+                    \draw[red,thick,->] (-0.68,0.77)--(0.68,0.77);
+                    \draw[red,thick,->] (0.68,0.53)--(-0.68,0.53);
+
+                    \foreach \v in {a1,b1}
+                        \fill (\v) circle[radius=2pt];
+
+                    \node[font=\scriptsize,red] at (0,0.3) {$e\bar e$};
+
+                    % Замкнутый маршрут с хвостом
+                    \coordinate (a) at (-1.2,-0.48);
+                    \coordinate (b) at (-0.1,-0.48);
+                    \coordinate (c) at ( 0.9, 0.02);
+                    \coordinate (d) at ( 0.9,-0.98);
+
+                    \draw[thick] (a)--(b)--(c)--(d)--(b);
+
+                    % Обход треугольника
+                    \foreach \u/\v in {b/c,c/d,d/b}
+                        \draw[thick,->] ($(\u)!0.18!(\v)$)--($(\u)!0.78!(\v)$);
+
+                    % Хвост
+                    \draw[red,thick,->] (-1.05,-0.36)--(-0.25,-0.36);
+                    \draw[red,thick,->] (-0.25,-0.60)--(-1.05,-0.60);
+
+                    \foreach \v in {a,b,c,d}
+                        \fill (\v) circle[radius=2pt];
+
+                    \node[font=\scriptsize,red] at (-0.68,-0.94)
+                        {$e_1=\bar e_5$};
+                \end{tikzpicture}\\[-1ex]
+                {\scriptsize Возврат и хвост запрещены}
+            \end{minipage}
+            \end{actionenv}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.31\linewidth}
+                \centering
+                \begin{tikzpicture}[scale=0.95, >={Stealth[length=2mm]}]
+                    \path[use as bounding box] (-1.8,-1.35) rectangle (1.8,1.35);
+
+                    % Примитивный цикл C
+                    \begin{scope}[xshift=-0.85cm]
+                        \coordinate (a) at (-0.45, 0.45);
+                        \coordinate (b) at ( 0.45, 0.45);
+                        \coordinate (c) at ( 0.45,-0.45);
+                        \coordinate (d) at (-0.45,-0.45);
+
+                        \draw[thick] (a)--(b)--(c)--(d)--(a);
+                        \foreach \v in {a,b,c,d}
+                            \fill (\v) circle[radius=2pt];
+
+                        \draw[->,thick] ($(a)!0.2!(b)$) -- ($(a)!0.8!(b)$);
+                        \draw[->,thick] ($(b)!0.2!(c)$) -- ($(b)!0.8!(c)$);
+                        \draw[->,thick] ($(c)!0.2!(d)$) -- ($(c)!0.8!(d)$);
+                        \draw[->,thick] ($(d)!0.2!(a)$) -- ($(d)!0.8!(a)$);
+
+                        \node[font=\scriptsize] at (0,-0.9) {$C$};
+                    \end{scope}
+
+                    % Непримитивный цикл C^2
+                    \begin{scope}[xshift=0.85cm]
+                        \coordinate (a) at (-0.45, 0.45);
+                        \coordinate (b) at ( 0.45, 0.45);
+                        \coordinate (c) at ( 0.45,-0.45);
+                        \coordinate (d) at (-0.45,-0.45);
+
+                        \draw[thick] (a)--(b)--(c)--(d)--(a);
+                        \foreach \v in {a,b,c,d}
+                            \fill (\v) circle[radius=2pt];
+
+                        \draw[->,thick] ($(a)!0.15!(b)$) -- ($(a)!0.75!(b)$);
+                        \draw[->,thick] ($(b)!0.15!(c)$) -- ($(b)!0.75!(c)$);
+                        \draw[->,thick] ($(c)!0.15!(d)$) -- ($(c)!0.75!(d)$);
+                        \draw[->,thick] ($(d)!0.15!(a)$) -- ($(d)!0.75!(a)$);
+
+                        \draw[->,thick] (-0.28,0.28) -- (0.28,0.28);
+                        \draw[->,thick] (0.28,0.28) -- (0.28,-0.28);
+                        \draw[->,thick] (0.28,-0.28) -- (-0.28,-0.28);
+                        \draw[->,thick] (-0.28,-0.28) -- (-0.28,0.28);
+
+                        \node[font=\scriptsize] at (0,0) {$2\times$};
+                        \node[font=\scriptsize] at (0,-0.9) {$C^2$};
+                    \end{scope}
+                \end{tikzpicture}\\[-1ex]
+                {\scriptsize $C$ примитивен, $C^2$ --- нет}
+            \end{minipage}
+            \end{actionenv}
+            \begin{actionenv}
+            \begin{minipage}[t]{0.31\linewidth}
+                \centering
+                \begin{tikzpicture}[scale=0.95, >={Stealth[length=2mm]}]
+                    \path[use as bounding box] (-1.65,-1.35) rectangle (1.65,1.35);
+
+                    % "Бабочка"
+                    \coordinate (o)  at (0,0);
+                    \coordinate (a)  at (-1.0, 0.55);
+                    \coordinate (b)  at (-1.0,-0.55);
+                    \coordinate (c)  at ( 1.0, 0.55);
+                    \coordinate (d)  at ( 1.0,-0.55);
+
+                    \draw[thick] (o)--(a)--(b)--(o)--(c)--(d)--(o);
+
+                    \foreach \v in {o,a,b,c,d}
+                        \fill (\v) circle[radius=2pt];
+
+                    % Ориентированный примитивный цикл
+                    \draw[->,thick] ($(o)!0.2!(a)$) -- ($(o)!0.8!(a)$);
+                    \draw[->,thick] ($(a)!0.2!(b)$) -- ($(a)!0.8!(b)$);
+                    \draw[->,thick] ($(b)!0.2!(o)$) -- ($(b)!0.8!(o)$);
+                    \draw[->,thick] ($(o)!0.2!(c)$) -- ($(o)!0.8!(c)$);
+                    \draw[->,thick] ($(c)!0.2!(d)$) -- ($(c)!0.8!(d)$);
+                    \draw[->,thick] ($(d)!0.2!(o)$) -- ($(d)!0.8!(o)$);
+
+                \end{tikzpicture}\\[-1ex]
+                {\scriptsize Примитивный, не простой}
+            \end{minipage}
+            \end{actionenv}
+        \end{center}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Дзета-функция Ихары}
+    \begin{itemize}
+        \item Циклы отождествляются при циклическом сдвиге начальной точки;
+        \item Обозначим через $[C]$ класс примитивного цикла;
+        \item $\ell([C])=\ell(C)$ --- длина примитивного цикла (число рёбер при одном обходе);
+        \item Дзета-функция --- эйлерово произведение по всем таким классам:
+        \[Z_G(u)=\prod_{[C]}\left(1-u^{\ell(C)}\right)^{-1};\]
+        \item Другие дзета-функции:
+        \begin{itemize}
+            \item $\zeta(s)=\prod_p (1-p^{-s})^{-1}$\quad --- Римана;
+            \item $\zeta_{\mathbb{Z}[i]}(s)=\prod_{\mathfrak p}(1-N(\mathfrak p)^{-s})^{-1}$\quad --- кольца гауссовых целых;
+            \item $\zeta_{\mathbb{F}_q[x]}(s)=\prod_f (1-q^{-s\deg f})^{-1}$\quad --- кольца многочленов над $\mathbb{F}_q$;
+        \end{itemize}
+        \item Аналогия: простые идеалы $\leftrightarrow$ классы примитивных циклов.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Дзета-функция и подсчёт маршрутов}
+    \begin{itemize}
+        \item Пример: дерево --- нет циклов: $Z_T(u)=1$;
+        \item Пример: граф-цикла --- два примитивных класса $\ell(n)=n$ (две ориентации):
+        \[Z_{C_n}(u)=\frac{1}{(1-u^n)^2};\]
+        \item В общем случае произведение $\prod_{[C]}$ может быть бесконечным;
+        \item Вспомним также локальную дзета-функцию (эллиптической) кривой:
+        \[\log \zeta_{E,p}(u) = \sum_{m=1}^\infty \frac{N_{p,m}(E)}{m} u^m;\]
+        \item Пусть $N_m$ --- число циклов длины $m$ (не обязательно примитивных),\\ с отмеченным первым ребром;
+        \item Тогда:
+        \[\log Z_G(u)=\sum_{m\ge1}\frac{N_m}{m}u^m;\]
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Рациональность дзета-функции}
+    \begin{itemize}
+        \item Заменим каждое ребро графа двумя ориентированными: $e$ и $\bar e$;
+        \item Рассмотрим матрицу $B$ размера $2|E|\times2|E|$:
+        \[b_{ef}=\begin{cases}1,&t(e)=o(f)\text{ и }f\ne\bar e,\\0,&\text{иначе};\end{cases}\]
+        где $o(e)$, $t(e)$ --- начальная и конечная вершины ориентированного ребра;
+        \item Лемма: $\operatorname{tr}(B^m)=N_m$;
+        \item Теорема: $Z_G(u)^{-1}=\det(I-uB)$;
+        \item Таким образом, $Z_G(u)$ --- рациональная функция;
+        \item Пусть далее $G$ --- связный граф, $n=|V|$, $m=|E|$;
+        \item $A$ --- матрица смежности, $D=\operatorname{diag}(\deg(v))$;
+        \item Теорема (Ихара--Басс): $Z_G(u)^{-1}=(1-u^2)^{m-n}\det\left(I-uA+u^2(D-I)\right)$;
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Дзета-функция регулярных графов}
+    \begin{itemize}
+        \item Если далее граф $d$-регулярный ($D=dI$), $d\ge3$, $\lambda_1,\dots,\lambda_n$ --- спектр, то:
+        \[Z_G(u)^{-1}=(1-u^2)^{m-n}\prod_{i=1}^n\bigl(1-\lambda_i u+(d-1)u^2\bigr);\]
+        \item Тривиальные нули $Z_G(u)^{-1}$ --- нули от $(1-u^2)^{m-n}$ и собственных значений
+        $\lambda=\pm d$ (если они есть): $u=\pm1$, $u=\pm\frac{1}{d-1}$;
+        \item Аналог г. Римана: $\forall$ нетривиального нуля $|u|=1/\sqrt{d-1}$;
+        \item Нетривиальному собственному значению $\lambda$ соответствует уравнение
+        \[1-\lambda u+(d-1)u^2=0;\]
+
+        \item Его корни лежат на окружности $|u|=1/\sqrt{d-1}$ $\Leftrightarrow$ $|\lambda|\le2\sqrt{d-1}$,
+        \item Это верно для всех нетривиальных $\lambda$ $\Leftrightarrow$ $G$ --- граф Рамануджана;
+        
+        \item Теорема: для конечного связного $d$-регулярного графа при $d\ge3$:\\
+        $G$ --- граф Рамануджана $\Leftrightarrow$ $Z_G(u)^{-1}$ удовлетворяет аналогу г. Римана.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Приложения дзета-функций графов}
+    \begin{itemize}
+        \item Примитивные циклы: существует аналог теоремы о распределении простых чисел, описывающий асимптотику числа таких циклов заданной длины;
+        \item Остовные деревья: при $|E|>|V|$ их число выражается через производную определителя из формулы Ихары--Басса при $u=1$;
+        \item Спектр: для $d$-регулярных графов с фиксированными $d$ и $|V|$ дзета-функция определяет спектр матрицы смежности;
+        \item Инварианты графов: существуют неизоморфные графы с одинаковой дзета-функцией Ихары;
+        \item Теория Галуа: для накрытий графов $Y\to X$ строится аналог теории Галуа расширений полей, включая законы расщепления примитивных циклов;
+        \item Факторизация Артина: дзета-функция $Z_Y$ регулярного накрытия раскладывается в произведение графовых $L$-функций Артина.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Накрытия графов --- топологические накрытия графов как одномерных CW-комплексов. Для связного регулярного накрытия группа дековых автоморфизмов играет роль группы Галуа.
+            \item S.~Northshield, A Note on the Zeta Function of a Graph, Journal of Combinatorial Theory, Series B 74 (1998), 408--410.
+            \item H.~M.~Stark, A.~A.~Terras, Zeta Functions of Finite Graphs and Coverings, Part II, Advances in Mathematics 154 (2000), 132--195.
+            \item A.~Terras, Zeta Functions of Graphs: A Stroll through the Garden, Cambridge Univ. Press, 2010, гл.~10, 13--22.
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Кубик Рубика, графы, RL}
+% ============================================================
+
+% ================================================================
+\begin{frame}{Кубик Рубика как группа}
+    \begin{itemize}
+        \item Допустимые преобразования кубика Рубика $3\times3\times3$ образуют группу $G$;
+        \item Группа порождается шестью поворотами граней на $\pi/2$: $G=\langle U,D,L,R,F,B\rangle$;
+        \item Пример:
+        \vspace{-1ex}
+        \begin{center}
+        % \begin{tikzpicture}[line join=round]
+        %     \def\cubestep{2.9}
+        %     \colorlet{rubG}{green!65!black}
+        %     \colorlet{rubR}{red!85!black}
+        %     \colorlet{rubB}{blue!75!black}
+        %     \colorlet{rubY}{yellow!90!orange}
+        %     \colorlet{rubW}{white}
+        %     \tikzset{sticker/.style={draw=black,line width=0.7pt}}
+
+        %     \foreach \st in {0,1,2,3} {
+        %         \ifcase\st\relax
+        %             % e
+        %             \def\frontcolors{rubG,rubG,rubG,rubG,rubG,rubG,rubG,rubG,rubG}
+        %             \def\rightcolors{rubR,rubR,rubR,rubR,rubR,rubR,rubR,rubR,rubR}
+        %             \def\topcolors{rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW}
+        %             \def\word{e}
+        %         \or
+        %             % U
+        %             \def\frontcolors{rubG,rubG,rubG,rubG,rubG,rubG,rubR,rubR,rubR}
+        %             \def\rightcolors{rubR,rubR,rubR,rubR,rubR,rubR,rubB,rubB,rubB}
+        %             \def\topcolors{rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW}
+        %             \def\word{U}
+        %         \or
+        %             % UR
+        %             \def\frontcolors{rubG,rubG,rubY,rubG,rubG,rubY,rubR,rubR,rubY}
+        %             \def\rightcolors{rubR,rubR,rubB,rubR,rubR,rubB,rubR,rubR,rubB}
+        %             \def\topcolors{rubW,rubW,rubG,rubW,rubW,rubG,rubW,rubW,rubR}
+        %             \def\word{UR}
+        %         \or
+        %             % URU^{-1}
+        %             \def\frontcolors{rubG,rubG,rubY,rubG,rubG,rubY,rubG,rubG,rubG}
+        %             \def\rightcolors{rubR,rubR,rubB,rubR,rubR,rubB,rubR,rubR,rubY}
+        %             \def\topcolors{rubW,rubW,rubW,rubW,rubW,rubW,rubR,rubG,rubG}
+        %             \def\word{URU^{-1}}
+        %         \fi
+
+        %         \pgfmathsetmacro{\dx}{\cubestep*\st}
+        %         \begin{scope}[xshift=\dx cm]
+        %             \begin{scope}[x={(0.28cm,-0.16cm)},y={(0.28cm,0.16cm)},z={(0cm,0.32cm)}]
+        %                 % Передняя грань
+        %                 \foreach \clr [count=\k from 0] in \frontcolors {
+        %                     \pgfmathtruncatemacro{\i}{mod(\k,3)}
+        %                     \pgfmathtruncatemacro{\j}{int(\k/3)}
+        %                     \filldraw[sticker,fill=\clr]
+        %                         (\i,0,\j) -- ({\i+1},0,\j) --
+        %                         ({\i+1},0,{\j+1}) -- (\i,0,{\j+1}) -- cycle;
+        %                 }
+        %                 % Правая грань
+        %                 \foreach \clr [count=\k from 0] in \rightcolors {
+        %                     \pgfmathtruncatemacro{\i}{mod(\k,3)}
+        %                     \pgfmathtruncatemacro{\j}{int(\k/3)}
+        %                     \filldraw[sticker,fill=\clr]
+        %                         (3,\i,\j) -- (3,{\i+1},\j) --
+        %                         (3,{\i+1},{\j+1}) -- (3,\i,{\j+1}) -- cycle;
+        %                 }
+        %                 % Верхняя грань
+        %                 \foreach \clr [count=\k from 0] in \topcolors {
+        %                     \pgfmathtruncatemacro{\i}{mod(\k,3)}
+        %                     \pgfmathtruncatemacro{\j}{int(\k/3)}
+        %                     \filldraw[sticker,fill=\clr]
+        %                         (\i,\j,3) -- ({\i+1},\j,3) --
+        %                         ({\i+1},{\j+1},3) -- (\i,{\j+1},3) -- cycle;
+        %                 }
+        %             \end{scope}
+
+        %             % Подпись состояния
+        %             \node[anchor=base] at (0.84,-0.85) {$\word$};
+        %         \end{scope}
+        %     }
+
+        %     % Стрелки и подписи действий
+        %     \foreach \st/\move in {0/U,1/R,2/{U^{-1}}} {
+        %         \pgfmathsetmacro{\xa}{\cubestep*\st+1.80}
+        %         \pgfmathsetmacro{\xb}{\cubestep*(\st+1)-0.12}
+        %         \draw[->,thick] (\xa,0.52) -- (\xb,0.52);
+        %         \node[anchor=base] at ({(\xa+\xb)/2},0.67) {$\move$};
+        %     }
+        % \end{tikzpicture}
+
+\begin{tikzpicture}[line join=round]
+    \def\cubestep{2.9}
+    \colorlet{rubG}{green!65!black}
+    \colorlet{rubR}{red!85!black}
+    \colorlet{rubB}{blue!75!black}
+    \colorlet{rubY}{yellow!90!orange}
+    \colorlet{rubW}{white}
+    \tikzset{sticker/.style={draw=black,line width=0.7pt}}
+
+    % Стили анимации
+    \ifanimated
+        \tikzset{
+            cube step/.style={visible on=<+->},
+            cube label/.style={alt=<.>{text=ThemeAlert}{}},
+            cube arrow/.style={alt=<.>{draw=ThemeAlert}{}}
+        }
+    \else
+        \tikzset{
+            cube step/.style={},
+            cube label/.style={},
+            cube arrow/.style={}
+        }
+    \fi
+
+    \foreach \st in {0,1,2,3} {
+        \ifcase\st\relax
+            % e
+            \def\frontcolors{rubG,rubG,rubG,rubG,rubG,rubG,rubG,rubG,rubG}
+            \def\rightcolors{rubR,rubR,rubR,rubR,rubR,rubR,rubR,rubR,rubR}
+            \def\topcolors{rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW}
+            \def\word{e}
+        \or
+            % U
+            \def\frontcolors{rubG,rubG,rubG,rubG,rubG,rubG,rubR,rubR,rubR}
+            \def\rightcolors{rubR,rubR,rubR,rubR,rubR,rubR,rubB,rubB,rubB}
+            \def\topcolors{rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW,rubW}
+            \def\word{U}
+            \def\move{U}
+        \or
+            % UR
+            \def\frontcolors{rubG,rubG,rubY,rubG,rubG,rubY,rubR,rubR,rubY}
+            \def\rightcolors{rubR,rubR,rubB,rubR,rubR,rubB,rubR,rubR,rubB}
+            \def\topcolors{rubW,rubW,rubG,rubW,rubW,rubG,rubW,rubW,rubR}
+            \def\word{UR}
+            \def\move{R}
+        \or
+            % URU^{-1}
+            \def\frontcolors{rubG,rubG,rubY,rubG,rubG,rubY,rubG,rubG,rubG}
+            \def\rightcolors{rubR,rubR,rubB,rubR,rubR,rubB,rubR,rubR,rubY}
+            \def\topcolors{rubW,rubW,rubW,rubW,rubW,rubW,rubR,rubG,rubG}
+            \def\word{URU^{-1}}
+            \def\move{U^{-1}}
+        \fi
+
+        % Первый кубик появляется вместе с буллитом
+        \ifanimated
+            \ifnum\st=0\relax
+                \tikzset{cube step/.style={visible on=<.->}}
+            \fi
+        \fi
+
+        \pgfmathsetmacro{\dx}{\cubestep*\st}
+        \begin{scope}[xshift=\dx cm,cube step]
+            \begin{scope}[
+                x={(0.28cm,-0.16cm)},
+                y={(0.28cm,0.16cm)},
+                z={(0cm,0.32cm)}
+            ]
+                % Передняя грань
+                \foreach \clr [count=\k from 0] in \frontcolors {
+                    \pgfmathtruncatemacro{\i}{mod(\k,3)}
+                    \pgfmathtruncatemacro{\j}{int(\k/3)}
+                    \filldraw[sticker,fill=\clr]
+                        (\i,0,\j) -- ({\i+1},0,\j) --
+                        ({\i+1},0,{\j+1}) -- (\i,0,{\j+1}) -- cycle;
+                }
+
+                % Правая грань
+                \foreach \clr [count=\k from 0] in \rightcolors {
+                    \pgfmathtruncatemacro{\i}{mod(\k,3)}
+                    \pgfmathtruncatemacro{\j}{int(\k/3)}
+                    \filldraw[sticker,fill=\clr]
+                        (3,\i,\j) -- (3,{\i+1},\j) --
+                        (3,{\i+1},{\j+1}) -- (3,\i,{\j+1}) -- cycle;
+                }
+
+                % Верхняя грань
+                \foreach \clr [count=\k from 0] in \topcolors {
+                    \pgfmathtruncatemacro{\i}{mod(\k,3)}
+                    \pgfmathtruncatemacro{\j}{int(\k/3)}
+                    \filldraw[sticker,fill=\clr]
+                        (\i,\j,3) -- ({\i+1},\j,3) --
+                        ({\i+1},{\j+1},3) -- (\i,{\j+1},3) -- cycle;
+                }
+            \end{scope}
+
+            % Подпись состояния
+            \node[anchor=base,cube label]
+                at (0.84,-0.85) {$\word$};
+
+            % Стрелка от предыдущего состояния
+            \ifnum\st>0\relax
+                \draw[->,thick,cube arrow]
+                    ({1.80-\cubestep},0.52) -- (-0.12,0.52);
+
+                \node[anchor=base,cube label]
+                    at ({(1.68-\cubestep)/2},0.67) {$\move$};
+            \fi
+        \end{scope}
+    }
+\end{tikzpicture}
+
+        \end{center}
+        \item Элементы $g\in G$ отождествляются с достижимыми состояниями кубика относительно собранного ($e\in G$);
+        \item Число достижимых состояний:
+        \[|G|=43\,252\,003\,274\,489\,856\,000\approx4{,}3\cdot10^{19};\]
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Граф Кэли кубика Рубика}
+    \begin{itemize}
+        \item Пусть $S$ --- множество допустимых элементарных ходов, $S=S^{-1}$, $\langle S\rangle=G$;
+        \item Например, способы считать элементраные ходы:
+        \begin{itemize}
+            \item FTM (face-turn metric): повороты граней на $\pm\pi/2$ и $\pi$ ($|S|=18$);
+            \item QTM (quarter-turn metric): только повороты граней на $\pm\pi/2$ ($|S|=12$);
+        \end{itemize}
+        \item Рассмотрим соответствующий граф Кэли $\operatorname{Cay}(G,S)$;
+        \item Решить кубик --- найти путь в $\operatorname{Cay}(G,S)$ от состояния $g$ до единицы $e$; длина кратчайшего решения --- расстояние в графе $d_S(g,e)$;
+        \item Число Бога (God's number) --- максимальная длина кратчайшего решения, то есть диаметр графа Кэли: $\operatorname{diam}_S=\operatorname{diam} \operatorname{Cay}(G,S)$;
+        \item Теорема (компьютерное доказательство):
+        \begin{itemize}
+            \item $\operatorname{diam}_{\mathrm{FTM}}=20$ (Rokicki, Kociemba, Davidson, Dethridge, 2010);
+            \item $\operatorname{diam}_{\mathrm{QTM}}=26$ (Rokicki, Davidson, 2014).
+        \end{itemize}
+        \item Для конкретного решения поиск в ширину (BFS) находит кратчайший путь, но для огромного графа требует слишком много памяти и времени;
+    \end{itemize}
+    \note{
+    \begin{itemize}
+        \item Оба результата получены с помощью компьютерных доказательств; некомпьютерные доказательства точных значений диаметра неизвестны.
+        \item Нижние оценки $20$ для FTM и $26$ для QTM были установлены Майклом Ридом в 1995 и 1998 гг. соответственно.
+        \item Пространство состояний разбито на $2\,217\,093\,120$ смежных классов подгруппы $H=\langle U,D,F^2,B^2,L^2,R^2\rangle$. Использование симметрий и решение задачи о покрытии позволили сократить число обрабатываемых классов до $55\,882\,296$.
+        \item Вычисления для FTM (2010) заняли около 35 процессорных лет на ресурсах Google, для QTM (2014) --- около 29 процессорных лет в Ohio Supercomputer Center.
+        \item Исходный код доказательства для FTM опубликован на CWEB (около 5100 строк в четырёх основных модулях, включая документацию). Корректность проверялась сравнением независимых реализаций алгоритмов и независимой проверкой покрытия смежных классов.
+        \item Источник: Rokicki, Kociemba, Davidson, Dethridge, The Diameter of the Rubik's Cube Group Is Twenty, SIAM Journal on Discrete Mathematics 27 (2013), 1082--1105.
+        \item \url{https://www.cube20.org/}, \url{https://www.cube20.org/qtm/}, \url{https://www.cube20.org/src/}.
+    \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Обучение с подкреплением (Reinforcement Learning)}
+    \begin{itemize}
+        \item Обучение с подкреплением (RL) --- подход к ML, при котором агент учится выбирать действия, взаимодействуя со средой и получая награды;
+        \item Цель обучения --- найти стратегию действий (политику), максимизирующую ожидаемую суммарную награду;
+        \item В случае кубика Рубика:
+        \begin{itemize}
+            \item состояния --- элементы группы $g\in G$;
+            \item действия --- элементарные ходы $s\in S$;
+            \item переходы между состояниями: $g\mapsto gs$;
+            \item награда за каждый ход равна $-1$; при достижении $e$ процесс завершается;
+        \end{itemize}
+        \item Максимизация суммарной награды $\sim$ минимизации числа ходов до цели;
+        \item Оптимальная функция стоимости $J^*(g)=d_S(g,e)$ удовлетворяет уравнению Беллмана:
+        \vspace{-1ex}
+        \[J^*(g)=1+\min_{s\in S}J^*(gs),\quad g\ne e;\qquad J^*(e)=0;\]
+        \item Идея: вместо вычисления всех $d_S(g,e)$ научиться приближать функцию $J^*$.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{DeepCubeA: обучение на графе Кэли}
+    \begin{itemize}
+        \item Алгоритм DeepCubeA (Agostinelli и др., 2019): RL + эвристический поиск;
+        \item Обучающие состояния генерируются в обратном направлении: от собранного кубика случайными последовательностями ходов;
+        \item Нейросеть $J_\theta(g)$ оценивает оставшееся число ходов; для обучения используются её собственные оценки соседних состояний:
+        \[J_{\mathrm{target}}(g)=1+\min_{s\in S}J_\theta(gs),\quad g\ne e,\qquad J_{\mathrm{target}}(e)=0;\]
+        \item Информация о расстоянии до цели постепенно распространяется по графу;
+        \item После обучения оценка $J_\theta$ используется в модификации алгоритма A* --- поиска на графе, при котором вершины выбираются с учётом длины уже пройденного пути и оценки оставшегося расстояния;
+        \item Результат: обученная эвристика позволяет исследовать меньше вершин, быстрее находить решения и получать пути, близкие к кратчайшим, без использования специальных знаний о группе кубика.
+        % \item Результат: по сравнению с классической эвристикой Корфа обученная эвристика в экспериментах позволяет генерировать меньше вершин, быстрее находить решения и получать пути, близкие к кратчайшим, без использования специальных знаний о группе кубика.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item На тестовой выборке из $1000$ конфигураций (QTM) решены все; $60{,}3\%$ решений оптимальны, остальные длиннее кратчайших не более чем на четыре хода.
+            \item Agostinelli F., McAleer S., Shmakov A., Baldi P. Solving the Rubik's cube with deep reinforcement learning and search. Nature Machine Intelligence 1 (2019), 356--363.
+            \item \url{https://doi.org/10.1038/s42256-019-0070-z}
+            \item Интерактивная демонстрация алгоритма: \url{https://deepcube.igb.uci.edu/}
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Спектральные свойства графов и RL}
+    \begin{itemize}
+        \item Задача в RL: исследование пр-ва состояний (exploration) с редкой наградой;
+        \item Пример: робот исследует лабиринт, не зная, где находится цель;\\ случайные действия задают блуждание по графу состояний;
+        \item Время покрытия $T_{\mathrm{cov}}(G)$ --- ожидаемое число шагов случайного блуждания до посещения всех вершин в худшем случае по начальной вершине;
+        \item Пример: для циклов $T_{\mathrm{cov}}(C_n)=\frac{n(n-1)}{2}=\Theta(n^2)$\quad (\,$f=\Theta(g)$ $\leftrightharpoons$ $c_1 g < f < c_2 g$);
+        \item Теорема: для экспандеров $T_{\mathrm{cov}}(G_n)=\Theta(n\log n)$\quad ($n$ вершин, фикс. степень);\\
+        экспандеры достигают асимптотически оптимального порядка $T_{\mathrm{cov}}$;
+        \item Идея: расширить множество действий агента составными действиями,\\ т.е. добавить новые рёбра в граф состояний;
+        \item Jinnai и др. (2019, 2020): выбор таких действий через спектральную теорию\\
+        $\to$ уменьшение верхней оценки $T_{\mathrm{cov}}(G)$\\
+        $\to$ ускорение исследования среды и всего процесса обучения.
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item Нижняя оценка времени покрытия произвольного связного неориентированного графа: $T_{\mathrm{cov}}(G)\ge(1+o(1))n\log n$ (Feige, 1995).
+            \item Оценка для экспанедров: Broder A. Z., Karlin A. R. Bounds on the cover time. Journal of Theoretical Probability 2 (1989), 101--120. \url{https://doi.org/10.1007/BF01048273}
+            \item Jinnai et al., Discovering Options for Exploration by Minimizing Cover Time, ICML 2019.
+            \item Jinnai et al., Exploration in Reinforcement Learning with Deep Covering Options, ICLR 2020.
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Итоги лекции}
+    \begin{itemize}
+        \item Арифметические объекты дают естественные графы: базисы решёток, $p$-адические приближения, группы, изогении ЭК;
+        \item Графы экспандеры --- графы с «хорошими и удобными» свойствами связности; их свойства связаны со спектром матрицы смежности;
+        \item Кватернионы, конечные группы, деревья Брюа--Титса и модулярные формы приводят к явным конструкциям графов Рамануджана;
+        \item Примитивные циклы графа играют роль «простых»; формула Ихары--Басса связывает дзета-функцию графа $Z_G(u)$ и его матрицу смежности;
+        \item Для связного $d$-регулярного графа ($d\ge3$): $G$ --- граф Рамануджана $\Leftrightarrow$ выполнен аналог гипотезы Римана для $Z_G(u)$;
+        \item Спектральные свойства графов и экспандеры имеют многочисленные приложения.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Литература}
+    \begin{itemize}[<.->]
+        \item G.~Davidoff, P.~Sarnak, A.~Valette, \textit{Elementary Number Theory, Group Theory and Ramanujan Graphs}, Cambridge Univ. Press, 2003;
+        \item A.~Terras, \textit{Zeta Functions of Graphs: A Stroll through the Garden}, Cambridge Univ. Press, 2010;
+        \item P.~Sarnak, \textit{Some Applications of Modular Forms}, Cambridge Univ. Press, 1990.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\end{document}

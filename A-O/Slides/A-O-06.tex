@@ -1,0 +1,1059 @@
+% ============================================================
+% A-O-06.tex -- Лекция 6 (1.6). Эллиптические кривые
+% ============================================================
+
+\documentclass[serif, aspectratio=169]{beamer}
+
+\usepackage[T2A,T1]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{XCharter}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,overlay-beamer-styles}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{braids}
+\usetikzlibrary{intersections,spath3,hobby}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{mathtools}
+%\usepackage{dynkin-diagrams}
+%\usepackage{fontawesome5}
+
+\newcommand{\sagemark}{%
+  \textcolor{green!40!black}{\textbf{\texttt{sage:...}}}%
+}
+
+\usetheme{Math}
+\usepackage{mymacros}
+% \colorscheme{green}
+% \colorscheme{terracotta}
+
+% ------------------------------------------------------------
+% Title data
+% ------------------------------------------------------------
+\author{Павел Владимирович Снурницын}
+\title{Лекция 6 (1.6)\\ Эллиптические кривые}
+\titlecontext{Инструменты машинно-вспомогательной арифметики\\ с/к, осень 2026}
+\institute{к.ф.-м.н., с.н.с., ИБ ВМК}
+\date{\small 20 октября 2026 г.}
+
+\setfooterauthor{П.В. Снурницын}
+\setfootertopic{1.6 Эллиптические кривые}
+\setfootercontext{Спецкурс A-O 2026}
+
+\newif\ifanimated
+\newcommand{\animateon}{\beamerdefaultoverlayspecification{<+-| alert@+>}\animatedtrue}
+\newcommand{\animateoff}{\beamerdefaultoverlayspecification{}\animatedfalse}
+\newcommand{\steponhelper}[2]{% #1 = свойство цвета (text/draw), #2 = номер шага
+  \ifanimated
+    \edef\stepon@tmp{alt=<#2>{#1=ThemeAlert}{alt=<#2->{#1=black}{invisible}}}%
+  \else
+    \edef\stepon@tmp{#1=black}%
+  \fi
+  \expandafter\pgfkeysalso\expandafter{\stepon@tmp}%
+}
+\tikzset{
+  step on/.code={\steponhelper{text}{#1}},
+  step draw on/.code={\steponhelper{draw}{#1}},
+  step fill on/.code={\steponhelper{fill}{#1}},
+}
+% \animateon
+\animateoff
+
+\begin{document}
+
+% ================================================================
+\begin{frame}
+    \titlepage
+\end{frame}
+\note{}
+
+% ================================================================
+\begin{frame}{В прошлый раз}
+    \begin{itemize}
+            \item Группы;
+            \item Структура конечно порождённых абелевых групп, ранг и кручение;
+            \item Тор --- поверхность рода $1$;
+            \item Проявления модулярных форм в теории групп.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Рациональные точки}
+% ============================================================
+
+\begin{frame}{Плоские кубические кривые}
+    \begin{itemize}
+        \item Пусть $f(x)\in\mathbb{Q}[x]$ --- многочлен, $\deg(f)=3$, множество точек
+        \[C=\{(x,y)\in\mathbb{R}^2: y^2=f(x)\}\]
+         называется плоской кубической кривой;
+        \item Примеры:
+    \end{itemize}
+    \vspace{-2ex}
+    \begin{columns}[c,onlytextwidth]
+        \begin{column}{0.25\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[>=latex, x=0.6cm, y=0.6cm]
+                % гладкая, одна компонента: y^2 = x^3 + x = x(x^2+1), единственный вещественный корень 0;
+                % параметризация x = s^2, y = s*sqrt(s^4+1)
+                \begin{scope}
+                    \clip (-2.1,-2.3) rectangle (1.7,2.3);
+                    \draw[thick, domain=-1.4:1.4, samples=80, smooth]
+                        plot ({\x*\x}, {\x*sqrt(\x*\x*\x*\x+1)});
+                \end{scope}
+                % фиксированная рамка, чтобы подписи были по центру окна, а не по центру кривой
+                \path (-2.1,-2.3) rectangle (1.7,2.3);
+                \node[below] at (-0.2,-2.3) {\small $y^2=x^3+x$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.25\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[>=latex, x=0.6cm, y=0.6cm]
+                % узел: y^2 = x^3 + x^2 = x^2 (x+1), параметризация x = s^2 - 1, y = s(s^2-1)
+                \begin{scope}
+                    \clip (-2.1,-2.3) rectangle (1.7,2.3);
+                    \draw[thick, domain=-1.65:1.65, samples=80, smooth]
+                        plot ({\x*\x-1}, {\x*(\x*\x-1)});
+                \end{scope}
+                % фиксированная рамка, чтобы подписи были по центру окна, а не по центру кривой
+                \path (-2.1,-2.3) rectangle (1.7,2.3);
+                \node[below] at (-0.2,-2.3) {\small $y^2=x^3+x^2$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.25\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[>=latex, x=0.6cm, y=0.6cm]
+                % гладкая, две компоненты: y^2 = x^3 - x
+                \begin{scope}
+                    \clip (-2.1,-2.3) rectangle (1.7,2.3);
+                    \draw[thick, domain=0:180, samples=60, smooth]
+                        plot ({-(1+cos(\x))/2}, {sqrt(max(0,(-(1+cos(\x))/2)^3+(1+cos(\x))/2))});
+                    \draw[thick, domain=0:180, samples=60, smooth]
+                        plot ({-(1+cos(\x))/2}, {-sqrt(max(0,(-(1+cos(\x))/2)^3+(1+cos(\x))/2))});
+                    \draw[thick, domain=0:0.95, samples=60, smooth]
+                        plot ({1+\x*\x}, {sqrt(max(0,(1+\x*\x)^3-(1+\x*\x)))});
+                    \draw[thick, domain=0:0.95, samples=60, smooth]
+                        plot ({1+\x*\x}, {-sqrt(max(0,(1+\x*\x)^3-(1+\x*\x)))});
+                \end{scope}
+                % фиксированная рамка, чтобы подписи были по центру окна, а не по центру кривой
+                \path (-2.1,-2.3) rectangle (1.7,2.3);
+                \node[below] at (-0.2,-2.3) {\small $y^2=x^3-x$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{0.25\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[>=latex, x=0.6cm, y=0.6cm]
+                % остриё: y^2 = x^3, параметризация x = s^2, y = s^3
+                \begin{scope}
+                    \clip (-2.1,-2.3) rectangle (1.7,2.3);
+                    \draw[thick, domain=-1.3:1.3, samples=60, smooth]
+                        plot ({\x*\x}, {\x*\x*\x});
+                \end{scope}
+                % фиксированная рамка, чтобы подписи были по центру окна, а не по центру кривой
+                \path (-2.1,-2.3) rectangle (1.7,2.3);
+                \node[below] at (-0.2,-2.3) {\small $y^2=x^3$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Эллиптические кривые}
+    \begin{columns}<1->[c,onlytextwidth]
+        \begin{column}<1->{0.6\textwidth}
+            \begin{itemize}
+                \item Рассмотрим кривую $y^2 = x^3+ax+b$, $a,b\in\mathbb{Q}$;
+                \item Она гладкая $\leftrightharpoons$ $\Delta=-16(4a^3+27b^2)\ne0$\\
+                $\Leftrightarrow$ у $x^3+ax+b$ нет кратных корней\\ 
+                $\Leftrightarrow$ нет ни остриёв, ни самопересечений;
+                \item Такие кривые наз. эллиптическими (ЭК);
+                \item Добавим «бесконечно удалённую» точку $\mathcal{O}$ и рассмотрим все рациональные точки: $E(\mathbb{Q})=\{(x,y)\in\mathbb{Q}^2: y^2 = x^3+ax+b\}\cup\{\mathcal{O}\}$;
+                \item Групповой закон на $E(\mathbb{Q})$: $P\circ Q\circ R=\mathcal{O}$, если $P,Q,R$ --- точки пересечения $E$ с прямой (с кратностями), $\mathcal{O}$ --- тождественный элемент;
+                \item Лемма: $E(\mathbb{Q})$ --- абелева группа;
+                \item Обозн. $\circ$ как $+$ и наз. сложением точек ЭК;
+                
+            \end{itemize}
+        \end{column}
+        \begin{column}<1->{0.4\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[>=latex, scale=1]
+            % --- сама кривая: y^2 = x^3 - 3x + 3 ---
+            
+            \draw[thick, step draw on=1, domain=-2.12:2.2, samples=200, smooth]
+                    plot (\x, {sqrt(max(0,\x*\x*\x-3*\x+3))});
+            \draw[thick, step draw on=1, domain=-2.12:2.2, samples=200, smooth]
+                    plot (\x, {-sqrt(max(0,\x*\x*\x-3*\x+3))});
+            
+            % --- координаты точек ---
+            \coordinate (P)  at (-1.4, 2.111);
+            \coordinate (Q)  at ( 1.15, 1.035);
+            \coordinate (R)  at ( 0.428, 1.340);
+            \coordinate (PQ) at ( 0.428,-1.340);
+            \coordinate (O)  at ( 0.428, 3);
+
+            % --- секущая прямая через P и Q, продолженная до третьей точки пересечения ---
+            \draw[dashed, step draw on=5] ($(P)!-0.2!(Q)$) -- ($(Q)!-0.2!(P)$);
+
+            % --- вертикальная (пунктирная) линия: отражение R -> P+Q, тоже с выходом за точки ---
+            \draw[dashed, step draw on=5] ($(O)!-0.0!(PQ)$) -- ($(PQ)!-0.15!(O)$);
+
+            % --- точки и подписи ---
+            \fill[step fill on=5] (P) circle (1.4pt) node[above, step on=5] {$P$};
+            \fill[step fill on=5] (Q) circle (1.4pt) node[below, step on=5] {$Q$};
+            \fill[step fill on=5] (R) circle (1.4pt) node[below left, step on=5] {$-(P+Q)$};
+            \fill[step fill on=5] (PQ) circle (1.4pt) node[below right, step on=5] {$P+Q$};
+            \draw[step draw on=4, fill=white] (O)  circle (1.4pt) node[above, step on=4]  {$O$};
+            % подпись
+            \node[below left, step on=1] at (0.7,-2.5) {$y^2 = x^3 - 3x + 3$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+
+\end{frame}
+
+\begin{frame}{Эллиптические кривые (продолжение)}
+    \begin{columns}<1->[c,onlytextwidth]
+        \begin{column}<1->{0.5\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[>=latex, x=1.5cm, y=1.5cm, scale=0.8, step on=1, step draw on=1, step fill on=1]
+                % кривая y^2 = x^3 - x, видимая область: y в [-1.85, 1.85]
+                \begin{scope}
+                    \clip (-1.3,-1.85) rectangle (1.8,1.85);
+                    % параметризация, сгущающая точки у вертикальных касательных (иначе на концах овала видны разрывы)
+                    \draw[thick, domain=0:180, samples=100, smooth]
+                        plot ({-(1+cos(\x))/2}, {sqrt(max(0,(-(1+cos(\x))/2)^3+(1+cos(\x))/2))});
+                    \draw[thick, domain=0:180, samples=100, smooth]
+                        plot ({-(1+cos(\x))/2}, {-sqrt(max(0,(-(1+cos(\x))/2)^3+(1+cos(\x))/2))});
+                    \draw[thick, domain=0:0.95, samples=100, smooth]
+                        plot ({1+\x*\x}, {sqrt(max(0,(1+\x*\x)^3-(1+\x*\x)))});
+                    \draw[thick, domain=0:0.95, samples=100, smooth]
+                        plot ({1+\x*\x}, {-sqrt(max(0,(1+\x*\x)^3-(1+\x*\x)))});
+                \end{scope}
+
+                % координаты: P на овале, Q на ветви, R --- третья точка, P+Q = -R
+                \coordinate (P)  at (-0.97,-0.2394);
+                \coordinate (Q)  at ( 1.4083,-1.1768);
+                \coordinate (R)  at (-0.2830,-0.5102);
+                \coordinate (PQ) at (-0.2830, 0.5102);
+                \coordinate (O)  at (-0.2830, 1.6);
+
+                % секущая через P и Q, продолженная за точки
+                \draw[dashed] ($(P)!-0.1!(Q)$) -- ($(Q)!-0.1!(P)$);
+                % вертикаль: R -> P+Q -> O
+                \draw[dashed] ($(O)!1.1!(R)$) -- (O);
+
+                \fill (P)  circle (1.4pt) node[below left]  {$P$};
+                \fill (Q)  circle (1.4pt) node[below left]        {$Q$};
+                \fill (R)  circle (1.4pt);
+                \fill (PQ) circle (1.4pt) node[above right] {$P+Q$};
+                \draw[fill=white] (O) circle (1.4pt) node[above] {$\mathcal{O}$};
+
+                % подпись
+                \node[below left] at (0.1,-1.7) {$y^2=x^3-x$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}<2->{0.5\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[>=latex, x=1.5cm, y=1.5cm, scale=0.8, step on=2, step draw on=2, step fill on=2]
+                % кривая y^2 = x^3 - x, видимая область та же
+                \begin{scope}
+                    \clip (-1.3,-1.85) rectangle (1.8,1.85);
+                    % параметризация, сгущающая точки у вертикальных касательных (иначе на концах овала видны разрывы)
+                    \draw[thick, domain=0:180, samples=100, smooth]
+                        plot ({-(1+cos(\x))/2}, {sqrt(max(0,(-(1+cos(\x))/2)^3+(1+cos(\x))/2))});
+                    \draw[thick, domain=0:180, samples=100, smooth]
+                        plot ({-(1+cos(\x))/2}, {-sqrt(max(0,(-(1+cos(\x))/2)^3+(1+cos(\x))/2))});
+                    \draw[thick, domain=0:0.95, samples=100, smooth]
+                        plot ({1+\x*\x}, {sqrt(max(0,(1+\x*\x)^3-(1+\x*\x)))});
+                    \draw[thick, domain=0:0.95, samples=100, smooth]
+                        plot ({1+\x*\x}, {-sqrt(max(0,(1+\x*\x)^3-(1+\x*\x)))});
+                \end{scope}
+
+                % удвоение: D на овале, касательная в D пересекает E в -2D, 2D --- отражение
+                \coordinate (D)   at (-0.2, 0.4382);
+                \coordinate (D2m) at ( 1.4083,-1.1768);
+                \coordinate (D2)  at ( 1.4083, 1.1768);
+                % точка кручения порядка 2: T = (-1,0), касательная вертикальна, 2T = O
+                \coordinate (T)   at (-1, 0);
+                \coordinate (O)   at (-1, 1.6);
+
+                % касательная в D, продолженная за точки
+                \draw[dashed] ($(D)!-0.2!(D2m)$) -- ($(D2m)!-0.1!(D)$);
+                % вертикаль: -2D -> 2D
+                \draw[dashed] ($(D2m)!-0.1!(D2)$) -- ($(D2)!-0.1!(D2m)$);
+                % вертикальная касательная в T
+                \draw[dashed] ($(T)!-0.25!(O)$) -- (O);
+
+                \fill (D)   circle (1.4pt) node[above right] {$D$};
+                \fill (D2m) circle (1.4pt) node[below left]        {$-2D$};
+                \fill (D2)  circle (1.4pt) node[left]        {$2D$};
+                \fill (T)   circle (1.4pt) node[left]        {$T$};
+                \draw[fill=white] (O) circle (1.4pt) node[above] {$\mathcal{O}=2T$};
+
+                % подпись
+                \node[below left] at (0.1,-1.7) {$y^2=x^3-x$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
+    
+    \begin{itemize}[<3-| alert@3>]
+        \item Замечание: всякую плоскую кубическую кривую $f(x,y)=0$ при некоторых дополнительных условиях можно привести к форме $y^2=x^3+ax+b$.
+        % sage: E = EllipticCurve([a,b]); E.discriminant(); E.is_smooth();
+        % sage: точки E(QQ), сложение P+Q, -P, 2*P;
+        % sage: E.plot() -- график кривой над RR;
+        % sage: E = EllipticCurve([-1,0]); E.real_components() (число компонент), E.real_components() для кривых с одним корнем; E.plot() -- обе компоненты
+
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item Теорема: пусть $f\in\mathbb{Q}[x,y]$, $\deg f=3$, проективное замыкание кривой $f(x,y)=0$ гладко и содержит рациональную точку. Тогда эта кривая бирационально эквивалентна над $\mathbb{Q}$ кривой $y^2=x^3+ax+b$, $a,b\in\mathbb{Q}$, $4a^3+27b^2\ne0$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Рациональные и целые точки на ЭК}
+    \begin{itemize}
+        \item Теорема (Морделл 1922, Вейль 1928): $E(\mathbb{Q})$ --- конечно порождённая;
+        \item $\Rightarrow$ $E(\mathbb{Q})\cong\mathbb{Z}^r\oplus E(\mathbb{Q})_{\mathrm{tors}}$, где $r\ge0$ --- ранг ЭК, $E(\mathbb{Q})_{\mathrm{tors}}$ --- точки кручения (точки конечного порядка);
+        \item Т.о., есть конечное число рациональных точек, из которых получаются все рациональные точки (сложением на ЭК);
+        \item Теорема (Мазур, 1977): $E(\mathbb{Q})_{\mathrm{tors}}$ изоморфна одной из 15 групп:
+        \[\mathbb{Z}/(n)\ (n=1,\dots,10,12),\quad \mathbb{Z}/(2)\oplus\mathbb{Z}/(2m)\ (m=1,\dots,4);\]
+        \item Открытый вопрос: ограничен ли ранг $r$? Явно построенные кривые:\\ $r=29$ (Элкис--Клагсбрун, 2024), $r=30,31,32$ (август--октябрь 2026);
+        \item Теорема (Лутц--Нагель): $a,b\in\mathbb{Z}$, $P=(x,y)$ --- точка конечного порядка $\Rightarrow$ $x,y\in\mathbb{Z}$ и либо $y=0$, либо $y^2\mid 4a^3+27b^2$;
+        \item Теорема (Зигель, 1929): на ЭК есть только конечное число точек $(x,y)\in\mathbb{Z}^2$;
+        \item Пример: $y^2=x^3-1$ --- единственные целые точки: $(-1,0),(0,\pm1),(2,\pm3)$;
+        % \item \sagemark
+        % sage: E.torsion_subgroup(), E.torsion_points(), E.torsion_order() для нескольких кривых
+        % sage: кривые из каталога Кремоны с разными кручениями (по одной на группу Мазура, если получится быстро найти)
+        % sage: E.rank(), E.gens() -- образующие свободной части; проверка Нагеля--Лутца на torsion_points
+        % sage: кривая большого ранга (например, из базы cremona/ LMFDB-пример с rank 4 и малым кондуктором) или недавняя r=32
+        % sage: E = EllipticCurve([0,-2]); E.integral_points() -> (3,±5)
+        % sage: E.integral_points() для нескольких k в y^2=x^3+k, таблица числа целых точек
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Теорема Зигеля неэффективна; для ЭК эффективная оценка --- Бейкер (1968, линейные формы от логарифмов): для $y^2=x^3+k$ все решения удовлетворяют $\max(|x|,|y|)<\exp\big((10^{10}|k|)^{10^4}\big)$;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Случай вырожденных кубических кривых}
+    \begin{itemize}
+        \item Кривая $y^2 = x^3+ax+b$ вырождена $\rightleftharpoons$ $\Delta=-16(4a^3+27b^2)=0$;
+        \item Пусть $S$ --- рациональная особая точка  (остриё или узел): секущая прямая через $S$ пересекает кривую в $S$ (дважды) и ещё в одной точке:
+        \begin{columns}[c,onlytextwidth]
+            \begin{column}{0.5\textwidth}
+                \begin{center}
+                \begin{tikzpicture}[scale=0.7,>=latex]
+                    % остриё y^2=x^3
+                    \useasboundingbox (-1.2,-1.8) rectangle (2.8,3.3);
+                    \begin{scope}
+                    \clip (-1.2,-1.8) rectangle (2.8,3.3);
+                    \draw[thick,domain=0:1.9,samples=60] plot (\x,{\x*sqrt(\x)});
+                    \draw[thick,domain=0:1.9,samples=60] plot (\x,{-\x*sqrt(\x)});
+                    \draw[dashed] (-0.3,-0.36) -- (2.65,3.18);
+                    \draw[thick] (2.4,-2.2) -- (2.4,3.2);
+                    \end{scope}
+                    \fill (2.4,2.88) circle (1.5pt) node[right] {$t$};
+                    \fill (0,0) circle (1.5pt) node[below] {$S$};
+                    \fill (1.44,1.728) circle (1.5pt) node[left] {$(t^2,t^3)$};
+                    \node at (-0.6,2.8) {$y^2=x^3$};
+                \end{tikzpicture}\\[2mm]
+                \end{center}
+            \end{column}
+            \begin{column}{0.5\textwidth}
+                \begin{center}
+                \begin{tikzpicture}[scale=0.7,>=latex]
+                    % узел y^2=x^2(x+1)
+                    \useasboundingbox (-1.2,-1.8) rectangle (2.8,3.3);
+                    \begin{scope}
+                    \clip (-1.2,-1.8) rectangle (2.8,3.3);
+                    \draw[thick,domain=-1:1.5,samples=80,smooth] plot (\x,{\x*sqrt(\x+1)});
+                    \draw[thick,domain=-1:1.5,samples=80,smooth] plot (\x,{-\x*sqrt(\x+1)});
+                    \draw[dashed] (-1.15,-0.46) -- (2.65,1.06);
+                    \draw[thick] (2.4,-2.2) -- (2.4,3.2);
+                    \end{scope}
+                    \fill (2.4,0.96) circle (1.5pt) node[below right] {$t$};
+                    \fill (0,0) circle (1.5pt) node[below] {$S$};
+                    \fill (-0.84,-0.336) circle (1.5pt) node[left] {$(t^2-1,t^3-t)$\ \ };
+                    \node at (-0.6,2.8) {$y^2=x^2(x+1)$};
+                \end{tikzpicture}
+                \end{center}
+            \end{column}
+        \end{columns}        
+        \item $\Rightarrow$ рациональная параметризация: $t\in\mathbb{Q}$ $\leftrightarrow$ рациональне точки кривой;
+        \item Т.о., все рациональные точки получаются из одной рациональной.
+        % \item \sagemark
+        % sage: EllipticCurve не принимает Delta=0 -- взять y^2=x^3 и y^2=x^2(x+1) как Curve(...) из sage.schemes.plane_curves, или Conic/ProjectiveCurve
+        % sage: C.singular_points(), C.genus() -- род вырожденной кубики равен 0
+        % sage: проверить параметризацию подстановкой: simplify(y(t)^2 - x(t)^3)
+        % sage: plot неявных кривых implicit_plot для двух кривых + секущая через особую точку
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item Так вырождаются эллиптические кривые при редукции по плохому простому (см. далее): остриё $y^2=x^3$ --- аддитивная редукция, узел --- мультипликативная.
+            \item Узел бывает расщеплённым и нерасщеплённым: касательные в узле $y^2=c\,x^2$ рациональны, если $c$ --- квадрат (для $y^2=x^2(x+1)$: $y=\pm x$, расщеплённый), и определены лишь над квадратичным расширением иначе (например, $y^2=x^2(x+2)$). Это различие нужно ниже для $a_p'=\pm1$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Плоские кривые второго порядка}
+    \begin{columns}<1->[c,onlytextwidth]
+        \begin{column}<1->{0.6\textwidth}
+    \begin{itemize}
+        \item Классический пример: $x^2+y^2=1$;
+        \item Проекция из точки $A=(-1,0)$ (прямая $y=t(x+1)$) пересекает окружность ещё в одной точке $\Rightarrow$ параметризация
+        \[x=\frac{1-t^2}{1+t^2},\quad y=\frac{2t}{1+t^2},\quad t\in\mathbb{Q}\cup\{\infty\};\]
+        \item $t=m/n$ $\Rightarrow$ все пифагоровы тройки $(n^2-m^2,\,2mn,\,n^2+m^2)$;
+        \item Факт: на всякой гладкой конической кривой над $\mathbb{Q}$ с рациональной точкой есть рациональная параметризация $t\in\mathbb{Q}$;
+        \item Без рациональной точки параметризации нет; пример: $x^2+y^2=3$.
+        % \item \sagemark
+        % sage: Conic(QQ, x^2+y^2-z^2) -- C.has_rational_point(), C.rational_point(), C.parametrization() (изоморфизм с P^1)
+        % sage: сгенерировать пифагоровы тройки по формуле для t=m/n, сравнить с перебором
+        % sage: Conic(QQ, x^2+y^2+z^2).has_rational_point() -> False; Conic для x^2+y^2=3z^2
+    \end{itemize}
+        \end{column}
+        \begin{column}<2->{0.4\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[scale=1.8,>=latex, step on=2, step draw on=2, step fill on=2]
+                \draw[->] (-1.3,0) -- (1.3,0);
+                \draw[->] (0,-1.2) -- (0,1.3);
+                \draw[thick] (0,0) circle (1);
+                \draw[dashed] (-1.2,-0.1) -- (1.1,1.05);
+                \fill (-1,0) circle (1pt) node[below left] {$A$};
+                \fill (0.6,0.8) circle (1pt) node[above] {$P$};
+                \fill (0,0.5) circle (1pt) node[above left] {$t$};
+            \end{tikzpicture}
+            \end{center}
+        \end{column}
+    \end{columns}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Кривые степени $n>3$}
+    \begin{itemize}
+        \item Для $C: f(x,y)=0$ --- кривой степени $n$, определим род (формула Плюккера):
+        \[g(C)=\tfrac{1}{2}(n-1)(n-2)-\delta,\quad \text{где }\delta\text{ --- «инварианты особенностей»};\]
+        \item Тот самый род, если $C$ рассматривать над $\mathbb{C}$ как «риманову поверхность»;
+        \item Примеры: $n=1,2\Rightarrow g=0$; $n=3\Rightarrow g=1$ или $g=1-1=0$;
+        \item Теорема (гипотеза Морделла; Фалтингс, 1983): кривая рода $g\ge2$ над $\mathbb{Q}$ имеет лишь конечное число рациональных точек;
+        \item Пример: $x^n+y^n=1$, $g\ge3$ при $n\ge4$ $\Rightarrow$ конечное число рациональных точек;
+        \item Итого, число рациональных/целых точек в зависимости от рода кривой:
+        \begin{center}
+        \small
+        \begin{tabular}{@{}rlll@{}}
+            \toprule
+            $g$ & пример & рациональные точки & целые точки \\
+            \midrule
+            $0$ & коники, вырожд. кубики & нет / $\infty$ & нет / конечно / $\infty$ \\
+            $1$ & эллиптические кривые & нет / конечно / $\infty$ & нет / конечно \\
+            $\ge2$ & $x^n+y^n=1$, $n\ge4$ & нет / конечно & нет / конечно \\
+            \bottomrule
+        \end{tabular}
+        \end{center}
+            % \item \sagemark
+        % sage: Curve(...) -- C.genus() для гладкой квартики (g=3), кривой Ферма x^4+y^4=z^4, вырожденной кубики (g=0)
+        % sage: HyperellipticCurve(f).genus() для y^2=f(x) разных степеней (deg 5,6 -> g=2)
+        % sage: C.singular_points() и сверка с формулой Плюккера; поиск рациональных точек малой высоты на кривой Ферма (только тривиальные)
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Инварианты особенностей. Для неприводимой кривой $C$ и её особой точки $P$ пусть $\widetilde{C}\to C$ --- нормализация (разрешение особенностей); $\delta_P=\dim_{\mathbb{C}}\widetilde{\mathcal{O}}_P/\mathcal{O}_P$, т.е. «насколько кривая $\widetilde{C}$ богаче кривой $C$ вблизи $P$». Тогда $\delta=\sum_P\delta_P$ и $g(C)$ --- род $\widetilde{C}$. В гладких точках $\delta_P=0$; узел и точка возврата дают $\delta_P=1$; обыкновенная $m$-кратная точка ($m$ различных касательных) --- $\delta_P=m(m-1)/2$. Пример: квартика с тремя узлами имеет $g=3-3=0$.
+            \item Топология: над $\mathbb{C}$ гладкая проективная кривая --- компактная риманова поверхность, определённая с точностью до гомеоморфизма родом: сфера с $g$ ручками (эйлерова характеристика $2-2g$). $g=0$ --- сфера ($\mathbb{P}^1$), $g=1$ --- тор $\mathbb{C}/\Lambda$ (см. слайд про ЭК как тор).
+            \item В таблице утверждения про рациональные точки относятся к произвольным кривым данного рода, а не только к эллиптическим. У эллиптической кривой $E/\mathbb{Q}$ всегда есть рациональная точка $\mathcal{O}$, поэтому вариант «нет» для ЭК не встречается: $E(\mathbb{Q})$ конечна (ранг $0$) или бесконечна. Вариант «нет» у кривых рода $1$ бывает, если рациональной точки нет: например, кубика Сельмера $3x^3+4y^3+5z^3=0$ не имеет точек над $\mathbb{Q}$, хотя имеет их над $\mathbb{R}$ и над всеми $\mathbb{Q}_p$.
+            \item Целые точки (аффинной кривой): при $g\ge1$ их конечное число (теорема Зигеля, 1929); при $g=0$ конечно, если у кривой не меньше трёх точек на бесконечности, иначе возможно бесконечно много (уравнение Пелля), см. слайд про вырожденные кривые.
+            % \item любая гладкая проективная кривая положительного рода над алгебраически замкнутым полем вкладывается в свой якобиан (при g = 1 изоморфна ему), а якобиан — абелево многообразие, то есть группа. Для общих алгебраических множеств это неверно.
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Редукция и конечные поля}
+% ============================================================
+
+\begin{frame}{Подсчёт точек в конечном поле}
+    \begin{itemize}
+        \item $E(\mathbb{F}_p)$ --- редукция $E$ по модулю простого $p$: $y^2 \equiv x^3+ax+b \pmod p$;
+        \item $E(\mathbb{F}_p)$ может оказаться не ЭК $\Rightarrow$ есть «плохие» и «хорошие» $p$;
+        \item Пример: $y^2=x^3-3x+3$, $\Delta=-2160=-2^4\cdot3^3\cdot5$; при $p=3$: $y^2\equiv x^3$ (остриё), при $p=5$: $x^3+2x+3\equiv(x-4)^2(x-2)$ (узел);
+        \item Пусть $N_p(E)=N_{p,1}(E)$ --- число точек кривой над $\mathbb{F}_p$ включая бесконечно удалённую $\mathcal{O}$ (т.е. $1+$ число решений $y^2 \equiv x^3+ax+b (p)$);
+        \item Аналогично, над полем $\mathbb{F}_{p^m}$: $N_{p,m}(E)$ --- число точек $E(\mathbb{F}_{p^m})$;
+        \item Пример: $y^2=x^3-3x+3$: $N_7=6$, $N_{11}=N_{13}=16$, $N_{7,2}=60$, $N_{7,3}=378$;\\ для плохих $p$: $N_3=4$, $N_5=7$;
+        \item Если $p$ --- хорошее, то групповой закон переносится, т.е. $E(\mathbb{F}_{p^m})$ --- конечная группа порядка $N_{p,m}(E)$;
+        \item Теорема: либо $E(\mathbb{F}_{p^m})\cong\mathbb{Z}/(n)$, либо 
+        $E(\mathbb{F}_{p^m})\cong\mathbb{Z}/(n_1)\oplus\mathbb{Z}/(n_2)$, $n_1\mid n_2$.
+        % \item \sagemark
+        % sage: E = EllipticCurve([-3,3]); E.discriminant().factor(), E.conductor().factor() (плохие p --- простые делители кондуктора; E.bad_primes() у кривой над QQ нет)
+        % sage: E = EllipticCurve(GF(p),[a,b]); E.cardinality(), E.abelian_group(), E.abelian_group().invariants() (n_1, n_2), проверка n_1 | p-1
+        
+        % детали по структуре группы, теорема Ватерхауз - кандидат на лабораторную
+        % lab: для малого p перебрать все (a,b) и построить гистограмму N по p+1-2sqrt(p) <= N <= p+1+2sqrt(p) -- наглядно Ватерхауз (все значения встречаются, края реже)
+        % lab: P = E.random_point(); P.order(), factor(E.cardinality()); поиск «хорошей» кривой: цикл по b пока E.cardinality() == h*prime
+        % lab: аномальная кривая E.cardinality() == p; embedding degree: Mod(p, n).multiplicative_order()
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item Хорошее $p$: редукция минимальной модели $E$ по модулю $p$ гладкая ($p\nmid\Delta_{\min}$). Плохое $p$: редукция --- особая кубика (см. слайд о вырожденных кривых), три случая:
+            \begin{itemize}
+                \item \emph{расщеплённая мультипликативная}: узел с касательными, рациональными над $\mathbb{F}_p$;
+                \item \emph{нерасщеплённая мультипликативная}: узел, касательные определены над $\mathbb{F}_{p^2}$;
+                \item \emph{аддитивная}: остриё.
+            \end{itemize}
+            Если аддитивных $p$ нет, кривую называют \emph{полустабильной}.
+            \item В примере: $p=5$ --- нерасщеплённая мультипликативная (касательные $y^2=2(x-4)^2$, $2$ --- не квадрат mod $5$), $p=3$ --- аддитивная; $p=2$ --- тоже аддитивная (тип III).
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Дзета функция кривой и теорема Хассе--Вейля}
+    \begin{itemize}
+        \item Хотим оценить порядки $N_p(E)$, $N_{p,m}(E)$; обозначим $a_p=p+1-N_p(E)$;
+        \item Рассмотрим производящий ряд («локальная дзета-функция»):
+        \[\zeta_{E,p}(s) = \mathrm{exp} \left( \sum_{m=1}^\infty \frac{N_{p,m}(E)}{m} u^m \right), \quad u=p^{-s},\ u,s \in \mathbb{C};\]
+        \item Теорема: $\zeta_{E,p}(s)$ --- рациональная функция от $u$ (для хорошего $p$):
+        \[\zeta_{E,p}(s)=\frac{1-a_p u+p u^2}{(1-u)(1-pu)}=\frac{(1-\alpha u)(1-\beta u)}{(1-u)(1-pu)};\]
+        \item $a_p = \alpha+\beta$ и оказывается, что $p^m+1 - N_{p,m}(E)=\alpha^m+\beta^m$;
+        \item Теорема: для $\zeta_{E,p}(s)$ справедлива «гипотеза Римана»: $|\alpha|=|\beta|=\sqrt p$;
+        \item Теорема (Хассе--Вейль): $|N_{p,m}(E)-(p^m+1)|\le 2p^{m/2}$;
+        \item Теорема: для гладкой проективной кривой $C$ рода $g$ над $\mathbb{F}_{p^m}$ числитель $\zeta_{C}$ --- многочлен степени $2g$ с корнями $|\alpha_i|=p^{m/2}$, и $|N(C)-(p^m+1)|\le 2g p^{m/2}$.
+        % sage: Ep = E.change_ring(GF(p)) (или E.reduction(p)); Ep.cardinality() == p+1-E.ap(p); Ep.points() для маленького p (в списке есть бесконечно удалённая точка)
+        % sage: Ep.frobenius_polynomial() = x^2 - a_p x + p (reversed к числителю 1-a_p u+p u^2); корни alpha, beta в CC: abs(alpha) == sqrt(p); N_{p,m} = Ep.base_extend(GF(p^m,'a')).cardinality() vs p^m+1-alpha^m-beta^m для m=1,2,3 (для 1-й кривой слайда [-3,3], p=7: 6, 60, 378)
+        % sage: all(abs(E.ap(q)) <= 2*sqrt(q) for q in primes(1000) if q не плохое) -- оценка Хассе
+        % sage: род 2: HyperellipticCurve(x^5+x+3).change_ring(GF(7)).frobenius_polynomial() -- степень 4 (2g=4), корни по модулю sqrt(7)
+
+        % что нибудь про Сато--Тейта - хорошая лаблораторная
+        % lab: график (p, a_p/(2*sqrt(p))) для p<10^4 -- распределение Сато--Тейта (полукруг) - 
+
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Дзета-функции и $L$-функции}
+    \begin{itemize}
+        \item Глобальная дзета-функция:
+        \[\zeta_{E}(s) = \prod_{p\text{ --- простое}} \zeta_{E,p}(s);\]
+        \item L-функция Хассе--Вейля: 
+        \[L_E(s) = \prod_{p\text{ --- хорошее}}\left(1-a_p p^{-s}+p^{1-2s}\right)^{-1} \cdot \prod_{p\text{ --- плохое}} \left(1 - a_p'\,p^{-s}\right)^{-1}\quad (a_p'=\dots);\]
+        \item Можно раскрыть и получить ряд:
+        \[L_E(s) = \sum_{n=1}^{\infty} \frac{a(n)}{n^s},\quad a(p)=a_p.\]
+        \item Оказывается, что
+        \[\zeta_E(s) = \frac{\zeta(s)\,\zeta(s-1)}{L_E(s)},\]
+        где $\zeta(s)$ --- дзета-функция Римана: $\zeta(s)=\sum_{n\geqslant 1} \frac{1}{n^s} = \prod_p (1-\frac{1}{p^s})^{-1}$.
+        % \item \sagemark
+        % sage: E.anlist(N), E.ap(p) -- a(n) и a_p (в плохих p значение E.ap(p) = a_p'); E.lseries()(2) vs усечённое произведение Эйлера
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item $a_p' = p+1-N_p(E)$, где $N_p(E)$ --- число точек особой кубики (минимальная модель, с бесконечно удалённой точкой): $a_p'=1$ --- расщеплённый узел, $a_p'=-1$ --- нерасщеплённый узел, $a_p'=0$ --- остриё.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Теорема о модулярности}
+    \begin{itemize}
+        \item Гипотеза Таниямы--Шимуры--Вейля (ТШВ): для любой ЭК $E/\mathbb{Q}$ найдется $f = \sum b(m) q^m$ --- модулярная форма веса 2 для $\Gamma_0(N)$ такая, что
+        \[b(n)=a(n),\ \text{или}\  b(p) = a_p\ \ \text{для всех}\ p\nmid N;\]
+        \item $N$ зависит от $E$ и наз. кондуктором ЭК: $N=\prod_{p\text{ --- плохое}}p^{\,f_p}$, где $f_p$ --- «показатель кондуктора» в $p$;
+        \item Приложение: теорема Ферма, пусть $a,b,c\in\mathbb{Z}$: $abc\ne0$ и 
+        \[a^n+b^n=c^n\quad (n\ge 3);\]
+        \item Лемма (Фрей--Рибет, 1986): для ЭК $y^2 = x(x-a^n)(x+b^n)$ не выполняется гипотеза ТШВ;
+        \item Гипотеза ТШВ доказана, теперь теорема «о модулярности»\\ (Уайлс--Тейлор, 1994/1995; Брёй, Конрад, Даймонд, Тейлор, 1999/2001);
+        \item $\Rightarrow$ не существует таких $a,b,c\in\mathbb{Z}$: $a^n+b^n=c^n$.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Показатель кондуктора $f_p$: $f_p=0$ для хорошего $p$; $f_p=1$ для мультипликативной редукции (расщеплённой или нет); $f_p\ge2$ для аддитивной. При $p\ge5$ и аддитивной редукции $f_p=2$; при $p=2,3$ добавляется дикое ветвление, и $f_p$ может быть больше ($f_2\le8$, $f_3\le5$). Общая формула (Огг): $f_p=v_p(\Delta_{\min})+1-m_p$, $m_p$ --- число компонент специального слоя модели Нерона.
+            \item Пример: $y^2=x^3-3x+3$, $N=1080=2^3\cdot3^3\cdot5$ ($p=5$ --- мультипликативная, $f_5=1$; $p=2,3$ --- аддитивная, $f_2=f_3=3$). Полустабильная кривая ($N$ свободно от квадратов) --- случай Уайлса.
+            \item Теорема Ферма: Фрей заметил связь (1980-е), Рибет доказал, что кривая Фрея не может быть модулярной при существовании такого решения, Уайлс (с Тейлором) доказал ТШВ для нужного класса --- соединили, Ферма закрыт.
+            \item (Доказано для ВСЕХ эллиптических кривых над $\mathbb{Q}$ (Уайлс + Тейлор-Уайлс для полустабильного случая, затем Брёй-Конрад-Даймонд-Тейлор --- общий случай, результат 1999 года, опубликован в 2001) --- не гипотетический пример, а полная теорема.)
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Арифметические гипотезы в задачах тысячелетия}
+    \begin{itemize}
+        \item $\zeta$-функция Римана $\zeta(s)=\sum_{n\geqslant 1} \frac{1}{n^s} = \prod_p (1-\frac{1}{p^s})^{-1}$ --- определена при $\mathrm{Re}\, s > 1$;
+        \begin{itemize}
+            \item Продолжается $\forall s\in\mathbb{C}$, функциональное уравнение (симметрия относительно $\mathrm{Re}\, s = 1/2$): 
+            \[\pi^{-s/2}\,\Gamma\!\left(\frac{s}{2}\right)\zeta(s) \;=\; \pi^{-(1-s)/2}\,\Gamma\!\left(\frac{1-s}{2}\right)\zeta(1-s);\]
+            \item Гипотеза Римана: все нетривиальные нули $\zeta(s)$ лежат на прямой $\mathrm{Re}\, s = 1/2$;
+            \item Квази-риманова гипотеза (QRH): для нетривиальных нулей $\theta < \mathrm{Re}\, s < 1-\theta$\\ (с конкретным $\theta$).
+        \end{itemize}
+        \item $L$-функция Хассе--Вейля ЭК $L_E(s) = \smash{\prod_p} L_{E,p}(s)^{-1}$ --- определена при $\mathrm{Re}\, s > 3/2$;
+        \begin{itemize}
+            \item Продолжается $\forall s\in\mathbb{C}$, есть функциональное уравнение (из модулярности);
+            \item $r(E)$ --- ранг ЭК $E/\mathbb{Q}$: $E(\mathbb{Q}) \cong \mathbb{Z}^{r(E)} \oplus E(\mathbb{Q})_{\mathrm{tors}}$;
+            \item Гипотеза Бёрча--Свиннертон-Дайера: $r(E)$ есть порядок нуля $L_E(s)$ в точке $s=1$ (т.е. $L_E(s)=(s-1)^r\, L_0(s)$, $L_0(1)\ne0$).
+        \end{itemize}
+        
+        % БСД - в лабораторные
+        % lab: L = E.lseries(); L(1), L.dokchitser() / L.taylor_series(1, 4); для кривых ранга 0,1,2,3 порядок нуля в s=1 совпадает с E.rank() (BSD численно)
+        % lab: E.analytic_rank(), E.rank() для примеров (11a, 37a, 389a); график L(E,s) на вещественной оси около s=1
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Комплексная униформизация}
+% ============================================================
+
+\begin{frame}{Функция Вейерштрасса}
+    \begin{itemize}
+        \item Пусть $L=\mathbb{Z}\omega_1+\mathbb{Z}\omega_2\subset\mathbb{C}$ --- решётка ($\omega_1/\omega_2\notin\mathbb{R}$), рассмотрим функцию
+        \[\wp(z)=\wp_L(z)=\frac1{z^2}+\sum_{\omega\in L\setminus\{0\}}\left(\frac1{(z-\omega)^2}-\frac1{\omega^2}\right)\]
+        \item $\wp(z)$ «мероморфна» на $\mathbb{C}$ (полюса в точках $L$), наз. функцией Вейерштрасса;
+        \item $\wp(-z)=\wp(z)$; $\wp(z+\omega)=\wp(z)$ при $\omega\in L$, т.е. $L$-периодическая;
+        \item $\wp(z)$ удовлетворяет дифференциальному уравнению:
+        \[\wp'(z)^2=4\wp(z)^3-g_2\wp(z)-g_3,\]
+        где $g_2=g_2(L)=60G_4(L)$, $g_3=g_3(L)=140G_6(L)$,\\ $G_k(L)=\sum_{\omega\in L\setminus\{0\}}\omega^{-k}$ --- ряды Эйзенштейна (лекция 4);
+        \item Получаем отображение $z\mapsto(\wp(z),\wp'(z))$: $\mathbb{C} \to \{\,y^2=4x^3-g_2x-g_3\}$;
+        \item Лемма: дискриминант $\Delta=g_2^3-27g_3^2\ne0$ ($\Delta=\Delta(L)$);
+        \item Т.е. $E_L=E(\mathbb{C})=\{(x,y)\in\mathbb{C}^2: y^2=4x^3-g_2x-g_3\}\cup\{\mathcal{O}\}$ --- ЭК над $\mathbb{C}$;
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item «Мероморфна» --- ведёт себя достаточно хорошо, ряд сходится кроме дискретного множества точек, в которых можно положить значение $\infty$;
+            \item Разложение в ряд по степеням $z$ даёт $\wp(z)=z^{-2}+3G_4z^2+5G_6z^4+\dots$;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Комплексные эллиптические кривые}
+    \begin{itemize}
+        \item $\wp(z)$ --- $L$-периодическая, т.е. $z,z+\omega$ ($\omega\in L$) $\mapsto$ одна и та же точка $E(\mathbb{C})$;
+        \item $\Rightarrow$ отображение задано на классах $\mathbb{C}/L$ (фактор группы по сложению);
+        \item Лемма: $z\mapsto(\wp(z),\wp'(z))$: $\mathbb{C}/L \to E(\mathbb{C})$ --- изоморфизм групп, $0\mapsto\mathcal{O}$;
+        \item Формула сложения: $\wp(z_1+z_2)=\frac14\left(\frac{\wp'(z_1)-\wp'(z_2)}{\wp(z_1)-\wp(z_2)}\right)^2-\wp(z_1)-\wp(z_2)$;
+        \item $E[n]=\left\{\frac{a\omega_1+b\omega_2}{n}: a,b\in\mathbb{Z}, 0\le a,b< n\right\}$ --- точки кручения с порядком $\mid n$;
+        \item $E[2]=\{0,\frac{\omega_1}2,\frac{\omega_2}2,\frac{\omega_1+\omega_2}2\}\mapsto\{\mathcal{O}\}\cup\{(e_k,0)\}$, $e_k$ --- корни $4x^3-g_2x-g_3$; 
+        \item Пример: для $y^2=x^3-x$: $E[2]=\{\mathcal{O},(0,0),(1,0),(-1,0)\}\cong(\mathbb{Z}/2)^2$;
+        \item $E[n]\cong\mathbb{Z}/(n)\oplus \mathbb{Z}/(n)$, $\bigl|E[n]\bigr|=n^2$;
+        \item $E(\mathbb{C})_{\mathrm{tors}}=\bigcup_{n\ge1}E[n]=\left\{a\omega_1+b\omega_2: a,b\in\mathbb{Q}\right\}/L\cong\mathbb{Q}/\mathbb{Z}\oplus\mathbb{Q}/\mathbb{Z}$;
+        \item $E_L=E(\mathbb{C})\cong\mathbb{C}/L \cong\mathbb{R}/\mathbb{Z}\oplus\mathbb{R}/\mathbb{Z}$ --- тор:\hspace{3em}
+        \begin{tikzpicture}[>=latex, scale=0.6, baseline=(current bounding box.north)]
+            \draw[red, thick, -{>}] (0,0) -- (1.1,0);
+            \draw[red, thick] (1,0) -- (2,0);
+            \draw[red, thick, -{>}] (0,2) -- (1.1,2);
+            \draw[red, thick] (1,2) -- (2,2);
+            \draw[blue, thick, -{>>}] (0,0) -- (0,1.1);
+            \draw[blue, thick] (0,1) -- (0,2);
+            \draw[blue, thick, -{>>}] (2,0) -- (2,1.1);
+            \draw[blue, thick] (2,1) -- (2,2);
+            \draw[->, thick] (2.6,1) -- (4,1);
+            \begin{scope}[shift={(7,1)}, xscale=1.2, yscale=1.2]
+                \draw (0,0) ellipse (1.6 and 1);
+                \draw (-0.95,0.05) to[bend right=45] (0.95,0.05);
+                \draw (-0.7,0.0) to[bend left=45] (0.7,0.0);
+                \draw[red, thick] (0,0) ellipse (1.1 and 0.65);
+                \draw[blue, thick, dashed] (-1.6,0) arc (180:360:0.5 and 0.2);
+                \draw[blue, thick] (-1.6,0) arc (180:0:0.5 and 0.2);
+            \end{scope}
+        \end{tikzpicture}
+        
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Униформизация и изоморфизмы торов}
+    \begin{itemize}
+        \item Теорема (об униформизации): для любых $g_2,g_3\in\mathbb{C}$, $g_2^3\ne27g_3^2$, найдётся решётка $L$ с данными $g_2(L)=g_2$, $g_3(L)=g_3$, т.е. всякая ЭК над $\mathbb{C}$ есть $\mathbb{C}/L$;
+        \item Лемма: $\mathbb{C}/L \cong\mathbb{C}/L'$ --- торы изоморфны $\Leftrightarrow$ $\exists\lambda\in\mathbb{C}^*$: $L'=\lambda L$ --- решётки подобны;
+        \item $\left\{\vcenter{\hbox{\begin{tabular}{@{}c@{}}классы\\изоморфизмов $E(\mathbb{C})$\end{tabular}}}\right\}
+        \leftrightarrow
+        \left\{\vcenter{\hbox{\begin{tabular}{@{}c@{}}классы изоморфизмов\\торов $\mathbb{C}/L$\end{tabular}}}\right\}
+        \leftrightarrow
+        \left\{\vcenter{\hbox{\begin{tabular}{@{}c@{}}классы подобных\\решёток $L$\end{tabular}}}\right\}$
+        \item $L=\mathbb{Z}\omega_1+\mathbb{Z}\omega_2=\frac{1}{\omega_1}\left(\mathbb{Z}+\mathbb{Z}\frac{\omega_2}{\omega_1}\right)$ $\Rightarrow$ $L$ подобна $L_\tau=\mathbb{Z}+\mathbb{Z}\tau$, $\tau=\frac{\omega_2}{\omega_1}$;
+        \item $1,-\tau$ --- тоже базис $L_\tau$ $\Rightarrow$ можно считать $\mathrm{Im}(\tau)>0$, т.е. $\tau\in\mathbb{H}$;
+        \item $\Rightarrow$ в каждом классе можем брать представителя $L_\tau$, $\tau\in\mathbb{H}$;
+        \item Смена базиса решетки $L_\tau$: $(1,\tau)\mapsto (c\tau+d,a\tau+b)$, $g=\begin{psmallmatrix}a&b\\c&d\end{psmallmatrix}$, $\det(g)=\pm 1$;
+        \item Сохранение ориентации ($\mathrm{Im}(\omega_2/\omega_1)>0$) $\Rightarrow$ $\det(g)=1$, т.е. $g\in SL_2(\mathbb{Z})$;
+        \item $L_\tau$ подобна $L_{g\tau}$, $g\tau=\frac{a\tau+b}{c\tau+d}$;
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Изоморфизмы эллиптических кривых}
+    \begin{itemize}
+        \item Для $L_\tau=\mathbb{Z}+\tau\mathbb{Z}$, $\tau\in\mathbb{H}$, в обозначениях лекции 4:\\
+        $g_2(L_\tau)=\frac{4\pi^4}{3}E_4(\tau)$, $g_3(L_\tau)=\frac{8\pi^6}{27}E_6(\tau)$ --- ряды Эйзенштейна (МФ весов $4$ и $6$),\\
+        $\Delta(L_\tau)=\frac{(2\pi)^{12}}{1728}(E_4(\tau)^3-E_6(\tau)^2)=(2\pi)^{12}\Delta(\tau)$ --- модулярный дискр. (веса 12);
+        \item Смена базиса и подобие: $\Delta(g\tau)=(c\tau+d)^{12}\Delta(\tau)$, $E_4(g\tau)=(c\tau+d)^4E_4(\tau)$;
+        \item $\Delta$, $E_4$ --- не инварианты, (модулярный) инвариант:
+        \[j(\tau)=1728\,g_2^3/\Delta=q^{-1}+744+196884\,q+\dots;\]
+        \item Теорема: $E:y^2=x^3+ax+b$, $E':y^2=x^3+a'x+b'$ изоморфны над $\mathbb{C}$ $\Leftrightarrow$ $a'=u^4a$, $b'=u^6b$ (замена $x\mapsto u^2x$, $y\mapsto u^3y$) $\Leftrightarrow$ $j(E)=j(E')$, где
+        \[j(E)=1728\,\frac{4a^3}{4a^3+27b^2};\]
+        \item Пример: $y^2=x^3-x$ и $y^2=x^3+x$ ($b=0$ $\Rightarrow$ $j=1728$ у обеих): $a'=u^4a$ при $u^4=-1$, $u=e^{\pi i/4}$, т.е. изоморфны над $\mathbb{C}$;
+        \item Замечание: над $\mathbb{Q}$ изоморфизм ЭК требует $u\in\mathbb{Q}^*$: кривые с одним $j$ могут различаться.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Отступление: действие групп на множествах}
+    \begin{itemize}
+        \item Говорят что группа $G$ действует на множестве $X$, если существует $G\times X\to X$, $(g,x)\mapsto gx$ такое что: $ex=x$, $(gh)x=g(hx)$;
+        \item Стабилизатор $G_x=\{g\in G: gx=x\}$ --- подгруппа;% $|Gx|=[G:G_x]$;
+        \item Орбита $Gx=\{gx: g\in G\}$, $X/G$ --- мн-во орбит (классы $x_1\sim x_2$ $\rightleftharpoons$ $x_2\in Gx_1$);
+        \item $F\subset X$ --- фундаментальная область действия $G$ $\rightleftharpoons$ $F$ содержит представителя каждой орбиты (внутри $F$ --- ровно одного): $\forall x\in X\ \exists\ g\in G, x_0\in F:\ x=gx_0$;
+        \item Примеры:
+        \begin{itemize}
+            \item $\mathbb{Z}$ действует на $\mathbb{R}$, $n\cdot x=x+n$: $\mathbb{R}/\mathbb{Z}$ --- окружность, $F=[0,1)$;
+            \item $L=\mathbb{Z}\omega_1+\mathbb{Z}\omega_2\cong\mathbb{Z}^2$ действует на $\mathbb{C}$ сдвигами: $\mathbb{C}/L$ --- тор, $F$ --- параллелограмм;
+            \item $G$ действует на векторном пространстве $V$ линейно --- представление $G\to GL(V)$;
+            \item $SL_2(\mathbb{Z})$ действует на $\mathbb{H}$: $g\tau=\frac{a\tau+b}{c\tau+d}$;
+            \item $GL_2(\mathbb{C})$ действует $\mathbb{C}\cup\{\infty\}$: $g\tau=\frac{a\tau+b}{c\tau+d}$;
+        \end{itemize}
+        \item Теорема (Кэли): всякая группа точно действует на себе левыми сдвигами $g\cdot x=gx$, т.е. $G\hookrightarrow\mathrm{Sym}(G)$ --- всякая группа реализуется как группа преобразований.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            %  $X/G$ получается из $F$ склейкой границы;
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Униформизация и пространство модулей}
+    \begin{itemize}
+        \item Т.о. $SL_2(\mathbb{Z})$ действует на $\mathbb{H}$ и есть взаимно-однозначные соответствия:\\
+        $\{$орбиты$\}$ $\leftrightarrow$ $\{$классы подобных решёток$\}$ $\leftrightarrow$ $\{$классы изоморфизмов ЭК $/\mathbb{C}$$\}$;
+        \item \begin{minipage}[t]{0.7\linewidth} %t
+        \raggedright
+        Лемма: фундаментальная область $SL_2(\mathbb{Z})$ в $\mathbb{H}$:\\ 
+        $\mathcal{F}=\{\tau\in\mathbb{H}: |\mathrm{Re}\,\tau|\le\frac12,\ |\tau|\ge1\}$; причём, для $\tau_1,\tau_2\in\mathcal{F}$: $\tau_1\sim\tau_2$ $\Rightarrow$ $\tau_1=\tau_2$, или $\mathrm{Re}\,\tau_1=\pm\frac12$ и $\tau_2=\tau_1\mp1$, или $|\tau_1|=1$ и $\tau_2=-1/\tau_1$\\
+        (т.е. склейка границ $\mathcal{F}$: $\tau\sim\tau+1$, $\tau\sim-1/\tau$);
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.3\linewidth}
+            \centering
+            \raisebox{-0.8\height}{%
+            \begin{tikzpicture}[scale=1,>=latex]
+                \fill[blue!10] (-0.5,2) -- (-0.5,0.866) arc (120:60:1) -- (0.5,2) -- cycle;
+                \draw[->] (-1.2,0) -- (1.2,0);
+                \draw[->] (0,0) -- (0,2.1) node[above] {$\mathbb{H}$};
+                \draw[thick] (-0.5,2) -- (-0.5,0.866) arc (120:60:1) -- (0.5,2);
+                \draw[dotted] (0.5,0.866) arc (60:0:1);
+                \fill (0,1) circle (0.7pt) node[above left, xshift=3pt] {\scriptsize $i$};
+                \fill (0.5,0.866) circle (0.7pt) node[right] {\scriptsize $\rho=e^{\pi i/3}$};
+                \node at (-0.2,1.8) {\scriptsize $\mathcal{F}$};
+            \end{tikzpicture}}
+        \end{minipage}
+        \item Теорема: $j:\mathbb{H}/SL_2(\mathbb{Z})\to\mathbb{C}$ --- биекция, $j$-инвариант параметризует все ЭК $/\mathbb{C}$ ($\mathbb{H}/SL_2(\mathbb{Z})$ наз. пространством модулей эллиптических кривых);
+        \item Лемма: стабилизаторы для $\tau\in\mathcal{F}$\quad ($I=\begin{psmallmatrix}1&0\\0&1\end{psmallmatrix}$, $S=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$, $T=\begin{psmallmatrix}1&1\\0&1\end{psmallmatrix}$):
+        \begin{itemize}
+            \item $\tau\ne i, \rho=e^{\pi i/3}$: $\{\pm I\}$ --- тривиальный,
+            \item $\tau= i$: $\{\pm I, \pm S\}$ --- циклический порядка 4,
+            \item $\tau=\rho=e^{\pi i/3}$: $\{\pm I, \pm TS, \pm (TS)^2\}$ --- циклический порядка 6,
+            \item $\tau=-\bar{\rho}=e^{2\pi i/3}$: $\{\pm I, \pm ST, \pm (ST)^2\}$ --- циклический порядка 6.
+        \end{itemize}
+    \end{itemize}
+            
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Комплексное умножение}
+% ============================================================
+
+\begin{frame}{Гомоморфизмы и эндоморфизмы комплексных торов}
+    \begin{itemize}
+        \item Рассмотрим «голоморфные» гомоморфизмы $\psi:\mathbb{C}/L\to \mathbb{C}/L'$ --- не только гомоморфизм групп, но «хорошее» отображение комплексных торов;
+        \item Лемма: $\psi:\mathbb{C}/L\to \mathbb{C}/L'$ --- гомоморфизм $\Leftrightarrow$ $\psi$ вида $z\mapsto \alpha z$, где $\alpha\in\mathbb{C}$: $\alpha L \subseteq L'$;
+        \item Изогении ЭК $\rightleftharpoons$ ненулевые гомоморфизмы; степень $\rightleftharpoons$ $[L':\alpha L]$; примеры:
+        \begin{itemize}
+            \item $L=\mathbb{Z}+\tau\mathbb{Z}\subset L'=\mathbb{Z}+\frac{\tau}{2}\mathbb{Z}$ ($\alpha=1$), $L'/L=\{0,\frac{\tau}{2}\}$, $[L':L]=2$,\\ т.е. $z+L\mapsto z+L'$ --- изогения степени $2$;
+            \item Умножение на $n$ --- изогения $\mathbb{C}/L\to \mathbb{C}/L$ степени $n^2$ с ядром $E[n]$;
+            \item Изоморфизм --- изогения степени $1$ ($\alpha L= L'$);
+        \end{itemize}
+        
+        \item Эндоморфизмы $\rightleftharpoons$ гомоморфизмы на себя, $\mathrm{End}(E)=\{\alpha\in\mathbb{C}:\alpha L\subseteq L\}$;
+        \item $\mathbb{Z}\subseteq\mathrm{End}(E)$ (умножения на $n$); $\mathrm{End}(E)$ --- кольцо; примеры:
+        \begin{itemize}
+            \item $y^2=x^3-x$: $L\sim\mathbb{Z}+i\mathbb{Z}=\mathbb{Z}[i]$, $i L= L$ $\Rightarrow$ $\mathbb{Z}[i]\subseteq\mathrm{End}(E)$ (энд. $i: (x,y)\mapsto (-x,iy)$);
+            \item $y^2=x^3+1$: $L\sim\mathbb{Z}+\rho\mathbb{Z}=\mathbb{Z}[\rho]$, $\rho=e^{\pi i/3}$ $\Rightarrow$ $\mathbb{Z}[\rho]\subseteq\mathrm{End}(E)$;
+            \item $y^2=x^3+x+1$: оказывается, что $\mathrm{End}(E)=\mathbb{Z}$;
+        \end{itemize}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Комплексное умножение}
+    \begin{itemize}
+        \item Еще один пример: $L=\mathbb{Z}+2i\mathbb{Z}$, $\alpha L\subseteq L$ при $\alpha=a+bi$ $\Leftrightarrow$ $a\in\mathbb{Z}$, $b\in2\mathbb{Z}$, т.е. $\mathrm{End}(E)=\mathbb{Z}+2i\mathbb{Z}=\mathbb{Z}[2i]\subsetneq\mathbb{Z}[i]$ --- собственное подкольцо $\mathbb{Z}[i]$;
+        \item Порядок в мнимом квадратичном поле $K$ $\leftrightharpoons$ подкольцо $\mathfrak{O}\subset K$ (с $1\in\mathfrak{O}$), являющееся решёткой в $K\cong\mathbb{R}^2$ (т.е. $\mathbb{Z}$-модулем ранга $2$);
+        \item Кольцо целых поля $\mathfrak{O}_K$ $\leftrightharpoons$ «максимальный» порядок;
+        \item Пример: $\mathbb{Z}[i]$ --- кольцо целых $\mathbb{Q}(i)$, а $\mathbb{Z}[2i]$ --- неполный порядок в $\mathbb{Q}(i)$;
+        \item Теорема: $\forall$ ЭК E либо $\mathrm{End}(E)=\mathbb{Z}$, либо $\mathrm{End}(E)$ --- порядок в мнимом квадратичном поле $K$;
+        \item Если $E\cong\mathbb{C}/L$, $L\sim L_\tau=\mathbb{Z}+\tau\mathbb{Z}$, $\tau\in\mathbb{H}$, то 
+        \begin{itemize}
+            \item $\mathrm{End}(E)=\mathbb{Z}$ $\Leftrightarrow$ $\tau$ трансцендентно или алгебраично степени $\geq3$,
+            \item $\mathrm{End}(E)\neq\mathbb{Z}$ $\Leftrightarrow$ $\tau$ мнимое квадратичное и $K=\mathbb{Q}(\tau)$;
+        \end{itemize}
+        \item Если $\mathrm{End}(E)\neq\mathbb{Z}$, то $E$ наз. ЭК с комплексным умножением (КУ); примеры:
+        \begin{itemize}
+            \item $y^2=x^3-x$, $L\sim\mathbb{Z}[i]$, $\mathrm{End}(E)=\mathbb{Z}[i]$;
+            \item $y^2=x^3+1$, $L\sim\mathbb{Z}[\rho]$, $\mathrm{End}(E)=\mathbb{Z}[\rho]$;
+        \end{itemize}
+        % \item Теорема: для кривых с КУ $j(\tau)$ --- целые алгебраические числа; 
+        % \item Примеры: $j(i)=1728$, $j(\rho)=0$; для $y^2=x^3+x+1$ (пример выше) $j=6912/31$ $\Rightarrow$ нет КУ, т.е. $\mathrm{End}(E)=\mathbb{Z}$
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Комплексное умножение (продолжение)}
+    \begin{itemize}
+        \item Теорема: для кривых с КУ $j(\tau)$ --- целые алгебраические числа; 
+        \item Примеры: $j(i)=1728$, $j(\rho)=0$;
+        \item Пример выше: для $y^2=x^3+x+1$ --- $j=6912/31$ $\Rightarrow$ нет КУ, т.е. $\mathrm{End}(E)=\mathbb{Z}$
+        \item Автоморфизмы $\mathrm{Aut}(E)$ --- группа обратимых элементов $\mathrm{End}(E)$;
+        \item Теорема: если $E\cong\mathbb{C}/L$, $L\sim L_\tau=\mathbb{Z}+\tau\mathbb{Z}$, $\tau\in\mathbb{H}$, то $\mathrm{Aut}(E)\cong SL_2(\mathbb{Z})_\tau$ --- стабилизатор $\tau$ под действием $SL_2(\mathbb{Z})$, т.е.
+        \begin{itemize}
+            \item $\tau \not\sim i, \rho$ ($j(\tau)\ne 1728, 0$) $\Rightarrow$ $\mathrm{Aut}(E)=\{\pm1\}$,
+            \item $\tau  \sim i$ ($j(i)=1728$) $\Rightarrow$ $\mathrm{Aut}(E)\cong\mathbb{Z}/(4)$,
+            \item $\tau  \sim \rho$ ($j(\rho)=0$) $\Rightarrow$ $\mathrm{Aut}(E)\cong\mathbb{Z}/(6)$,
+        \end{itemize}
+        \item Теорема: если $\mathfrak{O}$ --- порядок в мнимом квадратичном поле $K$, то
+        \begin{itemize}
+            \item $\mathfrak{O}\ne\mathbb{Z}[i],\mathbb{Z}[\rho]$ $\Rightarrow$ $\mathfrak{O}^\times=\{\pm1\}$ (в частности, $\mathfrak{O}_K^\times=\{\pm1\}$ при $K\ne\mathbb{Q}(i),\mathbb{Q}(\sqrt{-3})$),
+            \item $\mathfrak{O}=\mathbb{Z}[i]$ $\Rightarrow$ $\mathfrak{O}^\times=\{\pm1,\pm i\}\cong\mathbb{Z}/(4)$,
+            \item $\mathfrak{O}=\mathbb{Z}[\rho]$ $\Rightarrow$ $\mathfrak{O}^\times=\{\pm1,\pm\rho,\pm\rho^2\}\cong\mathbb{Z}/(6)$;
+        \end{itemize}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            % \item Классы изоморфизмов ЭК над $\mathbb{C}$ с $\mathrm{End}(E)=\mathfrak{O}_K$ $\leftrightarrow$ «классы идеалов» кольца $\mathfrak{O}_K$; их число $h(\mathfrak{O}_K)$ («число классов» поля $K$) --- число классов примитивных положительно определённых бинарных квадратичных форм.
+            \item Классы идеалов: ненулевые дробные идеалы $\mathfrak{O}_K$ с точностью до умножения на $\lambda\in K^\times$ (гомотетия решёток: $\mathbb{C}/\mathfrak{a}\cong\mathbb{C}/\mathfrak{b}\Leftrightarrow\mathfrak{b}=\lambda\mathfrak{a}$); их конечное число $h_K$ --- число классов поля $K$;
+            \item Классы форм: $f=ax^2+bxy+cy^2$, $\gcd(a,b,c)=1$, $a>0$, $b^2-4ac=D_K<0$, с точностью до замен переменных из $SL_2(\mathbb{Z})$; форме отвечает $\tau=\frac{-b+\sqrt{D_K}}{2a}\in\mathbb{H}$, идеал $\mathfrak{a}=\mathbb{Z}a+\mathbb{Z}\frac{-b+\sqrt{D_K}}{2}$ и тор $\mathbb{C}/L_\tau$, а эквивалентность форм --- то же действие $SL_2(\mathbb{Z})$ на $\mathbb{H}$;
+            \item Примеры: $h=1$ для $D_K=-3,-4,-7,-8,-11,-19,-43,-67,-163$ (ровно эти поля), $D_K=-15$: $h=2$ ($x^2+xy+4y^2$, $2x^2+xy+2y^2$); для $h=1$ значение $j$ целое, напр. $j(i)=1728$, $j\!\left(\frac{1+\sqrt{-163}}2\right)=-640320^3$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Комплексное умножение над $\mathbb{Q}$}
+    \begin{itemize}
+        \item Теорема: среди всех $j\in\mathbb{Q}$ лишь 13 значений отвечают кривым с КУ;
+        \begin{itemize}
+            \item Числа Хегнера: Теорема (лекция 3): ровно для 9 значений $d=-1$, $-2$, $-3$, $-7$, $-11$, $-19$, $-43$, $-67$, $-163$ кольцо целых поля $K=\mathbb{Q}(\sqrt d)$ факториально;
+            \item $13$ значений $j$ соответствуют $13$ порядкам $\mathfrak{O}_K$ в этих кольцах: 9 макс. + 4:\\
+        \end{itemize}
+        \item Вспомним также (лекция 3):
+        \begin{itemize}
+            \item Теорема: простое $p\in\mathbb{Z}$ либо остаётся простым (инертно) в $\mathbb{Z}[i]$, либо расщепляется ($p=\pi\bar\pi$ для $p>2$), либо разветвляется ($2=-i(1+i)^2$);
+        \item Теорема: $p\in\mathbb{Z}$ --- инертно, расщепляется, разветвляется в кольце целых $\mathfrak{O}_K$ мнимого квадратичного поля $K=\mathbb{Q}(\sqrt{-d})$ (через идеалы);
+        \end{itemize}
+        \item Теорема (Дёйринг): для $E/\mathbb{Q}$ с КУ по $K=\mathbb{Q}(\sqrt{-d})$ и хорошего $p$:
+        \begin{itemize}
+            \item если $p=\pi\bar\pi$ расщепляется, то $a_p=\pi+\bar\pi$ (для подходящего $\pi$, $a_p=p+1-N_p(E)$);
+            \item если $p$ инертно или разветвлено в $K$, то $a_p=0$;
+        \end{itemize}
+        \item Пример: $y^2=x^3-x$,
+        \begin{itemize}[<.->]
+            \item $p\equiv 1(4)$ $\Rightarrow$ $a_p=\pm2a$ ($p=a^2+b^2$, $a$ нечётно),
+            \item $p\equiv 3(4)$ $\Rightarrow$ $a_p=0$.
+        \end{itemize}    
+        % точные значения на слайде не надо, будут в sage
+        % \item $\mathfrak{O}=\mathfrak{O}_K$: $D=-3,-4,-7,-8,-11,-19,-43,-67,-163$ (числа Хигнера, $9$ полей);
+            % \item неполные порядки: $D=-12,-16,-27,-28$;
+        % \item $j=0$ ($D=-3$), $1728$ ($D=-4$), $-3375$ ($D=-7$), $8000$ ($D=-8$), $-32768$ ($D=-11$), $54000$ ($D=-12$), $287496$ ($D=-16$), $-884736$ ($D=-19$), $-12288000$ ($D=-27$), $16581375$ ($D=-28$), $-884736000$ ($D=-43$), $-147197952000$ ($D=-67$), $-262537412640768000=-640320^3$ ($D=-163$);
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Комплексное умножение над $\mathbb{F}_q$}
+    \begin{itemize}
+        \item Рассмотрим ЭК $E/\mathbb{F}_q$ ($q=p^s$); по-прежнему $\mathbb{Z}\subseteq\mathrm{End}(E)$;
+        \item Эндоморфизм Фробениуса $\phi_q:(x,y)\mapsto(x^q,y^q)\in\mathrm{End}(E)$;
+        \item Теорема: $\phi_q$ в $\mathrm{End}(E)$ удовлетворяет $\phi_q^2-a_q\phi_q+q=0$, где $a_q=q+1-N_q(E)$;
+        \item $u^2-a_qu+q=(u-\alpha)(u-\beta)$ --- хар. многочлен тех же $\alpha$, $\beta$ что и в $\zeta_{E,q}(s)$;
+        \item Дискриминант $-d=a_q^2-4q=(\alpha-\beta)^2\le0$ (Хассе--Вейль);
+        \item Если $-d<0$, то $\mathbb{Z}[\phi_q]\subseteq\mathrm{End}(E)$ --- порядок в $\mathbb{Q}(\sqrt{-d})$;
+        \item Теорема (Дёйринг): кольцо $\mathrm{End}(E)$ над $\overline{\mathbb{F}}_q$ --- одно из двух:
+        \begin{itemize}
+            \item $p\nmid a_q$ --- порядок в $\mathbb{Q}(\sqrt{-d})$ (содержащий $\mathbb{Z}[\phi_q]$);
+            \item $p\mid a_q$ --- максимальный порядок в «кватернионной алгебре $\mathbb{H}_{p,\infty}$ над $\mathbb{Q}$»;
+        \end{itemize}
+        \item $-d=0$ входит во второй случай, поэтому над $\overline{\mathbb{F}_q}$ всегда есть КУ;
+        \item Если $p\nmid a_q$, то ЭК называется обыкновенной;\\ если $p\mid a_q$, то --- суперсингулярной (для $q=p>3$: $a_p=0$).
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item $\mathbb{H}_{p,\infty}$ --- кватернионная алгебра над $\mathbb{Q}$ с делением (как $\mathbb{H}(\mathbb{Q})$ из лекции 3, но зависящая от $p$), «разветвлённая в $p$ и $\infty$»: после тензорного умножения на $\mathbb{R}$ и на $\mathbb{Q}_p$ остаётся телом, а на $\mathbb{Q}_\ell$ при $\ell\ne p$ расщепляется, $\cong M_2(\mathbb{Q}_\ell)$; для каждого $p$ такая алгебра единственна; $\mathbb{H}_{2,\infty}=\mathbb{H}(\mathbb{Q})$, при $p\equiv3\ (4)$ $\mathbb{H}_{p,\infty}=\left(\frac{-1,-p}{\mathbb{Q}}\right)$ ($i^2=-1$, $j^2=-p$, $ij=-ji$);
+            \item Точное определение через $p$-адические числа --- в следующей лекции;
+            \item Для $p=2$ и суперсингулярной $E/\overline{\mathbb{F}}_2$ имеем $\mathrm{End}(E)=\mathcal H$ (кватернионы Гурвица, максимальный порядок в $\mathbb{H}(\mathbb{Q})$; кватернионы Липшица $\mathbb{H}(\mathbb{Z})$ максимальным порядком не являются);
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Приложения}
+% ============================================================
+
+\begin{frame}{Пара математических приложений ЭК}
+    \begin{itemize}
+        \item Задача о пушечных ядрах: найти число пушечных ядер, которые можно уложить и в один слой в форме квадрата, и в форме пирамиды с квадратом в основании, т.е. найти $n, m\in\mathbb{Z}$ такие, что
+        \[m^2 = n^2 + (n-1)^2 + \dots + 1^2 = \frac{1}{6}n(n+1)(2n+1);\]
+        \item $\Leftrightarrow$ найти целую точку на ЭК. Единственное нетривиальное решение:\\ $n=24$, $m=70$ (Уотсон, 1918).
+        \item Задача о конгруэнтных числах: какие целые $n$ --- площади прямоугольных треугольников с рациональными сторонами?
+        \item Пример: $5$ --- площадь треугольника со сторонами $\frac{20}{3}, \frac{3}{2}, \frac{41}{6}$;
+        \item $n$ конгруэнтно $\Leftrightarrow$ эллиптическая кривая $y^2=x^3-n^2x$ имеет рациональную точку бесконечного порядка;
+        \item Теорема Таннелла (1983, при условии гипотезы БСД) --- явный критерий конгруэнтности через коэффициенты тета-ряда веса $3/2$.
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% полностью в лабораторную lab:
+% \begin{frame}{TODO Факторизация Ленстры и проверка простоты}
+%     \begin{itemize}
+%         \item Задача: разложить составное $n$;
+%         \item Алгоритм (Ленстра, 1985): выбрать случайные $a$ и $P=(x_0,y_0)$ по модулю $n$, положить $b=y_0^2-x_0^3-ax_0$; кривая $E:y^2=x^3+ax+b$ над $\mathbb{Z}/(n)$;
+%         \item Считаем $kP$ по формулам сложения, где $k=\mathrm{lcm}(1,\dots,B)$ (или произведение степеней простых $\le B$); в формулах нужно обратить $x_2-x_1$ или $2y_1$ по модулю $n$;
+%         \item Если $\gcd(x_2-x_1,\,n)\notin\{1,n\}$ --- нашли делитель; если $=n$ --- другая кривая;
+%         \item Почему работает: пусть $p\mid n$, и $N_p(E)$ является $B$-гладким $\Rightarrow$ $kP=\mathcal{O}$ в $E(\mathbb{F}_p)$ (но не по модулю другого простого $q\mid n$) $\Rightarrow$ знаменатель делится на $p$, но не на $q$;
+%         \item Сложность: $L_p[1/2,\sqrt2]$ (субэкспоненциальная, зависит от наименьшего простого делителя $p$, а не от $n$);
+%         \item Те же идеи в проверке простоты --- тест Голдвассер--Килиана, ЭК-тест Аткина--Морейна (ECPP).
+%     \end{itemize}
+%     \note{
+%         \begin{itemize}
+%             \item ---
+%         \end{itemize}
+%     }
+% \end{frame}
+
+\begin{frame}{Криптография на эллиптических кривых}
+    \begin{itemize}
+        \item Задача дискретного логарифма на ЭК (ECDLP): по $Q=kG\in E(\mathbb{F}_p)$ найти $k$, $G$, $G$ --- точка простого порядка $n$;
+        \item ECDH (обмен ключами по открытому каналу): публично известны ЭК $E/\mathbb{F}_p$ и её точка $G$ порядка $n$:
+        \begin{itemize}
+            \item Алиса выбирает секрет $a\in\{1,\dots,n-1\}$ и отправляет Бобу $A=aG$;
+            \item Боб выбирает секрет $b\in\{1,\dots,n-1\}$ и отправляет Алисе $B=bG$;
+            \item Алиса получает $B$ и вычисляет $aB$; Боб получает $A$ и вычисляет $bA$;
+            \item Общий ключ $aB=bA=abG$; перехватчик видит $G,A,B$ и должен найти $abG$ (т.е. решить ECDLP);
+        \end{itemize}
+        \item 256-битная ЭК $\approx$ 3072-битный RSA;
+        \item Алгоритм Шора решает ECDLP за полиномиальное время $\Rightarrow$ нужна постквантовая замена как и для RSA.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Постквантовые схемы на изогениях}
+    \begin{itemize}
+        \item Идея: вместо точек на одной кривой --- пути в графе изогений между кривыми $E\to E'$, «трудная задача»: найти изогению между данными кривыми;
+        \item SIDH/SIKE (Джао--Де Фео, 2011): обмен ключами на суперсингулярных кривых; схема взломана классически за счёт информации об образах публикуемых вспомогательных точек кручения (Кастрик--Деко, Майно--Мартиндейл, Робер, 2022);
+        \item CSIDH (Кастрик--Ланге--Мартиндейл--Паньи--Ренес, 2018): альтернативный подход, не сломан, но есть субэкспоненциальная квантовая атака (Куперберг), которая требует увеличения параметров;
+        \item Постквантовые изогенные схемы пока не стандартизованы; стандарты NIST (2024) --- схемы на решётках и кодах.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Итоги лекции}
+    \begin{itemize}
+        \item Эллиптические кривые --- кривые рода $1$ / «торы»;
+        \item Богатая арифметика за счет группового закона;
+        \item Модулярные формы возникают от «пространства модулей» $\mathbb{H}/SL_2(\mathbb{Z})$;
+        \item Целые и рациональные точки на кривых --- мотив арифметической геометрии.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+% \begin{frame}{Литература}
+%     \begin{itemize}[<.->]
+%         \item ---
+%         \item N. Koblitz, \textit{Introduction to Elliptic Curves and Modular Forms,} (есть перевод)\\ --- классический мост между ЭК и МФ;
+%     \end{itemize}
+%     \note{
+%         \begin{itemize}
+%             \item ---
+%         \end{itemize}
+%     }
+% \end{frame}
+
+\end{document}

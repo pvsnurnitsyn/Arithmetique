@@ -1,0 +1,1252 @@
+% ============================================================
+% A-O-07.tex -- Лекция 7 (1.7). $p$-адические числа
+% ============================================================
+
+\documentclass[serif, aspectratio=169]{beamer}
+
+\usepackage[T2A,T1]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{XCharter}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,overlay-beamer-styles}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{braids}
+\usetikzlibrary{intersections,spath3,hobby}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{mathtools}
+%\usepackage{dynkin-diagrams}
+%\usepackage{fontawesome5}
+
+\newcommand{\sagemark}{%
+  \textcolor{green!40!black}{\textbf{\texttt{sage:...}}}%
+}
+
+\usetheme{Math}
+\usepackage{mymacros}
+% \colorscheme{green}
+% \colorscheme{terracotta}
+
+% ------------------------------------------------------------
+% Title data
+% ------------------------------------------------------------
+\author{Павел Владимирович Снурницын}
+\title{Лекция 7 (1.7)\\ $p$-адические числа}
+\titlecontext{Инструменты машинно-вспомогательной арифметики\\ с/к, осень 2026}
+\institute{к.ф.-м.н., с.н.с., ИБ ВМК}
+\date{\small 3 ноября 2026 г.}
+
+\setfooterauthor{П.В. Снурницын}
+\setfootertopic{1.7 $p$-адические числа}
+\setfootercontext{Спецкурс A-O 2026}
+
+\newif\ifanimated
+\newcommand{\animateon}{\beamerdefaultoverlayspecification{<+-| alert@+>}\animatedtrue}
+\newcommand{\animateoff}{\beamerdefaultoverlayspecification{}\animatedfalse}
+\newcommand{\steponhelper}[2]{% #1 = свойство цвета (text/draw), #2 = номер шага
+  \ifanimated
+    \edef\stepon@tmp{alt=<#2>{#1=ThemeAlert}{alt=<#2->{#1=black}{invisible}}}%
+  \else
+    \edef\stepon@tmp{#1=black}%
+  \fi
+  \expandafter\pgfkeysalso\expandafter{\stepon@tmp}%
+}
+\tikzset{
+  step on/.code={\steponhelper{text}{#1}},
+  step draw on/.code={\steponhelper{draw}{#1}},
+  step fill on/.code={\steponhelper{fill}{#1}},
+}
+% \animateon
+\animateoff
+
+\begin{document}
+
+% ================================================================
+\begin{frame}
+    \titlepage
+\end{frame}
+\note{}
+
+% ================================================================
+\begin{frame}{В прошлый раз}
+    \begin{itemize}
+            \item Эллиптические кривые;
+            \item «Локальные» и «глобальные» дзета-функции;
+            \item Модулярные формы и эллиптические кривые.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{$p$-адические числа}
+% ============================================================
+
+\begin{frame}{$p$-показатель}
+    \begin{itemize}
+        \item Пусть $n\in\mathbb{Z}\setminus\{0\}$, $p\in\mathbb{Z}_{> 0}$ --- простое, $a\in\mathbb{Z}_{\geqslant 0}$ --- такое, что $p^a \mid n$, $p^{a+1} \nmid n$;
+        \item Число $a$ назовём $p$-показателем $n$ и обозначим $a=\nu_p(n)$;
+        \item Из свойств делимости:
+        \begin{itemize}
+            \item $\nu_p(nm)=\nu_p(n)+\nu_p(m)$,
+            \item $\nu_p(n+m)\geqslant\min(\nu_p(n),\nu_p(m))$;
+        \end{itemize}
+        \item Примеры: $\nu_7(7)=1$, $\nu_7(42)=1$, $\nu_7(49)=2$, $\nu_7(42\cdot49)=3$, $\nu_7(42+7)=2$;
+        \item Продолжим $\nu_p(\cdot)$ на $\mathbb{Q}$:
+        \begin{itemize}
+            \item $\nu_p(m/n)=\nu_p(m)-\nu_p(n)$\\
+            (если $m=p^a m_0$, $n=p^b n_0$, $p\nmid m_0$, $p\nmid n_0$, то $m/n=p^{a-b}\ m_0/n_0$ и $\nu_p(m/n)=a-b$),
+            \item $\nu_p(0)=\infty$;
+        \end{itemize}
+        \item Примеры: $\nu_7(1/42)=-1$, $\nu_7(1/49)=-2$;
+        \item Свойства ($x,y\in\mathbb{Q}$):
+        \begin{itemize}
+            \item $\nu_p(xy)=\nu_p(x)+\nu_p(y)$;
+            \item $\nu_p(x+y)\geqslant\min(\nu_p(x),\nu_p(y))$, причём $\nu_p(x)\neq\nu_p(y)$ $\Rightarrow$ $\nu_p(x+y)=\min(\nu_p(x),\nu_p(y))$;
+            \item $\nu_p(x)=0$ $\Leftrightarrow$ $p\nmid m$, $p\nmid n$ в несократимой дроби $x=m/n$.
+        \end{itemize}
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Абсолютные значения и метрики}
+    \begin{itemize}
+        \item Рассмотрим $\varphi_p(x)=p^{-\nu_p(x)}$, свойства:
+        \begin{itemize}
+            \item $\varphi_p(x)\geqslant 0$,
+            \item $\varphi_p(0)=p^{-\infty}=0$,
+            \item $\varphi_p(xy)=\varphi_p(x)\varphi_p(y)$,
+            \item $\varphi_p(x+y)\leqslant\max(\varphi_p(x),\varphi_p(y))\leqslant \varphi_p(x)+\varphi_p(y)$;
+        \end{itemize}
+        \item Вспомним обычный модуль $|\cdot|$ и расстояние $d(x,y)=|y-x|$:
+        \begin{itemize}
+            \item \makebox[0.3\linewidth][l]{$|x|\geqslant 0$,} $d(x,y)\geqslant 0$, $d(x,y)=d(y,x)$,
+            \item \makebox[0.3\linewidth][l]{$|x|=0$ $\Leftrightarrow$ $x=0$,} $d(x,y) = 0$ $\Leftrightarrow$ $x=y$,
+            \item \makebox[0.3\linewidth][l]{$|xy|=|x||y|$,} $d(ax,ay) = |a|d(x,y)$,
+            \item \makebox[0.3\linewidth][l]{$|x+y| \leqslant |x| + |y|$,} $d(x,y) \leqslant d(x,z)+d(z,y)$ (н-во треугольника);
+        \end{itemize}
+        \item Пусть $X$ --- кольцо без делителей нуля (или поле), $\varphi: X\to \mathbb{R}_{\geqslant 0}$ со свойствами выше называется абсолютным значением, $d:X\times X \to \mathbb{R}_{\geqslant 0}$ --- метрикой;
+        \item Задать $\varphi(\cdot)$ $\leftrightsquigarrow$ задать $d(\cdot,\cdot)$, поэтому $\varphi(\cdot)$ будем также наз. метрикой;
+        \item Пару $(X,\varphi)$ назовём нормированным/метризованным кольцом (полем);
+        \item На $\mathbb{Z}$ и $\mathbb{Q}$ $|x|_p=\varphi_p(x)=p^{-\nu_p(x)}$ --- $p$-адическая метрика ($d_p(x,y)=|y-x|_p$).
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item Термин «$p$-адический» введён К.~Гензелем (K.~Hensel, 1897). Суффикс «-адический» (англ. $p$-adic) --- по аналогии с «диадический», «триадический» и т.\,п.: это числа, которые естественно раскладываются по степеням $p$ (по основанию $p$), как $2$-адические~--- по степеням $2$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Большое и малое в $p$-адической метрике}
+    \begin{itemize}
+        \item Что значит большое и малое для $|x|_p$? Близкое и далёкое для $d_p(x,y)$?
+        \item Пример: $7$-адическая метрика на $\mathbb{Q}$
+        \begin{itemize}
+            \item $|7|_7=\frac{1}{7}$, $|49|_7=\frac{1}{7^2}$,
+            \item $|7^n|_7=\frac{1}{7^n}$, $|7^{-n}|_7=7^n$,
+            \item т.е. при $n\geqslant 1$ $7^n$ (как и $7^nm_0$, $7\nmid m_0$)  --- малое по $|\cdot|_7$, а $7^{-n}$ --- большое;
+        \end{itemize}
+        \item Числа называются $p$-близкими, если между ними малое расстояние $d_p(\cdot,\cdot)$
+        \item Пример: $d(1,344)=|344-1|=343$, но $d_7(1,344)=|7^3|_7=\frac{1}{7^3}$;
+        \item Пример: рассмотрим частичные суммы $x_n=1+7+7^2+\dots+7^n$
+        \begin{itemize}
+            \item $d_7(x_{n+1},x_n)=|7^{n+1}|_7=7^{-(n+1)}\to 0$,
+            \item $(1-7)x_n=1-7^{n+1}$, т.е. $d_7\bigl(x_n,-\tfrac16\bigr)=|x_n+\tfrac16|_7=\bigl|\tfrac{7^{n+1}}{6}\bigr|_7=7^{-(n+1)}\to 0$
+        \end{itemize}
+        \item Для $x,y\in\mathbb{Z}$: 
+        $x\equiv y \pmod{p^n}$ $\Leftrightarrow$ $\nu_p(x-y)\geqslant n$ $\Leftrightarrow$ $|x-y|_p\leqslant p^{-n}$;
+        \item Пример: «треугольник» $0,\ 1,\ 7$: $d_7(0,1)=1$, $d_7(0,7)=\frac17$, $d_7(1,7)=1$,\\ т.е. из трёх расстояний два равны, а третье меньше.
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item Заметим: $|x|_p\leqslant 1$ для всех $x\in\mathbb{Z}$, т.е. большими могут быть только нецелые числа
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Эквивалентные метрики}
+    \begin{itemize}
+        \item Пример: если $|\cdot|$ --- обычный модуль, то $|\cdot|^{1/2}$ --- тоже абсолютное значение, и оно задаёт «ту же топологию»;
+        \item Что значит «та же топология» 
+        \begin{itemize}
+            \item $\varphi$ --- абсолютное значение, $0<c\leqslant 1$, $\psi=\varphi^c$ --- тоже абсолютное значение;
+            \item $x_n\to x$ в метрике $\varphi$ $\Leftrightarrow$ $x_n\to x$ в метрике $\psi$;
+            \item Задать топологию $\leftrightsquigarrow$ задать окрестности точек $\leftrightsquigarrow$ задать шары в метр. пр-ве;
+            \item Окрестность (открытый шар) радиуса $r$ по $\varphi$: $B_\varphi(a,r)=\{x: \varphi(a-x)<r\}$;
+            \item $B_\varphi(a,r)=B_\psi(a,r^c)$, т.е. окрестности $a$ по $\varphi$ и по $\psi$ одни и те же;
+        \end{itemize}
+        \item Эквивалентность: $\varphi\sim\psi$ на $X$ $\leftrightharpoons$ $\psi=\varphi^c$ или $\varphi=\psi^c$ для некоторого $0<c\leqslant 1$;
+        \item Теорема (Островского): всякое нетривиальное абсолютное значение на $\mathbb{Q}$ (т.е. не равное $1$ $\forall x\neq 0$) эквивалентно $|\cdot|$ или $|\cdot|_p$ для некоторого простого $p$, причём $|\cdot|_p$ и $|\cdot|_q$ при $p\neq q$ не эквивалентны;
+        \item В этом контексте принято обозн. $|\cdot|=|\cdot|_\infty$, т.е. $\exists p\leqslant\infty: \varphi\sim|\cdot|_p$
+        \item $\forall x\in\mathbb{Q}$ $x=(-1)^\epsilon \prod_p p^{\nu_p(x)}$ так что логичнее обозначать $|\cdot|=|\cdot|_{-1}$ (Конвей).
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Что есть число?}
+    \begin{itemize}
+        \item $\mathbb{N}\xrightarrow{\ \text{\scriptsize $+$ обратим}\ }\mathbb{Z}\xrightarrow{\ \text{\scriptsize $\times$ обратим}\ }\mathbb{Q}\xrightarrow{\ \text{\scriptsize ???}\ }\mathbb{R}$;
+        \item Вариант определения: $\mathbb{R}$ $\leftrightharpoons$ $\mathbb{Q}\cup\{\text{\small пределы всех фундаментальных посл-ей}\}$;
+        \item Более строго: посл-сть $(x_n)$ в $\mathbb{Q}$ фундаментальна (посл-ть Коши) $\leftrightharpoons$
+        \[\forall\,\varepsilon>0\ \exists\, N\ \forall\, m,n\geqslant N:\ |x_m-x_n|<\varepsilon,\quad\text{т.е. } |x_m-x_n|\to 0 \text{ при } m,n\to\infty\]
+        \item Примеры:
+        \begin{itemize}
+            \item $0,1,0,1,\dots$ --- не фундаментальна, $|x_n-x_{n-1}|=1$; 
+            \item $9,99,999,9999,\dots, 10^n-1, \dots$ --- не фундаментальна, $|x_{n+1}-x_n|=9\cdot10^n\to\infty$;
+            \item $x_n=1+\frac{1}{7}+\frac{1}{7^2}+\dots+\frac{1}{7^n}$ --- фундаментальна, $\lim x_n=\frac{1}{1-1/7}=\frac76\in\mathbb{Q}$;
+            \item $1;\ 1{.}4;\ 1{.}41;\ 1{.}414;\ \dots$ (приближения $\sqrt2$) --- фундаментальна, $|x_m-x_n|<10^{-N}$ при $m,n\geqslant N$, но $\lim x_n=\sqrt2\notin\mathbb{Q}$;
+        \end{itemize}
+        \item Эквивалентность фундаментальных посл-ей $(x_n)\sim(y_n)$ $\leftrightharpoons$ $|x_n-y_n|\to0$;
+        \item $\mathbb{R}$ $=$ \{фундаментальные посл-ти в $\mathbb{Q}\}/{\sim}$;
+        \item $\mathbb{Q}\subset\mathbb{R}$ --- классы постоянных последовательностей.
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Пополнения по метрике}
+    \begin{itemize}
+        \item В определении выше --- метрика $|\cdot|=|\cdot|_\infty$, чем хуже другие $|\cdot|_p$?
+        \item Аналогично: посл-ть $(x_n)$ фундаментальна по метрике $\varphi$ $\leftrightharpoons$
+        \[\forall\,\varepsilon>0\ \exists\, N\ \forall\, m,n\geqslant N:\ \varphi(x_m-x_n)<\varepsilon\]
+        \item Примеры:
+        \begin{itemize}
+            \item $x_n=10^n-1$ --- фундаментальна по $|\cdot|_2$ и $|\cdot|_5$: при $m>n$, $x_m-x_n=10^n(10^{m-n}-1)$, $|x_m-x_n|_p\leqslant p^{-n}\to0$ для $p=2,5$ (по $|\cdot|_3$ нет: $|x_{n+1}-x_n|_3=|9\cdot10^n|_3=\frac19$);
+            \item $x_n=1+7+7^2+\dots+7^n$ --- фунд. по $|\cdot|_7$: при $m>n$  $|x_m-x_n|_7=7^{-(n+1)}\to0$ ;
+        \end{itemize}
+        \item Эквивалентность: $(x_n)\sim(y_n)$ $\leftrightharpoons$ $\varphi(x_n-y_n)\to0$;
+        \item Пополнение по метрике: $\mathbb{Q}_\varphi$ $=$ \{фундаментальные посл-ти в $\mathbb{Q}\}/{\sim}$, $\mathbb{Q}\subset\mathbb{Q}_\varphi$;
+        \item Лемма: если $\psi\sim\varphi$, то $\mathbb{Q}_\varphi=\mathbb{Q}_\psi$;
+        \item Теорема (Островского, в терминах пополнений): пополнения $\mathbb{Q}$ по нетривиальным абсолютным значениям с точностью до эквивалентности есть либо $\mathbb{Q}_\infty=\mathbb{R}$, либо $\mathbb{Q}_{|\cdot|_p}$ для некоторого простого $p$ ($\mathbb{Q}_{|\cdot|_p}\neq\mathbb{Q}_{|\cdot|_q}$, $p\neq q$); 
+        \item $\mathbb{Q}_p=\mathbb{Q}_{|\cdot|_p}$ называется полем $p$-адических чисел.
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Целые $p$-адические числа}
+    \begin{itemize}
+        \item Целые $p$-адические числа $\rightleftharpoons$ $\mathbb{Z}_p=\{x\in\mathbb{Q}_p : |x|_p\leqslant1\}$;
+        \item $\mathbb{Z}\subset\mathbb{Z}_p$; если $p\nmid n$, то дробь $m/n$ лежит в $\mathbb{Z}_p$;
+        \item $\mathbb{Z}_p$ --- подкольцо $\mathbb{Q}_p$: $|x|_p\leqslant1$, $|y|_p\leqslant1$ $\Rightarrow$ $|xy|_p\leqslant1$, $|x+y|_p\leqslant\max(|x|_p,|y|_p)\leqslant1$;
+        \item Лемма: всякое $x\in\mathbb{Z}_p$ единственным образом представляется в виде
+        \[x=a_0+a_1p+a_2p^2+\dots+a_n p^n+\dots,\quad a_n\in\{0,1,\dots,p-1\},\]
+        (ряд сходится $p$-адически, т.к. $|a_np^n|_p\leqslant p^{-n}\to0)$; 
+        \item Можно записать $x=\dots a_2a_1a_0$ --- $p$-адическая запись (по основанию $p$);
+        \item Аналогия в $\mathbb{R}$: для $x\in[0,1)$ 
+        \[x=0,a_1a_2 \dots =a_1 10^{-1}+a_2 10^{-2}+\dots,\quad a_i\in\{0,1,\dots,9\},\]
+        \item Для $x\in\mathbb{Q}_p$: $x=\sum_{i\geqslant-k}a_ip^i$ (конечное число цифр после «$p$-ичной запятой»);
+        \item Т.о., $x\in\mathbb{Q}_\infty=\mathbb{R}$: $x=b_k\dots b_1 b_0,a_1 a_2 \dots$;\quad $x\in\mathbb{Q}_p$: $x=\dots b_2 b_1 b_0,a_1 a_2 \dots a_l$;
+        \item Примеры: в $\mathbb{Z}_7$
+        \begin{itemize}
+            \item $-1=(7-1)+(7-1)7+(7-1)7^2+\dots$, т.е. $-1=\dots666$,
+            \item  $-\frac16=\frac{1}{1-7}=1+7+7^2+\dots$;
+        \end{itemize}
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item Вообще $-1=(p-1)+(p-1)p+(p-1)p^2+\dots$, т.е. $-1=\dots(p-1)(p-1)(p-1)$
+            \item Для составного $n$ можно рассмотреть $n$-адические числа, но при $n=ab$, $\gcd(a,b)=1$, получается $\mathbb{Z}_n\cong\mathbb{Z}_a\times\mathbb{Z}_b$ --- в кольце есть делители нуля (напр., $\mathbb{Z}_{10}\cong\mathbb{Z}_2\times\mathbb{Z}_5$), оно не поле и не область, $|\cdot|_n$ не мультипликативно.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Другое определение $p$-адических чисел}
+    \begin{itemize}
+        \item Пример: построим посл-ть $x_n\in\mathbb{Z}$: $x_n^2\equiv2\pmod{7^n}$ и $x_{n+1}\equiv x_n\pmod{7^n}$:
+        \begin{itemize}
+            \item $x_1=3$ ($3^2\equiv2\pmod 7$);
+            \item $x_{n+1}=x_n+7^nt$, $0\leqslant t\leqslant6$: $x_{n+1}^2\equiv2\,(7^{n+1})$ $\Rightarrow$ для $t$ линейное сравнение $\bmod\, 7$;
+            \item $x_2=3+1\cdot7=10$, $x_3=10+2\cdot7^2=108$, $x_4=108+6\cdot7^3=2166$, \dots;
+            \item $\alpha=\lim x_n=3+1\cdot7+2\cdot7^2+6\cdot7^3+\dots\in\mathbb{Z}_7$: $\alpha^2=2$, т.е. «$\sqrt2$» в $\mathbb{Z}_7$;
+        \end{itemize}
+        \item Можно определить $\mathbb{Z}_p$ как:
+        \begin{itemize}
+            \item множество последовательностей $(x_n)=(x_1,x_2,\dots)$, $x_n\in\mathbb{Z}$;
+            \item условие согласованности: $x_{n+1}\equiv x_n\pmod{p^n}$;
+            \item операции покомпонентные: $(x_n)+(y_n)=(x_n+y_n)$, $(x_n)\cdot(y_n)=(x_n y_n)$;
+            \item эквивалентность: $(x_n)\sim(y_n)$ $\Leftrightarrow$ $\forall n$ $x_n\equiv y_n\pmod{p^n}$ ($\Leftrightarrow$ $|x_n-y_n|_p\to0$);
+            \item $\mathbb{Z}_p=\{\text{согласованные }(x_n)\}/{\sim}$\quad (можно брать $x_n\in\mathbb{Z}/p^n\mathbb{Z}$, тогда $\sim$ --- равенство);
+            \item Соответствие: $\alpha=a_0+a_1p+\dots\ \leftrightarrow\ x_n=a_0+\dots+a_{n-1}p^{n-1}$;
+        \end{itemize}
+        \item Для $f\in\mathbb{Z}[x]$ решение $f(\alpha)=0$ в $\mathbb{Z}_p$ --- упаковка сравнений $f(x_n)\equiv0\pmod{p^n}$ в одну согласованную последовательность;
+        \item $\mathbb{Q}_p=\mathrm{Frac}(\mathbb{Z}_p)=\mathbb{Z}_p[\tfrac1p]$ --- поле частных, содержит $\mathbb{Q}$.
+        % \item \sagemark
+        % sage: R = Zp(7, prec=10); a = R(2).sqrt(); a.expansion(); проверка a^2 == 2; x_n = ZZ(a) mod 7^n
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Свойства}
+% ============================================================
+
+\begin{frame}{Арифметика $p$-адических чисел}
+    \begin{itemize}
+        \item Лемма: единицы (обратимые эл-ты) $\mathbb{Z}_p$: $\mathbb{Z}_p^*=\{\alpha:|\alpha|_p=1\}=\mathbb{Z}_p\setminus p\mathbb{Z}_p$;
+        \item Т.е. $\alpha=a_0+a_1p+\dots\in \mathbb{Z}_p$ обратим $\Leftrightarrow$ $a_0\neq0$ ($\not\equiv 0\, \pmod{p}$); 
+        \item Лемма: $\forall$ $\alpha\in\mathbb{Q}_p^*$ $\alpha=p^{n}u$, $n=\nu_p(\alpha)\in\mathbb{Z}$, $u\in\mathbb{Z}_p^*$, единственным образом;
+        \item Лемма: идеалы $\mathbb{Z}_p$ --- только $(0)$ и $(p^n)=p^n\mathbb{Z}_p=\{\alpha:|\alpha|_p\leqslant p^{-n}\}$, $n\geqslant0$,\\ т.е. $\mathbb{Z}_p$ --- кольцо главных идеалов;
+        \item Лемма: $\mathbb{Z}_p/p^n\mathbb{Z}_p\cong\mathbb{Z}/p^n\mathbb{Z}$, в частности $\mathbb{Z}_p/p\mathbb{Z}_p\cong\mathbb{F}_p$;
+        \item Формальная производная $f(x)=\sum_{k=0}^{m}c_kx^k\in\mathbb{Z}_p[x]$ $\leftrightharpoons$ $f'(x)=\sum_{k=1}^{m}k\,c_kx^{k-1}$;
+        \item Примеры: $(x^2-2)'=2x$, $(x^3+x)'=3x^2+1$;
+        \item Лемма (Гензеля): если $f\in\mathbb{Z}_p[x]$, $a\in\mathbb{Z}_p$, $f(a)\equiv0\pmod p$ и $f'(a)\not\equiv0\pmod p$, то существует единственный $b\in\mathbb{Z}_p$ с $f(b)=0$ и $b\equiv a\pmod p$;
+        \item Пример: $f(x)=x^2-2$, $f'(x)=2x$, $p$ --- нечётное простое,
+        \begin{itemize}
+            \item если $a^2\equiv2\pmod p$, то $p\nmid a$ и $f'(a)=2a\not\equiv0\pmod p$ $\Rightarrow$ $\exists\,\alpha\in\mathbb{Z}_p$: $\alpha^2=2$;
+            \item если $\forall\, a$: $a^2\not\equiv2\pmod p$ $\Rightarrow\dots\Rightarrow$  $\sqrt2\not\in\mathbb{Q}_p$.
+        \end{itemize}
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{$p$-адический анализ}
+    \begin{itemize}
+        \item $d_p(x,z)\leqslant\max(d_p(x,y),d_p(y,z))$, $|x|_p\neq|y|_p$, $\Rightarrow$ $|x+y|_p=\max(|x|_p,|y|_p)$\\ --- это свойство называется ультраметрическим неравенством;
+        \item Шары в $\mathbb{Q}_p$:
+        \begin{itemize}
+            \item любая точка шара является его центром;
+            \item два шара либо не пересекаются, либо один содержится в другом;
+            \item шары одновременно открыты и замкнуты;
+            \item $\mathbb{Z}_p$ --- замкнутый шар радиуса $1$, компакт;
+        \end{itemize}
+        \item Шары в $\mathbb{Z}_p$: $\{x:|x-a|_p\leqslant p^{-n}\}=a+p^n\mathbb{Z}_p$;
+        \item Мн-во $A\subseteq X$ наз. плотным в $X$ $\leftrightharpoons$ $\forall\,x\in X$ $\forall\,\varepsilon>0$ $\exists\,a\in A$: $d(x,a)<\varepsilon$;
+        \item $\mathbb{Z}$ плотно в $\mathbb{Z}_p$, $\mathbb{Q}$ плотно в $\mathbb{Q}_p$;
+        \item Лемма (критерий Коши): Посл-ть $(x_n)$ фундаментальна ($\Rightarrow$ $\lim x_n \in \mathbb{Q}_p$)\\ $\Leftrightarrow$ $|x_{n+1}-x_n|_p\to0$;
+        \item Лемма: Ряд $\sum a_n$ сходится в $\mathbb{Q}_p$ $\Leftrightarrow$ $|a_n|_p\to0$;
+        \item Можно рассматривать $p$-адические функции, их производные и интегралы.
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Связь с канторовым множеством}
+    \begin{itemize}
+        \item \begin{minipage}[t]{0.5\linewidth} %t
+        \raggedright
+        Канторово множество $C\subset[0,1]$: из отрезка вырезаются средние трети, затем у двух оставшихся вырезаются средние трети, затем \dots;
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.5\linewidth}
+            \centering
+            \raisebox{-0.8\height}{%
+            \begin{tikzpicture}[x=1cm, y=1cm, every node/.style={font=\small}]
+                % отрезок [0,1] имеет длину 5 см; уровень n: отрезки длины 3^{-n}
+                % начала отрезков заданы в долях 3^{-n}
+                \def\h{0.025} % высота полосы
+                \def\dy{0.35} % расстояние между уровнями
+
+                \fill[step fill on=1] (0,0) rectangle (5,\h);
+                \node[left, step on=1] (C0label) at (-0.2,{\h/2}) {$C_0$};
+
+                \foreach \s in {0,2}{
+                    \fill[step fill on=1]
+                        ({5*\s/3},-\dy) rectangle ({5*(\s+1)/3},{-\dy+\h});
+                }
+                \node[left, step on=1] at (-0.2,{-\dy+\h/2}) {$C_1$};
+
+                \foreach \s in {0,2,6,8}{
+                    \fill[step fill on=1]
+                        ({5*\s/9},-2*\dy) rectangle ({5*(\s+1)/9},{-2*\dy+\h});
+                }
+                \node[left, step on=1] at (-0.2,{-2*\dy+\h/2}) {$C_2$};
+
+                \foreach \s in {0,2,6,8,18,20,24,26}{
+                    \fill[step fill on=1]
+                        ({5*\s/27},-3*\dy) rectangle ({5*(\s+1)/27},{-3*\dy+\h});
+                }
+                \node[left, step on=1] at (-0.2,{-3*\dy+\h/2}) {$C_3$};
+
+                \foreach \s in {0,2,6,8,18,20,24,26,54,56,60,62,72,74,78,80}{
+                    \fill[step fill on=1]
+                        ({5*\s/81},-4*\dy) rectangle ({5*(\s+1)/81},{-4*\dy+\h});
+                }
+                \node[left, step on=1] at (-0.2,{-4*\dy+\h/2}) {$C_4$};
+
+                % Выравнивание по левому краю меток C_i
+                \node[anchor=west, step on=1]
+                    at ($(C0label.west)+(0,{-5*\dy})$) {\dots};
+
+                \node[anchor=west, step on=1]
+                    at ($(C0label.west)+(0,{-6*\dy})$)
+                    {$C=\bigcap_n C_n$};
+
+            \end{tikzpicture}
+        }
+
+        \end{minipage}
+
+        \item $C$ --- числа, у которых в троичной записи нет $1$:
+        $x=\sum_{i\geqslant1}c_i3^{-i}$, $c_i\in\{0,2\}$;
+        \item Лемма: отображение $\Phi:\mathbb{Z}_2\to C$: $\sum_{i\geqslant0}a_i2^i \mapsto \sum_{i\geqslant0}2a_i 3^{\,-(i+1)}$ --- биекция;
+        \item Близкие $2$-адически числа переходят в близкие вещественные и наоборот;
+        \item Примеры: $\Phi(0)=0$, $\Phi(1)=\frac23$, $\Phi(-1)=1$ ($-1=\dots111$);
+        \item Следствие: $\mathbb{Z}_2$ --- несчётно;
+        \item $\forall$ простого $p$ есть инъекция $\mathbb{Z}_2\hookrightarrow\mathbb{Z}_p:\ \sum a_i 2^i \mapsto \sum a_i p^i$ $\Rightarrow$ $\mathbb{Z}_p$ --- несчётно;
+        \item Теорема: $\forall$ простого $p$ множество $\mathbb Z_p$ гомеоморфно канторову множеству $C$ ($\exists$ биекция непрерывная относительно $|\cdot|_p$ в $\mathbb Z_p$ и $|\cdot|$ в $C$).
+        % \sagemark
+        % sage: R = Zp(2, prec=20); цифры a.expansion() -> Phi(a) = sum(2*d/3^(i+1)); проверить Phi(-1), Phi(-2/3); картинка: точки Phi(x) для x = 0..2^k-1 (целых) на отрезке [0,1] --- k-й шаг построения C
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item $\Phi$ --- гомеоморфизм, но не изометрия: расстояния между точками разные;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Связь с канторовым множеством (продолжение)}
+    \begin{itemize}
+        \item $\mathbb{Z}_2$ делится на $2$ непересекающихся шара радиуса $2^{-1}$: $0+2\mathbb{Z}_2$, $1+2\mathbb{Z}_2$;
+        \item Каждый из них --- на $2$ шара радиуса $2^{-2}$: $0+4\mathbb{Z}_2$, $2+4\mathbb{Z}_2$, $1+4\mathbb{Z}_2$, $3+4\mathbb{Z}_2$;
+        \item \dots, на уровне $n$ получаем $2^n$ непересекающихся шаров радиуса $2^{-n}$;
+        % \item Можно построить двоичное дерево, соответствие $\mathbb{Z}_2\ \longleftrightarrow\ C$:
+        \item Двоичное дерево, бесконечные пути соотв. элементам $\mathbb{Z}_2$ и точкам
+       $C$:
+        \vspace{-1ex}
+\begin{center}
+\begin{tikzpicture}[
+    x=1cm, y=1cm,
+    vertex/.style={circle,draw,line width=.7pt,
+                   minimum size=5.8mm,inner sep=0pt,font=\footnotesize},
+    picked/.style={vertex,draw=red,text=red,
+                   line width=1.2pt,font=\footnotesize},
+    plain/.style={line width=.85pt},
+    chosen/.style={draw=red,line width=1.65pt},
+    seg/.style={line width=0.8pt,line cap=round},
+    selected seg/.style={draw=red,line width=1pt,line cap=round},
+    rowlabel/.style={font=\scriptsize,anchor=east},
+    edge label/.style={font=\scriptsize,inner sep=.8pt,above},
+    % edge label/.style={font=\scriptsize, inner sep=.8pt, above, yshift=2pt},
+    scale=0.8
+]
+    % --- Вершины двоичного дерева ---
+    \node[vertex,rectangle,rounded corners=2.3pt,
+          minimum width=1.24cm,minimum height=.57cm,font=\small]
+          (r) at (3.60,0) {$\mathbb Z_2$};
+
+    \node[picked] (a0) at (1.80,-1.25) {$0$};
+    \node[vertex] (a1) at (5.40,-1.25) {$1$};
+
+    \node[vertex] (b00) at (.90,-2.50) {$0$};
+    \node[picked] (b01) at (2.70,-2.50) {$2$};
+    \node[vertex] (b10) at (4.50,-2.50) {$1$};
+    \node[vertex] (b11) at (6.30,-2.50) {$3$};
+
+    \foreach \name/\value/\x in {
+      c000/0/.42, c001/4/1.38, c011/6/3.18,
+      c100/1/4.02, c101/5/4.98, c110/3/5.82, c111/7/6.78
+    }{
+      \node[vertex] (\name) at (\x,-3.75) {$\value$};
+    }
+    \node[picked] (c010) at (2.22,-3.75) {$2$};
+
+    % --- Рёбра дерева ---
+    % Красным выделен путь 010 (класс 2 mod 8).
+    \foreach \u/\v/\d/\sty in {
+      r/a0/0/chosen,
+      r/a1/1/plain,
+      a0/b00/0/plain,
+      a0/b01/1/chosen,
+      a1/b10/0/plain,
+      a1/b11/1/plain,
+      b00/c000/0/plain,
+      b00/c001/1/plain,
+      b01/c010/0/chosen,
+      b01/c011/1/plain,
+      b10/c100/0/plain,
+      b10/c101/1/plain,
+      b11/c110/0/plain,
+      b11/c111/1/plain}{
+    %   \draw[\sty] (\u) -- node[pos=.6,edge label] {$\d$} (\v);
+    \ifnum\d=0\relax
+    \draw[\sty] (\u) --
+        node[pos=.3, font=\scriptsize,
+             anchor=east, xshift=-1pt] {$0$} (\v);
+\else
+    \draw[\sty] (\u) --
+        node[pos=.3, font=\scriptsize,
+             anchor=west, xshift=1pt] {$1$} (\v);
+\fi
+    }
+
+    % --- Уровни и обозначения C_n ---
+    \foreach \n/\y in {0/0,1/-1.25,2/-2.50,3/-3.75}{
+      \node[rowlabel] at (-.14,\y) {$n=\n$};
+      \node[font=\small,anchor=east] at (8.60,\y) {$C_{\n}$};
+    }
+
+    % --- Приближения множества Кантора ---
+    \def\CX{9.10}
+    \def\CW{6.60}
+
+    % C_0
+    \draw[seg] (\CX,0) -- ({\CX+\CW},0);
+
+    % C_1
+    \foreach \s in {0,2}{
+      \draw[seg]
+          ({\CX+\CW*\s/3},-1.25) --
+          ({\CX+\CW*(\s+1)/3},-1.25);
+    }
+
+    % C_2
+    \foreach \s in {0,2,6,8}{
+      \draw[seg]
+          ({\CX+\CW*\s/9},-2.50) --
+          ({\CX+\CW*(\s+1)/9},-2.50);
+    }
+
+    % C_3
+    \foreach \s in {0,2,6,8,18,20,24,26}{
+      \draw[seg]
+          ({\CX+\CW*\s/27},-3.75) --
+          ({\CX+\CW*(\s+1)/27},-3.75);
+    }
+
+    % --- Красные канторовы интервалы ---
+    % Троичные префиксы: 0, 02, 020.
+    \draw[selected seg]
+        (\CX,-1.25) -- ({\CX+\CW/3},-1.25);
+
+    \draw[selected seg]
+        ({\CX+2*\CW/9},-2.50) --
+        ({\CX+3*\CW/9},-2.50);
+
+    \draw[selected seg]
+        ({\CX+6*\CW/27},-3.75) --
+        ({\CX+7*\CW/27},-3.75);
+
+    % --- Отметки 0 и 1 ---
+    % \draw[line width=.55pt]
+    %     (\CX,-3.95) -- (\CX,-4.10);
+    % \draw[line width=.55pt]
+    %     ({\CX+\CW},-3.95) -- ({\CX+\CW},-4.10);
+
+    % \node[font=\scriptsize,anchor=north]
+    %     at (\CX,-4.10) {$0$};
+    % \node[font=\scriptsize,anchor=north]
+    %     at ({\CX+\CW},-4.10) {$1$};
+
+    % --- Соответствие выделенного пути ---
+    \node[
+          inner xsep=12pt,inner ysep=7pt,font=\small]
+          at (8.00,-4.8)
+       {Путь \textcolor{red}{$010$}:\quad
+        $2+8\mathbb Z_2\ \longleftrightarrow\
+          C\cap[\frac{2}{9},\frac{7}{27}]$};
+\end{tikzpicture}
+\end{center}
+
+\end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Глобальная картина}
+    \begin{itemize}        
+        \item Алгебраическая теория чисел:
+        \begin{tikzpicture}[
+            every node/.style={font=\small, anchor=base west},
+            arr/.style={-{Stealth[length=2mm]}, line width=0.5pt}
+        ]
+            \def\dtop{1.0} % расстояние от верхней строки до Q_2
+            \def\dy{0.55} % расстояние между p-адическими строками
+            \def\xZ{-1.0}
+            \def\xQ{2.4}
+            \def\xF{-1.0}
+            \def\xR{4.8}
+            \def\xB{8.8}
+            \def\xC{11.2}
+            \def\ya{0.12} % высота стрелок относительно базовой линии
+
+            % верхняя строка
+            \node[step on=1] (Z) at (\xZ,0) {$\mathbb{Z}$};
+            \node[step on=1] (Q) at (\xQ,0) {$\mathbb{Q}$};
+            \node[step on=4] (R) at (\xR,0) {$\mathbb{Q}_\infty=\mathbb{R}$};
+            \node[step on=5] (C) at (\xB,0) {$\overline{\mathbb{R}}=\mathbb{C}$ {\scriptsize (полное по $|\cdot|_{\infty}$)}};
+
+            % числовые поля (верхний уровень)
+            \def\yK{1.4}
+            \node[step on=3] (OK) at (1.5,\yK) {$\mathbb{Z}[i],\dots$};
+            \node[step on=3] (K) at (4.5,\yK) {$\mathbb{Q}(i),\dots$};
+
+            \coordinate (yKarr) at (0,{\yK+\ya});
+            \draw[arr, step draw on=3] (OK.east |- yKarr) -- (K.west |- yKarr);
+            \draw[arr, step draw on=5] (K.east) -- (C.north west);
+            \draw[arr, step draw on=3] (Z.north east) -- (OK.west);
+            \draw[arr, step draw on=3] (Q.north east) -- (K.south west);
+
+            % конечные поля
+            \node[step on=2, font=\scriptsize, anchor=west]
+                at ({\xZ},{-0.4*\dtop})
+                {редукции $\mathbb{Z}/p\mathbb{Z}=\mathbb{F}_p$, $n\mid m$:};
+
+            \node[step on=2] (F2) at (\xF,{-\dtop})
+                {$\mathbb{F}_2\subset\mathbb{F}_{2^n}\subset\mathbb{F}_{2^m}$};
+            \node[step on=2] (F3) at (\xF,{-\dtop-\dy})
+                {$\mathbb{F}_3\subset\mathbb{F}_{3^n}\subset\mathbb{F}_{3^m}$};
+            \node[step on=2] (Fv) at (\xF,{-\dtop-2*\dy}) {$\dots$};
+            \node[step on=2] (Fp) at (\xF,{-\dtop-3*\dy})
+                {$\mathbb{F}_p\subset\mathbb{F}_{p^n}\subset\mathbb{F}_{p^m}$};
+            \node[step on=2] (Fw) at (\xF,{-\dtop-4*\dy}) {$\dots$};
+
+            % p-адические ветви
+            \node[step on=6] (Q2) at (\xR,{-\dtop}) {$\mathbb{Q}_2$};
+            \node[step on=7] (Q2b) at (\xB,{-\dtop}) {$\overline{\mathbb{Q}}_2$};
+            \node[step on=8] (C2) at (\xC,{-\dtop}) {$\mathbb{C}_2$};
+
+            \node[step on=6] (Q3) at (\xR,{-\dtop-\dy}) {$\mathbb{Q}_3$};
+            \node[step on=7] (Q3b) at (\xB,{-\dtop-\dy}) {$\overline{\mathbb{Q}}_3$};
+            \node[step on=8] (C3) at (\xC,{-\dtop-\dy}) {$\mathbb{C}_3$};
+
+            \node[step on=6] (vd1) at (\xR,{-\dtop-2*\dy}) {$\dots$};
+            \node[step on=7] (vd2) at (\xB,{-\dtop-2*\dy}) {$\dots$};
+            \node[step on=8] (vd3) at (\xC,{-\dtop-2*\dy}) {$\dots$};
+
+            \node[step on=6] (Qp) at (\xR,{-\dtop-3*\dy}) {$\mathbb{Q}_p$};
+            \node[step on=7] (Qpb) at (\xB,{-\dtop-3*\dy}) {$\overline{\mathbb{Q}}_p$};
+            \node[step on=8] (Cp) at (\xC,{-\dtop-3*\dy}) {$\mathbb{C}_p$};
+
+            \node[step on=6] (vd4) at (\xR,{-\dtop-4*\dy}) {$\dots$};
+            \node[step on=7] (vd5) at (\xB,{-\dtop-4*\dy}) {$\dots$};
+            \node[step on=8] (vd6) at (\xC,{-\dtop-4*\dy}) {$\dots$};
+
+            % координаты для строго горизонтальных стрелок
+            \coordinate (yTop) at (0,\ya);
+            \coordinate (y2) at (0,{-\dtop+\ya});
+            \coordinate (y3) at (0,{-\dtop-\dy+\ya});
+            \coordinate (yp) at (0,{-\dtop-3*\dy+\ya});
+
+            % общая точка выхода стрелок из Q
+            \coordinate (Qsrc) at (Q.east |- yTop);
+
+            % стрелки верхней строки
+            \draw[arr, step draw on=1]
+                (Z.east |- yTop) -- (Q.west |- yTop);
+
+            \draw[arr, step draw on=4]
+                (Qsrc) --
+                node[above, font=\scriptsize, step on=4] {пополнение}
+                (R.west |- yTop);
+
+            \draw[arr, step draw on=5]
+                (R.east |- yTop) --
+                node[above, font=\scriptsize, step on=5] {алг. замыкание}
+                (C.west |- yTop);
+
+            % стрелки от Q к p-адическим полям
+            \draw[arr, step draw on=6] (Q.south east) -- (Q2.west);
+            \draw[arr, step draw on=6] (Q.south east) -- (Q3.west);
+            \draw[arr, step draw on=6] (Q.south east) -- (Qp.west);
+
+            % горизонтальные стрелки p-адических ветвей
+            \draw[arr, step draw on=7]
+                (Q2.east |- y2) --
+                node[above, font=\scriptsize, step on=7] {алг. замыкание}
+                (Q2b.west |- y2);
+
+            \draw[arr, step draw on=8]
+                (Q2b.east |- y2) --
+                node[above, font=\scriptsize, step on=8] {пополнение}
+                (C2.west |- y2);
+
+            \draw[arr, step draw on=7]
+                (Q3.east |- y3) -- (Q3b.west |- y3);
+            \draw[arr, step draw on=8]
+                (Q3b.east |- y3) -- (C3.west |- y3);
+
+            \draw[arr, step draw on=7]
+                (Qp.east |- yp) -- (Qpb.west |- yp);
+            \draw[arr, step draw on=8]
+                (Qpb.east |- yp) -- (Cp.west |- yp);
+
+        \end{tikzpicture}
+
+        \ifanimated % Следующие буллиты появляются после всей схемы
+            \addtocounter{beamerpauses}{7}
+        \fi
+
+        \item «Адельный взгляд»: все пополнения сразу $\mathbb{Q}_\infty\times\mathbb{Q}_2\times\mathbb{Q}_3\times\dots\times\mathbb{Q}_p\times\dots$;
+        \item Формула произведения: $\forall\,x\in\mathbb{Q}^*$: $\prod_{p\leqslant\infty} |x|_p=1$.
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item Кольцо аделей $\mathbb{A}_{\mathbb{Q}}=\mathbb{R}\times\prod'_p\mathbb{Q}_p$ (ограниченное произведение: почти все компоненты лежат в $\mathbb{Z}_p$);
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Локально-глобальное}
+% ============================================================
+
+\begin{frame}{Теорема Минковского--Хассе}
+    \begin{itemize}
+        \item Вспомним идею критерия: сравнение $F(x_1,\dots,x_n)\equiv 0 \pmod{p}$ не имеет решений $\Rightarrow$ уравнение $F(x_1,\dots,x_n)= 0$ не имеет решений в $\mathbb{Z}$;
+        \item Рассмотрим квадратичную форму $F(x_1,\dots,x_n)=\sum a_{ij}x_ix_j$, $a_{ij}\in\mathbb{Q}$;
+        \item Теорема (Минковский--Хассе): Уравнение $F=0$
+        имеет нетривиальное решение в $\mathbb{Q}$ (не все $x_i$ равны нулю) \\ 
+        $\Leftrightarrow$ оно имеет нетривиальное решение в $\mathbb{Q}_p$ для всех $p\leqslant\infty$ ($\mathbb{Q}_\infty=\mathbb{R}$);
+        \item Пример: $x^2+y^2=3z^2$, в $\mathbb{Q}_\infty=\mathbb{R}$ нетривиальное решение есть $(\sqrt3,0,1)$,\\ в $\mathbb{Q}_3$ --- нет $\Rightarrow$ нет решений в $\mathbb{Q}$;
+        \item Теорема: $Q$ --- неопределённая, $n\geqslant5$ $\Rightarrow$ есть нетривиальное решение;
+        \item Локально-глобальный принцип (Хассе): $\exists$ или $\nexists$ решений уравнения в $\mathbb{Q}$ («глобально») $\leftrightsquigarrow$ $\exists$ или $\nexists$ решений в $\mathbb{Q}_p$ $\forall$ $p\leqslant\infty$ («локально»);
+        \item Контрпример (Сельмер): ур-е $3x^3+4y^3+5z^3=0$ имеет нетривиальное решение в $\mathbb{Q}_p$ для всех $p\leqslant\infty$, но не имеет нетривиальных решений в $\mathbb{Q}$;
+        \item Локально-глобальный принцип: св-ва над $\mathbb{Q}$ $\leftrightsquigarrow$ св-ва над $\mathbb{Q}_p$ $\forall$ $p\leqslant\infty$.
+
+        % \item \sagemark
+        % sage: QuadraticForm(QQ, ...) -- Q.is_isotropic(p) для простых p и p=infinity; сравнить с Q.hasse_invariant(p)
+        % sage: Conic(QQ, x^2+y^2-3*z^2).has_rational_point(); QuadraticForm(QQ, 3, [1,0,0,1,0,-3]).is_isotropic(3) и для p=infinity
+        % sage: для 3x^3+4y^3+5z^3=0 перебор примитивных решений по модулю p^k для малых p, k (локальная разрешимость) и поиск малых рациональных решений (не найдётся)
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item В д-ве теорема Минковского-Хассе $\Rightarrow$ очевидно ($\mathbb{Q}\subset\mathbb{Q}_p$ и $\mathbb{Q}\subset\mathbb{R}$), $\Leftarrow$ --- содержательная часть;
+            \item уравнение однородно, поэтому решения можно домножать:
+            \begin{itemize}
+                \item в $\mathbb{Q}$: $x_i\in\mathbb{Z}$, $\gcd(x_1,\dots,x_n)=1$,
+                \item в $\mathbb{Q}_p$: $x_i\in\mathbb{Z}_p$, не все $x_i$ делятся на $p$;
+            \end{itemize}
+            \item Замечание: для $n\geqslant 3$ проверять нужно лишь конечное число $p$;
+            \item Пусть $x,y,z\in\mathbb{Z}_3$, не все делятся на $3$, и $x^2+y^2=3z^2$, по модулю $3$: $x^2+y^2\equiv0$, а квадраты по модулю $3$ --- это $0,1$ $\Rightarrow$ $3\mid x$, $3\mid y$, тогда $9\mid 3z^2$, т.е. $3\mid z$ --- противоречие;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{*Род квадратичных форм и решёток}
+    \begin{itemize}
+        \item Пусть $F$ --- невырожденная целочисленная КФ, $m\in\mathbb{Z}\setminus\{0\}$, ур-е $F(\mathbf{x})=m$;
+        \item Если разрешимо над $\mathbb{R}$ и всеми $\mathbb{Z}_p$, обязательно ли оно разрешимо над $\mathbb{Z}$?
+        \item КФ $F_1,F_2$ эквивалентны над кольцом $R$ $\leftrightharpoons$ $\exists\, U\in GL_n(R)$: $F_2(\mathbf{x})=F_1(U\mathbf{x})$;
+        \item Говорят, что КФ $F_1$ и $F_2$ --- одного рода $\leftrightharpoons$ $F_1$ и $F_2$ эквив. над $\mathbb{R}$ и над всеми $\mathbb{Z}_p$;
+        \item Теорема: $m$ представимо формой $F$ над $\mathbb{R}$ и всеми $\mathbb{Z}_p$ $\Leftrightarrow$ $m$ представимо некоторой формой $F_0$ того же рода над $\mathbb{Z}$;
+        \item Теорема: каждый род содержит конечное число классов эквивалентности над $\mathbb{Z}$ (т.е. неэквивалентных целочисленных форм);
+        \item Если род состоит из одного класса (например, у $\mathbf{E}_8$), то локальная представимость $m$ гарантирует представимость исходной формой $F$ над $\mathbb{Z}$;
+        \item На языке решёток: КФ $F$ $\mapsto$ решётка $L$ (матрица Грама $A$); 
+        \item $L_p\subset\mathbb{Q}_p^n$ --- $p$-адическая решётка с той же матрицей $A$;
+        \item $L,L'$ одного рода $\Leftrightarrow$ $L_p\cong L'_p$ для всех простых $p$ и совпадают сигнатуры над $\mathbb{R}$;
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Локально-глобальное для эллиптических кривых}
+    \begin{itemize}
+        \item Пусть $E$: $y^2=x^3+ax+b$ --- эллиптическая кривая над $\mathbb{Q}$, $E(\mathbb{Q})$;
+        \item Локальные характеристики (в $p$):
+        \begin{itemize}
+            \item редукция $E(\mathbb{F}_p)$, $N_p=N_p(E)=|E(\mathbb{F}_p)|$, $a_p=a_p(E)=p+1-N_p$
+            \item локальные дзета-функции и $L$-функции $L_p(E,s)$;
+        \end{itemize}
+        \item Глобальные характеристики (над $\mathbb{Q}$):
+        \begin{itemize}
+            \item $E(\mathbb{Q})\cong\mathbb{Z}^r\oplus E(\mathbb{Q})_{\mathrm{tors}}$, ранг $r$,
+            \item $E[m]$ --- подгруппа $m$-кручения (точки: $m\cdot P=\mathcal{O}$), $E[m](\overline{\mathbb{Q}})\cong\mathbb{Z}/m\mathbb{Z}\oplus\mathbb{Z}/m\mathbb{Z}$,
+            \item глобальная $L$-функция $L(E,s)=\prod_p L_p(E,s)$;
+        \end{itemize}
+        % \item Рациональность локальных дзета-функций впервые доказана Дворком (1960) средствами $p$-адического анализа;
+        \item Теорема (Дворк, 1960): дзета-функции алгебраических многообразий над конечными полями рациональны (д-во методами $p$-адического анализа);
+        \item Теорема Лутц--Нагеля про целые точки конечного порядка доказывается $p$-адически, рассмотрением в $E(\mathbb{Q}_p)$;
+        \item Гипотеза Бёрча--Свиннертон-Дайера: глобальный ранг $r$ определяется по локальным данным (порядок нуля $s=1$ в $L(E,s)$).
+        % \item \sagemark
+        % sage: E = EllipticCurve(...); E.rank(), E.analytic_rank(), E.sha().an(), E.tamagawa_numbers(), E.selmer_rank()
+        % sage: график произведения prod_{p<=X} N_p/p от X в логарифмической шкале для кривых ранга 0, 1, 2 (E.ap(p) или E.Np(p))
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item Локально-глобальный принцип для $E$ (и других кривых рода $1$) может нарушаться (пример Сельмера); мера нарушения --- группа Шафаревича--Тейта $\Sha(E/\mathbb{Q})$: однородные пространства над $E$, имеющие точки над всеми $\mathbb{Q}_p$ ($p\leqslant\infty$), с точностью до эквивалентности;
+            \item Гипотеза Бёрча--Свиннертон-Дайера: краткая форма: $r=\mathrm{ord}_{s=1}L(E,s)$, расширенная форма: $\prod_{p\leqslant X}\frac{N_p}{p}\sim C(\ln X)^{r}$ при $X\to\infty$ ($p$ хорошие), в формулу для ведущего коэффициента $L(E,s)$ при $s=1$ входят $|\Sha(E/\mathbb{Q})|$ и локальные числа Тамагавы $c_p$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{*Кватернионные алгебры}
+    \begin{itemize}
+        \item Теорема (Дёйринг): кольцо $\mathrm{End}(E)$ над $\overline{\mathbb{F}}_q$ --- это либо порядок в $\mathbb{Q}(\sqrt{-d})$ (при $p\nmid a_q$), либо «максимальный порядок в $\mathbb{H}_{p,\infty}$» (при $p\mid a_q$);
+        \item Пусть $F$ --- поле, $\mathrm{char}(F)\neq 2$, $a,b\in F^*$, кватернионная алгебра $(a,b\mid F)$: 
+        \begin{itemize}
+            \item множество элементов $\{x_0+x_1i+x_2j+x_3k:\ x_t\in F\}$,
+            \item $1,i,j,k$ --- линейно независимы, $i^2=a$, $j^2=b$, $ij=-ji$, $k=ij$,
+            \item норма $N(q)=x_0^2-ax_1^2-bx_2^2+abx_3^2$, и $q\neq0$ обратим $\Leftrightarrow$ $N(q)\neq0$;
+        \end{itemize}
+        \item Пример: $(-1,-1\mid \mathbb{Q})=\mathbb{H}(\mathbb{Q})$: $k^2=ijij=-i^2j^2=-1$, $N(u)=x_0^2+x_1^2+x_2^2+x_3^2$;
+        \item Если $a,b\in\mathbb{Q}$, то можно рассмотреть
+        $(a,b\mid \mathbb{Q}_p)$
+        для всех $p\leqslant\infty$;
+        \item Если $N(u)=0$ не имеет нетривиальных решений, то $(a,b\mid \mathbb{Q}_p)$ --- алгебра с делением, говорят что «есть разветвление в $p$»;
+        \item Теорема: кватернионная алгебра над $\mathbb{Q}$
+        однозначно определяется множеством разветвлений (оно конечно и чётно);
+        \item $\mathbb{H}_{p,\infty}$ $\leftrightharpoons$ единственная кватернионная
+        алгебра над $\mathbb{Q}$, разветвлённая ровно в $p$ и $\infty$, максимальные порядки определяются аналогично кольцам.
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item Если $B_p$ не является алгеброй с делением, то $B_p\cong M_2(\mathbb{Q}_p)$ (расщеплённая алгебра);
+            \item Множество мест разветвления конечно и имеет чётную мощность; любое такое множество определяет единственную (с точностью до изоморфизма) кватернионную алгебру над $\mathbb{Q}$;
+            \item В частности, $\mathbb{H}_{2,\infty}\cong\mathbb{H}(\mathbb{Q})=\left(\frac{-1,-1}{\mathbb{Q}}\right)$;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{*$p$-адические представления, ЭК и модулярные формы}
+    \begin{itemize}
+        \item Теорема о модулярности: для всякой ЭК $E/\mathbb{Q}$ существует МФ $f$ такая, что $a_p(E)=c_p(f)$ при всех простых $p$ хорошей редукции;
+        \item В доказательстве есть $p$-адические числа, пусть $\ell \neq p$ --- другое простое;
+        \item Вспомним группу Галуа $G_{\mathbb{Q}}=\mathrm{Gal}(\overline{\mathbb{Q}}/\mathbb{Q})$,
+        \begin{itemize}
+            \item $G_{\mathbb{Q}}$ действует на координатах точек $E/\mathbb{Q}$, сохраняя групповой закон;
+            \item по ЭК можно построить $\ell$-адическое представление: $\rho_{E,\ell}:G_{\mathbb{Q}}\to GL_2(\mathbb{Z}_\ell)$;
+            \item Фробениус на $E/\mathbb{F}_p$ для простых $p\neq \ell$ хорошей редукции: $(x,y)\mapsto(x^p,y^p)$;
+            \item Ему соответствует элемент $\mathrm{Frob}_p\in G_{\mathbb{Q}}$: $\mathrm{tr}\,\rho_{E,\ell}(\mathrm{Frob}_p)=a_p$, $\det\rho_{E,\ell}(\mathrm{Frob}_p)=p$;
+        \end{itemize}
+        \item Теорема (Эйхлер--Шимура, Делинь): некоторой нормированной МФ $f=\sum c_n q^n$ веса $2$ для $\Gamma_0(N)$ с целыми коэффициентами соответствует представление $\rho_{f,\ell}:G_{\mathbb{Q}}\to GL_2(\mathbb{Q}_\ell)$, для которого $\mathrm{tr}\,\rho_{f,\ell}(\mathrm{Frob}_p)=c_p$;
+        \item Теорема о модулярности связывает представления $\rho_{E,\ell}$ и $\rho_{f,\ell}$ (они изоморфны над $\mathbb{Q}_\ell$), откуда $a_p=c_p$; так $\ell$-адические представления связывают ЭК, её $L$-функцию и модулярную форму.
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item Модуль Тейта: $T_\ell(E)=\varprojlim_n E[\ell^n]\cong\mathbb{Z}_\ell^2$, где $E[\ell^n]\cong(\mathbb{Z}/\ell^n\mathbb{Z})^2$, переходы --- умножение на $\ell$; действие $G_{\mathbb{Q}}$ на $T_\ell(E)$ задаёт $\rho_{E,\ell}$ после выбора базиса;
+            \item $\mathrm{Frob}_p$ --- арифметический Фробениус в $G_{\mathbb{Q}}$ (с точностью до сопряжения); при хорошей редукции его действие на кручении соответствует $\phi_p$;
+            \item Для ЭК $a_p=p+1-|E(\mathbb{F}_p)|$; совпадение коэффициентов $a_p(E)=c_p(f)$ означает совпадение локальных множителей $L$-функций;
+            \item Операторы Гекке $T_n$ --- специальные линейные операторы на пространстве МФ, связывающие  коэффициенты их $q$-разложений;
+            \item Собственная МФ (eigenform) --- общий собственный вектор операторов Гекке: $T_n f=c_n f$ (при нормировке $c_1=1$);
+            \item Новая МФ (newform) --- нормированная собственная параболическая МФ, не полученная из форм меньшего уровня; нормировка означает $c_1=1$;
+            \item В теореме о модулярности $f$ --- новая МФ веса $2$ и уровня $N$, равного кондуктору ЭК $E$; её коэффициенты $c_n$ целые;
+        \end{itemize}
+    }
+\end{frame}
+
+
+% ============================================================
+\section{Аналогии и обобщения}
+% ============================================================
+
+\begin{frame}{*Кольцо целых числового поля}
+    \begin{itemize}
+        \item $\theta\in\mathbb{C}$ --- алгебраическое число $\leftrightharpoons$ $\theta$ --- корень некоторого $f\in\mathbb{Q}[x]$;
+        \item $K=\mathbb{Q}(\theta)=\{\alpha=\frac{g(\theta)}{h(\theta)}:\ g,h\in\mathbb{Q}[x],\ h(\theta)\ne0\}$ называется числовым полем;
+        \item Кольцо целых числового поля $K$:
+        \[\mathfrak{O}_K=\{\alpha\in K:\ g(\alpha)=0, g\in\mathbb{Z}[x], \text{ старший коэфф. =1}\};\]
+        \item Примеры: $\mathfrak{O}_{\mathbb{Q}}=\mathbb{Z}$, $\mathfrak{O}_{\mathbb{Q}(i)}=\mathbb{Z}[i]$, $\mathfrak{O}_{\mathbb{Q}(\sqrt{-5})}=\mathbb{Z}[\sqrt{-5}]$;
+        \item В общем случае $\mathfrak{O}_K$ не факториально, например: в $\mathbb{Z}[\sqrt{-5}]$
+        \[21=3\cdot7=(1+2\sqrt{-5})(1-2\sqrt{-5}),\]
+        и все четыре множителя неразложимы;
+        \item Однозначность разложения восстанавливается через идеалы, например
+        \[(21)=\mathfrak{p}_1\mathfrak{p}_2\mathfrak{p}_3\mathfrak{p}_4,\]
+        \[\mathfrak{p}_1=(3,1+\sqrt{-5}),\ \mathfrak{p}_2=(3,1-\sqrt{-5}),\ \mathfrak{p}_3=(7,3+\sqrt{-5}),\ \mathfrak{p}_4=(7,3-\sqrt{-5}),\]
+        \[(3)=\mathfrak{p}_1\mathfrak{p}_2,\ (7)=\mathfrak{p}_3\mathfrak{p}_4,\ (1+2\sqrt{-5})=\mathfrak{p}_2\mathfrak{p}_4,\ (1-2\sqrt{-5})=\mathfrak{p}_1\mathfrak{p}_3,\]
+        $\mathfrak{p}_1$, $\mathfrak{p}_2$, $\mathfrak{p}_3$, $\mathfrak{p}_4$ --- простые идеалы и разложение единственно;
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{*Нормирования числового поля}
+    \begin{itemize}
+        \item Идеал $\mathfrak p\subset R, \mathfrak p \neq R, \mathfrak p \neq (0)$ --- простой $\leftrightharpoons$ $ab\in\mathfrak p \Rightarrow a\in\mathfrak p$ или $b\in\mathfrak p$;
+        \item Лемма: для простого идеала $\mathfrak p\subset\mathfrak O_K$ и $\alpha\in\mathfrak O_K\setminus\{0\}$ существует единственное $a\geqslant0$: $\alpha\in\mathfrak p^a$, $\alpha\notin\mathfrak p^{a+1}$; положим $\nu_{\mathfrak p}(\alpha)=a$, $\nu_{\mathfrak p}(0)=\infty$;
+        \item $\nu_{\mathfrak{p}}(\alpha)=a$ наз. $\mathfrak{p}$-показателем и продолжается на $K$: $\nu_{\mathfrak{p}}(\alpha/\beta)=\nu_{\mathfrak{p}}(\alpha)-\nu_{\mathfrak{p}}(\beta)$;
+        \item $\nu_{\mathfrak{p}}$ задаёт абсолютное значение: $|x|_{\mathfrak{p}}=N(\mathfrak{p})^{-\nu_{\mathfrak{p}}(x)}, \text{ где } N(\mathfrak{p})=|O_K/\mathfrak{p}|$
+        \item Пример: для $K=\mathbb{Q}$, $\mathfrak{p}=(p)$, $N(\mathfrak{p})=|O_K/\mathfrak{p}|=|\mathbb{Z}/(p)|$ и получается $|\cdot|_p$;
+        \item Теорема (обобщение Островского): всякое нетривиальное абсолютное значение на $K$ эквивалентно $|\cdot|_{\mathfrak{p}}$ или «архимедову (по вложению $K\hookrightarrow\mathbb{C}$)»;
+        \item Теорема (Дедекинд): всякий ненулевой идеал $\mathfrak a\subseteq\mathfrak O_K$ однозначно раскладывается: $\mathfrak a=\prod_{\mathfrak p} \mathfrak p^{\nu_{\mathfrak p}(\mathfrak a)}$, $\nu_{\mathfrak p}(\mathfrak a)= \min_{0\neq\alpha\in\mathfrak a} \nu_{\mathfrak p}(\alpha)$, в $\prod_{\mathfrak p}$ лишь конечное число ненулевых показателей;
+        \item Теорема Дедекинда может быть доказана как на языке $\mathfrak{p}$-показателей и абсолютных значений, так и непосредственно средствами теории идеалов
+        % 
+        % \item \sagemark
+        % sage: K.<a> = NumberField(x^2+5); K.ideal(p).factor() для p = 3, 7, 11, 5; K.class_number()
+        % sage: пополнение K_p: K.completion(...) (проверить API) -- сравнить с Qp(p)
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item Формула произведения: $\prod_v|x|_v=1$ для $x\in K^*$ по всем нормированиям (подходящим образом нормированным); для $\mathbb{Q}$: $|x|_\infty\prod_p|x|_p=1$.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{*Локальная картина}
+    \begin{itemize}
+        \item $\mathbb{Z}\xrightarrow{\ \text{\scriptsize $\times$ обратим}\ }\mathbb{Q}\xrightarrow{\ \text{расширение, } f(\theta)=0\ }K=\mathbb{Q}(\theta)$;
+        \item Простое $p\in\mathbb{Z}$ может раскладываться на простые в $\mathfrak O_K$: $(p)=\mathfrak p\cdot\mathfrak a$, $\mathfrak p\cap\mathbb{Z}=(p)$;
+        \item $K_{\mathfrak p}$ --- пополнение $K$ по $|\cdot|_{\mathfrak p}$, $\mathfrak O_{K_{\mathfrak p}}=\{\alpha\in K_{\mathfrak p}:|\alpha|_{\mathfrak p}\leqslant1\}$ --- целые $\mathfrak p$-адические;
+        \item Лемма: $\mathfrak O_{K_{\mathfrak p}}/\mathfrak p\mathfrak O_{K_{\mathfrak p}} \cong\mathfrak O_K/\mathfrak p \cong\mathbb F_{p^f}$ (аналогично $\mathbb{Z}_p/p\mathbb{Z}_p\cong\mathbb{F}_p$);
+        \item Локальная алгебраическая теория чисел:
+        % \vspace{-1ex}
+        \begin{center}
+        \begin{tikzpicture}[
+            every node/.style={font=\small, anchor=center},
+            arr/.style={-{Stealth[length=2mm]}, line width=0.5pt}
+        ]
+            \def\xA{0}
+            \def\xB{3.8}
+            \def\xC{7.6}
+            \def\yTop{0}
+            \def\yMid{-1.6}
+            \def\yBot{-3.2}
+
+            % верхняя строка: глобально
+            \node (Z)  at (\xA,\yTop) {$\mathbb{Z}$};
+            \node (OK) at (\xB,\yTop) {$\mathfrak{O}_K$};
+            \node (K)  at (\xC,\yTop) {$K$};
+
+            % средняя строка: локально / пополнения
+            \node (Zp)  at (\xA,\yMid) {$\mathbb{Z}_p$};
+            \node (Op)  at (\xB,\yMid) {$\mathfrak O_{K_{\mathfrak p}}$};
+            \node (Kp)  at (\xC,\yMid) {$K_{\mathfrak p}$};
+
+            % нижняя строка: поля вычетов
+            \node (Fp) at (\xA,\yBot) {$\mathbb{Z}_p/p\mathbb{Z}_p=\mathbb{F}_p$};
+            \node (kp) at (\xB,\yBot) {$\mathfrak O_{K_{\mathfrak p}}/\mathfrak p \mathfrak O_{K_{\mathfrak p}}\cong\mathbb{F}_{p^f}$};
+
+            % горизонтальные стрелки
+            \draw[arr] (Z.east) -- (OK.west);
+            \draw[arr] (OK.east) -- (K.west);
+
+            \draw[arr] (Zp.east) -- (Op.west);
+            \draw[arr] (Op.east) -- (Kp.west);
+
+            \draw[arr] (Fp.east) -- (kp.west);
+
+            % вертикальные стрелки
+            \draw[arr] (Z.south) -- node[right, font=\scriptsize] {пополнение} (Zp.north);
+            \draw[arr] (OK.south) -- (Op.north);
+            \draw[arr] (K.south) -- node[right, font=\scriptsize] {пополнение} (Kp.north);
+
+            \draw[arr] (Zp.south) -- node[right, font=\scriptsize] {редукция mod $p$} (Fp.north);
+            \draw[arr] (Op.south) -- node[right, font=\scriptsize] {редукция mod $\mathfrak p$} (kp.north);
+
+        \end{tikzpicture}
+    \end{center}
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Поле рациональных функций}
+    \begin{itemize}
+        \item Пусть $k$ --- поле, $k[t]$ --- кольцо многочленов над $k$;
+        \item Поле рациональных функций $\leftrightharpoons$ $k(t)=\mathrm{Frac}(k[t])=\{\frac{f(t)}{g(t)}:\ f,g\in k[t],\ g\neq0\}$
+        \item $k[t]$ --- факториально: $f(t)=c\prod_{p(t)} p(t)^{a_p}$, $c\in k^*$, $p(t)$ --- неприводимые многочлены со старшим коэффициентом 1, $a_p\geqslant0$;
+        \item $p(t)$-показатель: $\nu_p(f)=a_p$, $\nu_p(0)=\infty$; на $k(t)$: $\nu_p(f/g)=\nu_p(f)-\nu_p(g)$;
+        \item Ещё одно нормирование: $\nu_\infty(f/g)=\deg g-\deg f$, $\nu_\infty(0)=\infty$;
+        \item Лемма: все нормирования $\nu_v$ ($v=p(t)$ или $\infty$) удовлетворяют
+        \[\nu_v(fg)=\nu_v(f)+\nu_v(g),\quad \nu_v(f+g)\geqslant\min(\nu_v(f),\nu_v(g));\]
+        \item Абсолютные значения:
+        $|f|_p=e^{-\deg(p)\nu_p(f)}$,
+        $|f|_\infty=e^{-\nu_\infty(f)}$;
+        \item Теорема (аналог Островского): всякое нетривиальное абсолютное значение на $k(t)$ (и тривиальное на $k$) эквивалентно одному из $|\cdot|_p$, $|\cdot|_\infty$;
+        \item Формула произведения: $\nu_\infty(f)+\sum_p\deg(p)\nu_p(f)=0\ \Leftrightarrow\ \prod_v|f|_v=1$;
+        \item Пример: $f=\dfrac{t^2(t-1)}{(t+1)^3}$ над $\mathbb{Q}$: $\nu_t(f)=2$, $\nu_{t-1}(f)=1$, $\nu_{t+1}(f)=-3$, $\nu_\infty(f)=0$.
+        % \item \sagemark
+        % sage: K.<t> = FunctionField(QQ); f = t^2*(t-1)/(t+1)^3
+        % sage: f.valuation(t), f.valuation(t-1), f.valuation(t+1), K.valuation(1/t)(f)
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Поле рациональных функций (продолжение)}
+    \begin{itemize}
+        \item Лемма: пусть $a\in k$, $p(t)=t-a \in k[t]$, пополнение $k(t)$ по $\nu_{p(t)}$ есть поле формальных рядов Лорана:
+        \[k((t-a))=\left\{\sum\nolimits_{n\geqslant -n_0} c_n (t-a)^n:\ n_0\in\mathbb{Z},\ c_n\in k\right\};\]
+        \item Кольцо целых в $k((t-a))$ --- формальные ряды Тейлора:
+        \[k[[t-a]]=\left\{\sum\nolimits_{n\geqslant0}c_n (t-a)^n:\ c_n\in k\right\};\] 
+        \item Примеры: $\frac{1}{1-t}=1+t+t^2+\dots\in k[[t]]$; $\tfrac{1}{t(1-t)}=t^{-1}+1+t+\dots\in k((t))$;
+        \item Для $\nu_\infty$ пополнение $k(t)_\infty\cong k((1/t))$ --- ряды Лорана по $1/t$:
+        \[k\left(\left(\tfrac{1}{t}\right)\right)=\left\{\sum\nolimits_{n\geqslant n_0} \frac{c_n}{t^n}:\ n_0\in\mathbb{Z},\ c_n\in k\right\};\]
+        
+        \item Аналогия: 
+        \begin{itemize}
+            \item целое $p$-адическое число $\sum_{n=0}^\infty a_n p^n$ $\leftrightsquigarrow$ ряд Тейлора $\sum_{n=0}^\infty c_n (t-a)^n$; 
+            \item $p$-адическое число $\sum_{n=-n0}^\infty a_n p^n$ $\leftrightsquigarrow$ ряд Лорана $\sum_{n=-n_0}^\infty c_n (t-a)^n$; 
+        \end{itemize}
+        
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Аналогия $\mathbb{Q}$ и $k(t)$, функциональные поля}
+    \begin{itemize}
+        \item Итого:
+        \vspace{-3ex}
+        \begin{center}
+            \footnotesize
+            \begin{tabular}{lll}
+                \toprule
+                & $\mathbb{Q}$ & $k(t)$ \\
+                \midrule
+                кольцо, поле частных & $\mathbb{Z}$, $\mathbb{Q}$ & $k[t]$, $k(t)$ \\
+                простые/неприводимые & $p$ & $p(t)$ \\
+                нормирование & $\nu_p$ & $\nu_{p(t)}$ \\
+                «бесконечное» & $|\cdot|_\infty=|\cdot|$ & $|\cdot|_\infty$ через $\nu_\infty$ \\
+                пополнение & $\mathbb{Q}_p$ & $k((t-a))$ ($p(t)=t-a$) \\
+                целые в пополнении & $\mathbb{Z}_p$ & $k[[t-a]]$ ($p(t)=t-a$) \\
+                поле вычетов & $\mathbb{F}_p$ & $k$ \\
+                формула произведения & $\prod_{p\leqslant\infty}|x|_p=1$ & $\prod_v|f|_v=1$ \\
+                \bottomrule
+            \end{tabular}
+        \end{center}
+        \item Заметим, что нормирования $\nu_{t-a}$, $a\in k$ и $\nu_\infty$ $\leftrightarrow$ точки «прямой» $k\cup\{\infty\}$
+        \item Рассмотрим ЭК $E$: $y^2=x^3+ax+b$ над полем $k$; 
+        \item $f(x,y)=y^2-x^3-ax-b\in k[x,y]$, можно рассмотреть идеал $(f)$ и $k[x,y]/(f)$;
+        \item $k(E)=\mathrm{Frac}(k[x,y]/(f))$ наз. полем рациональных функций на кривой $E$;
+        \item Нормирования $k(E)$ $\leftrightsquigarrow$ точки $P\in E$; это инструмент изучения св-в 
+        кривой.
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ============================================================
+\section{Приложения}
+% ============================================================
+
+\begin{frame}{Компьютеры думают $2$-адически}
+    \begin{itemize}
+        \item Слово процессора из $n$ бит ($n=8,16,32,64$) --- элемент $\mathbb{Z}/2^n\mathbb{Z}$;
+        \item Операции $+,-,\times$ выполняются $\bmod\,2^n$ (переполнение --- $2^n\equiv 0$);
+        \item В $\mathbb{Z}_2$ $n$-битное слово --- приближение $2$-адического числа $x$ с точностью $2^{-n}$: процессор хранит $n$ младших бит;
+        \item Пример: в $\mathbb{Z}_2$ $-1=1+2+4+\dots=\dots111$, в $n$ битах $-1=2^n-1$;
+        \item Младшие $k$ бит результата команд $+,-,\times$, \texttt{AND}, \texttt{OR}, \texttt{XOR}, \texttt{NOT} зависят только от младших $k$ бит аргументов:
+        \[x\equiv y\pmod{2^k} \ \Rightarrow\ f(x)\equiv f(y)\pmod{2^k} \quad \Leftrightarrow \quad |f(x)-f(y)|_2\leqslant|x-y|_2;\]
+        \item Для $F$ --- композиции таких функций снова $|F(x)-F(y)|_2\leqslant|x-y|_2$;
+        \item Т.о., многие компьютерные программы --- непрерывные функции на $\mathbb{Z}_2$!
+        \item Методами $2$-адического анализа можно изучать их поведение и свойства.
+    \end{itemize}
+    
+    \note{
+        \begin{itemize}
+            \item Здесь $f$ --- функция, построенная из перечисленных команд; для нескольких аргументов сравнения понимаются покомпонентно. Такие функции называют согласованными ($T$-функциями);
+            \item Сдвиг вправо также непрерывен, но не является $1$-липшицевым: он сдвигает двоичные разряды к младшим.
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Поточный шифр (шифр гаммирования)}
+    \begin{itemize}
+        \item Сообщение $m=(m_1,\dots,m_l)$, ключ $k=(k_1,\dots,k_l)$, $m_i,k_i\in\mathbb{F}_2=\{0,1\}$;
+        \item Шифрование $x_i=m_i\oplus k_i$  (\texttt{XOR}):
+        % \vspace{-1ex}
+        \begin{equation*}
+        \begin{tabular}{cccccc} 
+          & $m_1$ & $m_2$ & $m_3$ & \dots & $m_l$ \\
+         \texttt{XOR}
+         & $k_1$ & $k_2$ & $k_3$ & \dots & $k_l$ \\
+        \hline
+         & $x_1$ & $x_2$ & $x_3$ & \dots & $x_l$ \\
+        \end{tabular}
+        \end{equation*}
+        \item Расшифрование $x_i\oplus k_i=m_i\oplus k_i\oplus k_i=m_i$
+        \item Теорема (Шеннон): если $k$ равномерно случаен, независим от сообщения и используется один раз, шифр абсолютно стоек (one-time pad);
+        \item На практике ключ заменяют выходом генератора псевдослучайных чисел (ГПСЧ) по короткому секрету (seed);
+        \item Обычно seed и передается протоколом с открытым ключом (RSA, ECC, \dots);
+        \item ГПСЧ часто строятся на идеях теории чисел, например:
+        \begin{itemize}
+            \item линейный конгруэнтный: $u_{i+1}\equiv au_i+c\pmod n$ (не криптостоек);
+            \item Блюм--Блюм--Шуб: $u_{i+1}\equiv u_i^2\pmod n$, $n=pq$, выходной бит $k_i=u_i\bmod 2$.
+        \end{itemize}
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Генераторы псевдослучайных чисел}
+    \begin{itemize}
+        \item ГПСЧ --- детерминированная система с начальным состоянием $u_0$ (seed), функцией перехода $f$ и функцией выхода $F$: $u_{i+1}=f(u_i)$, $z_i=F(u_i)$;
+        \item Обычно $u_i\in\mathbb{Z}/2^n\mathbb{Z}$, $z_i\in\mathbb{Z}/2^m\mathbb{Z}$, $m\leqslant n$; множество состояний конечно\\ $\Rightarrow$ траектория $(u_i)$ рано или поздно зацикливается;
+        \item Требования к «хорошему» ГПСЧ:
+        \begin{itemize}
+            \item большой цикл (выход имеет большой период повторения),
+            \item выход неотличим от случайного (проходит статистические тесты),
+            \item по отрезку выхода трудно найти seed (криптостойкость),
+            \item быстрая программная и/или аппаратная реализация;
+        \end{itemize}
+        \item Как строить функции перехода $f$, имеющие максимальный период $2^n$ для любой разрядности $n$?
+        \item Если $f$ составлена из согласованных арифметических и побитовых операций, то отображения $f_n:\mathbb{Z}/2^n\mathbb{Z}\to\mathbb{Z}/2^n\mathbb{Z}$ согласованы между собой;
+        \item Все $f_n$ можно рассматривать как приближения одной функции $f:\mathbb{Z}_2\to\mathbb{Z}_2$ --- и изучать её методами $2$-адической динамики!
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{$2$-адическая динамика и ГПСЧ}
+    \begin{itemize}
+        \item На $\mathbb{Z}_2$ есть естественная вероятностная мера $\mu$: $\mu(a+2^k\mathbb{Z}_2)=2^{-k}$;
+        \item Функция $f:\mathbb{Z}_2\to\mathbb{Z}_2$ называется эргодической, если сохраняет меру и не имеет нетривиальных инвариантных частей (множеств с мерой строго между $0$ и $1$);
+        \item Отображение $f_n:\mathbb{Z}/2^n\mathbb{Z}\to\mathbb{Z}/2^n\mathbb{Z}$ транзитивно, если все $2^n$ состояний образуют один цикл;
+        \item Теорема (Анашин): согласованная функция $f:\mathbb{Z}_2\to\mathbb{Z}_2$ эргодична $\Leftrightarrow$ все $f_n$ транзитивны;
+        \item Пример: $f(x)=ax+c$ эргодична $\Leftrightarrow$ $c$ нечётно, $a\equiv1\pmod4$ (Халл--Добелл);
+        \item Есть и нелинейные примеры: $f(x)=x+(x^2\vee5)$, где $\vee$ --- побитовое ИЛИ, эргодична (Климов--Шамир);
+        \item Таким образом, $2$-адическая динамика позволяет строить и исследовать генераторы с гарантированным максимальным периодом сразу для всех разрядностей $n$.
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item Мера $\mu$ --- нормированная мера Хаара на $\mathbb{Z}_2$, инвариантная относительно сдвигов; инвариантное множество $A$ удовлетворяет $f^{-1}(A)=A$ (с точностью до множеств меры нуль);
+            \item Эргодичность означает, что для любой начальной точки траектория равномерно распределена по всем классам вычетов $\bmod\,2^n$ для каждого $n$;
+            \item У транзитивной согласованной функции младшие $k$ бит имеют период $2^k$, поэтому для выхода ГПСЧ часто используют старшие биты;
+            \item Максимальный период и равномерное распределение не гарантируют криптостойкости. Для криптографических ГПСЧ требуется вычислительная непредсказуемость; её обеспечивают дополнительными криптографическими конструкциями, например на основе AES или ChaCha20;
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Другие приложения: Информатика}
+    \begin{itemize}
+        \item Помехоустойчивое кодирование: линейные коды над кольцами $\mathbb{Z}/p^k\mathbb{Z}$; некоторые нелинейные двоичные коды (Кердока, Препараты) оказываются линейными над $\mathbb{Z}/4\mathbb{Z}$;
+        \item Криптография: $p$-адические алгоритмы подсчёта точек на эллиптических и гиперэллиптических кривых (Сатох, Кедлайя);
+        \item Компьютерная алгебра: $p$-адический подъём (лемма Гензеля) --- факторизация многочленов над $\mathbb{Z}$ (Цассенхауз), точное решение линейных систем над $\mathbb{Q}$ (Диксон);
+        \item Машинное обучение: ультраметрические модели иерархической памяти и нейронных сетей (Альбеверио, Хренников и др.), кластеризация данных как дерево;
+        \item Планирование экспериментов (DOE): построение ортогональных планов из кодов над конечными полями и кольцами $\mathbb{Z}/p^k\mathbb{Z}$ --- равномерное покрытие комбинаций факторов.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Другие приложения: Физика}
+    \begin{itemize}
+        \item Идея: $\mathbb{Z}_p$ --- «граница» бесконечного $p$-ичного дерева; ультраметрика естественно описывает иерархии масштабов и состояний;
+        \item $p$-адическая теория струн (Волович; Фрейнд, Олсон): $p$-адические аналоги амплитуд Венециано; адельная формула Фрейнда--Виттена связывает вещественные и $p$-адические амплитуды;
+        \item $p$-адическая квантовая механика и квантовая теория поля (Владимиров, Волович, Зеленов);
+        \item $p$-адическая голография: аналог AdS/CFT, где пространство моделируется деревом Брюа--Титса, а граница --- $p$-адическими числами (Губсер и др.);
+        \item Физика сложных систем: ультраметрическая иерархия состояний спиновых стёкол (Паризи); $p$-адические модели релаксации (Аветисов, Бикулов, Козырев).
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Другие приложения: Естественные науки}
+    \begin{itemize}
+        \item Генетика: $p$-адические модели генетического кода --- кодоны как точки ультраметрического пространства, вырожденность генетического кода как иерархия близких кодонов (Драгович и др.);
+        \item Динамика белков: иерархические энергетические ландшафты, конформационные переходы и релаксация как $p$-адическое случайное блуждание (Аветисов, Бикулов, Козырев);
+        \item Геофизика: $p$-адические модели течения жидкости в пористых средах --- перенос по древовидным сетям капилляров (Олещко, Хренников и др.);
+        \item Общая идея: иерархическую структуру системы описывают деревом, затем ультраметрикой и $p$-адическим пространством; для исследования динамики используют $p$-адический анализ.
+    \end{itemize}
+
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Итоги лекции}
+    \begin{itemize}
+        \item $\mathbb{Q}_p$ --- пополнение $\mathbb{Q}$ по $p$-адической метрике, $\mathbb{Z}_p$ --- целые $p$-адические; 
+        \item Вместе с $\mathbb{R}=\mathbb{Q}_\infty$ это все пополнения $\mathbb{Q}$;
+        \item Локально-глобальное: св-ва над $\mathbb{Q}$ $\leftrightsquigarrow$ св-ва над всеми $\mathbb{Q}_p$, $p\leqslant\infty$;
+        \item Адельный взгляд: рассмотрение всех пополнений одновременно;
+        \item Связи с другими областями математики и многочисленные приложения.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+% ================================================================
+\begin{frame}{Литература}
+    \begin{itemize}[<.->]
+        \item S.~Katok, \textit{$p$-adic Analysis Compared with Real}, AMS, 2007;
+        \item F.\,Q.~Gouvêa, \textit{$p$-adic Numbers: An Introduction}, Springer, 3rd ed., 2020;
+        \item V.~Anashin, A.~Khrennikov, \textit{Applied Algebraic Dynamics}, de Gruyter, 2009.
+    \end{itemize}
+    \note{
+        \begin{itemize}
+            \item ---
+        \end{itemize}
+    }
+\end{frame}
+
+\end{document}
