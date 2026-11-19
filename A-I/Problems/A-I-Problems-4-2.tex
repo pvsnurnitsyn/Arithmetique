@@ -11,12 +11,68 @@
 \usepackage{amsthm}
 \usepackage{enumitem}
 
-\input{declare.tex}
-
 \begin{document}
 
-\begin{center} \Large \bf Листок 12\\ Тема 12 (3.2). Аксиоматическое определение поля p-адических чисел, метризованные поля \end{center}
+\begin{center} \Large \bf Листок 12\\ Тема 12 (4.2). Аксиоматическое определение поля $p$-адических чисел, метризованные поля \end{center}
 
-\input{A-I-src-Problems-3-2.tex}
+\noindent\textbf{Упражнения и задачи}
+\begin{enumerate}[topsep=0pt]
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле. Докажите следующие свойства:
+    \begin{itemize}[topsep=0pt]
+        \item $\varphi(\pm 1)=1$; $\varphi (-x) = \varphi (x)$;
+        \item $\varphi (x - y) \leqslant \varphi(x) + \varphi(y)$;
+        \item $\varphi(x \pm y) \geqslant |\varphi(x) - \varphi(y)|$;
+        \item $\varphi(x/y) = \varphi(x)/\varphi(y)$, $y \neq 0$.
+    \end{itemize}
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле, $d$ --- индуцированное расстояние: $d(x,y) = \varphi(x-y)$. Докажите, что сложение, вычитание и умножение непрерывны как отображения $k\times k\to k$, а деление --- как отображение $k\times k^\times\to k$ (то есть $k$ --- топологическое поле).
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле. Докажите, что $x_n\to x$ по метрике $d$ тогда и только тогда, когда всякое открытое множество, содержащее $x$, содержит все члены последовательности $(x_n)$, кроме конечного числа.
+    
+    \item Пусть $k$ --- поле, на котором заданы две абсолютные величины $\varphi_1$, $\varphi_2$. Докажите следующие импликации из теоремы о критериях эквивалентности:
+    \begin{itemize}[topsep=0pt]
+        \item $\varphi_1$, $\varphi_2$ эквивалентны $\implies$ для любой последовательности $(x_n)$ в $k$ и любого $x\in k$ имеем $x_n\xrightarrow{\varphi_1}x$ тогда и только тогда, когда
+        $x_n\xrightarrow{\varphi_2}x$;
+        \item если для любой последовательности $(x_n)$ в $k$ и любого $x\in k$ условия $x_n\xrightarrow{\varphi_1}x$ и $x_n\xrightarrow{\varphi_2}x$ равносильны, то для любого $a\in k$ имеем $\varphi_1(a)<1$ тогда и только тогда, когда $\varphi_2(a)<1$;
+        \item если существует $\alpha>0$ такое, что $\varphi_1(x)=\varphi_2(x)^\alpha$ для всех $x\in k$, то $\varphi_1$, $\varphi_2$ эквивалентны.
+    \end{itemize}
+
+    \item Пусть $k$ --- поле, $\varphi$ --- функция $k \rightarrow \mathbb{R}_{\geqslant 0}$ такая что:
+    \begin{itemize}[topsep=0pt]
+        \item $\varphi(x) = 0 \Leftrightarrow x=0$,
+        \item $\varphi(xy) = \varphi(x)\varphi(y)$,
+        \item $\varphi(x) \leqslant 1 \Rightarrow \varphi(x-1) \leqslant 1$.
+    \end{itemize}
+    Докажите, что $\varphi$ является неархимедовой метрикой на $k$.
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле, $\varphi$ --- неархимедова метрика. Докажите, что $\varphi(x) \neq \varphi(y)$ $\Rightarrow$ $\varphi(x+y) = \max(\varphi(x),\varphi(y))$.
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле, $A$ --- образ $\mathbb{Z}$ в $k$. Докажите, что $\varphi$ --- неархимедова метрика $\Leftrightarrow$ $\forall a \in A$ $\varphi(a) \leqslant 1$. (Подсказка: сведите к утверждению $\varphi$ --- неархимедова метрика $\Leftrightarrow$ $\varphi(x+1) \leqslant \max(\varphi(x),1)$; рассмотрите $\varphi((x+1)^n)$ и воспользуйтесь биномом Ньютона.)
+
+    \item Пусть $(k,\varphi)$ --- метризованное поле, $\varphi$ --- неархимедова метрика, $r,s>0$, а $B(x,r)$ --- открытый шар радиуса $r$ с центром в $x$. Докажите следующие свойства:
+    \begin{itemize}[topsep=0pt]
+        \item $\forall y \in B(x,r)$ $B(x,r)=B(y,r)$;
+        \item $\partial B(x,r) = \varnothing$ ($\partial B(x,r)$ обозначает множество граничных точек);
+        \item $B(x,r) \cap B(y,s) \neq \varnothing$ $\Leftrightarrow$ $B(x,r) \subset B(y,s)$ или $B(y,s) \subset B(x,r)$.
+    \end{itemize}
+    Рассмотрите аналогичные утверждения для замкнутых шаров $\bar B(x,r)$.
+
+    \item Пусть $\operatorname{char} k = p$. Докажите, что всякая метрика $\varphi$ поля $k$ неархимедова.
+
+    \item Пусть $k$ --- поле, $k(t)=\{f(t)/g(t): f,g\in k[t],\ g\neq 0\}$ --- поле рациональных функций над $k$. Зафиксируем $\rho\in(0,1)$. Для $r\in k(t)^\times$ запишем $r=t^m f_0/g_0$, где $m\in\mathbb Z$, а многочлены $f_0,g_0\in k[t]$ не делятся на $t$, и положим $\varphi(r)=\rho^m$; кроме того, положим $\varphi(0)=0$. Докажите, что $\varphi$ --- неархимедова абсолютная величина на $k(t)$.
+
+\end{enumerate}
+
+% \noindent\textbf{SageMath}
+% \begin{itemize}[topsep=0pt]
+%     \item В контексте задач 11 и 12 ознакомьтесь с функцией \texttt{Zp(n).plot()}.
+% \end{itemize}
+
+\noindent\textbf{Темы для самостоятельного изучения}
+\begin{itemize}[topsep=0pt]
+    \item Единственность пополнения поля по метрике. [БШ] \S I.4.
+    \item $\forall$ простого $p$ множество целых $p$-адических чисел $\mathbb{Z}_p$ гомеоморфно множеству $2$-адических чисел $\mathbb{Z}_2$. [Kat], глава 2. %+источник который нашла Диана
+\end{itemize}
 
 \end{document}
